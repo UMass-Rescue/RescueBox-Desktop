@@ -73,5 +73,9 @@
 
 ## General Tasks
 
+- Write a README.md
+    - Include [What is RescueBox Desktop?](./what-is-rescuebox-desktop.md)
+    - Include [this roadmap](./roadmap-v0.1.0.md)
+    - Include docs for development
 - Upload latest architecture design to docs
 - Setup a testing framework?
