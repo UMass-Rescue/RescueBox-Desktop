@@ -2,6 +2,8 @@
 
 ## UI Functional Requirements:
 
+See [ui-rbox-desktop-v0.1.0.pdf](./ui-rbox-desktop-v0.1.0.pdf)
+
 1. Model pages: 
     1. View all available models
         - Show if a model is able to be run (based on model registration)
