@@ -36,6 +36,7 @@
             - Status (In progress, completed, canceled, failed)
             - Inputs used
             - Outputs selected
+            - A log output with any messages received from the server
             - Model used (with an inspect button that links to the original model page)
         - Outputs tab (defined above under "Sample Model App Pages")
 
