@@ -1,35 +1,33 @@
 {
   "description": "A foundation for scalable desktop apps",
-  "keywords": [
-    "electron",
-    "boilerplate",
-    "react",
-    "typescript",
-    "ts",
-    "sass",
-    "webpack",
-    "hot",
-    "reload"
-  ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
+  "keywords": [],
+  "homepage": "https://github.com/UMass-Rescue/RescueBox-Desktop#readme",
   "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
+    "url": "https://github.com/UMass-Rescue/RescueBox-Desktop/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
+    "url": "git+https://github.com/UMass-Rescue/RescueBox-Desktop.git"
   },
   "license": "MIT",
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://electron-react-boilerplate.js.org"
+    "name": "UMass Rescue Lab"
   },
   "contributors": [
     {
-      "name": "Amila Welihinda",
-      "email": "amilajack@gmail.com",
-      "url": "https://github.com/amilajack"
+      "name": "Atharva Kale",
+      "email": "atharvakale343@gmail.com",
+      "url": "https://github.com/atharvakale343"
+    },
+    {
+      "name": "Shriram Giridhara",
+      "email": "shrirambhavin@gmail.com",
+      "url": "https://github.com/ShriramG24"
+    },
+    {
+      "name": "Shreyan Mallik",
+      "email": "shrnmallik@gmail.com",
+      "url": "https://github.com/Shreneken"
     }
   ],
   "main": "./.erb/dll/main.bundle.dev.js",
@@ -231,12 +229,9 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "owner": "UMass-Rescue",
+      "repo": "RescueBox-Desktop"
     }
-  },
-  "collective": {
-    "url": "https://opencollective.com/electron-react-boilerplate-594"
   },
   "devEngines": {
     "node": ">=14.x",
