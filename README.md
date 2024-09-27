@@ -46,7 +46,7 @@ cd RescueBox-Desktop
 npm install
 ```
 
-**Having issues installing? See this[debugging guide](https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/400)**
+**Having issues installing? See this [debugging guide](https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/400)**
 
 ## Starting Development
 
