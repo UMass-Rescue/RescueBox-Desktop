@@ -46,12 +46,11 @@ const configuration: webpack.Configuration = {
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
     modules: [webpackPaths.srcPath, 'node_modules'],
+    alias: {
+      '@': path.join(webpackPaths.rootPath, 'src', 'renderer'),
+    },
     // There is no need to add aliases here, the paths in tsconfig get mirrored
-    plugins: [
-      new TsconfigPathsPlugins({
-        configFile: path.join(webpackPaths.rootPath, 'tsconfig.json'),
-      }),
-    ],
+    plugins: [new TsconfigPathsPlugins()],
   },
 
   plugins: [
