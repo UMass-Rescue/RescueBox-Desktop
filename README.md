@@ -69,4 +69,4 @@ npm run package
 See electron-react's [docs and guides here](https://electron-react-boilerplate.js.org/docs/installation)
 
 [github-actions-status]: https://github.com/UMass-Rescue/RescueBox-Desktop/workflows/Test/badge.svg
-[github-actions-url]: https://github.com/UMass-Rescue/RescueBox-Desktop/actions
+[github-actions-url]: https://github.com/UMass-Rescue/RescueBox-Desktop/actions?query=branch:main
