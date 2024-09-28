@@ -1,4 +1,6 @@
-[![Build Status][github-actions-status]][github-actions-url]
+<div align="left">
+  [![Build Status][github-actions-status]][github-actions-url]
+</div>
 
 # RescueBox Desktop
 
