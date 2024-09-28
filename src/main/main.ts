@@ -31,13 +31,6 @@ let mainWindow: BrowserWindow | null = null;
 // IPCMain Setup
 
 function setupIpcMain() {
-  // Example: Send a message to the main process
-  ipcMain.on('ipc-example', async (event, arg) => {
-    const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-    console.log(msgTemplate(arg));
-    event.reply('ipc-example', msgTemplate('pong'));
-  });
-
   // Registration: handles registering models
   ipcMain.handle(
     'register:register-model-app-ip',

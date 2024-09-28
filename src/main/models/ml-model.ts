@@ -1,8 +1,6 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
 class MLModel extends Model {
-  public id!: number;
-
   public uid!: string;
 
   public name!: string;
@@ -22,20 +20,95 @@ class MLModel extends Model {
   public parameters!: string; // JSON string
 
   public constraints!: string; // JSON string
+
+  public static getAllModels() {
+    return MLModel.findAll();
+  }
+
+  public static getModelByUid(uid: string) {
+    return MLModel.findOne({
+      where: {
+        uid,
+      },
+    });
+  }
+
+  public static createModel(
+    uid: string,
+    name: string,
+    version: string,
+    author: string,
+    lastUpdated: Date,
+    inputTypes: object,
+    outputTypes: object,
+    parameters: object,
+    constraints: object,
+  ) {
+    return MLModel.create({
+      uid,
+      name,
+      version,
+      author,
+      lastUpdated,
+      inputTypes,
+      outputTypes,
+      parameters,
+      constraints,
+    });
+  }
+
+  public static updateModel(
+    uid: string,
+    name: string,
+    version: string,
+    author: string,
+    lastUpdated: Date,
+    inputTypes: object,
+    outputTypes: object,
+    parameters: object,
+    constraints: object,
+  ) {
+    return MLModel.update(
+      {
+        name,
+        version,
+        author,
+        lastUpdated,
+        inputTypes,
+        outputTypes,
+        parameters,
+        constraints,
+      },
+      {
+        where: {
+          uid,
+        },
+      },
+    );
+  }
+
+  public static deleteModel(uid: string) {
+    return MLModel.destroy({
+      where: {
+        uid,
+      },
+    });
+  }
+
+  public static deleteAllModels() {
+    return MLModel.destroy({
+      where: {},
+    });
+  }
 }
 
 export const initMLModel = async (connection: Sequelize) => {
   MLModel.init(
     {
-      id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-      },
       uid: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        primaryKey: true,
       },
       name: {
         type: DataTypes.STRING,
