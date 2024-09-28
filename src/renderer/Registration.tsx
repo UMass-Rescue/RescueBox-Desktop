@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from '@shadcn/components/ui/table';
-import sampleModels from 'src/renderer/sample_models.json';
+import sampleModels from './sample_models.json';
 import ConnectDialog from './ConnectDialog';
 import Model from './Types';
 
