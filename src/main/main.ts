@@ -14,7 +14,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-// import DatabaseConn from './database/db-connection';
+import * as registration from './registration';
 import DatabaseConn from './database/database-conn';
 
 class AppUpdater {
@@ -38,12 +38,18 @@ function setupIpcMain() {
   });
 
   // Registration: handles registering models
-  const testHandler = async (event: any, arg: any) => {
-    return arg;
-  };
-  ipcMain.handle('register:register-model-app-ip', testHandler);
-  ipcMain.handle('register:unregister-model-app-ip', testHandler);
-  ipcMain.handle('register:get-model-app-status', testHandler);
+  ipcMain.handle(
+    'register:register-model-app-ip',
+    registration.registerModelAppIp,
+  );
+  ipcMain.handle(
+    'register:unregister-model-app-ip',
+    registration.unregisterModelAppIp,
+  );
+  ipcMain.handle(
+    'register:get-model-app-status',
+    registration.getModelAppStatus,
+  );
 }
 
 if (process.env.NODE_ENV === 'production') {
