@@ -1,5 +1,12 @@
-const jobHandler = async (event: any, arg: any) => {
+export type CreateJobArgs = {
+  modelUid: string;
+  inputDir: string;
+  outputDir: string;
+  parameters: string;
+};
+
+const createJob = async (event: any, arg: CreateJobArgs) => {
   return arg;
 };
 
-export default jobHandler;
+export { createJob };

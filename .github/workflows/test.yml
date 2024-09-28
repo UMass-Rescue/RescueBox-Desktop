@@ -19,7 +19,8 @@ jobs:
         with:
           node-version: 18
           cache: npm
-
+      # This is to ensure that disutils is installed, so node-gyp can recompile native sources
+      # https://github.com/UMass-Rescue/RescueBox-Desktop/pull/66
       - name: Install Python
         uses: actions/setup-python@v5
         with:

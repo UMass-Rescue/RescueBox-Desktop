@@ -5,7 +5,8 @@ import {
   GetModelAppStatusArgs,
   RegisterModelArgs,
   UnregisterModelArgs,
-} from './registration';
+} from './handlers/registration';
+import { CreateJobArgs } from './handlers/job';
 
 const registrationHandler = {
   registerModelAppIp: (args: RegisterModelArgs) =>
@@ -16,6 +17,13 @@ const registrationHandler = {
     ipcRenderer.invoke('register:get-model-app-status', args),
 };
 
+const jobHandler = {
+  createJob: (args: CreateJobArgs) =>
+    ipcRenderer.invoke('job:create-job', args),
+};
+
 contextBridge.exposeInMainWorld('registration', registrationHandler);
+contextBridge.exposeInMainWorld('job', jobHandler);
 
 export type RegistrationHandler = typeof registrationHandler;
+export type JobHandler = typeof jobHandler;

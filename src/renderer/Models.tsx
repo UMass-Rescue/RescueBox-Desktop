@@ -9,7 +9,7 @@ function Models() {
       <h1 className="font-semibold text-xl md:text-2xl lg:text-4xl mb-4">
         Available Models
       </h1>
-      <Table className="border border-slate-400 rounded-md mt-2">
+      <Table className="mt-2">
         <TableBody>
           {sampleModels.map((model: Model) => (
             <TableRow className="">

@@ -14,7 +14,8 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-import * as registration from './registration';
+import * as registration from './handlers/registration';
+import * as job from './handlers/job';
 import DatabaseConn from './database/database-conn';
 
 class AppUpdater {
@@ -43,6 +44,9 @@ function setupIpcMain() {
     'register:get-model-app-status',
     registration.getModelAppStatus,
   );
+
+  // Job: handles creating jobs
+  ipcMain.handle('job:create-job', job.createJob);
 }
 
 if (process.env.NODE_ENV === 'production') {
