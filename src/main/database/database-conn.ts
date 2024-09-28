@@ -1,23 +1,25 @@
 /* eslint-disable no-bitwise */
 /* eslint-disable no-use-before-define */
 import { Sequelize } from 'sequelize';
+import SQLiteDB from './sqlite-db';
 
 export default class DatabaseConn {
-  private db: Sequelize;
+  private db: SQLiteDB;
 
   static #instance: DatabaseConn | null = null;
 
   constructor(dbPath: string) {
-    this.db = new Sequelize({
+    const conn = new Sequelize({
       dialect: 'sqlite',
       storage: dbPath,
     });
+    this.db = new SQLiteDB(conn);
   }
 
-  static async getDatabase(dbPath: string): Promise<Sequelize> {
+  static async initDatabase(dbPath: string): Promise<void> {
     if (!DatabaseConn.#instance) {
       DatabaseConn.#instance = new DatabaseConn(dbPath);
+      await DatabaseConn.#instance.db.connect();
     }
-    return DatabaseConn.#instance.db;
   }
 }
