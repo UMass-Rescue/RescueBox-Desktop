@@ -6,6 +6,8 @@ class ModelServer extends Model {
   public modelUid!: string;
 
   public serverAddress?: string;
+
+  public serverPort?: number;
 }
 
 export const initModelServer = async (connection: Sequelize) => {
@@ -22,6 +24,10 @@ export const initModelServer = async (connection: Sequelize) => {
       },
       serverAddress: {
         type: DataTypes.STRING,
+        allowNull: true,
+      },
+      serverPort: {
+        type: DataTypes.NUMBER,
         allowNull: true,
       },
     },
