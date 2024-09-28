@@ -1,4 +1,5 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
+import MLModel from './ml-model';
 
 enum JobStatus {
   Running = 'Running',
@@ -126,6 +127,10 @@ export const initJob = async (connection: Sequelize) => {
       modelUid: {
         type: DataTypes.STRING,
         allowNull: false,
+        references: {
+          model: MLModel,
+          key: 'uid',
+        },
       },
       startTime: {
         type: DataTypes.DATE,

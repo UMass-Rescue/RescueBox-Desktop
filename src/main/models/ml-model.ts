@@ -1,8 +1,6 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
 class MLModel extends Model {
-  public id!: number;
-
   public uid!: string;
 
   public name!: string;
@@ -107,15 +105,10 @@ class MLModel extends Model {
 export const initMLModel = async (connection: Sequelize) => {
   MLModel.init(
     {
-      id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-      },
       uid: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        primaryKey: true,
       },
       name: {
         type: DataTypes.STRING,

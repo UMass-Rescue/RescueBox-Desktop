@@ -1,4 +1,5 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
+import MLModel from './ml-model';
 
 class ModelServer extends Model {
   public modelUid!: string;
@@ -77,6 +78,10 @@ export const initModelServer = async (connection: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
+        references: {
+          model: MLModel,
+          key: 'uid',
+        },
       },
       serverAddress: {
         type: DataTypes.STRING,
