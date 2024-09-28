@@ -5,7 +5,8 @@ import {
   GetModelAppStatusArgs,
   RegisterModelArgs,
   UnregisterModelArgs,
-} from './registration';
+} from './handlers/registration';
+import { CreateJobArgs } from './handlers/job';
 
 export type Channels = 'ipc-example';
 
@@ -38,8 +39,14 @@ const registrationHandler = {
     ipcRenderer.invoke('register:get-model-app-status', args),
 };
 
+const jobHandler = {
+  createJob: (args: CreateJobArgs) =>
+    ipcRenderer.invoke('job:create-job', args),
+};
+
 contextBridge.exposeInMainWorld('electron', electronHandler);
 contextBridge.exposeInMainWorld('registration', registrationHandler);
+contextBridge.exposeInMainWorld('job', jobHandler);
 
 export type ElectronHandler = typeof electronHandler;
 export type RegistrationHandler = typeof registrationHandler;
