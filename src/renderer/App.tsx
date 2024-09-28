@@ -11,6 +11,8 @@ import Jobs from './Jobs';
 import Models from './Models';
 import NavBar from './NavBar';
 import Registration from './Registration';
+import ModelDetails from './ModelDetails';
+import ModelRun from './ModelRun';
 
 function RootLayout() {
   return (
@@ -31,9 +33,11 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<RootLayout />}>
-          <Route path="registration" element={<Registration />} />
-          <Route path="jobs" element={<Jobs />} />
-          <Route path="models" element={<Models />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/jobs" element={<Jobs />} />
+          <Route path="/models" element={<Models />} />
+          <Route path="/model-details" element={<ModelDetails />} />
+          <Route path="/model-run" element={<ModelRun />} />
         </Route>
       </Routes>
     </Router>
