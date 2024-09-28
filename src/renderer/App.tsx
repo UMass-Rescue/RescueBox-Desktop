@@ -13,6 +13,7 @@ import NavBar from './NavBar';
 import Registration from './Registration';
 import ModelDetails from './ModelDetails';
 import ModelRun from './ModelRun';
+import JobView from './JobView';
 
 function RootLayout() {
   return (
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/models" element={<Models />} />
           <Route path="/model-details" element={<ModelDetails />} />
           <Route path="/model-run" element={<ModelRun />} />
+          <Route path="/job-view" element={<JobView />} />
         </Route>
       </Routes>
     </Router>
