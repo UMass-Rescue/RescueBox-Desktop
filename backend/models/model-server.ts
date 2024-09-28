@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../db';
 
-class Server extends Model {
+class ModelServer extends Model {
   public uid!: string;
 
   public modelUid!: string;
@@ -9,7 +9,7 @@ class Server extends Model {
   public serverAddress?: string;
 }
 
-Server.init(
+ModelServer.init(
   {
     uid: {
       type: DataTypes.STRING,
@@ -31,4 +31,4 @@ Server.init(
   },
 );
 
-export default Server;
+export default ModelServer;
