@@ -50,3 +50,4 @@ contextBridge.exposeInMainWorld('job', jobHandler);
 
 export type ElectronHandler = typeof electronHandler;
 export type RegistrationHandler = typeof registrationHandler;
+export type JobHandler = typeof jobHandler;
