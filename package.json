@@ -109,8 +109,7 @@
     "pg-hstore": "^2.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.16.0",
-    "sequelize": "^6.37.3"
+    "react-router-dom": "^6.16.0"
   },
   "devDependencies": {
     "@electron/rebuild": "^3.3.0",
@@ -171,7 +170,6 @@
     "rimraf": "^5.0.1",
     "sass": "^1.67.0",
     "sass-loader": "^13.3.2",
-    "sqlite3": "^5.1.7",
     "style-loader": "^3.3.3",
     "tailwind-merge": "^2.5.2",
     "tailwindcss": "^3.4.13",

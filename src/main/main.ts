@@ -11,10 +11,11 @@
 import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
+import log, { info } from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-import DatabaseConn from './database/db-connection';
+// import DatabaseConn from './database/db-connection';
+import DatabaseConn from './database/database-conn';
 
 class AppUpdater {
   constructor() {
@@ -148,7 +149,9 @@ app
     setupIpcMain();
     createWindow();
     app.on('activate', async () => {
-      await DatabaseConn.getDatabase();
+      const dbPath = path.join(app.getPath('userData'), 'rbox-data.db');
+      info('dbPath', dbPath);
+      await DatabaseConn.getDatabase(dbPath);
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
       if (mainWindow === null) createWindow();
