@@ -6,7 +6,9 @@ import {
   TableHeader,
   TableRow,
 } from '@shadcn/components/ui/table';
+import sampleModels from './sample_models.json';
 import ConnectDialog from './ConnectDialog';
+import Model from './Types';
 
 function Registration() {
   return (
@@ -24,11 +26,15 @@ function Registration() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell>Image Object Detection</TableCell>
-              <TableCell> 192.168.1.1:5000</TableCell>
-              <TableCell className="text-right">Online</TableCell>
-            </TableRow>
+            {sampleModels
+              ?.filter((model) => model.status === 'Online')
+              .map((model: Model) => (
+                <TableRow>
+                  <TableCell>{model.name}</TableCell>
+                  <TableCell>{model.ip}</TableCell>
+                  <TableCell className="text-right">{model.status}</TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </div>
@@ -45,14 +51,18 @@ function Registration() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell>Image Super Resolution</TableCell>
-              <TableCell> 192.168.1.1:5000</TableCell>
-              <TableCell className="text-right">
-                {' '}
-                <ConnectDialog />{' '}
-              </TableCell>
-            </TableRow>
+            {sampleModels
+              ?.filter((model) => model.status === 'Offline')
+              .map((model: Model) => (
+                <TableRow>
+                  <TableCell>{model.name}</TableCell>
+                  <TableCell>{model.ip}</TableCell>
+                  <TableCell className="text-right">
+                    {' '}
+                    <ConnectDialog />{' '}
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </div>
