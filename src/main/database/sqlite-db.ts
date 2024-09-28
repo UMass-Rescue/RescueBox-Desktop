@@ -1,6 +1,5 @@
 import { Sequelize } from 'sequelize';
 import { info } from 'console';
-import sqlite3Connection from './constants';
 import { initJob } from '../models/job';
 import { initModelServer } from '../models/model-server';
 import { initMLModel } from '../models/ml-model';
@@ -8,8 +7,8 @@ import { initMLModel } from '../models/ml-model';
 class SQLiteDB {
   private connection: Sequelize;
 
-  constructor() {
-    this.connection = sqlite3Connection;
+  constructor(conn: Sequelize) {
+    this.connection = conn;
   }
 
   async connect(): Promise<void> {
