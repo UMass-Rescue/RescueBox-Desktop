@@ -25,11 +25,24 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
-});
+// IPCMain Setup
+
+function setupIpcMain() {
+  // Example: Send a message to the main process
+  ipcMain.on('ipc-example', async (event, arg) => {
+    const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
+    console.log(msgTemplate(arg));
+    event.reply('ipc-example', msgTemplate('pong'));
+  });
+
+  // Registration: handles registering models
+  const testHandler = async (event: any, arg: any) => {
+    return arg;
+  };
+  ipcMain.handle('register:register-model-app-ip', testHandler);
+  ipcMain.handle('register:unregister-model-app-ip', testHandler);
+  ipcMain.handle('register:get-model-app-status', testHandler);
+}
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -55,6 +68,10 @@ const installExtensions = async () => {
     )
     .catch(console.log);
 };
+
+/**
+ * Window Management ...
+ */
 
 const createWindow = async () => {
   if (isDebug) {
@@ -127,6 +144,7 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(() => {
+    setupIpcMain();
     createWindow();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
