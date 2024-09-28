@@ -20,14 +20,8 @@ jobs:
           node-version: 18
           cache: npm
 
-      - name: Install Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
       - name: npm install
         run: |
-          python3 -m pip install --break-system-packages setuptools
           npm install
 
       - name: npm test
