@@ -14,7 +14,8 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-import DatabaseConn from './database/db-connection';
+import * as registration from './registration';
+import DatabaseConn from './database/database-conn';
 
 class AppUpdater {
   constructor() {
@@ -37,12 +38,18 @@ function setupIpcMain() {
   });
 
   // Registration: handles registering models
-  const testHandler = async (event: any, arg: any) => {
-    return arg;
-  };
-  ipcMain.handle('register:register-model-app-ip', testHandler);
-  ipcMain.handle('register:unregister-model-app-ip', testHandler);
-  ipcMain.handle('register:get-model-app-status', testHandler);
+  ipcMain.handle(
+    'register:register-model-app-ip',
+    registration.registerModelAppIp,
+  );
+  ipcMain.handle(
+    'register:unregister-model-app-ip',
+    registration.unregisterModelAppIp,
+  );
+  ipcMain.handle(
+    'register:get-model-app-status',
+    registration.getModelAppStatus,
+  );
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -144,11 +151,12 @@ app.on('window-all-closed', () => {
 
 app
   .whenReady()
-  .then(() => {
+  .then(async () => {
     setupIpcMain();
     createWindow();
-    app.on('activate', async () => {
-      await DatabaseConn.getDatabase();
+    const dbPath = path.join(app.getPath('userData'), 'rbox-data.db');
+    await DatabaseConn.initDatabase(dbPath);
+    app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
       if (mainWindow === null) createWindow();

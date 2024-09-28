@@ -1,4 +1,6 @@
+/* eslint-disable no-bitwise */
 /* eslint-disable no-use-before-define */
+import { Sequelize } from 'sequelize';
 import SQLiteDB from './sqlite-db';
 
 export default class DatabaseConn {
@@ -6,16 +8,18 @@ export default class DatabaseConn {
 
   static #instance: DatabaseConn | null = null;
 
-  constructor(db: SQLiteDB) {
-    this.db = db;
+  constructor(dbPath: string) {
+    const conn = new Sequelize({
+      dialect: 'sqlite',
+      storage: dbPath,
+    });
+    this.db = new SQLiteDB(conn);
   }
 
-  static async getDatabase(): Promise<SQLiteDB> {
+  static async initDatabase(dbPath: string): Promise<void> {
     if (!DatabaseConn.#instance) {
-      const db = new SQLiteDB();
-      await db.connect();
-      DatabaseConn.#instance = new DatabaseConn(db);
+      DatabaseConn.#instance = new DatabaseConn(dbPath);
+      await DatabaseConn.#instance.db.connect();
     }
-    return DatabaseConn.#instance.db;
   }
 }
