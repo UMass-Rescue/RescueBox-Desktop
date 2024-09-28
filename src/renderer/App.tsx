@@ -1,98 +1,27 @@
 /* eslint-disable react/no-unescaped-entities */
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  MemoryRouter as Router,
+  Routes,
+  Route,
+  Outlet,
+} from 'react-router-dom';
+
 import './App.css';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@shadcn/components/ui/accordion';
-import { Button } from '@shadcn/components/ui/button';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@shadcn/components/ui/dialog';
-import { Input } from '@shadcn/components/ui/input';
-import { Label } from '@shadcn/components/ui/label';
+import Jobs from './Jobs';
+import Models from './Models';
+import NavBar from './NavBar';
+import Registration from './Registration';
 
-function Hello() {
+function RootLayout() {
   return (
-    <div className="mx-60">
-      <div>
-        <div className="bg-gray-500 p-5 text-white text-center">Tailwind</div>
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-row justify-between border-b-2 border-black">
+        <NavBar />
+        <h1 className="p-3 text-sm md:text-lg lg:text-xl xl:text-2xl m-3">
+          RescueBox
+        </h1>
       </div>
-
-      <Accordion type="single" collapsible className="w-full">
-        <AccordionItem onChange={(e) => console.log(e)} value="item-1">
-          <AccordionTrigger>Is it accessible?</AccordionTrigger>
-          <AccordionContent>
-            Yes. It adheres to the WAI-ARIA design pattern.
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem onChange={(e) => console.log(e)} value="item-2">
-          <AccordionTrigger>Is it styled?</AccordionTrigger>
-          <AccordionContent>
-            Yes. It comes with default styles that matches the other
-            components&apos; aesthetic.
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem onChange={(e) => console.log(e)} value="item-3">
-          <AccordionTrigger>Is it animated?</AccordionTrigger>
-          <AccordionContent>
-            Yes. It&apos;s animated by default, but you can disable it if you
-            prefer.
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="outline">Edit Profile</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
-                Name
-              </Label>
-              <Input
-                id="name"
-                onChange={(e) => console.log(e)}
-                value="Pedro Duarte"
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
-                Username
-              </Label>
-              <Input
-                id="username"
-                onChange={(e) => console.log(e)}
-                value="@peduarte"
-                className="col-span-3"
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="submit">Save changes</Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <Outlet />
     </div>
   );
 }
@@ -101,7 +30,11 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Hello />} />
+        <Route path="/" element={<RootLayout />}>
+          <Route path="registration" element={<Registration />} />
+          <Route path="jobs" element={<Jobs />} />
+          <Route path="models" element={<Models />} />
+        </Route>
       </Routes>
     </Router>
   );
