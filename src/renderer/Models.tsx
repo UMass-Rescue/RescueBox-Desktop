@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import sampleModels from 'src/renderer/sample_models.json';
 import { Table, TableBody, TableCell, TableRow } from './components/ui/table';
-import { Model } from './Types';
+import Model from './Types';
 
 function Models() {
   return (

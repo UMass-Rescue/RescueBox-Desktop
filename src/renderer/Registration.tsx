@@ -8,7 +8,7 @@ import {
 } from '@shadcn/components/ui/table';
 import sampleModels from 'src/renderer/sample_models.json';
 import ConnectDialog from './ConnectDialog';
-import { Model } from './Types';
+import Model from './Types';
 
 function Registration() {
   return (
