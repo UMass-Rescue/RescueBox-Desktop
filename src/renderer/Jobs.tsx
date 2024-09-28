@@ -14,7 +14,7 @@ function Jobs() {
         <h1 className="font-semibold text-xl md:text-2xl lg:text-4xl mb-4">
           Running Jobs
         </h1>
-        <Table className="border border-slate-400 rounded-md mt-2">
+        <Table className="">
           <TableBody>
             {sampleJobs
               ?.filter((job) => job.status !== 'Completed')
@@ -26,13 +26,18 @@ function Jobs() {
                   <TableCell className="w-1/2">
                     Started on: {job.startTime}
                   </TableCell>
-                  <TableCell className="text-center hover:bg-slate-200 border border-black">
-                    <Link to="/job-view" className="">
+                  <TableCell className="text-center">
+                    <Link
+                      to="/job-view"
+                      className="border border-slate-300 p-1 pl-3 pr-3 rounded-lg hover:bg-slate-200"
+                    >
                       View
                     </Link>
                   </TableCell>
-                  <TableCell className="text-center border border-black bg-red-50 hover:bg-red-100 hover:cursor-pointer">
-                    Cancel
+                  <TableCell className="text-center">
+                    <span className="border border-slate-300 p-1 pl-3 pr-3 rounded-lg bg-red-100 hover:bg-red-200 hover:cursor-pointer">
+                      Cancel
+                    </span>
                   </TableCell>
                 </TableRow>
               ))}
@@ -44,7 +49,7 @@ function Jobs() {
         <h1 className="font-semibold text-xl md:text-2xl lg:text-4xl mb-4">
           Completed Jobs
         </h1>
-        <Table className="border border-slate-400 rounded-md mt-2">
+        <Table className=" mt-2">
           <TableBody>
             {sampleJobs
               ?.filter((job) => job.status === 'Completed')
@@ -56,13 +61,19 @@ function Jobs() {
                   <TableCell className="w-1/2">
                     Completed on: {job.endTime}
                   </TableCell>
-                  <TableCell className="text-center hover:bg-slate-200 border border-black">
-                    <Link to="/job-view" className="">
+
+                  <TableCell className="text-center">
+                    <Link
+                      to="/job-view"
+                      className="border border-slate-300 p-1 pl-3 pr-3 rounded-lg hover:bg-slate-200"
+                    >
                       View
                     </Link>
                   </TableCell>
-                  <TableCell className="text-center border border-black bg-red-50 hover:bg-red-100 hover:cursor-pointer">
-                    Cancel
+                  <TableCell className="text-center">
+                    <span className="border border-slate-300 p-1 pl-3 pr-3 rounded-lg bg-red-100 hover:bg-red-200 hover:cursor-pointer">
+                      Cancel
+                    </span>
                   </TableCell>
                 </TableRow>
               ))}
