@@ -17,7 +17,7 @@ function Registration() {
         <h1 className="font-semibold text-xl md:text-2xl lg:text-4xl mb-4">
           Registered Models
         </h1>
-        <Table className="border border-slate-400 rounded-md mt-2">
+        <Table className=" mt-2">
           <TableHeader className="bg-slate-100">
             <TableRow className="justify-between">
               <TableHead className="">Model Name</TableHead>
@@ -42,7 +42,7 @@ function Registration() {
         <h1 className="font-semibold text-xl md:text-2xl lg:text-4xl mt-4">
           Disconnected Models
         </h1>
-        <Table className="border border-slate-400 rounded-md mt-2">
+        <Table className=" mt-2">
           <TableHeader className="bg-slate-100">
             <TableRow className="justify-between">
               <TableHead className="">Model Name</TableHead>
