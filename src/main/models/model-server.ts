@@ -20,21 +20,22 @@ class ModelServer extends Model {
   }
 
   public static registerServer(
-    uid: string,
     modelUid: string,
     serverAddress: string,
     serverPort: number,
   ) {
-    return ModelServer.create({
-      uid,
-      modelUid,
-      serverAddress,
-      serverPort,
+    return ModelServer.findOrCreate({
+      where: {
+        modelUid,
+      },
+      defaults: {
+        serverAddress,
+        serverPort,
+      },
     });
   }
 
   public static updateServer(
-    uid: string,
     modelUid: string,
     serverAddress: string,
     serverPort: number,
@@ -46,26 +47,24 @@ class ModelServer extends Model {
       },
       {
         where: {
-          uid,
           modelUid,
         },
       },
     );
   }
 
-  public static deleteServer(uid: string, modelUid: string) {
+  public static deleteServer(modelUid: string) {
     return ModelServer.destroy({
       where: {
-        uid,
         modelUid,
       },
     });
   }
 
-  public static deleteServerByUid(uid: string) {
+  public static deleteServerByModelUid(modelUid: string) {
     return ModelServer.destroy({
       where: {
-        uid,
+        modelUid,
       },
     });
   }
