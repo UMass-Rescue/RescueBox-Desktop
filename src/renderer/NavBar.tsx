@@ -1,7 +1,6 @@
 import {
   NavigationMenu,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@shadcn/components/ui/navigation-menu';
@@ -12,30 +11,24 @@ function NavBar() {
     <NavigationMenu className="p-2 ml-2">
       <NavigationMenuList className="gap-3">
         <NavigationMenuItem className="border-2 border-black p-1 pb-2 rounded-lg">
-          <Link to="/registration">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <span className="text-sm md:text-lg lg:text-xl xl:text-2xl">
-                Registration{' '}
-              </span>
-            </NavigationMenuLink>
+          <Link to="/registration" className={navigationMenuTriggerStyle()}>
+            <span className="text-sm md:text-lg lg:text-xl xl:text-2xl">
+              Registration{' '}
+            </span>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem className="border-2 border-black p-1 pb-2 rounded-lg">
-          <Link to="/models">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <span className="text-sm md:text-lg lg:text-xl xl:text-2xl">
-                Models
-              </span>
-            </NavigationMenuLink>
+          <Link to="/models" className={navigationMenuTriggerStyle()}>
+            <span className="text-sm md:text-lg lg:text-xl xl:text-2xl">
+              Models
+            </span>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem className="border-2 border-black p-1 pb-2 rounded-lg">
-          <Link to="/jobs">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <span className="text-sm md:text-lg lg:text-xl xl:text-2xl">
-                Jobs
-              </span>
-            </NavigationMenuLink>
+          <Link to="/jobs" className={navigationMenuTriggerStyle()}>
+            <span className="text-sm md:text-lg lg:text-xl xl:text-2xl">
+              Jobs
+            </span>
           </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
