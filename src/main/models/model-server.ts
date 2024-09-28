@@ -1,5 +1,4 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../db';
+import { DataTypes, Model, Sequelize } from 'sequelize';
 
 class ModelServer extends Model {
   public uid!: string;
@@ -9,26 +8,28 @@ class ModelServer extends Model {
   public serverAddress?: string;
 }
 
-ModelServer.init(
-  {
-    uid: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      primaryKey: true,
+export const initModelServer = async (connection: Sequelize) => {
+  ModelServer.init(
+    {
+      uid: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        primaryKey: true,
+      },
+      modelUid: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      serverAddress: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
-    modelUid: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    {
+      sequelize: connection,
+      tableName: 'servers',
     },
-    serverAddress: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-  },
-  {
-    sequelize,
-    tableName: 'servers',
-  },
-);
+  );
+};
 
 export default ModelServer;

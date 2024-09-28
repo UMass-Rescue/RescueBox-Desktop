@@ -1,5 +1,4 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../db';
+import { DataTypes, Model, Sequelize } from 'sequelize';
 
 enum JobStatus {
   Running = 'Running',
@@ -28,50 +27,52 @@ class Job extends Model {
   public logOutput!: string; // JSON string
 }
 
-Job.init(
-  {
-    uid: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      primaryKey: true,
+export const initJob = async (connection: Sequelize) => {
+  Job.init(
+    {
+      uid: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        primaryKey: true,
+      },
+      modelUid: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      startTime: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      endTime: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      status: {
+        type: DataTypes.ENUM(...Object.values(JobStatus)),
+        allowNull: false,
+      },
+      inputDir: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      outputDir: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      parameters: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      logOutput: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
     },
-    modelUid: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    {
+      sequelize: connection,
+      tableName: 'jobs',
     },
-    startTime: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    endTime: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    status: {
-      type: DataTypes.ENUM(...Object.values(JobStatus)),
-      allowNull: false,
-    },
-    inputDir: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    outputDir: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    parameters: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    logOutput: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-  },
-  {
-    sequelize,
-    tableName: 'jobs',
-  },
-);
+  );
+};
 
 export default Job;
