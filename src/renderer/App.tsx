@@ -6,8 +6,8 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
-import { Button } from '@/components/ui/button';
+} from '@shadcn/components/ui/accordion';
+import { Button } from '@shadcn/components/ui/button';
 import {
   Dialog,
   DialogClose,
@@ -17,9 +17,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from '@shadcn/components/ui/dialog';
+import { Input } from '@shadcn/components/ui/input';
+import { Label } from '@shadcn/components/ui/label';
 
 function Hello() {
   return (
