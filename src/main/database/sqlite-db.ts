@@ -1,12 +1,11 @@
 import { Sequelize } from 'sequelize';
 import { info } from 'console';
-import BaseDB from './base';
 import sqlite3Connection from './constants';
 import { initJob } from '../models/job';
 import { initModelServer } from '../models/model-server';
 import { initMLModel } from '../models/ml-model';
 
-class SQLiteDB implements BaseDB {
+class SQLiteDB {
   private connection: Sequelize;
 
   constructor() {
