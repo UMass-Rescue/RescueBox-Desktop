@@ -14,4 +14,4 @@ type Model = {
   status: string;
 };
 
-export type { Model };
+export default Model;
