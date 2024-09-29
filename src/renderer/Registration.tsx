@@ -35,7 +35,7 @@ function Registration() {
               {sampleModels
                 ?.filter((model) => model.status === 'Online')
                 .map((model: Model) => (
-                  <TableRow className="py-2 hover:bg-gray-50">
+                  <TableRow key={model.uid} className="py-2 hover:bg-gray-50">
                     <TableCell className="pl-4">{model.name}</TableCell>
                     <TableCell className="">{model.ip}</TableCell>
                     <TableCell className="">{model.port}</TableCell>
@@ -74,7 +74,7 @@ function Registration() {
               {sampleModels
                 ?.filter((model) => model.status === 'Offline')
                 .map((model: Model) => (
-                  <TableRow className="hover:bg-gray-50">
+                  <TableRow key={model.uid} className="hover:bg-gray-50">
                     <TableCell className="pl-4">{model.name}</TableCell>
                     <TableCell className="">{model.ip}</TableCell>
                     <TableCell className="">{model.port}</TableCell>
