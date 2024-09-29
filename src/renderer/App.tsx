@@ -19,14 +19,14 @@ import JobViewOutputs from './JobViewOutputs';
 
 function RootLayout() {
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col">
       <div className="flex flex-row justify-between border-b-2 border-black bg-gray-300">
         <NavBar />
         <h1 className="p-3 m-3 text-lg md:text-2xl lg:text-3xl  font-bold">
           RescueBox
         </h1>
       </div>
-      <div className="h-svh bg-gray-100">
+      <div className="h-svh bg-gray-100 pt-2">
         <div className="mx-4">
           <Outlet />
         </div>

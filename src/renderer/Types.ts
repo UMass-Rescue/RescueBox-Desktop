@@ -11,6 +11,7 @@ type Model = {
   parameters: string;
   constraints: string;
   ip: string;
+  port: number;
   status: string;
 };
 
