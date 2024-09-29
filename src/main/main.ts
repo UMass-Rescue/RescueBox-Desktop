@@ -97,7 +97,7 @@ const createWindow = async () => {
   };
 
   mainWindow = new BrowserWindow({
-    titleBarStyle: 'hidden',
+    titleBarStyle: 'hiddenInset',
     titleBarOverlay: true,
     show: false,
     width: 1024,
