@@ -1,60 +1,38 @@
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from '@shadcn/components/ui/navigation-menu';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { cn } from './lib/utils';
+
+const navBarPaths = {
+  '/registration': 'Registration',
+  '/models': 'Models',
+  '/jobs': 'Jobs',
+};
 
 function NavBar() {
   return (
-    <NavigationMenu className="p-2 ml-2">
-      <NavigationMenuList className="gap-3">
-        <NavigationMenuItem className="border-2 border-black  rounded-lg">
-          <Link
-            to="/registration"
-            className={cn(
-              navigationMenuTriggerStyle(),
-              'bg-gray-50 px-4 py-6 text-center flex items-center justify-center',
-              'focus:bg-sky-300',
-            )}
+    <div className="p-2 ml-2 flex flex-row space-x-4">
+      {Object.entries(navBarPaths).map(([path, name]) => (
+        <div key={path} className="border-2 border-black w-1/3 rounded-lg">
+          <NavLink
+            key={path}
+            to={path}
+            className={({ isActive, isPending }) =>
+              cn(
+                'px-8 py-2 text-center flex items-center justify-center rounded-lg transition-all',
+                isPending ? 'bg-gray-50' : 'hover:bg-gray-100',
+                isActive ? 'bg-sky-300 hover:bg-sky-200' : '',
+              )
+            }
           >
-            <span className="text-sm md:text-lg lg:text-xl xl:text-2xl">
-              Registration{' '}
+            <span
+              key={path}
+              className="text-sm md:text-lg lg:text-xl xl:text-2xl"
+            >
+              {name}
             </span>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem className="border-2 border-black  rounded-lg">
-          <Link
-            to="/models"
-            className={cn(
-              navigationMenuTriggerStyle(),
-              'bg-gray-50 px-4 py-6 text-center flex items-center justify-center',
-              'focus:bg-sky-300',
-            )}
-          >
-            <span className="text-sm md:text-lg lg:text-xl xl:text-2xl">
-              Models
-            </span>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem className="border-2 border-black  rounded-lg">
-          <Link
-            to="/jobs"
-            className={cn(
-              navigationMenuTriggerStyle(),
-              'bg-gray-50 px-4 py-6 text-center flex items-center justify-center',
-              'focus:bg-sky-300',
-            )}
-          >
-            <span className="text-sm md:text-lg lg:text-xl xl:text-2xl">
-              Jobs
-            </span>
-          </Link>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+          </NavLink>
+        </div>
+      ))}
+    </div>
   );
 }
 
