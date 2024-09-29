@@ -7,10 +7,11 @@ import {
   RegisterModelArgs,
   UnregisterModelArgs,
 } from './handlers/registration';
-import { CreateJobArgs } from './handlers/job';
+import { CreateJobArgs, JobByIdArgs } from './handlers/job';
 import { GetModelByIdArgs } from './handlers/models';
 import MLModel from './models/ml-model';
 import ModelServer from './models/model-server';
+import Job from './models/job';
 
 const registrationHandler = {
   registerModelAppIp: (args: RegisterModelArgs) =>
@@ -38,8 +39,13 @@ const modelsHandler = {
 };
 
 const jobHandler = {
+  getJobs: () => ipcRenderer.invoke('job:get-jobs') as Promise<Job[]>,
+  getJobById: (args: JobByIdArgs) =>
+    ipcRenderer.invoke('job:get-job-by-id', args) as Promise<Job>,
   createJob: (args: CreateJobArgs) =>
-    ipcRenderer.invoke('job:create-job', args),
+    ipcRenderer.invoke('job:create-job', args) as Promise<Job>,
+  deleteJobById: (args: JobByIdArgs) =>
+    ipcRenderer.invoke('job:delete-job-by-id', args) as Promise<number>,
 };
 
 contextBridge.exposeInMainWorld('registration', registrationHandler);

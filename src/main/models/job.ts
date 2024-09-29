@@ -1,31 +1,39 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+/* eslint-disable no-use-before-define */
+import {
+  CreationOptional,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+  Sequelize,
+} from 'sequelize';
 import MLModel from './ml-model';
 
-enum JobStatus {
+export enum JobStatus {
   Running = 'Running',
   Completed = 'Completed',
   Canceled = 'Canceled',
   Failed = 'Failed',
 }
 
-class Job extends Model {
-  public uid!: string;
+class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
+  declare uid: string;
 
-  public modelUid!: string;
+  declare modelUid: string;
 
-  public startTime!: Date;
+  declare startTime: Date;
 
-  public endTime!: Date;
+  declare endTime: CreationOptional<Date>;
 
-  public status!: JobStatus;
+  declare status: JobStatus;
 
-  public inputDir!: string;
+  declare inputDir: string;
 
-  public outputDir!: string;
+  declare outputDir: string;
 
-  public parameters!: string; // JSON string
+  declare parameters: string; // JSON string
 
-  public logOutput!: string; // JSON string
+  declare logOutput: string; // JSON string
 
   public static getAllJobs() {
     return Job.findAll();
@@ -54,7 +62,6 @@ class Job extends Model {
     inputDir: string,
     outputDir: string,
     parameters: string,
-    logOutput: string,
   ) {
     return Job.create({
       uid,
@@ -63,7 +70,7 @@ class Job extends Model {
       inputDir,
       outputDir,
       parameters,
-      logOutput,
+      logOutput: '',
       status: JobStatus.Running,
     });
   }
