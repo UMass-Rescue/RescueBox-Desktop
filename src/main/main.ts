@@ -51,7 +51,10 @@ function setupIpcMain() {
   ipcMain.handle('models:get-model-by-uid', models.getModelByUid);
 
   // Job: handles creating jobs
+  ipcMain.handle('job:get-jobs', job.getJobs);
+  ipcMain.handle('job:get-job-by-id', job.getJobById);
   ipcMain.handle('job:create-job', job.createJob);
+  ipcMain.handle('job:delete-job-by-id', job.deleteJobById);
 }
 
 if (process.env.NODE_ENV === 'production') {
