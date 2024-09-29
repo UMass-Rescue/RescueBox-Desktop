@@ -15,7 +15,7 @@ function Jobs() {
         <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
           Running Jobs
         </h1>
-        <Table className="text-md md:text-sm lg:text-lg">
+        <Table className="text-md lg:text-lg">
           <TableBody>
             {sampleJobs
               ?.filter((job) => job.status !== 'Completed')
@@ -51,7 +51,7 @@ function Jobs() {
         <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-2">
           Completed Jobs
         </h1>
-        <Table className="text-md md:text-sm lg:text-lg">
+        <Table className="text-md lg:text-lg">
           <TableBody>
             {sampleJobs
               ?.filter((job) => job.status === 'Completed')

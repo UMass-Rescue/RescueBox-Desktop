@@ -12,7 +12,7 @@ function JobViewDetails() {
       <h1 className="font-bold text-lg md:text-xl lg:text-3xl mb-4">
         Job Details
       </h1>
-      <div className="text-md md:text-sm lg:text-lg w-full">
+      <div className="text-md lg:text-lg w-full">
         <div className="">
           <h1 className="font-bold mb-4">Start</h1>
           <div className="p-2 border border-slate-400 bg-slate-200 rounded-lg w-full">

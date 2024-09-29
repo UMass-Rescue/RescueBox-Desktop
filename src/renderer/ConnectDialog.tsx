@@ -15,15 +15,16 @@ import { Input } from './components/ui/input';
 function ConnectDialog() {
   return (
     <Dialog>
-      <DialogTrigger className="hover:bg-green-300 py-1 px-1 rounded-lg">
+      <DialogTrigger className="bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-1 px-2 rounded-lg">
         Connect
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Connect Model</DialogTitle>
           <DialogDescription>
-            <h1>Model: Image Super Resolution</h1>
-            <span>Description: Super Resolution model for images</span>
+            Model: Image Super Resolution
+            <br />
+            Description: Super Resolution model for images
           </DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
