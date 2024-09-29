@@ -100,7 +100,9 @@ function Jobs() {
                       {format(new Date(job.startTime), 'dd/MM/yyyy HH:mm')}
                     </TableCell>
                     <TableCell className="w-1/6">
-                      {format(new Date(job.endTime), 'dd/MM/yyyy HH:mm')}
+                      {job.endTime
+                        ? format(new Date(job.endTime), 'dd/MM/yyyy HH:mm')
+                        : 'N/A'}
                     </TableCell>
                     <TableCell className="text-center w-1/12">
                       <Link
