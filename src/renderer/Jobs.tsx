@@ -115,7 +115,7 @@ function Jobs() {
                     </TableCell>
                     <TableCell className="text-center w-1/12">
                       <span className="border border-slate-300 p-1 px-8 rounded-lg bg-red-100 hover:bg-red-200 hover:cursor-pointer">
-                        Cancel
+                        Delete
                       </span>
                     </TableCell>
                   </TableRow>
