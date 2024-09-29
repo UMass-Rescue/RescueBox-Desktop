@@ -54,7 +54,11 @@ function Models() {
                 <TableCell className="text-left">
                   <Link
                     to="/model-run"
-                    className="bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-1 px-2 rounded-lg"
+                    className={`bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-1 px-2 rounded-lg ${
+                      model.status !== 'Online'
+                        ? 'pointer-events-none opacity-50'
+                        : ''
+                    }`}
                   >
                     Run
                   </Link>
