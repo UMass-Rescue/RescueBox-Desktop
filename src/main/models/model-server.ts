@@ -1,12 +1,22 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+/* eslint-disable no-use-before-define */
+import {
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+  Sequelize,
+} from 'sequelize';
 import MLModel from './ml-model';
 
-class ModelServer extends Model {
-  public modelUid!: string;
+class ModelServer extends Model<
+  InferAttributes<ModelServer>,
+  InferCreationAttributes<ModelServer>
+> {
+  declare serverAddress: string;
 
-  public serverAddress?: string;
+  declare serverPort: number;
 
-  public serverPort?: number;
+  declare modelUid: string;
 
   public static getAllServers() {
     return ModelServer.findAll();
@@ -20,20 +30,23 @@ class ModelServer extends Model {
     });
   }
 
-  public static registerServer(
+  public static async registerServer(
     modelUid: string,
     serverAddress: string,
     serverPort: number,
   ) {
-    return ModelServer.findOrCreate({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [model, _wasCreated] = await ModelServer.findOrCreate({
       where: {
         modelUid,
       },
       defaults: {
+        modelUid,
         serverAddress,
         serverPort,
       },
     });
+    return model;
   }
 
   public static updateServer(
