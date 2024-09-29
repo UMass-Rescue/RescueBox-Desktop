@@ -13,18 +13,24 @@ import NavBar from './NavBar';
 import Registration from './Registration';
 import ModelDetails from './ModelDetails';
 import ModelRun from './ModelRun';
-import JobView from './JobView';
+import JobViewLayout from './JobViewLayout';
+import JobViewDetails from './JobViewDetails';
+import JobViewOutputs from './JobViewOutputs';
 
 function RootLayout() {
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-row justify-between border-b-2 border-black">
+    <div className="flex flex-col ">
+      <div className="flex flex-row justify-between border-b-2 border-black bg-gray-300">
         <NavBar />
-        <h1 className="p-3 text-sm md:text-lg lg:text-xl xl:text-2xl m-3">
+        <h1 className="p-3 m-3 text-lg md:text-2xl lg:text-3xl  font-bold">
           RescueBox
         </h1>
       </div>
-      <Outlet />
+      <div className="h-svh bg-gray-100">
+        <div className="mx-4">
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 }
@@ -36,10 +42,17 @@ export default function App() {
         <Route path="/" element={<RootLayout />}>
           <Route path="/registration" element={<Registration />} />
           <Route path="/jobs" element={<Jobs />} />
-          <Route path="/models" element={<Models />} />
-          <Route path="/model-details" element={<ModelDetails />} />
-          <Route path="/model-run" element={<ModelRun />} />
-          <Route path="/job-view" element={<JobView />} />
+          <Route path="/models" element={<Models />}>
+            <Route
+              path="/models/:modelUid/details"
+              element={<ModelDetails />}
+            />
+            <Route path="/models/:modelUid/run" element={<ModelRun />} />
+          </Route>
+          <Route path="/jobs/:jobId" element={<JobViewLayout />}>
+            <Route path="/jobs/:jobId/details" element={<JobViewDetails />} />
+            <Route path="/jobs/:jobId/outputs" element={<JobViewOutputs />} />
+          </Route>
         </Route>
       </Routes>
     </Router>

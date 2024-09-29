@@ -15,7 +15,9 @@ import { Input } from './components/ui/input';
 function ConnectDialog() {
   return (
     <Dialog>
-      <DialogTrigger>Connect</DialogTrigger>
+      <DialogTrigger className="hover:bg-green-300 py-1 px-1 rounded-lg">
+        Connect
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Connect Model</DialogTitle>

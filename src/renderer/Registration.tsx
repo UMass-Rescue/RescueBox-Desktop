@@ -8,16 +8,16 @@ import {
 } from '@shadcn/components/ui/table';
 import sampleModels from './sample_models.json';
 import ConnectDialog from './ConnectDialog';
-import Model from './Types';
+import { Model } from './Types';
 
 function Registration() {
   return (
     <div className="m-3">
       <div>
-        <h1 className="font-semibold text-xl md:text-2xl lg:text-4xl mb-4">
+        <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
           Registered Models
         </h1>
-        <Table className=" mt-2">
+        <Table className=" mt-2 text-md md:text-sm lg:text-lg">
           <TableHeader className="bg-slate-100">
             <TableRow className="justify-between">
               <TableHead className="">Model Name</TableHead>
@@ -29,8 +29,8 @@ function Registration() {
             {sampleModels
               ?.filter((model) => model.status === 'Online')
               .map((model: Model) => (
-                <TableRow>
-                  <TableCell>{model.name}</TableCell>
+                <TableRow className="py-2">
+                  <TableCell className="">{model.name}</TableCell>
                   <TableCell>{model.ip}</TableCell>
                   <TableCell className="text-right">{model.status}</TableCell>
                 </TableRow>
@@ -39,10 +39,10 @@ function Registration() {
         </Table>
       </div>
       <div>
-        <h1 className="font-semibold text-xl md:text-2xl lg:text-4xl mt-4">
+        <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mt-4">
           Disconnected Models
         </h1>
-        <Table className=" mt-2">
+        <Table className=" mt-2 text-md md:text-sm lg:text-lg">
           <TableHeader className="bg-slate-100">
             <TableRow className="justify-between">
               <TableHead className="">Model Name</TableHead>

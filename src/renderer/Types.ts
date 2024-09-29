@@ -14,4 +14,16 @@ type Model = {
   status: string;
 };
 
-export default Model;
+type Job = {
+  uid: string;
+  modelUid: string;
+  startTime: string;
+  endTime: string;
+  status: string;
+  inputDir: string;
+  outputDir: string;
+  parameters: string;
+  logOutput: string;
+};
+
+export { Model, Job };
