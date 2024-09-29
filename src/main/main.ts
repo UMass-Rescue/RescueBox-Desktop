@@ -16,6 +16,7 @@ import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import * as registration from './handlers/registration';
 import * as job from './handlers/job';
+import * as models from './handlers/models';
 import DatabaseConn from './database/database-conn';
 
 class AppUpdater {
@@ -44,6 +45,10 @@ function setupIpcMain() {
     'register:get-model-app-status',
     registration.getModelAppStatus,
   );
+
+  // Models: handles registering models
+  ipcMain.handle('models:get-models', models.getModels);
+  ipcMain.handle('models:get-model-by-uid', models.getModelByUid);
 
   // Job: handles creating jobs
   ipcMain.handle('job:create-job', job.createJob);
@@ -152,6 +157,7 @@ app
     setupIpcMain();
     createWindow();
     const dbPath = path.join(app.getPath('userData'), 'rbox-data.db');
+    log.info('Database location is', dbPath);
     await DatabaseConn.initDatabase(dbPath);
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
