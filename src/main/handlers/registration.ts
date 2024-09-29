@@ -4,7 +4,11 @@ import ModelServer from '../models/model-server';
 const SERVER_HEALTH_SLUG = '/health';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-export type ModelAppStatus = 'online' | 'offline' | 'error';
+export enum ModelAppStatus {
+  Online = 'Online',
+  Offline = 'Offline',
+  Error = 'Error',
+}
 
 export type RegisterModelArgs = {
   modelUid: string;
@@ -36,7 +40,7 @@ const getModelAppStatus = async (
 ): Promise<ModelAppStatus> => {
   const model = await ModelServer.getServerByModelUid(_arg.modelUid);
   if (!model) {
-    return 'offline';
+    return ModelAppStatus.Offline;
   }
   // mocked to always return online
   // return fetch(
@@ -45,10 +49,10 @@ const getModelAppStatus = async (
   //   .then((res) => res.status)
   //   .then((status) => {
   //     if (status === 200) {
-  //       return 'online';
+  //       return ModelAppStatus.Online;
   //     }
-  //     return 'offline';
+  //     return ModelAppStatus.Offline;
   //   });
-  return 'online';
+  return ModelAppStatus.Online;
 };
 export { registerModelAppIp, unregisterModelAppIp, getModelAppStatus };
