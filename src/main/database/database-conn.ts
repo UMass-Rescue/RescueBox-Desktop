@@ -12,6 +12,7 @@ export default class DatabaseConn {
     const conn = new Sequelize({
       dialect: 'sqlite',
       storage: dbPath,
+      logging: false,
     });
     this.db = new SQLiteDB(conn);
   }
