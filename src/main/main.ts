@@ -97,6 +97,8 @@ const createWindow = async () => {
   };
 
   mainWindow = new BrowserWindow({
+    titleBarStyle: 'hiddenInset', // or 'customButtonsOnHover'
+    backgroundColor: '#333',
     show: false,
     width: 1024,
     height: 728,
