@@ -20,7 +20,7 @@ import JobViewOutputs from './JobViewOutputs';
 function RootLayout() {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* <div className="title-bar bg-gray-700 h-[30.4px]" /> */}
+      <div className="title-bar bg-gray-700 h-[30.4px]" />
       <div className="flex flex-row border-b-2 border-black bg-gray-300">
         <div className="flex-grow items-center flex">
           <NavBar />
