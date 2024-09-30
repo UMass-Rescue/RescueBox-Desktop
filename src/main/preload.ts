@@ -9,6 +9,7 @@ import {
 } from './handlers/registration';
 import { CreateJobArgs, JobByIdArgs } from './handlers/job';
 import { GetModelByIdArgs } from './handlers/models';
+import { OpenDirectoryArgs } from './handlers/file-system';
 import MLModel from './models/ml-model';
 import ModelServer from './models/model-server';
 import Job from './models/job';
@@ -48,10 +49,19 @@ const jobHandler = {
     ipcRenderer.invoke('job:delete-job-by-id', args) as Promise<number>,
 };
 
+const fileSystemHandler = {
+  openDirectory: (args: OpenDirectoryArgs) =>
+    ipcRenderer.invoke('fileSystem:open-directory', args) as Promise<string>,
+  selectDirectory: () =>
+    ipcRenderer.invoke('fileSystem:select-directory') as Promise<string>,
+};
+
 contextBridge.exposeInMainWorld('registration', registrationHandler);
 contextBridge.exposeInMainWorld('models', modelsHandler);
 contextBridge.exposeInMainWorld('job', jobHandler);
+contextBridge.exposeInMainWorld('fileSystem', fileSystemHandler);
 
 export type RegistrationHandler = typeof registrationHandler;
 export type ModelsHandler = typeof modelsHandler;
 export type JobHandler = typeof jobHandler;
+export type FileSystemHandler = typeof fileSystemHandler;

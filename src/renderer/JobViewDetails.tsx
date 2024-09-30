@@ -1,6 +1,14 @@
 import { Link } from 'react-router-dom';
 // import { useParams } from 'react-router-dom';
+import { OpenDirectoryArgs } from '../main/handlers/file-system';
 import { Button } from './components/ui/button';
+
+const handleViewDirectory = (input: boolean) => {
+  const path =
+    document.getElementById(input ? 'input-path' : 'output-path')
+      ?.textContent || '';
+  window.fileSystem.openDirectory({ path } as OpenDirectoryArgs);
+};
 
 function JobViewDetails() {
   // const { jobId } = useParams();
@@ -23,8 +31,13 @@ function JobViewDetails() {
         <div>
           <h1 className="font-bold my-4">Inputs</h1>
           <div className="flex flex-row border border-slate-400 rounded-lg w-full justify-between p-2">
-            <div className="">F:/USB/</div>
-            <Button className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg">
+            <div className="" id="input-path">
+              C:/
+            </div>
+            <Button
+              className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg"
+              onClick={() => handleViewDirectory(true)}
+            >
               View
             </Button>
           </div>
@@ -32,8 +45,13 @@ function JobViewDetails() {
         <div>
           <h1 className="font-bold my-4">Output</h1>
           <div className="flex flex-row border border-slate-400 rounded-lg w-full justify-between p-2">
-            <div className="">C:/user/</div>
-            <Button className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg">
+            <div className="" id="output-path">
+              C:/AppData
+            </div>
+            <Button
+              className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg"
+              onClick={() => handleViewDirectory(false)}
+            >
               View
             </Button>
           </div>
