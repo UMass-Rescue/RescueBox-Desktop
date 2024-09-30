@@ -6,7 +6,7 @@ import { Button } from './components/ui/button';
 const handleViewDirectory = (input: boolean) => {
   const path =
     document.getElementById(input ? 'input-path' : 'output-path')
-      ?.textContent || 'C:/';
+      ?.textContent || '';
   window.fileSystem.openDirectory({ path } as OpenDirectoryArgs);
 };
 
