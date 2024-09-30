@@ -1,11 +1,19 @@
 import { dialog, shell } from 'electron';
+import fs from 'fs';
 
 export type OpenDirectoryArgs = {
   path: string;
 };
 
 export async function openDirectory(_event: any, arg: OpenDirectoryArgs) {
-  shell.openPath(arg.path);
+  if (!fs.existsSync(arg.path)) {
+    dialog.showErrorBox(
+      "We can't find this folder.",
+      "Make sure it hasn't been moved or deleted.",
+    );
+  } else {
+    shell.openPath(arg.path);
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
