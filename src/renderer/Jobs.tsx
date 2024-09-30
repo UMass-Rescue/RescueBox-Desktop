@@ -41,7 +41,7 @@ function Jobs() {
               {sampleJobs
                 ?.filter((job) => job.status !== 'Completed')
                 .map((job) => (
-                  <TableRow>
+                  <TableRow key={job.uid}>
                     <TableCell className="pl-4 w-1/3">
                       {getModelName(sampleModels, job.modelUid)}
                     </TableCell>
@@ -92,7 +92,7 @@ function Jobs() {
               {sampleJobs
                 ?.filter((job) => job.status === 'Completed')
                 .map((job) => (
-                  <TableRow>
+                  <TableRow key={job.uid}>
                     <TableCell className="pl-4 w-1/3">
                       {getModelName(sampleModels, job.modelUid)}
                     </TableCell>
