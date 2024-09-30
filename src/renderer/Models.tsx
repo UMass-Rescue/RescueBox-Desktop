@@ -28,7 +28,7 @@ function Models() {
           </TableHeader>
           <TableBody>
             {sampleModels.map((model: Model) => (
-              <TableRow>
+              <TableRow key={model.uid}>
                 <TableCell className="pl-4">{model.name}</TableCell>
                 <TableCell className="">
                   <div className="">
