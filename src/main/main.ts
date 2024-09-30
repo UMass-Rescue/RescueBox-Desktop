@@ -17,6 +17,7 @@ import { resolveHtmlPath } from './util';
 import * as registration from './handlers/registration';
 import * as job from './handlers/job';
 import * as models from './handlers/models';
+import * as fileSystem from './handlers/file-system';
 import DatabaseConn from './database/database-conn';
 
 class AppUpdater {
@@ -55,6 +56,9 @@ function setupIpcMain() {
   ipcMain.handle('job:get-job-by-id', job.getJobById);
   ipcMain.handle('job:create-job', job.createJob);
   ipcMain.handle('job:delete-job-by-id', job.deleteJobById);
+
+  ipcMain.handle('file-system:open-directory', fileSystem.openDirectory);
+  ipcMain.handle('file-system:select-directory', fileSystem.selectDirectory);
 }
 
 if (process.env.NODE_ENV === 'production') {
