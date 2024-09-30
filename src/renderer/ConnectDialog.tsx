@@ -32,7 +32,7 @@ function ConnectDialog() {
             <Label htmlFor="link" className="sr-only">
               Link
             </Label>
-            <Input id="link" defaultValue="address:port" readOnly />
+            <Input id="link" defaultValue="address:port" />
           </div>
           <DialogClose asChild>
             <Button type="submit" size="sm" className="px-3">
