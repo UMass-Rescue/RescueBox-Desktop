@@ -57,8 +57,8 @@ function setupIpcMain() {
   ipcMain.handle('job:create-job', job.createJob);
   ipcMain.handle('job:delete-job-by-id', job.deleteJobById);
 
-  ipcMain.handle('file-system:open-directory', fileSystem.openDirectory);
-  ipcMain.handle('file-system:select-directory', fileSystem.selectDirectory);
+  ipcMain.handle('fileSystem:open-directory', fileSystem.openDirectory);
+  ipcMain.handle('fileSystem:select-directory', fileSystem.selectDirectory);
 }
 
 if (process.env.NODE_ENV === 'production') {
