@@ -45,7 +45,7 @@ function Models() {
                   </div>
                 </TableCell>
                 <TableCell className="text-left">
-                  <Button className="text-black font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg">
+                  <Button className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg">
                     <Link to="/model-details" state={{ modelUid: model.uid }}>
                       Inspect
                     </Link>
@@ -53,7 +53,7 @@ function Models() {
                 </TableCell>
                 <TableCell className="text-left">
                   <Button
-                    className={`text-black font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg ${
+                    className={`text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-6 rounded-lg ${
                       model.status !== 'Online'
                         ? 'pointer-events-none opacity-50'
                         : ''

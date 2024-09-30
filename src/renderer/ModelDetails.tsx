@@ -6,8 +6,9 @@ function ModelDetails() {
   const locationState = useLocation().state;
   const { modelUid } = locationState;
 
-  // Fetch this data later
+  // here for now to remove warning
   console.log(modelUid);
+  // Fetch this data later
   const modelVersion = '1.0.0';
   const modelAuthor = 'John Doe';
   const modelLastUpdated = '2023-10-26T10:00:00Z';
@@ -28,7 +29,7 @@ function ModelDetails() {
   ];
 
   return (
-    <div className="flex flex-row justify-between">
+    <div className="flex flex-row justify-between m-3">
       <div className="w-2/3 flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <h1 className="font-bold text-xl md:text-2xl lg:text-3xl">

@@ -15,7 +15,7 @@ import { Input } from './components/ui/input';
 function ConnectDialog() {
   return (
     <Dialog>
-      <DialogTrigger className="bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-1 px-2 rounded-lg">
+      <DialogTrigger className="bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-1 px-2 rounded-lg text-base">
         Connect
       </DialogTrigger>
       <DialogContent>

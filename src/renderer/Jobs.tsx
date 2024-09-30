@@ -11,6 +11,7 @@ import {
 import sampleJobs from './sample_jobs.json';
 import sampleModels from './sample_models.json';
 import { getModelName } from './utils';
+import { Button } from './components/ui/button';
 
 // function getModelName(uid: string) {
 //   return sampleModels.find((model) => model.uid === uid)?.name;
@@ -49,18 +50,16 @@ function Jobs() {
                       {format(new Date(job.startTime), 'dd/MM/yyyy HH:mm')}
                     </TableCell>
                     <TableCell className="text-center">
-                      <Link
-                        to={`/jobs/${job.uid}/details`}
-                        className="border border-slate-300 p-1 px-8 rounded-lg hover:bg-slate-200"
-                        state={{ job }}
-                      >
-                        View
-                      </Link>
+                      <Button className="px-8 text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 rounded-lg">
+                        <Link to={`/jobs/${job.uid}/details`} state={{ job }}>
+                          View
+                        </Link>
+                      </Button>
                     </TableCell>
                     <TableCell className="text-center">
-                      <span className="border border-slate-300 p-1 px-8 rounded-lg bg-red-100 hover:bg-red-200 hover:cursor-pointer">
+                      <Button className="px-8 text-black text-base font-normal bg-red-200 hover:-translate-y-0.5 hover:bg-red-100 transition-all py-2 rounded-lg">
                         Cancel
-                      </span>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -105,18 +104,16 @@ function Jobs() {
                         : 'N/A'}
                     </TableCell>
                     <TableCell className="text-center w-1/12">
-                      <Link
-                        to="/job-view"
-                        className="border border-slate-300 p-1 px-8 rounded-lg hover:bg-slate-200"
-                        state={{ job }}
-                      >
-                        View
-                      </Link>
+                      <Button className="px-8 text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 rounded-lg">
+                        <Link to={`/jobs/${job.uid}/details`} state={{ job }}>
+                          View
+                        </Link>
+                      </Button>
                     </TableCell>
                     <TableCell className="text-center w-1/12">
-                      <span className="border border-slate-300 p-1 px-8 rounded-lg bg-red-100 hover:bg-red-200 hover:cursor-pointer">
+                      <Button className="px-8 text-black text-base font-normal bg-red-200 hover:-translate-y-0.5 hover:bg-red-100 transition-all py-2 rounded-lg">
                         Delete
-                      </span>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
