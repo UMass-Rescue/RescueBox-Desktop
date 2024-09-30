@@ -100,6 +100,12 @@ const createWindow = async () => {
   };
 
   mainWindow = new BrowserWindow({
+    titleBarStyle: 'hidden',
+    titleBarOverlay: true,
+    trafficLightPosition: {
+      x: 10,
+      y: 8,
+    },
     show: false,
     width: 1024,
     height: 728,
