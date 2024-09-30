@@ -17,7 +17,7 @@ function Models() {
         Available Models
       </h1>
       <div className="shadow-md mt-2">
-        <Table className="mt-2 text-md lg:text-lg">
+        <Table className="text-md lg:text-lg">
           <TableHeader className="bg-slate-200">
             <TableRow className="justify-between">
               <TableHead className="pl-4 w-3/6 text-gray-900">Model</TableHead>
@@ -28,7 +28,7 @@ function Models() {
           </TableHeader>
           <TableBody>
             {sampleModels.map((model: Model) => (
-              <TableRow key={model.uid}>
+              <TableRow key={model.uid} className="hover:bg-gray-50">
                 <TableCell className="pl-4">{model.name}</TableCell>
                 <TableCell className="">
                   <div className="">
@@ -36,7 +36,7 @@ function Models() {
                       className={`w-min py-1 px-2 rounded-lg text-right transition-all cursor-default ${
                         model.status === 'Online'
                           ? 'bg-green-500 hover:bg-green-400'
-                          : 'bg-red-500 hover:bg-red-400'
+                          : 'bg-red-500 hover:bg-rose-400'
                       }`}
                     >
                       {model.status}
@@ -46,7 +46,7 @@ function Models() {
                 <TableCell className="text-left">
                   <Link
                     to={`/models/${model.uid}/details`}
-                    className="bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-1 px-2 rounded-lg"
+                    className="bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg"
                   >
                     Inspect
                   </Link>
@@ -54,7 +54,7 @@ function Models() {
                 <TableCell className="text-left">
                   <Link
                     to="/model-run"
-                    className={`bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-1 px-2 rounded-lg ${
+                    className={`bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg ${
                       model.status !== 'Online'
                         ? 'pointer-events-none opacity-50'
                         : ''
