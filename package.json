@@ -191,8 +191,8 @@
     "webpack-merge": "^5.9.0"
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "RescueBox-Desktop",
+    "appId": "org.UMass-Rescue.RescueBox-Desktop",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
