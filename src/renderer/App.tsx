@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   Outlet,
+  Navigate,
 } from 'react-router-dom';
 
 import './App.css';
@@ -43,6 +44,7 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<RootLayout />}>
+          <Route index element={<Navigate to="/registration" replace />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/models" element={<Models />} />

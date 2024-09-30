@@ -45,7 +45,8 @@ function Models() {
                 </TableCell>
                 <TableCell className="text-left">
                   <Link
-                    to={`/models/${model.uid}/details`}
+                    to="/models-details"
+                    state={{ modelUid: model.uid }}
                     className="bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg"
                   >
                     Inspect
