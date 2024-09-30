@@ -24,7 +24,7 @@ function JobViewDetails() {
           <h1 className="font-bold my-4">Inputs</h1>
           <div className="flex flex-row border border-slate-400 rounded-lg w-full justify-between p-2">
             <div className="">F:/USB/</div>
-            <Button className="bg-inherit text-black border border-black font-semibold hover:bg-slate-300">
+            <Button className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg">
               View
             </Button>
           </div>
@@ -33,7 +33,7 @@ function JobViewDetails() {
           <h1 className="font-bold my-4">Output</h1>
           <div className="flex flex-row border border-slate-400 rounded-lg w-full justify-between p-2">
             <div className="">C:/user/</div>
-            <Button className="bg-inherit text-black border border-black font-semibold hover:bg-slate-300">
+            <Button className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg">
               View
             </Button>
           </div>
@@ -42,8 +42,10 @@ function JobViewDetails() {
           <h1 className="font-bold my-4">Model</h1>
           <div className="flex flex-row border border-slate-400 rounded-lg w-full justify-between p-2">
             <div className="">Image Super Resolution</div>
-            <Button className="bg-inherit text-black border border-black font-semibold hover:bg-slate-300">
-              <Link to={`/model/${modelUid}/details`}>Inspect</Link>
+            <Button className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg">
+              <Link to="/model-details" state={{ modelUid }}>
+                Inspect
+              </Link>
             </Button>
           </div>
         </div>

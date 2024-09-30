@@ -41,7 +41,7 @@ function Registration() {
                     <TableCell className="">{model.port}</TableCell>
                     <TableCell className="">
                       <div className="">
-                        <h1 className="w-min py-1 px-2 bg-green-500 text-gray-900 rounded-lg text-right hover:bg-green-400 transition-all cursor-default">
+                        <h1 className="w-min py-1 px-2 bg-green-500 text-gray-900 rounded-lg text-right hover:bg-green-400 transition-all cursor-default text-base">
                           {model.status}
                         </h1>
                       </div>

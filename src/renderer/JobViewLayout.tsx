@@ -3,7 +3,6 @@ import { NavLink, Outlet, useParams } from 'react-router-dom';
 import { getJobById, getModelName } from './utils';
 import sampleModels from './sample_models.json';
 import { cn } from './lib/utils';
-// import { navigationMenuTriggerStyle } from './components/ui/navigation-menu';
 import sampleJobs from './sample_jobs.json';
 
 function JobView() {

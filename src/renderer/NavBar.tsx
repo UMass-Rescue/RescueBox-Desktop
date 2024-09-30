@@ -25,7 +25,7 @@ function NavBar() {
           >
             <span
               key={path}
-              className="text-sm md:text-lg lg:text-xl xl:text-2xl"
+              className="text-sm md:text-lg lg:text-xl xl:text-2xl font-bold"
             >
               {name}
             </span>
