@@ -9,6 +9,7 @@ import {
   TableRow,
 } from './components/ui/table';
 import { Model } from './Types';
+import { Button } from './components/ui/button';
 
 function Models() {
   return (
@@ -44,25 +45,24 @@ function Models() {
                   </div>
                 </TableCell>
                 <TableCell className="text-left">
-                  <Link
-                    to="/models-details"
-                    state={{ modelUid: model.uid }}
-                    className="bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg"
-                  >
-                    Inspect
-                  </Link>
+                  <Button className="text-black font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg">
+                    <Link to="/model-details" state={{ modelUid: model.uid }}>
+                      Inspect
+                    </Link>
+                  </Button>
                 </TableCell>
                 <TableCell className="text-left">
-                  <Link
-                    to="/model-run"
-                    className={`bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg ${
+                  <Button
+                    className={`text-black font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg ${
                       model.status !== 'Online'
                         ? 'pointer-events-none opacity-50'
                         : ''
                     }`}
                   >
-                    Run
-                  </Link>
+                    <Link to="/model-run" state={{ modelUid: model.uid }}>
+                      Run
+                    </Link>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
