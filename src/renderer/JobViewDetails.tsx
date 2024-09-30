@@ -43,7 +43,9 @@ function JobViewDetails() {
           <div className="flex flex-row border border-slate-400 rounded-lg w-full justify-between p-2">
             <div className="">Image Super Resolution</div>
             <Button className="bg-inherit text-black border border-black font-semibold hover:bg-slate-300">
-              <Link to={`/model/${modelUid}/details`}>Inspect</Link>
+              <Link to="/model-details" state={{ modelUid }}>
+                Inspect
+              </Link>
             </Button>
           </div>
         </div>
