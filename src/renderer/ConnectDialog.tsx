@@ -12,7 +12,7 @@ import { Button } from './components/ui/button';
 import { Label } from './components/ui/label';
 import { Input } from './components/ui/input';
 
-function ConnectDialog() {
+function ConnectDialog({ defaultValue }: { defaultValue: string }) {
   return (
     <Dialog>
       <DialogTrigger className="bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-1 px-2 rounded-lg text-base">
@@ -32,7 +32,7 @@ function ConnectDialog() {
             <Label htmlFor="link" className="sr-only">
               Link
             </Label>
-            <Input id="link" defaultValue="address:port" />
+            <Input id="link" defaultValue={`${defaultValue}`} />
           </div>
           <DialogClose asChild>
             <Button type="submit" size="sm" className="px-3">
