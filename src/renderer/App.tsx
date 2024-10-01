@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom';
 
 import './App.css';
-import PreferencesSvg from 'assets/preferences-svgrepo-com.svg';
 import Jobs from './Jobs';
 import Models from './Models';
 import NavBar from './NavBar';
@@ -30,16 +29,7 @@ function RootLayout() {
         </div>
         <div className="pr-2">
           <NavBarItem path="/registration">
-            <ImageTitleNavBar
-              path="/registration"
-              Image={
-                <img
-                  src={PreferencesSvg}
-                  alt="registration"
-                  className="h-8 w-auto"
-                />
-              }
-            />
+            <ImageTitleNavBar path="/registration" />
           </NavBarItem>
         </div>
       </div>
