@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { info } from 'console';
+import { info } from 'electron-log';
 import { Button } from './components/ui/button';
 // import { Button } from './components/ui/button';
 
