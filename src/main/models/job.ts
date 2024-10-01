@@ -9,6 +9,10 @@ import {
 } from 'sequelize';
 import MLModel from './ml-model';
 
+export type Inputs = { path: string; [key: string]: string }[];
+export type Outputs = { path: string; [key: string]: string }[];
+export type Parameters = { [key: string]: any }[];
+
 export enum JobStatus {
   Running = 'Running',
   Completed = 'Completed',
@@ -27,13 +31,15 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
 
   declare status: JobStatus;
 
-  declare inputDir: string;
+  declare inputs: Inputs; // JSON string
 
-  declare outputDir: string;
+  declare outputs: Outputs; // JSON string
 
-  declare parameters: string; // JSON string
+  declare parameters: Parameters; // JSON string
 
   declare logOutput: string; // JSON string
+
+  declare response: CreationOptional<object>; // JSON string
 
   public static getAllJobs() {
     return Job.findAll();
@@ -59,19 +65,20 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
     uid: string,
     modelUid: string,
     startTime: Date,
-    inputDir: string,
-    outputDir: string,
-    parameters: string,
+    inputs: Inputs,
+    outputs: Outputs,
+    parameters: Parameters,
   ) {
     return Job.create({
       uid,
       modelUid,
       startTime,
-      inputDir,
-      outputDir,
+      inputs,
+      outputs,
       parameters,
       logOutput: '',
       status: JobStatus.Running,
+      response: undefined,
     });
   }
 
@@ -79,6 +86,19 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
     return Job.update(
       {
         status,
+      },
+      {
+        where: {
+          uid,
+        },
+      },
+    );
+  }
+
+  public static updateJobResponse(uid: string, response: object) {
+    return Job.update(
+      {
+        response,
       },
       {
         where: {
@@ -151,21 +171,55 @@ export const initJob = async (connection: Sequelize) => {
         type: DataTypes.ENUM(...Object.values(JobStatus)),
         allowNull: false,
       },
-      inputDir: {
-        type: DataTypes.STRING,
+      inputs: {
+        type: DataTypes.TEXT,
         allowNull: false,
+        get() {
+          return JSON.parse(this.getDataValue('inputs') as unknown as string);
+        },
+        set(value) {
+          // @ts-ignore
+          this.setDataValue('inputs', JSON.stringify(value));
+        },
       },
-      outputDir: {
-        type: DataTypes.STRING,
+      outputs: {
+        type: DataTypes.TEXT,
         allowNull: false,
+        get() {
+          return JSON.parse(this.getDataValue('outputs') as unknown as string);
+        },
+        set(value) {
+          // @ts-ignore
+          this.setDataValue('outputs', JSON.stringify(value));
+        },
       },
       parameters: {
         type: DataTypes.TEXT,
         allowNull: false,
+        get() {
+          return JSON.parse(
+            this.getDataValue('parameters') as unknown as string,
+          );
+        },
+        set(value) {
+          // @ts-ignore
+          this.setDataValue('parameters', JSON.stringify(value));
+        },
       },
       logOutput: {
         type: DataTypes.TEXT,
         allowNull: false,
+      },
+      response: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        get() {
+          return JSON.parse(this.getDataValue('response') as unknown as string);
+        },
+        set(value) {
+          // @ts-ignore
+          this.setDataValue('response', JSON.stringify(value));
+        },
       },
     },
     {
