@@ -12,11 +12,14 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from '@shadcn/components/ui/tooltip';
+import { Link, Route, Routes } from 'react-router-dom';
 import sampleModels from './sample_models.json';
-import ConnectDialog from './ConnectDialog';
 import { Model } from './Types';
 import { Button } from './components/ui/button';
 import DebugDisconnect from '../../assets/debug-disconnect.svg';
+import EditSvg from '../../assets/edit-3-svgrepo-com.svg';
+import SaveSvg from '../../assets/save.svg';
+import { Input } from './components/ui/input';
 
 function Registration() {
   return (
@@ -103,10 +106,68 @@ function Registration() {
                 .map((model: Model) => (
                   <TableRow key={model.uid} className="hover:bg-gray-50">
                     <TableCell className="pl-4">{model.name}</TableCell>
-                    <TableCell className="">{model.ip}</TableCell>
-                    <TableCell className="">{model.port}</TableCell>
                     <TableCell className="">
-                      <ConnectDialog />
+                      <Routes>
+                        <Route path="*" element={model.ip} />
+                        <Route
+                          path={`${model.uid}/edit`}
+                          element={
+                            <Input
+                              defaultValue={`${model.ip}`}
+                              className="text-md lg:text-l -translate-x-3.5"
+                            />
+                          }
+                        />
+                      </Routes>
+                    </TableCell>
+                    <TableCell className="">
+                      <Routes>
+                        <Route path="*" element={model.port} />
+                        <Route
+                          path={`${model.uid}/edit`}
+                          element={
+                            <Input
+                              defaultValue={`${model.port}`}
+                              className="text-md lg:text-l -translate-x-3"
+                            />
+                          }
+                        />
+                      </Routes>
+                    </TableCell>
+                    <TableCell className="">
+                      <div className="flex gap-2">
+                        <Button> Connect </Button>
+                        <Routes>
+                          <Route
+                            path={`${model.uid}/edit`}
+                            element={
+                              <Link to="/registration">
+                                <Button variant="outline" className="p-2">
+                                  <img
+                                    alt="edit"
+                                    src={SaveSvg}
+                                    className="size-6"
+                                  />
+                                </Button>
+                              </Link>
+                            }
+                          />
+                          <Route
+                            path="*"
+                            element={
+                              <Link to={`${model.uid}/edit`}>
+                                <Button variant="outline" className="p-2">
+                                  <img
+                                    alt="edit"
+                                    src={EditSvg}
+                                    className="size-6"
+                                  />
+                                </Button>
+                              </Link>
+                            }
+                          />
+                        </Routes>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

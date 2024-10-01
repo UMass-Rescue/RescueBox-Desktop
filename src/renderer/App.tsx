@@ -46,7 +46,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<RootLayout />}>
           <Route index element={<Navigate to="/registration" replace />} />
-          <Route path="/registration" element={<Registration />} />
+          <Route path="/registration/*" element={<Registration />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/models" element={<Models />} />
           <Route path="/model-details" element={<ModelDetails />} />
