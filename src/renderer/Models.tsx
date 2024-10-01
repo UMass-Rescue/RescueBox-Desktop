@@ -58,21 +58,14 @@ function Models() {
                   </Link>
                 </TableCell>
                 <TableCell className="text-left">
-                  <TooltipProvider>
-                    {/* <Button
-                        model.status === 'Online'
-                          ? 'bg-green-600 hover:bg-green-500'
-                          : ''
-                      }`}
-                    > */}
+                  <TooltipProvider delayDuration={100}>
                     {model.status === 'Online' && (
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Link
-                            to={`/models/${model.uid}/run`}
-                            className="text-black text-base w-full font-normal hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500"
-                          >
-                            <img src={RunSvg} alt="Run" className="w-6 h-6" />
+                          <Link to={`/models/${model.uid}/run`}>
+                            <Button className="text-black text-base w-full font-normal hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500">
+                              <img src={RunSvg} alt="Run" className="w-6 h-6" />{' '}
+                            </Button>
                           </Link>
                         </TooltipTrigger>
                         <TooltipContent side="bottom">
@@ -84,11 +77,13 @@ function Models() {
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <Link to="/registration">
-                            <img
-                              src={ConnectSvg}
-                              alt="Run"
-                              className="w-6 h-6 -rotate-45"
-                            />
+                            <Button className="text-black text-base w-full font-normal hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-slate-300 hover:bg-slate-200">
+                              <img
+                                src={ConnectSvg}
+                                alt="Run"
+                                className="w-6 h-6 -rotate-45"
+                              />
+                            </Button>
                           </Link>
                         </TooltipTrigger>
                         <TooltipContent side="bottom">

@@ -59,10 +59,10 @@ function Registration() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <TooltipProvider>
+                      <TooltipProvider delayDuration={100}>
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <Button variant="outline">
+                            <Button className="bg-red-600">
                               <img
                                 alt="disconnect"
                                 src={DebugDisconnect}
