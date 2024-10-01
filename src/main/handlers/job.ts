@@ -1,11 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
-import Job, { JobStatus } from '../models/job';
+import Job, { Inputs, JobStatus, Outputs, Parameters } from '../models/job';
+import { getServiceByModelUid } from '../model-apps/config';
+import ModelServer from '../models/model-server';
 
 export type CreateJobArgs = {
   modelUid: string;
-  inputDir: string;
-  outputDir: string;
-  parameters: string;
+  inputs: Inputs;
+  outputs: Outputs;
+  parameters: Parameters;
 };
 
 export type JobByIdArgs = {
@@ -20,41 +22,103 @@ const getJobs = async (_event: any, _arg: any) => {
       modelUid: 'model-a1b2c3d4',
       startTime: new Date('2023-10-26T10:00:00Z'),
       endTime: new Date('2023-10-26T10:30:00Z'),
-      inputDir: 'C:/Users/JohnDoe/imgs_input',
-      outputDir: 'C:/Users/JohnDoe/imgs_output',
-      parameters: '{"epochs": 10, "batch_size": 32}',
+      parameters: [
+        {
+          epoch: 10,
+          batch_size: 32,
+        },
+      ],
+      inputs: [
+        {
+          name: 'input1',
+          path: 'C:/Users/JohnDoe/input1',
+        },
+      ],
+      outputs: [
+        {
+          name: 'output1',
+          path: 'C:/Users/JohnDoe/output1',
+        },
+      ],
       logOutput: '[INFO] Job completed successfully.',
       status: JobStatus.Completed,
     },
     {
-      uid: 'job-e5f6g7h8',
-      modelUid: 'model-e5f6g7h8',
-      startTime: new Date('2023-10-25T15:30:00Z'),
-      endTime: new Date('2023-10-25T16:00:00Z'),
-      inputDir: 'C:/Users/JaneSmith/sentences_input',
-      outputDir: 'C:/Users/JaneSmith/sentences_output',
-      parameters: '{"vocab_size": 10000, "embedding_dim": 300}',
+      uid: 'job-a1b2c3d4',
+      modelUid: 'model-a1b2c3d4',
+      startTime: new Date('2023-10-26T10:00:00Z'),
+      endTime: new Date('2023-10-26T10:30:00Z'),
+      parameters: [
+        {
+          epoch: 10,
+          batch_size: 32,
+        },
+      ],
+      inputs: [
+        {
+          name: 'input1',
+          path: 'C:/Users/JohnDoe/input1',
+        },
+      ],
+      outputs: [
+        {
+          name: 'output1',
+          path: 'C:/Users/JohnDoe/output1',
+        },
+      ],
       logOutput: '[INFO] Job completed successfully.',
       status: JobStatus.Completed,
     },
     {
-      uid: 'job-i9j0k1l2',
-      modelUid: 'model-i9j0k1l2',
-      startTime: new Date('2023-10-24T08:00:00Z'),
-      inputDir: 'C:/Users/DavidLee/data_input',
-      outputDir: 'C:/Users/DavidLee/data_output',
-      parameters: '{"threshold": 0.9, "max_features": 100}',
-      logOutput: '[INFO] Job currently running...',
+      uid: 'job-a1b2c3d4',
+      modelUid: 'model-a1b2c3d4',
+      startTime: new Date('2023-10-26T10:00:00Z'),
+      endTime: new Date('2023-10-26T10:30:00Z'),
+      parameters: [
+        {
+          epoch: 10,
+          batch_size: 32,
+        },
+      ],
+      inputs: [
+        {
+          name: 'input1',
+          path: 'C:/Users/JohnDoe/input1',
+        },
+      ],
+      outputs: [
+        {
+          name: 'output1',
+          path: 'C:/Users/JohnDoe/output1',
+        },
+      ],
+      logOutput: '[INFO] Job completed successfully.',
       status: JobStatus.Running,
     },
     {
-      uid: 'job-m3n4o5p6',
-      modelUid: 'model-e5f6g7h8',
-      startTime: new Date('2023-10-23T12:00:00Z'),
-      inputDir: 'C:/Users/JaneSmith/sentenes_input',
-      outputDir: 'C:/Users/JaneSmith/sentences_output',
-      parameters: '{"vocab_size": 5000, "embedding_dim": 200}',
-      logOutput: '[ERROR] Job failed. Invalid input directory.',
+      uid: 'job-a1b2c3d4',
+      modelUid: 'model-a1b2c3d4',
+      startTime: new Date('2023-10-26T10:00:00Z'),
+      endTime: new Date('2023-10-26T10:30:00Z'),
+      parameters: [
+        {
+          epoch: 10,
+          batch_size: 32,
+        },
+      ],
+      inputs: [
+        {
+          name: 'input1',
+          path: 'C:/Users/JohnDoe/input1',
+        },
+      ],
+      outputs: [
+        {
+          name: 'output1',
+          path: 'C:/Users/JohnDoe/output1',
+        },
+      ],
+      logOutput: '[INFO] Job completed successfully.',
       status: JobStatus.Failed,
     },
   ];
@@ -68,8 +132,8 @@ const getJobs = async (_event: any, _arg: any) => {
           job.uid,
           job.modelUid,
           job.startTime,
-          job.inputDir,
-          job.outputDir,
+          job.inputs,
+          job.outputs,
           job.parameters,
         );
       });
@@ -79,16 +143,34 @@ const getJobs = async (_event: any, _arg: any) => {
 };
 
 const createJob = async (_event: any, arg: CreateJobArgs) => {
-  // TODO: Handle FlaskML model invocation here or elsewhere
   const uid = uuidv4();
+  const service = getServiceByModelUid(arg.modelUid);
+  const server = await ModelServer.getServerByModelUid(arg.modelUid);
+  if (!server) {
+    throw new Error(`Server not found for model ${arg.modelUid}`);
+  }
+  const job = service.runInference({ ...arg, server });
   await Job.createJob(
     uid,
     arg.modelUid,
     new Date(),
-    arg.inputDir,
-    arg.outputDir,
+    arg.inputs,
+    arg.outputs,
     arg.parameters,
   );
+  job
+    .then((result) => {
+      Job.updateJobEndTime(uid, new Date());
+      Job.updateJobStatus(uid, JobStatus.Completed);
+      Job.updateJobResponse(uid, result);
+      return null;
+    })
+    .catch((err) => {
+      Job.updateJobEndTime(uid, new Date());
+      Job.updateJobStatus(uid, JobStatus.Failed);
+      Job.updateJobLogOutput(uid, err.message);
+      return null;
+    });
   return Job.getJobByUid(uid);
 };
 

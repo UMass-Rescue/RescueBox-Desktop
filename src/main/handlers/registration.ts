@@ -34,6 +34,7 @@ const registerModelAppIp = async (event: any, arg: RegisterModelArgs) => {
 const unregisterModelAppIp = async (event: any, arg: UnregisterModelArgs) => {
   return ModelServer.deleteServer(arg.modelUid);
 };
+
 const getModelAppStatus = async (
   _event: any,
   _arg: GetModelAppStatusArgs,
