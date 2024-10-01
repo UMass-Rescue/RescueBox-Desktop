@@ -1,4 +1,12 @@
 import { Link } from 'react-router-dom';
+import RunSvg from 'assets/run-svgrepo-com.svg';
+import ConnectSvg from 'assets/connect-svgrepo-com.svg';
+import {
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from '@shadcn/components/ui/tooltip';
 import sampleModels from './sample_models.json';
 import {
   Table,
@@ -49,17 +57,47 @@ function Models() {
                   </Button>
                 </TableCell>
                 <TableCell className="text-left">
-                  <Button
-                    className={`text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-6 rounded-lg ${
-                      model.status !== 'Online'
-                        ? 'pointer-events-none opacity-50'
-                        : ''
-                    }`}
-                  >
-                    <Link to="/model-run" state={{ modelUid: model.uid }}>
-                      Run
-                    </Link>
-                  </Button>
+                  <TooltipProvider>
+                    <Button
+                      className={`text-black text-base w-full font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-6 rounded-lg ${
+                        model.status === 'Online'
+                          ? 'bg-green-600 hover:bg-green-500'
+                          : ''
+                      }`}
+                    >
+                      {model.status === 'Online' && (
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Link
+                              to="/model-run"
+                              state={{ modelUid: model.uid }}
+                            >
+                              <img src={RunSvg} alt="Run" className="w-6 h-6" />
+                            </Link>
+                          </TooltipTrigger>
+                          <TooltipContent side="bottom">
+                            <p>Run</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      )}
+                      {model.status === 'Offline' && (
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Link to="/registration">
+                              <img
+                                src={ConnectSvg}
+                                alt="Run"
+                                className="w-6 h-6 -rotate-45"
+                              />
+                            </Link>
+                          </TooltipTrigger>
+                          <TooltipContent side="bottom">
+                            <p>Connect</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      )}
+                    </Button>
+                  </TooltipProvider>
                 </TableCell>
               </TableRow>
             ))}
