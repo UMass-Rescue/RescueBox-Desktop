@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 
 import './App.css';
+import PreferencesSvg from 'assets/preferences-svgrepo-com.svg';
 import Jobs from './Jobs';
 import Models from './Models';
 import NavBar from './NavBar';
@@ -17,25 +18,38 @@ import ModelRun from './ModelRun';
 import JobViewLayout from './JobViewLayout';
 import JobViewDetails from './JobViewDetails';
 import JobViewOutputs from './JobViewOutputs';
+import { ImageTitleNavBar, NavBarItem } from './NavBarItem';
 
 function RootLayout() {
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="title-bar bg-gray-700 h-[30.4px]" />
-      <div className="flex flex-row border-b-2 border-black bg-gray-300">
+      <div className="title-bar bg-gray-700 h-[30.4px] top-0 sticky z-10" />
+      <div className="flex flex-row bg-gray-100 pt-2">
         <div className="flex-grow items-center flex">
           <NavBar />
         </div>
-        <h1 className="p-3 m-3 flex-grow-0 flex items-center justify-center text-lg md:text-2xl lg:text-3xl font-bold">
-          RescueBox
-        </h1>
+        <div className="pr-2">
+          <NavBarItem path="/registration">
+            <ImageTitleNavBar
+              path="/registration"
+              Image={
+                <img
+                  src={PreferencesSvg}
+                  alt="registration"
+                  className="h-8 w-auto"
+                />
+              }
+            />
+          </NavBarItem>
+        </div>
       </div>
+      <hr className="h-[0.75px] border-t-0 bg-gray-300 dark:bg-white/10" />
       <div className="flex-1 bg-gray-100 pt-2">
         <div className="mx-4">
           <Outlet />
         </div>
       </div>
-      <div className="bottom-0 sticky bg-gray-700 text-gray-50 h-4" />
+      <div className="bottom-0 sticky z-10 bg-gray-700 text-gray-50 h-4" />
     </div>
   );
 }
