@@ -7,6 +7,7 @@ module.exports = {
     './src/renderer/App.tsx',
     './src/renderer/**/*.{js,jsx,ts,tsx}',
     './src/renderer/components**/*.{js,jsx,ts,tsx}',
+    './src/renderer/components/ui/*.{js,jsx,ts,tsx}',
   ],
   theme: {
     container: {
@@ -76,5 +77,6 @@ module.exports = {
       },
     },
   },
-  plugins: [import('tailwindcss-animate')],
+  // eslint-disable-next-line global-require
+  plugins: [require('tailwindcss-animate')],
 };

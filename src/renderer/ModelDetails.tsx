@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import { info } from 'console';
 import { Button } from './components/ui/button';
 // import { Button } from './components/ui/button';
 
@@ -7,7 +8,7 @@ function ModelDetails() {
   const { modelUid } = locationState;
 
   // here for now to remove warning
-  console.log(modelUid);
+  info(modelUid);
   // Fetch this data later
   const modelVersion = '1.0.0';
   const modelAuthor = 'John Doe';

@@ -6,9 +6,17 @@ import {
   TableHeader,
   TableRow,
 } from '@shadcn/components/ui/table';
+import {
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from '@shadcn/components/ui/tooltip';
 import sampleModels from './sample_models.json';
 import ConnectDialog from './ConnectDialog';
 import { Model } from './Types';
+import { Button } from './components/ui/button';
+import DebugDisconnect from '../../assets/debug-disconnect.svg';
 
 function Registration() {
   return (
@@ -29,6 +37,7 @@ function Registration() {
                 </TableHead>
                 <TableHead className="w-1/5 text-gray-900">Port</TableHead>
                 <TableHead className="text-gray-900">Status</TableHead>
+                <TableHead className="text-gray-900">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -45,6 +54,24 @@ function Registration() {
                           {model.status}
                         </h1>
                       </div>
+                    </TableCell>
+                    <TableCell>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button variant="outline">
+                              <img
+                                alt="disconnect"
+                                src={DebugDisconnect}
+                                className="size-6"
+                              />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent side="bottom">
+                            <p>Disconnect</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </TableCell>
                   </TableRow>
                 ))}
