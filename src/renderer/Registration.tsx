@@ -79,7 +79,9 @@ function Registration() {
                     <TableCell className="">{model.ip}</TableCell>
                     <TableCell className="">{model.port}</TableCell>
                     <TableCell className="">
-                      <ConnectDialog />
+                      <ConnectDialog
+                        defaultValue={`${model.ip}:${model.port}`}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
