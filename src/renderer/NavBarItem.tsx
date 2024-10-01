@@ -10,11 +10,8 @@ export function RegularTitleNavBar({
   name: string;
 }) {
   return (
-    <span
-      key={path}
-      className="relative text-sm md:text-base lg:text-lg xl:text-xl font-bold"
-    >
-      <span className="absolute hidden group-[.is-active]:block -bottom-3 sm:-bottom-3 lg:-bottom-2 inset-x-0 bg-sky-500 h-0.5 rounded-full transition-opacity duration-150" />
+    <span key={path} className="relative sm:text-lg lg:text-xl font-bold">
+      <span className="absolute hidden group-[.is-active]:block -bottom-3 sm:-bottom-3 lg:-bottom-3 inset-x-0 bg-sky-500 h-0.5 rounded-full transition-opacity duration-150" />
       {name}
     </span>
   );
@@ -28,10 +25,7 @@ export function ImageTitleNavBar({
   Image: ReactNode;
 }) {
   return (
-    <span
-      key={path}
-      className="relative text-sm md:text-base lg:text-lg xl:text-xl font-bold"
-    >
+    <span key={path} className="relative sm:text-lg lg:text-xl font-bold">
       <span className="absolute hidden group-[.is-active]:block -bottom-2 inset-x-0 bg-sky-500 h-0.5 rounded-full transition-opacity duration-150" />
       {Image}
     </span>
