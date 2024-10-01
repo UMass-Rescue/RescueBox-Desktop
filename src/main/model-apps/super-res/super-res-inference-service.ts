@@ -1,15 +1,15 @@
-import log from 'electron-log';
+// import log from 'electron-log';
 import InferenceService, { InferenceArgs } from '../inference-service';
 
 class SuperResInferenceService implements InferenceService {
   // eslint-disable-next-line class-methods-use-this
   public async runInference(args: InferenceArgs): Promise<object> {
-    const { serverAddress, serverPort } = args.server;
-    const body = {
-      inputDir: args.inputs[0].path,
-      outputDir: args.outputs[0].path,
-      parameters: args.parameters,
-    };
+    // const { serverAddress, serverPort } = args.server;
+    // const body = {
+    //   inputDir: args.inputs[0].path,
+    //   outputDir: args.outputs[0].path,
+    //   parameters: args.parameters,
+    // };
 
     // return fetch(`http://${serverAddress}:${serverPort}/run-inference`, {
     //   method: 'POST',
