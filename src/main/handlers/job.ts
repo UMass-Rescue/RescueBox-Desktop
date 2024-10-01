@@ -78,7 +78,6 @@ const getJobs = async (_event: any, _arg: any) => {
   return Job.findAll({ raw: true });
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const createJob = async (_event: any, arg: CreateJobArgs) => {
   // TODO: Handle FlaskML model invocation here or elsewhere
   const uid = uuidv4();
@@ -93,6 +92,12 @@ const createJob = async (_event: any, arg: CreateJobArgs) => {
   return Job.getJobByUid(uid);
 };
 
+const completeJob = async (_event: any, arg: JobByIdArgs) => {
+  await Job.updateJobEndTime(arg.uid, new Date());
+  await Job.updateJobStatus(arg.uid, JobStatus.Completed);
+  return Job.getJobByUid(arg.uid);
+};
+
 const getJobById = async (_event: any, arg: JobByIdArgs) => {
   return Job.getJobByUid(arg.uid);
 };
@@ -101,4 +106,4 @@ const deleteJobById = async (_event: any, arg: JobByIdArgs) => {
   return Job.deleteJob(arg.uid);
 };
 
-export { getJobs, createJob, getJobById, deleteJobById };
+export { getJobs, createJob, completeJob, getJobById, deleteJobById };
