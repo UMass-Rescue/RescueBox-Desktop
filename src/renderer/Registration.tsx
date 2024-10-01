@@ -17,6 +17,7 @@ import ConnectDialog from './ConnectDialog';
 import { Model } from './Types';
 import { Button } from './components/ui/button';
 import DebugDisconnect from '../../assets/debug-disconnect.svg';
+import { GreenCircleIcon, RedCircleIcon } from './components/CircleIcons';
 
 function Registration() {
   return (
@@ -49,17 +50,19 @@ function Registration() {
                     <TableCell className="">{model.ip}</TableCell>
                     <TableCell className="">{model.port}</TableCell>
                     <TableCell className="">
-                      <div className="">
-                        <h1 className="w-min py-1 px-2 bg-green-500 text-gray-900 rounded-lg text-right hover:bg-green-400 transition-all cursor-default text-base">
-                          {model.status}
-                        </h1>
+                      <div className="pl-4">
+                        {model.status === 'Online' ? (
+                          <GreenCircleIcon />
+                        ) : (
+                          <RedCircleIcon />
+                        )}
                       </div>
                     </TableCell>
                     <TableCell>
-                      <TooltipProvider>
+                      <TooltipProvider delayDuration={100}>
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <Button variant="outline">
+                            <Button className="bg-red-600">
                               <img
                                 alt="disconnect"
                                 src={DebugDisconnect}

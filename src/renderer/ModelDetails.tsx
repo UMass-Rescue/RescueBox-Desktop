@@ -1,10 +1,9 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button } from './components/ui/button';
 // import { Button } from './components/ui/button';
 
 function ModelDetails() {
-  const locationState = useLocation().state;
-  const { modelUid } = locationState;
+  const { modelUid } = useParams();
 
   // here for now to remove warning
   console.log(modelUid);
