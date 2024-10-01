@@ -23,7 +23,7 @@ function RootLayout() {
   return (
     <div className="flex flex-col min-h-screen">
       <div className="title-bar bg-gray-700 h-[30.4px] top-0 sticky z-10" />
-      <div className="flex flex-row bg-gray-100 pt-2">
+      <div className="flex flex-row bg-gray-100 pt-1">
         <div className="flex-grow items-center flex">
           <NavBar />
         </div>
