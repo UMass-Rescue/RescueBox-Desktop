@@ -3,6 +3,10 @@ import { error, log } from 'electron-log';
 import Job, { Inputs, JobStatus, Outputs, Parameters } from '../models/job';
 import { getServiceByModelUid } from '../model-apps/config';
 import ModelServer from '../models/model-server';
+import {
+  ErrorResponse,
+  SuccessResponse,
+} from '../model-apps/inference-service';
 
 export type CreateJobArgs = {
   modelUid: string;
@@ -17,112 +21,7 @@ export type JobByIdArgs = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getJobs = async (_event: any, _arg: any) => {
-  const jobs = [
-    {
-      uid: 'job-a1b2c3d4',
-      modelUid: 'model-a1b2c3d4',
-      startTime: new Date('2023-10-26T10:00:00Z'),
-      endTime: new Date('2023-10-26T10:30:00Z'),
-      parameters: [
-        {
-          epoch: 10,
-          batch_size: 32,
-        },
-      ],
-      inputs: [
-        {
-          name: 'input1',
-          path: 'C:/Users/JohnDoe/input1',
-        },
-      ],
-      outputs: [
-        {
-          name: 'output1',
-          path: 'C:/Users/JohnDoe/output1',
-        },
-      ],
-      logOutput: '[INFO] Job completed successfully.',
-      status: JobStatus.Completed,
-    },
-    {
-      uid: 'job-a1b2c3d4',
-      modelUid: 'model-a1b2c3d4',
-      startTime: new Date('2023-10-26T10:00:00Z'),
-      endTime: new Date('2023-10-26T10:30:00Z'),
-      parameters: [
-        {
-          epoch: 10,
-          batch_size: 32,
-        },
-      ],
-      inputs: [
-        {
-          name: 'input1',
-          path: 'C:/Users/JohnDoe/input1',
-        },
-      ],
-      outputs: [
-        {
-          name: 'output1',
-          path: 'C:/Users/JohnDoe/output1',
-        },
-      ],
-      logOutput: '[INFO] Job completed successfully.',
-      status: JobStatus.Completed,
-    },
-    {
-      uid: 'job-a1b2c3d4',
-      modelUid: 'model-a1b2c3d4',
-      startTime: new Date('2023-10-26T10:00:00Z'),
-      endTime: new Date('2023-10-26T10:30:00Z'),
-      parameters: [
-        {
-          epoch: 10,
-          batch_size: 32,
-        },
-      ],
-      inputs: [
-        {
-          name: 'input1',
-          path: 'C:/Users/JohnDoe/input1',
-        },
-      ],
-      outputs: [
-        {
-          name: 'output1',
-          path: 'C:/Users/JohnDoe/output1',
-        },
-      ],
-      logOutput: '[INFO] Job completed successfully.',
-      status: JobStatus.Running,
-    },
-    {
-      uid: 'job-a1b2c3d4',
-      modelUid: 'model-a1b2c3d4',
-      startTime: new Date('2023-10-26T10:00:00Z'),
-      endTime: new Date('2023-10-26T10:30:00Z'),
-      parameters: [
-        {
-          epoch: 10,
-          batch_size: 32,
-        },
-      ],
-      inputs: [
-        {
-          name: 'input1',
-          path: 'C:/Users/JohnDoe/input1',
-        },
-      ],
-      outputs: [
-        {
-          name: 'output1',
-          path: 'C:/Users/JohnDoe/output1',
-        },
-      ],
-      logOutput: '[INFO] Job completed successfully.',
-      status: JobStatus.Failed,
-    },
-  ];
+  const jobs: Job[] = [];
   await Promise.all(
     jobs.map(async (job) => {
       await Job.getJobByUid(job.uid).then((prevJob) => {
@@ -148,9 +47,12 @@ const createJob = async (_event: any, arg: CreateJobArgs) => {
   const uid = uuidv4();
   const service = getServiceByModelUid(arg.modelUid);
   const server = await ModelServer.getServerByModelUid(arg.modelUid);
+  log(`Getting server for model ${arg.modelUid}`);
   if (!server) {
     throw new Error(`Server not found for model ${arg.modelUid}`);
   }
+
+  log('Trying to create a job in the Job model');
 
   // Create a job in the database
   try {
@@ -172,21 +74,38 @@ const createJob = async (_event: any, arg: CreateJobArgs) => {
 
   // Call the inference service for the particular model,
   // and update the job status after a reply is received
+  log('Calling inference service');
   service
     .runInference({ ...arg, server })
-    .then((result) => {
-      const time = new Date();
-      Job.updateJobEndTime(uid, time);
-      Job.updateJobStatus(uid, JobStatus.Completed);
-      Job.updateJobResponse(uid, result);
-      return null;
+    .then(async (response: SuccessResponse | ErrorResponse) => {
+      if (response instanceof SuccessResponse) {
+        const time = new Date();
+        log('Inference service returned successfully');
+        log('Updating job status and response and end time');
+        await Job.updateJobEndTime(uid, time);
+        await Job.updateJobStatus(uid, JobStatus.Completed);
+        await Job.updateJobResponse(uid, response.data);
+        return null;
+      }
+      if (response instanceof ErrorResponse) {
+        log('Inference service failed, received ErrorResponse');
+        log('Updating job status and log output');
+        await Job.updateJobEndTime(uid, new Date());
+        await Job.updateJobStatus(uid, JobStatus.Failed);
+        await Job.updateJobResponse(uid, response.error);
+        return null;
+      }
+      throw new Error('FATAL: Invalid response type');
     })
-    .catch((err) => {
-      Job.updateJobEndTime(uid, new Date());
-      Job.updateJobStatus(uid, JobStatus.Failed);
-      Job.updateJobLogOutput(uid, err.message);
+    .catch(async (err) => {
+      log('Inference service failed, request failed');
+      log('Updating job status and log output');
+      await Job.updateJobEndTime(uid, new Date());
+      await Job.updateJobStatus(uid, JobStatus.Failed);
+      await Job.updateJobStatusText(uid, err.message);
       return null;
     });
+  log('Job model created successfully, returning Job.getJobByUid(uid)');
   return Job.getJobByUid(uid);
 };
 

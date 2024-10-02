@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import { Inputs, Outputs, Parameters } from '../models/job';
 
 type ModelServerInfo = {
@@ -12,35 +13,24 @@ type InferenceArgs = {
   server: ModelServerInfo;
 };
 
-export default interface InferenceService {
-  runInference(args: InferenceArgs): Promise<object>;
+export class SuccessResponse {
+  data: object;
+
+  constructor(data: object) {
+    this.data = data;
+  }
 }
 
-// export class RunningJobs {
-//   // eslint-disable-next-line no-use-before-define
-//   static #instance: RunningJobs = new RunningJobs();
+export class ErrorResponse {
+  error: object[];
 
-//   #jobs: { [key: string]: Promise<any> } = {};
+  constructor(error: object[]) {
+    this.error = error;
+  }
+}
 
-//   static getInstance() {
-//     // eslint-disable-next-line no-use-before-define
-//     if (!RunningJobs.#instance) {
-//       RunningJobs.#instance = new RunningJobs();
-//     }
-//     return RunningJobs.#instance;
-//   }
-
-//   addJob(uid: string, job: Promise<any>) {
-//     this.#jobs[uid] = job;
-//   }
-
-//   getJobById(uid: string) {
-//     return this.#jobs[uid];
-//   }
-
-//   deleteJob(uid: string) {
-//     delete this.#jobs[uid];
-//   }
-// }
+export default interface InferenceService {
+  runInference(args: InferenceArgs): Promise<SuccessResponse | ErrorResponse>;
+}
 
 export { InferenceArgs, ModelServerInfo };

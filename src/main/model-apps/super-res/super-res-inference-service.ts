@@ -1,9 +1,16 @@
 // import log from 'electron-log';
-import InferenceService, { InferenceArgs } from '../inference-service';
+import InferenceService, {
+  ErrorResponse,
+  InferenceArgs,
+  SuccessResponse,
+} from '../inference-service';
 
 class SuperResInferenceService implements InferenceService {
   // eslint-disable-next-line class-methods-use-this
-  public async runInference(args: InferenceArgs): Promise<object> {
+  public async runInference(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    args: InferenceArgs,
+  ): Promise<SuccessResponse | ErrorResponse> {
     // const { serverAddress, serverPort } = args.server;
     // const body = {
     //   inputDir: args.inputs[0].path,
@@ -28,10 +35,13 @@ class SuperResInferenceService implements InferenceService {
     //   return res.json();
     // });
     return new Promise((resolve) => {
-      resolve({
-        status: 'success',
-        outputDir: args.outputs[0].path,
-      });
+      setTimeout(() => {
+        resolve(
+          new SuccessResponse({
+            output: 'SuperSmashingGreat!',
+          }),
+        );
+      }, 10_000);
     });
   }
 }

@@ -9,8 +9,8 @@ import {
 } from 'sequelize';
 import MLModel from './ml-model';
 
-export type Inputs = { path: string; [key: string]: string }[];
-export type Outputs = { path: string; [key: string]: string }[];
+export type Inputs = { path: string; path_type: string }[];
+export type Outputs = { path: string; path_type: string }[];
 export type Parameters = { [key: string]: any }[];
 
 export enum JobStatus {
@@ -31,13 +31,13 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
 
   declare status: JobStatus;
 
+  declare statusText: CreationOptional<string>;
+
   declare inputs: Inputs; // JSON string
 
   declare outputs: Outputs; // JSON string
 
   declare parameters: Parameters; // JSON string
-
-  declare logOutput: string; // JSON string
 
   declare response: CreationOptional<object>; // JSON string
 
@@ -76,62 +76,45 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
       inputs,
       outputs,
       parameters,
-      logOutput: '',
       status: JobStatus.Running,
       response: undefined,
     });
   }
 
-  public static updateJobStatus(uid: string, status: JobStatus) {
-    return Job.update(
-      {
-        status,
-      },
-      {
-        where: {
-          uid,
-        },
-      },
-    );
+  public static async updateJobStatus(uid: string, status: JobStatus) {
+    const job = await Job.findByPk(uid);
+    if (!job) {
+      throw new Error(`Job with uid ${uid} not found`);
+    }
+    job.status = status;
+    return job.save();
   }
 
-  public static updateJobResponse(uid: string, response: object) {
-    return Job.update(
-      {
-        response,
-      },
-      {
-        where: {
-          uid,
-        },
-      },
-    );
+  public static async updateJobStatusText(uid: string, statusText: string) {
+    const job = await Job.findByPk(uid);
+    if (!job) {
+      throw new Error(`Job with uid ${uid} not found`);
+    }
+    job.statusText = statusText;
+    return job.save();
   }
 
-  public static updateJobEndTime(uid: string, endTime: Date) {
-    return Job.update(
-      {
-        endTime,
-      },
-      {
-        where: {
-          uid,
-        },
-      },
-    );
+  public static async updateJobResponse(uid: string, response: object) {
+    const job = await Job.findByPk(uid);
+    if (!job) {
+      throw new Error(`Job with uid ${uid} not found`);
+    }
+    job.response = response;
+    return job.save();
   }
 
-  public static updateJobLogOutput(uid: string, logOutput: string) {
-    return Job.update(
-      {
-        logOutput,
-      },
-      {
-        where: {
-          uid,
-        },
-      },
-    );
+  public static async updateJobEndTime(uid: string, endTime: Date) {
+    const job = await Job.findByPk(uid);
+    if (!job) {
+      throw new Error(`Job with uid ${uid} not found`);
+    }
+    job.endTime = endTime;
+    return job.save();
   }
 
   public static deleteJob(uid: string) {
@@ -171,6 +154,10 @@ export const initJob = async (connection: Sequelize) => {
         type: DataTypes.ENUM(...Object.values(JobStatus)),
         allowNull: false,
       },
+      statusText: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       inputs: {
         type: DataTypes.TEXT,
         allowNull: false,
@@ -178,8 +165,7 @@ export const initJob = async (connection: Sequelize) => {
           return JSON.parse(this.getDataValue('inputs') as unknown as string);
         },
         set(value) {
-          // @ts-ignore
-          this.setDataValue('inputs', JSON.stringify(value));
+          this.setDataValue('inputs', JSON.stringify(value) as any);
         },
       },
       outputs: {
@@ -205,10 +191,6 @@ export const initJob = async (connection: Sequelize) => {
           // @ts-ignore
           this.setDataValue('parameters', JSON.stringify(value));
         },
-      },
-      logOutput: {
-        type: DataTypes.TEXT,
-        allowNull: false,
       },
       response: {
         type: DataTypes.TEXT,

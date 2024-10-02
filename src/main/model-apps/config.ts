@@ -16,7 +16,7 @@ export const SuperResolutionImageModel: ModelAppConfig = {
   version: '1.0.0',
   author: 'John Doe',
   lastUpdated: new Date('2023-10-26T10:00:00Z'),
-  service: (() => new SuperResInferenceService())(),
+  service: new SuperResInferenceService(),
 };
 
 export const modelAppConfigs: ModelAppConfig[] = [SuperResolutionImageModel];
