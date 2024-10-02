@@ -99,6 +99,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
       if (response instanceof SuccessResponse) {
         log('SuccessResponse: Updating job information.');
         completeJob({
+          uid,
           endTime: new Date(),
           status: JobStatus.Completed,
           response: response.data,
@@ -108,6 +109,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
       if (response instanceof ErrorResponse) {
         log('ErrorResponse: Updating job information.');
         completeJob({
+          uid,
           endTime: new Date(),
           status: JobStatus.Completed,
           response: response.error,
@@ -119,6 +121,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
     .catch(async (err) => {
       log('Request failed: Updating job information.');
       completeJob({
+        uid,
         status: JobStatus.Failed,
         endTime: new Date(),
         statusText: err.message,
