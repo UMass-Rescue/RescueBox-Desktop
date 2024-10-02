@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { error, log } from 'electron-log';
 import Job, { Inputs, JobStatus, Outputs, Parameters } from '../models/job';
 import { getServiceByModelUid } from '../model-apps/config';
 import ModelServer from '../models/model-server';
@@ -143,24 +144,39 @@ const getJobs = async (_event: any, _arg: any) => {
 };
 
 const createJob = async (_event: any, arg: CreateJobArgs) => {
+  // Setup job parameters
   const uid = uuidv4();
   const service = getServiceByModelUid(arg.modelUid);
   const server = await ModelServer.getServerByModelUid(arg.modelUid);
   if (!server) {
     throw new Error(`Server not found for model ${arg.modelUid}`);
   }
-  const job = service.runInference({ ...arg, server });
-  await Job.createJob(
-    uid,
-    arg.modelUid,
-    new Date(),
-    arg.inputs,
-    arg.outputs,
-    arg.parameters,
-  );
-  job
+
+  // Create a job in the database
+  try {
+    await Job.createJob(
+      uid,
+      arg.modelUid,
+      new Date(),
+      arg.inputs,
+      arg.outputs,
+      arg.parameters,
+    );
+  } catch (err) {
+    error(
+      `Encountered an error while creating job for model id ${arg.modelUid}`,
+    );
+    error('Error details:', err);
+    throw new Error('Error creating job');
+  }
+
+  // Call the inference service for the particular model,
+  // and update the job status after a reply is received
+  service
+    .runInference({ ...arg, server })
     .then((result) => {
-      Job.updateJobEndTime(uid, new Date());
+      const time = new Date();
+      Job.updateJobEndTime(uid, time);
       Job.updateJobStatus(uid, JobStatus.Completed);
       Job.updateJobResponse(uid, result);
       return null;
