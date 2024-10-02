@@ -8,7 +8,7 @@ import {
   CreationOptional,
   NonAttribute,
 } from '@sequelize/core';
-import Job from './job';
+import { Job } from './job';
 import ModelServer from './model-server';
 
 class MLModel extends Model<
@@ -38,7 +38,6 @@ class MLModel extends Model<
       where: {
         uid,
       },
-      raw: true,
     });
   }
 
@@ -49,16 +48,13 @@ class MLModel extends Model<
     author: string,
     lastUpdated: Date,
   ) {
-    return MLModel.create(
-      {
-        uid,
-        name,
-        version,
-        author,
-        lastUpdated,
-      },
-      { raw: true },
-    );
+    return MLModel.create({
+      uid,
+      name,
+      version,
+      author,
+      lastUpdated,
+    });
   }
 
   public static updateModel(
@@ -99,6 +95,8 @@ class MLModel extends Model<
 }
 
 export const initMLModel = async (connection: Sequelize) => {
+  MLModel.hasOne(ModelServer, { as: 'server', foreignKey: 'modelUid' });
+  MLModel.hasMany(Job, { as: 'jobs', foreignKey: 'modelUid' });
   MLModel.init(
     {
       uid: {

@@ -7,6 +7,7 @@ import {
   InferCreationAttributes,
   CreationOptional,
 } from '@sequelize/core';
+import MLModel from './ml-model';
 
 class ModelServer extends Model<
   InferAttributes<ModelServer>,
@@ -19,7 +20,7 @@ class ModelServer extends Model<
   declare serverPort: CreationOptional<number>;
 
   public static getAllServers() {
-    return ModelServer.findAll({ raw: true });
+    return ModelServer.findAll();
   }
 
   public static getServerByModelUid(modelUid: string) {
@@ -27,7 +28,6 @@ class ModelServer extends Model<
       where: {
         modelUid,
       },
-      raw: true,
     });
   }
 
@@ -46,7 +46,6 @@ class ModelServer extends Model<
         serverAddress,
         serverPort,
       },
-      raw: true,
     });
     return model;
   }
@@ -87,12 +86,17 @@ class ModelServer extends Model<
 }
 
 export const initModelServer = async (connection: Sequelize) => {
+  ModelServer.belongsTo(MLModel, { as: 'model', foreignKey: 'modelUid' });
   ModelServer.init(
     {
       modelUid: {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
+        references: {
+          model: MLModel,
+          key: 'uid',
+        },
       },
       serverAddress: {
         type: DataTypes.STRING,
