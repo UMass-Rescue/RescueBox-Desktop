@@ -1,22 +1,23 @@
 /* eslint-disable no-use-before-define */
 import {
+  Sequelize,
   DataTypes,
+  Model,
   InferAttributes,
   InferCreationAttributes,
-  Model,
-  Sequelize,
-} from 'sequelize';
+  CreationOptional,
+} from '@sequelize/core';
 import MLModel from './ml-model';
 
 class ModelServer extends Model<
   InferAttributes<ModelServer>,
   InferCreationAttributes<ModelServer>
 > {
-  declare serverAddress: string;
-
-  declare serverPort: number;
-
   declare modelUid: string;
+
+  declare serverAddress: CreationOptional<string>;
+
+  declare serverPort: CreationOptional<number>;
 
   public static getAllServers() {
     return ModelServer.findAll();
@@ -85,6 +86,7 @@ class ModelServer extends Model<
 }
 
 export const initModelServer = async (connection: Sequelize) => {
+  ModelServer.belongsTo(MLModel, { as: 'model', foreignKey: 'modelUid' });
   ModelServer.init(
     {
       modelUid: {
@@ -101,7 +103,7 @@ export const initModelServer = async (connection: Sequelize) => {
         allowNull: true,
       },
       serverPort: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: true,
       },
     },

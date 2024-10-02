@@ -1,12 +1,15 @@
 /* eslint-disable no-use-before-define */
 import {
-  CreationOptional,
+  Sequelize,
   DataTypes,
+  Model,
   InferAttributes,
   InferCreationAttributes,
-  Model,
-  Sequelize,
-} from 'sequelize';
+  CreationOptional,
+  NonAttribute,
+} from '@sequelize/core';
+import { Job } from './job';
+import ModelServer from './model-server';
 
 class MLModel extends Model<
   InferAttributes<MLModel>,
@@ -21,6 +24,10 @@ class MLModel extends Model<
   declare author: CreationOptional<string>;
 
   declare lastUpdated: Date;
+
+  declare server: NonAttribute<ModelServer | null>;
+
+  declare jobs: NonAttribute<Job[]>;
 
   public static getAllModels() {
     return MLModel.findAll();
@@ -88,6 +95,8 @@ class MLModel extends Model<
 }
 
 export const initMLModel = async (connection: Sequelize) => {
+  MLModel.hasOne(ModelServer, { as: 'server', foreignKey: 'modelUid' });
+  MLModel.hasMany(Job, { as: 'jobs', foreignKey: 'modelUid' });
   MLModel.init(
     {
       uid: {
