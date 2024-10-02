@@ -7,7 +7,7 @@ import {
   RegisterModelArgs,
   UnregisterModelArgs,
 } from './handlers/registration';
-import { CreateJobArgs, JobByIdArgs } from './handlers/job';
+import { RunJobArgs, JobByIdArgs } from './handlers/job';
 import { GetModelByIdArgs } from './handlers/models';
 import { OpenDirectoryArgs } from './handlers/file-system';
 import MLModel from './models/ml-model';
@@ -43,8 +43,8 @@ const jobHandler = {
   getJobs: () => ipcRenderer.invoke('job:get-jobs') as Promise<Job[]>,
   getJobById: (args: JobByIdArgs) =>
     ipcRenderer.invoke('job:get-job-by-id', args) as Promise<Job>,
-  createJob: (args: CreateJobArgs) =>
-    ipcRenderer.invoke('job:create-job', args) as Promise<Job>,
+  runJob: (args: RunJobArgs) =>
+    ipcRenderer.invoke('job:run-job', args) as Promise<Job>,
   completeJob: (args: JobByIdArgs) =>
     ipcRenderer.invoke('job:complete-job', args) as Promise<Job>,
   deleteJobById: (args: JobByIdArgs) =>

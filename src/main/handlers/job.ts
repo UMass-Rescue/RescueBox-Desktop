@@ -8,7 +8,7 @@ import {
   SuccessResponse,
 } from '../model-apps/inference-service';
 
-export type CreateJobArgs = {
+export type RunJobArgs = {
   modelUid: string;
   inputs: Inputs;
   outputs: Outputs;
@@ -42,7 +42,7 @@ const getJobs = async (_event: any, _arg: any) => {
   return Job.findAll({ raw: true });
 };
 
-const createJob = async (_event: any, arg: CreateJobArgs) => {
+const runJob = async (_event: any, arg: RunJobArgs) => {
   // Setup job parameters
   const uid = uuidv4();
   const service = getServiceByModelUid(arg.modelUid);
@@ -123,4 +123,4 @@ const deleteJobById = async (_event: any, arg: JobByIdArgs) => {
   return Job.deleteJob(arg.uid);
 };
 
-export { getJobs, createJob, completeJob, getJobById, deleteJobById };
+export { getJobs, runJob, completeJob, getJobById, deleteJobById };

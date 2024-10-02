@@ -41,7 +41,7 @@ class SuperResInferenceService implements InferenceService {
             output: 'SuperSmashingGreat!',
           }),
         );
-      }, 10_000);
+      }, 1000);
     });
   }
 }

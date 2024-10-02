@@ -54,7 +54,7 @@ function setupIpcMain() {
   // Job: handles creating jobs
   ipcMain.handle('job:get-jobs', job.getJobs);
   ipcMain.handle('job:get-job-by-id', job.getJobById);
-  ipcMain.handle('job:create-job', job.createJob);
+  ipcMain.handle('job:run-job', job.runJob);
   ipcMain.handle('job:complete-job', job.completeJob);
   ipcMain.handle('job:delete-job-by-id', job.deleteJobById);
 
