@@ -8,7 +8,6 @@ import {
   CreationOptional,
   ForeignKey,
 } from '@sequelize/core';
-import MLModel from './ml-model';
 
 export type Inputs = { path: string; [key: string]: string }[];
 export type Outputs = { path: string; [key: string]: string }[];
@@ -21,10 +20,7 @@ export enum JobStatus {
   Failed = 'Failed',
 }
 
-export class Job extends Model<
-  InferAttributes<Job>,
-  InferCreationAttributes<Job>
-> {
+class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
   declare uid: string;
 
   declare modelUid: ForeignKey<string>;
@@ -35,7 +31,15 @@ export class Job extends Model<
 
   declare status: JobStatus;
 
-  declare inputs: Inputs; // JSON string
+  get inputs(): Inputs {
+    console.log('using the getter', this.getDataValue('inputs'));
+    return JSON.parse(this.getDataValue('inputs') as unknown as string);
+  }
+
+  set inputs(value: Inputs) {
+    console.log('using the setter', value);
+    this.setDataValue('inputs', JSON.stringify(value) as any);
+  }
 
   declare outputs: Outputs; // JSON string
 
@@ -46,7 +50,7 @@ export class Job extends Model<
   declare response: CreationOptional<object>; // JSON string
 
   public static getAllJobs() {
-    return Job.findAll();
+    return Job.findAll({ raw: true });
   }
 
   public static getJobByStatus(status: JobStatus) {
@@ -54,6 +58,7 @@ export class Job extends Model<
       where: {
         status,
       },
+      raw: true,
     });
   }
 
@@ -62,6 +67,7 @@ export class Job extends Model<
       where: {
         uid,
       },
+      raw: true,
     });
   }
 
@@ -73,17 +79,20 @@ export class Job extends Model<
     outputs: Outputs,
     parameters: Parameters,
   ) {
-    return Job.create({
-      uid,
-      modelUid,
-      startTime,
-      inputs,
-      outputs,
-      parameters,
-      logOutput: '',
-      status: JobStatus.Running,
-      response: undefined,
-    });
+    return Job.create(
+      {
+        uid,
+        modelUid,
+        startTime,
+        inputs,
+        outputs,
+        parameters,
+        logOutput: '',
+        status: JobStatus.Running,
+        response: undefined,
+      },
+      { raw: true },
+    );
   }
 
   public static updateJobStatus(uid: string, status: JobStatus) {
@@ -158,10 +167,6 @@ export const initJob = async (connection: Sequelize) => {
       modelUid: {
         type: DataTypes.STRING,
         allowNull: false,
-        references: {
-          model: MLModel,
-          key: 'uid',
-        },
       },
       startTime: {
         type: DataTypes.DATE,
@@ -179,6 +184,7 @@ export const initJob = async (connection: Sequelize) => {
         type: DataTypes.TEXT,
         allowNull: false,
         get() {
+          console.log('using the getter', this.getDataValue('inputs'));
           return JSON.parse(this.getDataValue('inputs') as unknown as string);
         },
         set(value) {

@@ -18,7 +18,6 @@ export default class DatabaseConn {
       storage: dbPath,
       logging: false,
       foreignKeys: true,
-      models: [Job, MLModel, ModelServer],
     });
     this.db = new SQLiteDB(conn);
   }
