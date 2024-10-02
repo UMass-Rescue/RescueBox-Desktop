@@ -106,7 +106,11 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     titleBarStyle: 'hidden',
-    titleBarOverlay: true,
+    titleBarOverlay: {
+      color: '#374151',
+      symbolColor: '#ffffff',
+      height: 30,
+    },
     trafficLightPosition: {
       x: 10,
       y: 8,
