@@ -12,6 +12,8 @@ import sampleJobs from './sample_jobs.json';
 import sampleModels from './sample_models.json';
 import { getModelName } from './utils';
 import { Button } from './components/ui/button';
+import RedXIcon from './components/RedIcons';
+import GreenCheckIcon from './components/GreenCheck';
 
 // function getModelName(uid: string) {
 //   return sampleModels.find((model) => model.uid === uid)?.name;
@@ -40,7 +42,10 @@ function Jobs() {
             </TableHeader>
             <TableBody>
               {sampleJobs
-                ?.filter((job) => job.status !== 'Completed')
+                ?.filter(
+                  (job) =>
+                    job.status !== 'Completed' && job.status !== 'Failed',
+                )
                 .map((job) => (
                   <TableRow key={job.uid}>
                     <TableCell className="pl-4 w-1/3">
@@ -80,29 +85,36 @@ function Jobs() {
                 <TableHead className="pl-4 w-1/3 text-gray-900">
                   Model
                 </TableHead>
-                <TableHead className="w-1/6 text-gray-900">
-                  Start Time
-                </TableHead>
                 <TableHead className="w-1/6 text-gray-900">End Time</TableHead>
+                <TableHead className="w-1/6 text-gray-900 pl-4">
+                  Status
+                </TableHead>
                 <TableHead className="w-1/12" />
                 <TableHead className="w-1/12" />
               </TableRow>
             </TableHeader>
             <TableBody>
               {sampleJobs
-                ?.filter((job) => job.status === 'Completed')
+                ?.filter(
+                  (job) =>
+                    job.status === 'Completed' || job.status === 'Failed',
+                )
                 .map((job) => (
                   <TableRow key={job.uid}>
                     <TableCell className="pl-4 w-1/3">
                       {getModelName(sampleModels, job.modelUid)}
                     </TableCell>
                     <TableCell className="w-1/6">
-                      {format(new Date(job.startTime), 'dd/MM/yyyy HH:mm')}
-                    </TableCell>
-                    <TableCell className="w-1/6">
                       {job.endTime
                         ? format(new Date(job.endTime), 'dd/MM/yyyy HH:mm')
                         : 'N/A'}
+                    </TableCell>
+                    <TableCell className="w-1/6 pl-6">
+                      {job.status === 'Failed' ? (
+                        <RedXIcon />
+                      ) : (
+                        <GreenCheckIcon />
+                      )}
                     </TableCell>
                     <TableCell className="text-center w-1/12">
                       <Link
