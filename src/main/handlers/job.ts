@@ -1,63 +1,35 @@
 import { v4 as uuidv4 } from 'uuid';
-import Job, { JobStatus } from '../models/job';
+import { error, log } from 'electron-log';
+import Job, { Inputs, JobStatus, Outputs, Parameters } from '../models/job';
+import { getServiceByModelUid } from '../model-apps/config';
+import ModelServer from '../models/model-server';
+import {
+  ErrorResponse,
+  SuccessResponse,
+} from '../model-apps/inference-service';
 
-export type CreateJobArgs = {
+export type RunJobArgs = {
   modelUid: string;
-  inputDir: string;
-  outputDir: string;
-  parameters: string;
+  inputs: Inputs;
+  outputs: Outputs;
+  parameters: Parameters;
 };
 
 export type JobByIdArgs = {
   uid: string;
 };
 
+export type CompleteJobArgs = {
+  uid: string;
+  endTime: Date;
+  status: JobStatus;
+  response?: object;
+  statusText?: string;
+};
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getJobs = async (_event: any, _arg: any) => {
-  const jobs = [
-    {
-      uid: 'job-a1b2c3d4',
-      modelUid: 'model-a1b2c3d4',
-      startTime: new Date('2023-10-26T10:00:00Z'),
-      endTime: new Date('2023-10-26T10:30:00Z'),
-      inputDir: 'C:/Users/JohnDoe/imgs_input',
-      outputDir: 'C:/Users/JohnDoe/imgs_output',
-      parameters: '{"epochs": 10, "batch_size": 32}',
-      logOutput: '[INFO] Job completed successfully.',
-      status: JobStatus.Completed,
-    },
-    {
-      uid: 'job-e5f6g7h8',
-      modelUid: 'model-e5f6g7h8',
-      startTime: new Date('2023-10-25T15:30:00Z'),
-      endTime: new Date('2023-10-25T16:00:00Z'),
-      inputDir: 'C:/Users/JaneSmith/sentences_input',
-      outputDir: 'C:/Users/JaneSmith/sentences_output',
-      parameters: '{"vocab_size": 10000, "embedding_dim": 300}',
-      logOutput: '[INFO] Job completed successfully.',
-      status: JobStatus.Completed,
-    },
-    {
-      uid: 'job-i9j0k1l2',
-      modelUid: 'model-i9j0k1l2',
-      startTime: new Date('2023-10-24T08:00:00Z'),
-      inputDir: 'C:/Users/DavidLee/data_input',
-      outputDir: 'C:/Users/DavidLee/data_output',
-      parameters: '{"threshold": 0.9, "max_features": 100}',
-      logOutput: '[INFO] Job currently running...',
-      status: JobStatus.Running,
-    },
-    {
-      uid: 'job-m3n4o5p6',
-      modelUid: 'model-e5f6g7h8',
-      startTime: new Date('2023-10-23T12:00:00Z'),
-      inputDir: 'C:/Users/JaneSmith/sentenes_input',
-      outputDir: 'C:/Users/JaneSmith/sentences_output',
-      parameters: '{"vocab_size": 5000, "embedding_dim": 200}',
-      logOutput: '[ERROR] Job failed. Invalid input directory.',
-      status: JobStatus.Failed,
-    },
-  ];
+  const jobs: Job[] = [];
   await Promise.all(
     jobs.map(async (job) => {
       await Job.getJobByUid(job.uid).then((prevJob) => {
@@ -68,8 +40,8 @@ const getJobs = async (_event: any, _arg: any) => {
           job.uid,
           job.modelUid,
           job.startTime,
-          job.inputDir,
-          job.outputDir,
+          job.inputs,
+          job.outputs,
           job.parameters,
         );
       });
@@ -78,18 +50,85 @@ const getJobs = async (_event: any, _arg: any) => {
   return Job.findAll({ raw: true });
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const createJob = async (_event: any, arg: CreateJobArgs) => {
-  // TODO: Handle FlaskML model invocation here or elsewhere
+const completeJob = async (args: CompleteJobArgs) => {
+  await Job.updateJobEndTime(args.uid, args.endTime);
+  await Job.updateJobStatus(args.uid, args.status);
+  if (args.status === JobStatus.Failed) {
+    await Job.updateJobStatusText(args.uid, args.statusText!);
+  } else {
+    await Job.updateJobResponse(args.uid, args.response!);
+  }
+};
+
+const runJob = async (_event: any, arg: RunJobArgs) => {
+  // Setup job parameters
   const uid = uuidv4();
-  await Job.createJob(
-    uid,
-    arg.modelUid,
-    new Date(),
-    arg.inputDir,
-    arg.outputDir,
-    arg.parameters,
-  );
+  const service = getServiceByModelUid(arg.modelUid);
+  const server = await ModelServer.getServerByModelUid(arg.modelUid);
+  log(`Getting server for model ${arg.modelUid}`);
+  if (!server) {
+    throw new Error(`Server not found for model ${arg.modelUid}`);
+  }
+
+  log('Trying to create a job in the Job model');
+
+  // Create a job in the database
+  try {
+    await Job.createJob(
+      uid,
+      arg.modelUid,
+      new Date(),
+      arg.inputs,
+      arg.outputs,
+      arg.parameters,
+    );
+  } catch (err) {
+    error(
+      `Encountered an error while creating job for model id ${arg.modelUid}`,
+    );
+    error('Error details:', err);
+    throw new Error('Error creating job');
+  }
+
+  // Call the inference service for the particular model,
+  // and update the job status after a reply is received
+  log('Calling inference service');
+  service
+    .runInference({ ...arg, server })
+    .then(async (response: SuccessResponse | ErrorResponse) => {
+      if (response instanceof SuccessResponse) {
+        log('SuccessResponse: Updating job information.');
+        completeJob({
+          uid,
+          endTime: new Date(),
+          status: JobStatus.Completed,
+          response: response.data,
+        } as CompleteJobArgs);
+        return null;
+      }
+      if (response instanceof ErrorResponse) {
+        log('ErrorResponse: Updating job information.');
+        completeJob({
+          uid,
+          endTime: new Date(),
+          status: JobStatus.Completed,
+          response: response.error,
+        } as CompleteJobArgs);
+        return null;
+      }
+      throw new Error('FATAL: Invalid response type.');
+    })
+    .catch(async (err) => {
+      log('Request failed: Updating job information.');
+      completeJob({
+        uid,
+        status: JobStatus.Failed,
+        endTime: new Date(),
+        statusText: err.message,
+      } as CompleteJobArgs);
+      return null;
+    });
+  log('Job model created successfully, fetching job from database.');
   return Job.getJobByUid(uid);
 };
 
@@ -101,4 +140,4 @@ const deleteJobById = async (_event: any, arg: JobByIdArgs) => {
   return Job.deleteJob(arg.uid);
 };
 
-export { getJobs, createJob, getJobById, deleteJobById };
+export { getJobs, runJob, getJobById, deleteJobById };
