@@ -45,8 +45,6 @@ const jobHandler = {
     ipcRenderer.invoke('job:get-job-by-id', args) as Promise<Job>,
   runJob: (args: RunJobArgs) =>
     ipcRenderer.invoke('job:run-job', args) as Promise<Job>,
-  completeJob: (args: JobByIdArgs) =>
-    ipcRenderer.invoke('job:complete-job', args) as Promise<Job>,
   deleteJobById: (args: JobByIdArgs) =>
     ipcRenderer.invoke('job:delete-job-by-id', args) as Promise<number>,
 };

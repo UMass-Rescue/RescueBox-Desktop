@@ -19,6 +19,14 @@ export type JobByIdArgs = {
   uid: string;
 };
 
+export type CompleteJobArgs = {
+  uid: string;
+  endTime: Date;
+  status: JobStatus;
+  response?: object;
+  statusText?: string;
+};
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getJobs = async (_event: any, _arg: any) => {
   const jobs: Job[] = [];
@@ -40,6 +48,16 @@ const getJobs = async (_event: any, _arg: any) => {
     }),
   );
   return Job.findAll({ raw: true });
+};
+
+const completeJob = async (args: CompleteJobArgs) => {
+  await Job.updateJobEndTime(args.uid, args.endTime);
+  await Job.updateJobStatus(args.uid, args.status);
+  if (args.status === JobStatus.Failed) {
+    await Job.updateJobStatusText(args.uid, args.statusText!);
+  } else {
+    await Job.updateJobResponse(args.uid, args.response!);
+  }
 };
 
 const runJob = async (_event: any, arg: RunJobArgs) => {
@@ -79,40 +97,36 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
     .runInference({ ...arg, server })
     .then(async (response: SuccessResponse | ErrorResponse) => {
       if (response instanceof SuccessResponse) {
-        const time = new Date();
-        log('Inference service returned successfully');
-        log('Updating job status and response and end time');
-        await Job.updateJobEndTime(uid, time);
-        await Job.updateJobStatus(uid, JobStatus.Completed);
-        await Job.updateJobResponse(uid, response.data);
+        log('SuccessResponse: Updating job information.');
+        completeJob({
+          endTime: new Date(),
+          status: JobStatus.Completed,
+          response: response.data,
+        } as CompleteJobArgs);
         return null;
       }
       if (response instanceof ErrorResponse) {
-        log('Inference service failed, received ErrorResponse');
-        log('Updating job status and log output');
-        await Job.updateJobEndTime(uid, new Date());
-        await Job.updateJobStatus(uid, JobStatus.Failed);
-        await Job.updateJobResponse(uid, response.error);
+        log('ErrorResponse: Updating job information.');
+        completeJob({
+          endTime: new Date(),
+          status: JobStatus.Completed,
+          response: response.error,
+        } as CompleteJobArgs);
         return null;
       }
-      throw new Error('FATAL: Invalid response type');
+      throw new Error('FATAL: Invalid response type.');
     })
     .catch(async (err) => {
-      log('Inference service failed, request failed');
-      log('Updating job status and log output');
-      await Job.updateJobEndTime(uid, new Date());
-      await Job.updateJobStatus(uid, JobStatus.Failed);
-      await Job.updateJobStatusText(uid, err.message);
+      log('Request failed: Updating job information.');
+      completeJob({
+        status: JobStatus.Failed,
+        endTime: new Date(),
+        statusText: err.message,
+      } as CompleteJobArgs);
       return null;
     });
-  log('Job model created successfully, returning Job.getJobByUid(uid)');
+  log('Job model created successfully, fetching job from database.');
   return Job.getJobByUid(uid);
-};
-
-const completeJob = async (_event: any, arg: JobByIdArgs) => {
-  await Job.updateJobEndTime(arg.uid, new Date());
-  await Job.updateJobStatus(arg.uid, JobStatus.Completed);
-  return Job.getJobByUid(arg.uid);
 };
 
 const getJobById = async (_event: any, arg: JobByIdArgs) => {
@@ -123,4 +137,4 @@ const deleteJobById = async (_event: any, arg: JobByIdArgs) => {
   return Job.deleteJob(arg.uid);
 };
 
-export { getJobs, runJob, completeJob, getJobById, deleteJobById };
+export { getJobs, runJob, getJobById, deleteJobById };
