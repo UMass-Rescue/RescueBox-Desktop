@@ -35,17 +35,11 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
 
   declare outputs: Outputs; // JSON string
 
-<<<<<<< HEAD
   declare parameters: Parameters; // JSON string
 
   declare logOutput: string; // JSON string
 
   declare response: CreationOptional<object>; // JSON string
-=======
-  declare parameters: string; // JSON string
-
-  declare logOutput: string; // JSON string
->>>>>>> parent of 4a77561 (switch to v7)
 
   public static getAllJobs() {
     return Job.findAll();
