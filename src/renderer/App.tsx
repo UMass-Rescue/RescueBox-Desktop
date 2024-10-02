@@ -53,8 +53,8 @@ export default function App() {
           <Route path="/registration" element={<Registration />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/models" element={<Models />} />
-          <Route path="/model-details" element={<ModelDetails />} />
-          <Route path="/model-run" element={<ModelRun />} />
+          <Route path="/models/:modelUid/details" element={<ModelDetails />} />
+          <Route path="/models/:modelUid/run" element={<ModelRun />} />
           <Route path="/jobs/:jobId" element={<JobViewLayout />}>
             <Route path="/jobs/:jobId/details" element={<JobViewDetails />} />
             <Route path="/jobs/:jobId/outputs" element={<JobViewOutputs />} />

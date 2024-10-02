@@ -50,11 +50,12 @@ function Jobs() {
                       {format(new Date(job.startTime), 'dd/MM/yyyy HH:mm')}
                     </TableCell>
                     <TableCell className="text-center">
-                      <Button className="px-8 text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 rounded-lg">
-                        <Link to={`/jobs/${job.uid}/details`} state={{ job }}>
-                          View
-                        </Link>
-                      </Button>
+                      <Link
+                        to={`/jobs/${job.uid}/details`}
+                        className="px-8 text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 rounded-lg"
+                      >
+                        View
+                      </Link>
                     </TableCell>
                     <TableCell className="text-center">
                       <Button className="px-8 text-black text-base font-normal bg-red-200 hover:-translate-y-0.5 hover:bg-red-100 transition-all py-2 rounded-lg">
@@ -104,11 +105,12 @@ function Jobs() {
                         : 'N/A'}
                     </TableCell>
                     <TableCell className="text-center w-1/12">
-                      <Button className="px-8 text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 rounded-lg">
-                        <Link to={`/jobs/${job.uid}/details`} state={{ job }}>
-                          View
-                        </Link>
-                      </Button>
+                      <Link
+                        to={`/jobs/${job.uid}/details`}
+                        className="px-8 text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 rounded-lg"
+                      >
+                        View
+                      </Link>
                     </TableCell>
                     <TableCell className="text-center w-1/12">
                       <Button className="px-8 text-black text-base font-normal bg-red-200 hover:-translate-y-0.5 hover:bg-red-100 transition-all py-2 rounded-lg">
