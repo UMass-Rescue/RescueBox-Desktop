@@ -97,7 +97,7 @@ function Registration() {
                   Server Address
                 </TableHead>
                 <TableHead className="w-1/5 text-gray-900">Port</TableHead>
-                <TableHead className="text-gray-900">Register</TableHead>
+                <TableHead className="text-gray-900">Connect</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

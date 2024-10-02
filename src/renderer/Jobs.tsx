@@ -14,10 +14,54 @@ import { getModelName } from './utils';
 import { Button } from './components/ui/button';
 import RedXIcon from './components/RedIcons';
 import GreenCheckIcon from './components/GreenCheck';
+import { Job } from './Types';
 
 // function getModelName(uid: string) {
 //   return sampleModels.find((model) => model.uid === uid)?.name;
 // }
+function ViewButtonCell({ job }: { job: Job }) {
+  return (
+    <TableCell className="text-center">
+      <Link to={`/jobs/${job.uid}/details`} className="">
+        <Button
+          variant="outline"
+          className="px-8 hover:-translate-y-0.5 transition-all  rounded-lg"
+        >
+          View
+        </Button>
+      </Link>
+    </TableCell>
+  );
+}
+
+function RedButtonCell({
+  job,
+  text,
+  handleClick,
+}: {
+  job: Job;
+  text: string;
+  handleClick: (job: Job) => void;
+}) {
+  return (
+    <TableCell className="text-center">
+      <Button
+        variant="outline"
+        className="px-8 hover:-translate-y-0.5 transition-all rounded-lg bg-red-200 hover:bg-red-100"
+        onClick={() => handleClick(job)}
+      >
+        {text}
+      </Button>
+    </TableCell>
+  );
+}
+
+function handleCancelJob(job: Job) {
+  console.log('Cancel job', job);
+}
+function handleDeleteJob(job: Job) {
+  console.log('Delete job', job);
+}
 
 function Jobs() {
   return (
@@ -55,17 +99,14 @@ function Jobs() {
                       {format(new Date(job.startTime), 'dd/MM/yyyy HH:mm')}
                     </TableCell>
                     <TableCell className="text-center">
-                      <Link
-                        to={`/jobs/${job.uid}/details`}
-                        className="px-8 text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 rounded-lg"
-                      >
-                        View
-                      </Link>
+                      <ViewButtonCell job={job} />
                     </TableCell>
                     <TableCell className="text-center">
-                      <Button className="px-8 text-black text-base font-normal bg-red-200 hover:-translate-y-0.5 hover:bg-red-100 transition-all py-2 rounded-lg">
-                        Cancel
-                      </Button>
+                      <RedButtonCell
+                        job={job}
+                        text="Cancel"
+                        handleClick={handleCancelJob}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -117,17 +158,14 @@ function Jobs() {
                       )}
                     </TableCell>
                     <TableCell className="text-center w-1/12">
-                      <Link
-                        to={`/jobs/${job.uid}/details`}
-                        className="px-8 text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 rounded-lg"
-                      >
-                        View
-                      </Link>
+                      <ViewButtonCell job={job} />
                     </TableCell>
                     <TableCell className="text-center w-1/12">
-                      <Button className="px-8 text-black text-base font-normal bg-red-200 hover:-translate-y-0.5 hover:bg-red-100 transition-all py-2 rounded-lg">
-                        Delete
-                      </Button>
+                      <RedButtonCell
+                        job={job}
+                        text="Delete"
+                        handleClick={handleDeleteJob}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}

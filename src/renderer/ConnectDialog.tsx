@@ -8,16 +8,38 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@shadcn/components/ui/dialog';
+import {
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  Tooltip,
+} from './components/ui/tooltip';
 import { Button } from './components/ui/button';
 import { Label } from './components/ui/label';
 import { Input } from './components/ui/input';
+import ConnectIcon from './components/ConnectIcon';
 
 function ConnectDialog({ defaultValue }: { defaultValue: string }) {
   return (
     <Dialog>
-      <DialogTrigger className="bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-1 px-2 rounded-lg text-base">
-        Connect
-      </DialogTrigger>
+      <TooltipProvider delayDuration={100}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DialogTrigger className="py-1 rounded-lg text-base">
+              <Button
+                variant="outline"
+                className=" text-black text-base w-full font-normal hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg"
+              >
+                <ConnectIcon />
+              </Button>
+            </DialogTrigger>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>Connect</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Connect Model</DialogTitle>

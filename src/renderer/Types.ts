@@ -19,7 +19,7 @@ type Job = {
   uid: string;
   modelUid: string;
   startTime: string;
-  endTime: string;
+  endTime: null | string;
   status: string;
   inputDir: string;
   outputDir: string;

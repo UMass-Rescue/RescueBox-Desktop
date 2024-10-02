@@ -1,6 +1,4 @@
 import { Link } from 'react-router-dom';
-import RunSvg from 'assets/run-svgrepo-com.svg';
-import ConnectSvg from 'assets/connect-svgrepo-com.svg';
 import {
   TooltipProvider,
   Tooltip,
@@ -19,6 +17,8 @@ import {
 import { Model } from './Types';
 import { Button } from './components/ui/button';
 import { GreenCircleIcon, RedCircleIcon } from './components/CircleIcons';
+import GreenRunIcon from './components/GreenRunIcon';
+import ConnectIcon from './components/ConnectIcon';
 
 function Models() {
   return (
@@ -52,9 +52,14 @@ function Models() {
                 <TableCell className="text-left">
                   <Link
                     to={`/models/${model.uid}/details`}
-                    className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg"
+                    className="py-2 px-5 "
                   >
-                    Inspect
+                    <Button
+                      variant="outline"
+                      className="hover:-translate-y-0.5 transition-all  rounded-lg"
+                    >
+                      Inspect
+                    </Button>
                   </Link>
                 </TableCell>
                 <TableCell className="text-left">
@@ -63,8 +68,8 @@ function Models() {
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <Link to={`/models/${model.uid}/run`}>
-                            <Button className="text-black text-base w-full font-normal hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500">
-                              <img src={RunSvg} alt="Run" className="w-6 h-6" />{' '}
+                            <Button className="w-full  hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500">
+                              <GreenRunIcon />
                             </Button>
                           </Link>
                         </TooltipTrigger>
@@ -77,12 +82,11 @@ function Models() {
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <Link to="/registration">
-                            <Button className="text-black text-base w-full font-normal hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-slate-300 hover:bg-slate-200">
-                              <img
-                                src={ConnectSvg}
-                                alt="Run"
-                                className="w-6 h-6 -rotate-45"
-                              />
+                            <Button
+                              variant="outline"
+                              className=" text-black text-base w-full font-normal hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg"
+                            >
+                              <ConnectIcon />
                             </Button>
                           </Link>
                         </TooltipTrigger>
@@ -91,7 +95,6 @@ function Models() {
                         </TooltipContent>
                       </Tooltip>
                     )}
-                    {/* </Button> */}
                   </TooltipProvider>
                 </TableCell>
               </TableRow>
