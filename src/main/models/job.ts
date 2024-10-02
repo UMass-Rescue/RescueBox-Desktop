@@ -1,12 +1,13 @@
 /* eslint-disable no-use-before-define */
 import {
-  CreationOptional,
+  Sequelize,
   DataTypes,
+  Model,
   InferAttributes,
   InferCreationAttributes,
-  Model,
-  Sequelize,
-} from 'sequelize';
+  CreationOptional,
+  ForeignKey,
+} from '@sequelize/core';
 import MLModel from './ml-model';
 
 export enum JobStatus {
@@ -16,10 +17,13 @@ export enum JobStatus {
   Failed = 'Failed',
 }
 
-class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
+export class Job extends Model<
+  InferAttributes<Job>,
+  InferCreationAttributes<Job>
+> {
   declare uid: string;
 
-  declare modelUid: string;
+  declare modelUid: ForeignKey<string>;
 
   declare startTime: Date;
 
@@ -31,9 +35,9 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
 
   declare outputDir: string;
 
-  declare parameters: string; // JSON string
+  declare parameters: string;
 
-  declare logOutput: string; // JSON string
+  declare logOutput: string;
 
   public static getAllJobs() {
     return Job.findAll();
