@@ -1,13 +1,12 @@
 /* eslint-disable no-use-before-define */
 import {
-  Sequelize,
+  CreationOptional,
   DataTypes,
-  Model,
   InferAttributes,
   InferCreationAttributes,
-  CreationOptional,
-  ForeignKey,
-} from '@sequelize/core';
+  Model,
+  Sequelize,
+} from 'sequelize';
 import MLModel from './ml-model';
 
 export type Inputs = { path: string; [key: string]: string }[];
@@ -21,13 +20,10 @@ export enum JobStatus {
   Failed = 'Failed',
 }
 
-export class Job extends Model<
-  InferAttributes<Job>,
-  InferCreationAttributes<Job>
-> {
+class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
   declare uid: string;
 
-  declare modelUid: ForeignKey<string>;
+  declare modelUid: string;
 
   declare startTime: Date;
 
@@ -41,7 +37,7 @@ export class Job extends Model<
 
   declare parameters: Parameters; // JSON string
 
-  declare logOutput: string;
+  declare logOutput: string; // JSON string
 
   declare response: CreationOptional<object>; // JSON string
 

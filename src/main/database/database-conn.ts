@@ -1,11 +1,7 @@
 /* eslint-disable no-bitwise */
 /* eslint-disable no-use-before-define */
-import { Sequelize } from '@sequelize/core';
-import { SqliteDialect } from '@sequelize/sqlite3';
+import { Sequelize } from 'sequelize';
 import SQLiteDB from './sqlite-db';
-import Job from '../models/job';
-import MLModel from '../models/ml-model';
-import ModelServer from '../models/model-server';
 
 export default class DatabaseConn {
   private db: SQLiteDB;
@@ -14,11 +10,9 @@ export default class DatabaseConn {
 
   constructor(dbPath: string) {
     const conn = new Sequelize({
-      dialect: SqliteDialect,
+      dialect: 'sqlite',
       storage: dbPath,
       logging: false,
-      foreignKeys: true,
-      models: [Job, MLModel, ModelServer],
     });
     this.db = new SQLiteDB(conn);
   }

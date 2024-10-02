@@ -1,12 +1,4 @@
 import { Link } from 'react-router-dom';
-import RunSvg from 'assets/run-svgrepo-com.svg';
-import ConnectSvg from 'assets/connect-svgrepo-com.svg';
-import {
-  TooltipProvider,
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from '@shadcn/components/ui/tooltip';
 import sampleModels from './sample_models.json';
 import {
   Table,
@@ -18,7 +10,6 @@ import {
 } from './components/ui/table';
 import { Model } from './Types';
 import { Button } from './components/ui/button';
-import { GreenCircleIcon, RedCircleIcon } from './components/CircleIcons';
 
 function Models() {
   return (
@@ -26,7 +17,7 @@ function Models() {
       <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
         Available Models
       </h1>
-      <div className="shadow-md mt-6 max-w-[900px]">
+      <div className="shadow-md mt-2">
         <Table className="text-md lg:text-lg">
           <TableHeader className="bg-slate-200">
             <TableRow className="justify-between">
@@ -41,58 +32,37 @@ function Models() {
               <TableRow key={model.uid} className="hover:bg-gray-50">
                 <TableCell className="pl-4">{model.name}</TableCell>
                 <TableCell className="">
-                  <div className="pl-4">
-                    {model.status === 'Online' ? (
-                      <GreenCircleIcon />
-                    ) : (
-                      <RedCircleIcon />
-                    )}
+                  <div className="">
+                    <h1
+                      className={`w-min py-1 px-2 rounded-lg text-right transition-all cursor-default ${
+                        model.status === 'Online'
+                          ? 'bg-green-500 hover:bg-green-400'
+                          : 'bg-red-500 hover:bg-rose-400'
+                      }`}
+                    >
+                      {model.status}
+                    </h1>
                   </div>
                 </TableCell>
                 <TableCell className="text-left">
-                  <Link
-                    to={`/models/${model.uid}/details`}
-                    className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg"
-                  >
-                    Inspect
-                  </Link>
+                  <Button className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg">
+                    <Link to="/model-details" state={{ modelUid: model.uid }}>
+                      Inspect
+                    </Link>
+                  </Button>
                 </TableCell>
                 <TableCell className="text-left">
-                  <TooltipProvider delayDuration={100}>
-                    {model.status === 'Online' && (
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Link to={`/models/${model.uid}/run`}>
-                            <Button className="text-black text-base w-full font-normal hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500">
-                              <img src={RunSvg} alt="Run" className="w-6 h-6" />{' '}
-                            </Button>
-                          </Link>
-                        </TooltipTrigger>
-                        <TooltipContent side="bottom">
-                          <p>Run</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    )}
-                    {model.status === 'Offline' && (
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Link to="/registration">
-                            <Button className="text-black text-base w-full font-normal hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-slate-300 hover:bg-slate-200">
-                              <img
-                                src={ConnectSvg}
-                                alt="Run"
-                                className="w-6 h-6 -rotate-45"
-                              />
-                            </Button>
-                          </Link>
-                        </TooltipTrigger>
-                        <TooltipContent side="bottom">
-                          <p>Connect</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    )}
-                    {/* </Button> */}
-                  </TooltipProvider>
+                  <Button
+                    className={`text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-6 rounded-lg ${
+                      model.status !== 'Online'
+                        ? 'pointer-events-none opacity-50'
+                        : ''
+                    }`}
+                  >
+                    <Link to="/model-run" state={{ modelUid: model.uid }}>
+                      Run
+                    </Link>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
