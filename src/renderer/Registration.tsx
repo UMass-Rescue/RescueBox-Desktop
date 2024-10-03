@@ -6,19 +6,11 @@ import {
   TableHeader,
   TableRow,
 } from '@shadcn/components/ui/table';
-import {
-  TooltipProvider,
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from '@shadcn/components/ui/tooltip';
-import { MLModel, ModelAppStatus } from 'src/shared/models';
-import ConnectDialog from './ConnectDialog';
-import { Button } from './components/ui/button';
-import DebugDisconnect from '../../assets/debug-disconnect.svg';
-import { GreenCircleIcon, RedCircleIcon } from './components/CircleIcons';
-import { useMLModels, useServers, useServerStatuses } from './lib/hooks';
+import { MLModel } from 'src/shared/models';
+import { useMLModels, useServers } from './lib/hooks';
 import { createMLServerMap } from './lib/utils';
+import ModelStatusIndicator from './ModelStatusIndicator';
+import ModelConnectionButton from './ModelConnectionButton';
 
 function Registration() {
   // ML Models Hook
@@ -29,47 +21,23 @@ function Registration() {
   } = useMLModels();
 
   // Servers Hook
-  const { servers, error, isLoading, mutate: mutateServers } = useServers();
-
-  // Server Statuses Hook
   const {
-    serverStatuses,
-    error: statusError,
-    isLoading: statusIsLoading,
-    mutate: mutateStatus,
-  } = useServerStatuses(servers);
-
-  const registerModel = async (modelUid: string, ipAndPort: string) => {
-    await window.registration.registerModelAppIp({
-      modelUid,
-      serverAddress: ipAndPort.split(':')[0],
-      serverPort: Number(ipAndPort.split(':')[1]),
-    });
-
-    // Calling mutate results tells the useServers hook to refetch the server data
-    // await is needed to ensure that the next mutate call doesn't run before the previous one finishes
-    // which might result in SQL lock errors or data races
-    await mutateServers();
-
-    // Calling mutateStatus results tells the useServerStatuses hook to refetch the server status data
-    await mutateStatus();
-  };
+    servers,
+    error,
+    isLoading: serverIsLoading,
+    mutate: mutateServers,
+  } = useServers();
 
   if (modelError)
     return <div>failed to load models. Error: {modelError.toString()}</div>;
-  if (modelIsLoading) return <div>loading...</div>;
+  if (modelIsLoading) return <div>loading models..</div>;
   if (!models) return <div>no models</div>;
 
   if (error) return <div>failed to load {error.toString()}</div>;
-  if (isLoading) return <div>loading...</div>;
+  if (serverIsLoading) return <div>loading servers..</div>;
   if (!servers) return <div>no servers</div>;
 
-  if (statusError)
-    return <div>failed to load status. Error: {statusError.toString()}</div>;
-  if (statusIsLoading) return <div>loading...</div>;
-  if (!serverStatuses) return <div>no server statuses</div>;
-
-  const serverMap = createMLServerMap(servers);
+  const serverMap = { ...createMLServerMap(servers) };
 
   return (
     <div className="m-3">
@@ -108,51 +76,24 @@ function Registration() {
                   </TableCell>
                   <TableCell className="">
                     <div className="pl-4">
-                      {serverStatuses[model.uid] === ModelAppStatus.Online ? (
-                        <GreenCircleIcon />
-                      ) : (
-                        <RedCircleIcon />
-                      )}
+                      <ModelStatusIndicator modelUid={model.uid} />
                     </div>
                   </TableCell>
                   <TableCell>
-                    {(() => {
-                      if (
-                        !(model.uid in serverStatuses) ||
-                        serverStatuses[model.uid] ===
-                          ModelAppStatus.Unregistered
-                      ) {
-                        const server = serverMap[model.uid];
-                        const [address, port] = server
-                          ? [server.serverAddress, server.serverPort]
-                          : ['', ''];
-                        return (
-                          <ConnectDialog
-                            modelUid={model.uid}
-                            defaultValue={`${address}:${port}`}
-                            registerModel={registerModel}
-                          />
-                        );
+                    <ModelConnectionButton
+                      mutate={mutateServers}
+                      modelUid={model.uid}
+                      serverAddress={
+                        serverMap[model.uid]
+                          ? serverMap[model.uid].serverAddress
+                          : ''
                       }
-                      return (
-                        <TooltipProvider delayDuration={100}>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button className="bg-red-600">
-                                <img
-                                  alt="disconnect"
-                                  src={DebugDisconnect}
-                                  className="size-6"
-                                />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent side="bottom">
-                              <p>Disconnect</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      );
-                    })()}
+                      serverPort={
+                        serverMap[model.uid]
+                          ? serverMap[model.uid].serverPort.toString()
+                          : ''
+                      }
+                    />
                   </TableCell>
                 </TableRow>
               ))}
