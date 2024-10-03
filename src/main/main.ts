@@ -176,7 +176,8 @@ app
     createWindow();
     const dbPath = path.join(app.getPath('userData'), 'rbox-data.db');
     log.info('Database location is', dbPath);
-    await DatabaseConn.initDatabase(dbPath);
+    // await DatabaseConn.initDatabase(dbPath);
+    await DatabaseConn.initDatabaseTest(dbPath);
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
