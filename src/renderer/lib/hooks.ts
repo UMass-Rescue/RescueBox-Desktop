@@ -46,14 +46,14 @@ export function useServerStatuses(servers?: ModelServer[]) {
   };
 }
 
-export function useServerStatus(server?: ModelServer) {
+export function useServerStatus(modelUid?: string) {
   const fetcher = () =>
     window.registration.getModelAppStatus({
-      modelUid: server!.modelUid,
+      modelUid: modelUid!,
     });
 
   const { data, error, isLoading, isValidating, mutate } = useSWR(
-    !server ? null : `register:get-model-app-status-${server.modelUid}`,
+    !modelUid ? null : `register:get-model-app-status-${modelUid}`,
     fetcher,
   );
 
