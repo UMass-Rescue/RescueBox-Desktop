@@ -29,7 +29,7 @@ function Registration() {
   } = useMLModels();
 
   // Servers Hook
-  const { servers, error, isLoading, mutate } = useServers();
+  const { servers, error, isLoading, mutate: mutateServers } = useServers();
 
   // Server Statuses Hook
   const {
@@ -40,14 +40,18 @@ function Registration() {
   } = useServerStatuses(servers);
 
   const registerModel = async (modelUid: string, ipAndPort: string) => {
-    console.log('registerModel', modelUid, ipAndPort);
-    console.log("ipAndPort.split(':')[1]", ipAndPort.split(':')[1]);
     await window.registration.registerModelAppIp({
       modelUid,
       serverAddress: ipAndPort.split(':')[0],
       serverPort: Number(ipAndPort.split(':')[1]),
     });
-    await mutate();
+
+    // Calling mutate results tells the useServers hook to refetch the server data
+    // await is needed to ensure that the next mutate call doesn't run before the previous one finishes
+    // which might result in SQL lock errors or data races
+    await mutateServers();
+
+    // Calling mutateStatus results tells the useServerStatuses hook to refetch the server status data
     await mutateStatus();
   };
 
@@ -113,7 +117,6 @@ function Registration() {
                   </TableCell>
                   <TableCell>
                     {(() => {
-                      console.log('serverStatusesLOGGGGGG', serverStatuses);
                       if (
                         !(model.uid in serverStatuses) ||
                         serverStatuses[model.uid] ===

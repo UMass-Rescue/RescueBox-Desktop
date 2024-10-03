@@ -17,7 +17,6 @@ export function useModels() {
 }
 
 export function useServerStatuses(servers?: ModelServer[]) {
-  console.log('useServerStatuses', servers);
   const fetcher = () =>
     Promise.all(
       servers!.map((server) =>
