@@ -83,7 +83,7 @@ export function useServers() {
 
 export function useMLModels() {
   const fetcher = () => window.models.getModels();
-  const { data, error, isLoading, mutate } = useSWR(
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
     `models:get-models`,
     fetcher,
   );
@@ -92,6 +92,23 @@ export function useMLModels() {
     models: data,
     error,
     isLoading,
+    isValidating,
+    mutate,
+  };
+}
+
+export function useMLModel(modelUid?: string) {
+  const fetcher = () => window.models.getModelByUid({ modelUid: modelUid! });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    modelUid ? `models:get-model-by-uid-${modelUid}` : null,
+    fetcher,
+  );
+
+  return {
+    data,
+    error,
+    isLoading,
+    isValidating,
     mutate,
   };
 }

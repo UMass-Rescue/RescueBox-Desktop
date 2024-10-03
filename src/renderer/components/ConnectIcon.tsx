@@ -1,12 +1,14 @@
-function ConnectIcon() {
+import { cn } from '@shadcn/lib/utils';
+
+// eslint-disable-next-line react/require-default-props
+function ConnectIcon({ className = '' }: { className?: string }) {
   return (
     <svg
-      fill="#000000"
       viewBox="0 0 36 36"
       version="1.1"
       preserveAspectRatio="xMidYMid meet"
       xmlns="http://www.w3.org/2000/svg"
-      className="size-7 -rotate-45 "
+      className={cn('fill-black size-7 -rotate-45 ', className)}
     >
       <title>connect-line</title>
       <path

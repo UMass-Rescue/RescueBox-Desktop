@@ -11,7 +11,7 @@ export function RegularTitleNavBar({
 }) {
   return (
     <span key={path} className="relative sm:text-lg lg:text-xl font-bold">
-      <span className="absolute hidden group-[.is-active]:block -bottom-2 sm:-bottom-2 lg:-bottom-3 inset-x-0 bg-sky-500 h-0.5 rounded-full transition-opacity duration-150" />
+      <span className="absolute hidden group-[.is-active]:block -bottom-2 sm:-bottom-2 lg:-bottom-3 inset-x-0 bg-blue-500 h-0.5 rounded-full transition-opacity duration-150" />
       {name}
     </span>
   );
@@ -20,9 +20,9 @@ export function RegularTitleNavBar({
 export function ImageTitleNavBar({ path }: { path: string }) {
   return (
     <span key={path} className="relative sm:text-lg lg:text-xl font-bold">
-      <span className="absolute hidden group-[.is-active]:block -bottom-2 inset-x-0 bg-sky-500 h-0.5 rounded-full transition-opacity duration-150" />
+      <span className="absolute hidden group-[.is-active]:block -bottom-2 inset-x-0 bg-blue-500 h-0.5 rounded-full transition-opacity duration-150" />
       <svg
-        className="size-7 sm:size-8 lg:size-9 group-[.is-active]:fill-sky-500"
+        className="size-7 sm:size-8 lg:size-9 group-[.is-active]:fill-blue-500"
         version="1.1"
         id="Layer_1"
         xmlns="http://www.w3.org/2000/svg"
