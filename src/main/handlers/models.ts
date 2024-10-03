@@ -1,5 +1,5 @@
 import { modelAppConfigs } from '../model-apps/config';
-import MLModel from '../models/ml-model';
+import MLModelDb from '../models/ml-model';
 
 export type GetModelByIdArgs = {
   modelUid: string;
@@ -11,7 +11,7 @@ export async function getModels(_event: any, _arg: any) {
   // create or update
   await Promise.all(
     models.map(async (model) => {
-      await MLModel.findOne({
+      await MLModelDb.findOne({
         where: {
           uid: model.uid,
         },
@@ -19,7 +19,7 @@ export async function getModels(_event: any, _arg: any) {
         if (prevModel) {
           return prevModel.update({ ...model });
         }
-        return MLModel.createModel(
+        return MLModelDb.createModel(
           model.uid,
           model.name,
           model.version,
@@ -29,11 +29,11 @@ export async function getModels(_event: any, _arg: any) {
       });
     }),
   );
-  return MLModel.findAll({ raw: true });
+  return MLModelDb.findAll({ raw: true });
 }
 
 export async function getModelByUid(event: any, arg: GetModelByIdArgs) {
-  return MLModel.findOne({
+  return MLModelDb.findOne({
     where: {
       uid: arg.modelUid,
     },

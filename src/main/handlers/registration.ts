@@ -1,14 +1,8 @@
+import { ModelAppStatus } from 'src/shared/models';
 import ModelServer from '../models/model-server';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SERVER_HEALTH_SLUG = '/health';
-
-/* eslint-disable @typescript-eslint/no-unused-vars */
-export enum ModelAppStatus {
-  Online = 'Online',
-  Offline = 'Offline',
-  Error = 'Error',
-}
 
 export type RegisterModelArgs = {
   modelUid: string;
@@ -35,13 +29,17 @@ const unregisterModelAppIp = async (event: any, arg: UnregisterModelArgs) => {
   return ModelServer.deleteServer(arg.modelUid);
 };
 
+const getModelServers = async (): Promise<ModelServer[]> => {
+  return ModelServer.getAllServers();
+};
+
 const getModelAppStatus = async (
   _event: any,
   _arg: GetModelAppStatusArgs,
 ): Promise<ModelAppStatus> => {
   const model = await ModelServer.getServerByModelUid(_arg.modelUid);
   if (!model) {
-    return ModelAppStatus.Offline;
+    return ModelAppStatus.Unregistered;
   }
   // mocked to always return online
   // return fetch(
@@ -56,4 +54,9 @@ const getModelAppStatus = async (
   //   });
   return ModelAppStatus.Online;
 };
-export { registerModelAppIp, unregisterModelAppIp, getModelAppStatus };
+export {
+  registerModelAppIp,
+  unregisterModelAppIp,
+  getModelAppStatus,
+  getModelServers,
+};
