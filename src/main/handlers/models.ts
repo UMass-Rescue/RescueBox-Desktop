@@ -33,10 +33,12 @@ export async function getModels(_event: any, _arg: any) {
 }
 
 export async function getModelByUid(event: any, arg: GetModelByIdArgs) {
-  return MLModelDb.findOne({
+  const result = await MLModelDb.findOne({
     where: {
       uid: arg.modelUid,
     },
     raw: true,
   });
+  if (result) result.lastUpdated = new Date(result.lastUpdated);
+  return result;
 }

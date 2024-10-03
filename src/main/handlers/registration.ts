@@ -52,7 +52,11 @@ const getModelAppStatus = async (
   //     }
   //     return ModelAppStatus.Offline;
   //   });
-  return ModelAppStatus.Online;
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(ModelAppStatus.Online);
+    }, 2000);
+  });
 };
 export {
   registerModelAppIp,

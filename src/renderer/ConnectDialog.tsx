@@ -19,7 +19,7 @@ import {
 import { Button } from './components/ui/button';
 import { Label } from './components/ui/label';
 import { Input } from './components/ui/input';
-import ConnectIcon from './components/ConnectIcon';
+import { ConnectIcon } from './components/ConnectIcon';
 
 type ConnectInputs = {
   ipAndPort: string;
@@ -52,7 +52,7 @@ function ConnectDialog({
             <DialogTrigger asChild className="py-1 rounded-lg text-base">
               <Button
                 variant="outline"
-                className=" text-black text-base w-full font-normal hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg"
+                className="hover:-translate-y-0.5 transition-all py-2 rounded-lg"
               >
                 <ConnectIcon />
               </Button>
