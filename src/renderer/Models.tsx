@@ -5,7 +5,7 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from '@shadcn/components/ui/tooltip';
-import sampleModels from './sample_models.json';
+import { MLModel } from 'src/shared/models';
 import {
   Table,
   TableBody,
@@ -14,13 +14,44 @@ import {
   TableHeader,
   TableRow,
 } from './components/ui/table';
-import { Model } from './Types';
 import { Button } from './components/ui/button';
 import { GreenCircleIcon, RedCircleIcon } from './components/CircleIcons';
 import GreenRunIcon from './components/GreenRunIcon';
-import ConnectIcon from './components/ConnectIcon';
+import { ConnectIcon } from './components/ConnectIcon';
+import { useMLModels, useServers, useServerStatuses } from './lib/hooks';
 
 function Models() {
+  // ML Models Hook
+  const {
+    models,
+    error: modelError,
+    isLoading: modelIsLoading,
+  } = useMLModels();
+
+  // Servers Hook
+  const { servers, error, isLoading } = useServers();
+
+  // Server Statuses Hook
+  const {
+    serverStatuses,
+    error: statusError,
+    isLoading: statusIsLoading,
+  } = useServerStatuses(servers);
+
+  if (modelError)
+    return <div>failed to load models. Error: {modelError.toString()}</div>;
+  if (modelIsLoading) return <div>loading...</div>;
+  if (!models) return <div>no models</div>;
+
+  if (error) return <div>failed to load {error.toString()}</div>;
+  if (isLoading) return <div>loading...</div>;
+  if (!servers) return <div>no servers</div>;
+
+  if (statusError)
+    return <div>failed to load status. Error: {statusError.toString()}</div>;
+  if (statusIsLoading) return <div>loading...</div>;
+  if (!serverStatuses) return <div>no server statuses</div>;
+
   return (
     <div className="m-3">
       <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
@@ -37,12 +68,12 @@ function Models() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {sampleModels.map((model: Model) => (
+            {models.map((model: MLModel) => (
               <TableRow key={model.uid} className="hover:bg-gray-50">
                 <TableCell className="pl-4">{model.name}</TableCell>
                 <TableCell className="">
                   <div className="pl-4">
-                    {model.status === 'Online' ? (
+                    {serverStatuses[model.uid] === 'Online' ? (
                       <GreenCircleIcon />
                     ) : (
                       <RedCircleIcon />
@@ -64,7 +95,7 @@ function Models() {
                 </TableCell>
                 <TableCell className="text-left">
                   <TooltipProvider delayDuration={100}>
-                    {model.status === 'Online' && (
+                    {serverStatuses[model.uid] === 'Online' && ( //
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <Link to={`/models/${model.uid}/run`}>
@@ -78,7 +109,7 @@ function Models() {
                         </TooltipContent>
                       </Tooltip>
                     )}
-                    {model.status === 'Offline' && (
+                    {serverStatuses[model.uid] === 'Offline' && (
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <Link to="/registration">

@@ -32,7 +32,7 @@ export function useServerStatuses(servers?: ModelServer[]) {
       return serverStatuses;
     });
 
-  const { data, error, isLoading, mutate } = useSWR(
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
     !servers ? null : `register:get-model-app-status`,
     fetcher,
   );
@@ -41,6 +41,27 @@ export function useServerStatuses(servers?: ModelServer[]) {
     serverStatuses: data,
     error,
     isLoading,
+    isValidating,
+    mutate,
+  };
+}
+
+export function useServerStatus(server?: ModelServer) {
+  const fetcher = () =>
+    window.registration.getModelAppStatus({
+      modelUid: server!.modelUid,
+    });
+
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    !server ? null : `register:get-model-app-status-${server.modelUid}`,
+    fetcher,
+  );
+
+  return {
+    serverStatus: data,
+    error,
+    isLoading,
+    isValidating,
     mutate,
   };
 }
