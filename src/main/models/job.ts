@@ -7,7 +7,7 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import MLModel from './ml-model';
+import MLModelDb from './ml-model';
 
 export type Inputs = { path: string; path_type: string }[];
 export type Outputs = { path: string; path_type: string }[];
@@ -20,7 +20,10 @@ export enum JobStatus {
   Failed = 'Failed',
 }
 
-class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
+class JobDb extends Model<
+  InferAttributes<JobDb>,
+  InferCreationAttributes<JobDb>
+> {
   declare uid: string;
 
   declare modelUid: string;
@@ -42,11 +45,11 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
   declare response: CreationOptional<object>; // JSON string
 
   public static getAllJobs() {
-    return Job.findAll();
+    return JobDb.findAll();
   }
 
   public static getJobByStatus(status: JobStatus) {
-    return Job.findAll({
+    return JobDb.findAll({
       where: {
         status,
       },
@@ -54,7 +57,7 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
   }
 
   public static getJobByUid(uid: string) {
-    return Job.findOne({
+    return JobDb.findOne({
       where: {
         uid,
       },
@@ -69,7 +72,7 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
     outputs: Outputs,
     parameters: Parameters,
   ) {
-    return Job.create({
+    return JobDb.create({
       uid,
       modelUid,
       startTime,
@@ -82,7 +85,7 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
   }
 
   public static async updateJobStatus(uid: string, status: JobStatus) {
-    const job = await Job.findByPk(uid);
+    const job = await JobDb.findByPk(uid);
     if (!job) {
       throw new Error(`Job with uid ${uid} not found`);
     }
@@ -91,7 +94,7 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
   }
 
   public static async updateJobStatusText(uid: string, statusText: string) {
-    const job = await Job.findByPk(uid);
+    const job = await JobDb.findByPk(uid);
     if (!job) {
       throw new Error(`Job with uid ${uid} not found`);
     }
@@ -100,7 +103,7 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
   }
 
   public static async updateJobResponse(uid: string, response: object) {
-    const job = await Job.findByPk(uid);
+    const job = await JobDb.findByPk(uid);
     if (!job) {
       throw new Error(`Job with uid ${uid} not found`);
     }
@@ -109,7 +112,7 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
   }
 
   public static async updateJobEndTime(uid: string, endTime: Date) {
-    const job = await Job.findByPk(uid);
+    const job = await JobDb.findByPk(uid);
     if (!job) {
       throw new Error(`Job with uid ${uid} not found`);
     }
@@ -118,7 +121,7 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
   }
 
   public static deleteJob(uid: string) {
-    return Job.destroy({
+    return JobDb.destroy({
       where: {
         uid,
       },
@@ -127,7 +130,7 @@ class Job extends Model<InferAttributes<Job>, InferCreationAttributes<Job>> {
 }
 
 export const initJob = async (connection: Sequelize) => {
-  Job.init(
+  JobDb.init(
     {
       uid: {
         type: DataTypes.STRING,
@@ -138,7 +141,7 @@ export const initJob = async (connection: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
         references: {
-          model: MLModel,
+          model: MLModelDb,
           key: 'uid',
         },
       },
@@ -211,4 +214,4 @@ export const initJob = async (connection: Sequelize) => {
   );
 };
 
-export default Job;
+export default JobDb;

@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { error, log } from 'electron-log';
-import Job, { Inputs, JobStatus, Outputs, Parameters } from '../models/job';
+import JobDb, { Inputs, JobStatus, Outputs, Parameters } from '../models/job';
 import { getServiceByModelUid } from '../model-apps/config';
-import ModelServer from '../models/model-server';
+import ModelServerDb from '../models/model-server';
 import {
   ErrorResponse,
   SuccessResponse,
@@ -29,14 +29,14 @@ export type CompleteJobArgs = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getJobs = async (_event: any, _arg: any) => {
-  const jobs: Job[] = [];
+  const jobs: JobDb[] = [];
   await Promise.all(
     jobs.map(async (job) => {
-      await Job.getJobByUid(job.uid).then((prevJob) => {
+      await JobDb.getJobByUid(job.uid).then((prevJob) => {
         if (prevJob) {
           return prevJob.update({ ...job });
         }
-        return Job.createJob(
+        return JobDb.createJob(
           job.uid,
           job.modelUid,
           job.startTime,
@@ -47,16 +47,16 @@ const getJobs = async (_event: any, _arg: any) => {
       });
     }),
   );
-  return Job.findAll({ raw: true });
+  return JobDb.findAll({ raw: true });
 };
 
 const completeJob = async (args: CompleteJobArgs) => {
-  await Job.updateJobEndTime(args.uid, args.endTime);
-  await Job.updateJobStatus(args.uid, args.status);
+  await JobDb.updateJobEndTime(args.uid, args.endTime);
+  await JobDb.updateJobStatus(args.uid, args.status);
   if (args.status === JobStatus.Failed) {
-    await Job.updateJobStatusText(args.uid, args.statusText!);
+    await JobDb.updateJobStatusText(args.uid, args.statusText!);
   } else {
-    await Job.updateJobResponse(args.uid, args.response!);
+    await JobDb.updateJobResponse(args.uid, args.response!);
   }
 };
 
@@ -64,7 +64,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
   // Setup job parameters
   const uid = uuidv4();
   const service = getServiceByModelUid(arg.modelUid);
-  const server = await ModelServer.getServerByModelUid(arg.modelUid);
+  const server = await ModelServerDb.getServerByModelUid(arg.modelUid);
   log(`Getting server for model ${arg.modelUid}`);
   if (!server) {
     throw new Error(`Server not found for model ${arg.modelUid}`);
@@ -74,7 +74,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
 
   // Create a job in the database
   try {
-    await Job.createJob(
+    await JobDb.createJob(
       uid,
       arg.modelUid,
       new Date(),
@@ -129,15 +129,15 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
       return null;
     });
   log('Job model created successfully, fetching job from database.');
-  return Job.getJobByUid(uid);
+  return JobDb.getJobByUid(uid);
 };
 
 const getJobById = async (_event: any, arg: JobByIdArgs) => {
-  return Job.getJobByUid(arg.uid);
+  return JobDb.getJobByUid(arg.uid);
 };
 
 const deleteJobById = async (_event: any, arg: JobByIdArgs) => {
-  return Job.deleteJob(arg.uid);
+  return JobDb.deleteJob(arg.uid);
 };
 
 export { getJobs, runJob, getJobById, deleteJobById };

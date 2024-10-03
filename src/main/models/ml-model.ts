@@ -4,13 +4,13 @@ import {
   DataTypes,
   InferAttributes,
   InferCreationAttributes,
-  Model,
   Sequelize,
+  Model,
 } from 'sequelize';
 
-class MLModel extends Model<
-  InferAttributes<MLModel>,
-  InferCreationAttributes<MLModel>
+class MLModelDb extends Model<
+  InferAttributes<MLModelDb>,
+  InferCreationAttributes<MLModelDb>
 > {
   declare uid: string;
 
@@ -23,11 +23,11 @@ class MLModel extends Model<
   declare lastUpdated: Date;
 
   public static getAllModels() {
-    return MLModel.findAll();
+    return MLModelDb.findAll();
   }
 
   public static getModelByUid(uid: string) {
-    return MLModel.findOne({
+    return MLModelDb.findOne({
       where: {
         uid,
       },
@@ -41,7 +41,7 @@ class MLModel extends Model<
     author: string,
     lastUpdated: Date,
   ) {
-    return MLModel.create({
+    return MLModelDb.create({
       uid,
       name,
       version,
@@ -57,7 +57,7 @@ class MLModel extends Model<
     author: string,
     lastUpdated: Date,
   ) {
-    return MLModel.update(
+    return MLModelDb.update(
       {
         name,
         version,
@@ -73,7 +73,7 @@ class MLModel extends Model<
   }
 
   public static deleteModel(uid: string) {
-    return MLModel.destroy({
+    return MLModelDb.destroy({
       where: {
         uid,
       },
@@ -81,14 +81,14 @@ class MLModel extends Model<
   }
 
   public static deleteAllModels() {
-    return MLModel.destroy({
+    return MLModelDb.destroy({
       where: {},
     });
   }
 }
 
 export const initMLModel = async (connection: Sequelize) => {
-  MLModel.init(
+  MLModelDb.init(
     {
       uid: {
         type: DataTypes.STRING,
@@ -119,4 +119,4 @@ export const initMLModel = async (connection: Sequelize) => {
   );
 };
 
-export default MLModel;
+export default MLModelDb;

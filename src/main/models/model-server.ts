@@ -6,11 +6,11 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import MLModel from './ml-model';
+import MLModelDb from './ml-model';
 
-class ModelServer extends Model<
-  InferAttributes<ModelServer>,
-  InferCreationAttributes<ModelServer>
+class ModelServerDb extends Model<
+  InferAttributes<ModelServerDb>,
+  InferCreationAttributes<ModelServerDb>
 > {
   declare serverAddress: string;
 
@@ -19,11 +19,11 @@ class ModelServer extends Model<
   declare modelUid: string;
 
   public static getAllServers() {
-    return ModelServer.findAll();
+    return ModelServerDb.findAll({ raw: true });
   }
 
   public static getServerByModelUid(modelUid: string) {
-    return ModelServer.findOne({
+    return ModelServerDb.findOne({
       where: {
         modelUid,
       },
@@ -36,7 +36,7 @@ class ModelServer extends Model<
     serverPort: number,
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [model, _wasCreated] = await ModelServer.findOrCreate({
+    const [model, _wasCreated] = await ModelServerDb.findOrCreate({
       where: {
         modelUid,
       },
@@ -54,7 +54,7 @@ class ModelServer extends Model<
     serverAddress: string,
     serverPort: number,
   ) {
-    return ModelServer.update(
+    return ModelServerDb.update(
       {
         serverAddress,
         serverPort,
@@ -68,7 +68,7 @@ class ModelServer extends Model<
   }
 
   public static deleteServer(modelUid: string) {
-    return ModelServer.destroy({
+    return ModelServerDb.destroy({
       where: {
         modelUid,
       },
@@ -76,7 +76,7 @@ class ModelServer extends Model<
   }
 
   public static deleteServerByModelUid(modelUid: string) {
-    return ModelServer.destroy({
+    return ModelServerDb.destroy({
       where: {
         modelUid,
       },
@@ -85,14 +85,14 @@ class ModelServer extends Model<
 }
 
 export const initModelServer = async (connection: Sequelize) => {
-  ModelServer.init(
+  ModelServerDb.init(
     {
       modelUid: {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
         references: {
-          model: MLModel,
+          model: MLModelDb,
           key: 'uid',
         },
       },
@@ -112,4 +112,4 @@ export const initModelServer = async (connection: Sequelize) => {
   );
 };
 
-export default ModelServer;
+export default ModelServerDb;

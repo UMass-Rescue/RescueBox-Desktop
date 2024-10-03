@@ -1,3 +1,6 @@
+/**
+ * @deprecated Use {@link src/shared/models/MLModel} instead
+ */
 type Model = {
   id: number;
   uid: string;
@@ -15,6 +18,9 @@ type Model = {
   status: string;
 };
 
+/**
+ * @deprecated Use {@link src/shared/models/Job} instead
+ */
 type Job = {
   uid: string;
   modelUid: string;
