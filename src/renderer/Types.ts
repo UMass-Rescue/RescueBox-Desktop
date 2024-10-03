@@ -1,3 +1,20 @@
+type Model = {
+  id: number;
+  uid: string;
+  name: string;
+  version: string;
+  author: string;
+  lastUpdated: string;
+  input: string;
+  inputTypes: string;
+  outputTypes: string;
+  parameters: string;
+  constraints: string;
+  ip: string;
+  port: number;
+  status: string;
+};
+
 type Job = {
   uid: string;
   modelUid: string;
@@ -10,4 +27,4 @@ type Job = {
   logOutput: string;
 };
 
-export { Job };
+export { Model, Job };
