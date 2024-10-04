@@ -13,10 +13,12 @@
       "path": "/output/path1",
       "path_type": "temp"
     }],
-    "parameters": {
-      "param1": "value1",
-      "param2": "value2"
+    "parameters": [{
+      "param1": "value1"
     },
+    {
+      "param2": "value2"
+    }],
     "response": {
       "message": "Job completed successfully",
       "code": 200
@@ -36,10 +38,12 @@
       "path": "/output/path2",
       "path_type": "temp"
     }],
-    "parameters": {
-      "param1": "value3",
-      "param2": "value4"
+    "parameters": [{
+      "param1": "value3"
     },
+    {
+      "param2": "value4"
+    }],
     "response": {
       "message": "Job failed due to an error",
       "code": 500
@@ -59,10 +63,12 @@
       "path": "/output/path3",
       "path_type": "temp"
     }],
-    "parameters": {
-      "param1": "value5",
-      "param2": "value6"
+    "parameters": [{
+      "param1": "value5"
     },
+    {
+      "param2": "value6"
+    }],
     "response": {}
   }
 ]
