@@ -1,30 +1,13 @@
-import { Inputs, JobStatus, Outputs, Parameters } from 'src/main/models/job';
+import { InferAttributes } from 'sequelize/types/model';
+import JobDb from 'src/main/models/job';
+import MLModelDb from 'src/main/models/ml-model';
+import ModelServerDb from 'src/main/models/model-server';
 
-export type MLModel = {
-  uid: string;
-  name: string;
-  version: string;
-  author: string;
-  lastUpdated: Date;
-};
+export type MLModel = InferAttributes<MLModelDb>;
 
-export type Job = {
-  uid: string;
-  modelUid: string;
-  startTime: Date;
-  endTime?: Date;
-  status: JobStatus;
-  inputs: Inputs;
-  outputs: Outputs;
-  parameters: Parameters;
-  response?: object;
-};
+export type Job = InferAttributes<JobDb>;
 
-export type ModelServer = {
-  modelUid: string;
-  serverAddress: string;
-  serverPort: number;
-};
+export type ModelServer = InferAttributes<ModelServerDb>;
 
 export enum ModelAppStatus {
   Online = 'Online',

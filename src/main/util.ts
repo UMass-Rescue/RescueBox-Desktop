@@ -2,6 +2,7 @@
 import { URL } from 'url';
 import path from 'path';
 import { Model } from 'sequelize';
+import { InferAttributes } from 'sequelize/types/model';
 
 export function resolveHtmlPath(htmlFileName: string) {
   if (process.env.NODE_ENV === 'development') {
@@ -13,9 +14,11 @@ export function resolveHtmlPath(htmlFileName: string) {
   return `file://${path.resolve(__dirname, '../renderer/', htmlFileName)}`;
 }
 
-export function getRaw(model: Model | null) {
+export function getRaw<T extends Model>(
+  model: T | null,
+): InferAttributes<T> | null {
   if (!model) {
     return null;
   }
-  return model.get({ plain: true });
+  return model.get({ plain: true, clone: true });
 }

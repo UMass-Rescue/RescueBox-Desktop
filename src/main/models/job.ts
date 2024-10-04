@@ -64,6 +64,15 @@ class JobDb extends Model<
     });
   }
 
+  public static async testGetJobByUid(uid: string) {
+    return JobDb.findOne({
+      where: {
+        uid,
+      },
+      raw: true,
+    });
+  }
+
   public static createJob(
     uid: string,
     modelUid: string,

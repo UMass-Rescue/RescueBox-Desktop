@@ -19,7 +19,7 @@ class ModelServerDb extends Model<
 
   declare modelUid: string;
 
-  public static getAllServers() {
+  public static async getAllServers() {
     return ModelServerDb.findAll().then((servers) => servers.map(getRaw));
   }
 
