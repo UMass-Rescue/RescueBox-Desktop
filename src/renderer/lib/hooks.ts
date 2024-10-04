@@ -112,3 +112,15 @@ export function useMLModel(modelUid?: string) {
     mutate,
   };
 }
+
+export function useJobs() {
+  const fetcher = () => window.job.getJobs();
+  const { data, error, isLoading, mutate } = useSWR(`job:get-jobs`, fetcher);
+
+  return {
+    jobs: data,
+    error,
+    isLoading,
+    mutate,
+  };
+}
