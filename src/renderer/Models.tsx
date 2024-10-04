@@ -20,6 +20,7 @@ import GreenRunIcon from './components/GreenRunIcon';
 import { ConnectIcon } from './components/ConnectIcon';
 import { useMLModels, useServers, useServerStatuses } from './lib/hooks';
 import LoadingIcon from './components/LoadingIcon';
+import LoadingScreen from './components/LoadingScreen';
 
 function Models() {
   // ML Models Hook
@@ -50,7 +51,7 @@ function Models() {
 
   if (statusError)
     return <div>failed to load status. Error: {statusError.toString()}</div>;
-  if (!serverStatuses) return <div>no server statuses</div>;
+  if (!serverStatuses) return <LoadingScreen />;
 
   const onModels = models.filter(
     (model) => serverStatuses[model.uid] === 'Online',
