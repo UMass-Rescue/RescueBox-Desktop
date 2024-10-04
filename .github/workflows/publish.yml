@@ -48,6 +48,7 @@ jobs:
           else
             echo "Skipping, OS is not Windows"
           fi
+        shell: bash
 
       - name: Publish releases
         env:
