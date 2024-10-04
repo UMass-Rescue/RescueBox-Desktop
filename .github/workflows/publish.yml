@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest]
+        os: [macos-latest, windows-latest]
 
     steps:
       - name: Checkout git repo
@@ -40,6 +40,11 @@ jobs:
           npm install
           npm run postinstall
           npm run build
+
+      - name: Native dependencies
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            npm run rebuild
 
       - name: Publish releases
         env:
