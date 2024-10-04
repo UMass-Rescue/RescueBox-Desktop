@@ -1,3 +1,4 @@
+import { warn } from 'electron-log';
 import InferenceService from './inference-service';
 import SuperResInferenceService from './super-res/super-res-inference-service';
 import TenSecondModelService from './ten-second-model/ten-second-model-service';
@@ -21,7 +22,7 @@ export const SuperResolutionImageModel: ModelAppConfig = {
 };
 
 export const TenSecondModel: ModelAppConfig = {
-  uid: 'dummy-1',
+  uid: 'model1',
   name: 'Ten Second Model',
   version: '0.8.5',
   author: 'Jane Smith',
@@ -59,7 +60,11 @@ export function getServiceByModelUid(modelUid: string): InferenceService {
     (config) => config.uid === modelUid,
   );
   if (!modelAppConfig) {
-    throw new Error(`Model with uid ${modelUid} not found.`);
+    warn(`Model with uid ${modelUid} not found in config.ts`);
+    warn(
+      `Returning a dummy service for model with uid ${modelUid}. This is not recommended.`,
+    );
+    return new TenSecondModelService();
   }
   return modelAppConfig.service;
 }
