@@ -8,8 +8,6 @@ import {
   TableHead,
   TableHeader,
 } from './components/ui/table';
-import sampleModels from './sample_models.json';
-import { getModelName } from './utils';
 import { Button } from './components/ui/button';
 import RedXIcon from './components/RedIcons';
 import GreenCheckIcon from './components/GreenCheck';
@@ -17,9 +15,6 @@ import { Job } from '../shared/models';
 import { useJobs, useMLModels } from './lib/hooks';
 import LoadingIcon from './components/LoadingIcon';
 
-// function getModelName(uid: string) {
-//   return sampleModels.find((model) => model.uid === uid)?.name;
-// }
 function ViewButtonCell({ job }: { job: Job }) {
   return (
     <TableCell className="text-center">
