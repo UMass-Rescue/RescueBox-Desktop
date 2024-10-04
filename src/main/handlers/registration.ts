@@ -1,5 +1,6 @@
 import { ModelAppStatus } from 'src/shared/models';
 import ModelServer from '../models/model-server';
+import { getRaw } from '../util';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SERVER_HEALTH_SLUG = '/health';
@@ -23,7 +24,7 @@ const registerModelAppIp = async (event: any, arg: RegisterModelArgs) => {
     arg.modelUid,
     arg.serverAddress,
     arg.serverPort,
-  );
+  ).then(getRaw);
 };
 const unregisterModelAppIp = async (event: any, arg: UnregisterModelArgs) => {
   return ModelServer.deleteServer(arg.modelUid);
