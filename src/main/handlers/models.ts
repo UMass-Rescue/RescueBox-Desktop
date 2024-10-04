@@ -1,5 +1,6 @@
 import { modelAppConfigs } from '../model-apps/config';
 import MLModelDb from '../models/ml-model';
+import { getRaw } from '../util';
 
 export type GetModelByIdArgs = {
   modelUid: string;
@@ -29,16 +30,9 @@ export async function getModels(_event: any, _arg: any) {
       });
     }),
   );
-  return MLModelDb.findAll({ raw: true });
+  return MLModelDb.findAll().then((modelsDb) => modelsDb.map(getRaw));
 }
 
 export async function getModelByUid(event: any, arg: GetModelByIdArgs) {
-  const result = await MLModelDb.findOne({
-    where: {
-      uid: arg.modelUid,
-    },
-    raw: true,
-  });
-  if (result) result.lastUpdated = new Date(result.lastUpdated);
-  return result;
+  return MLModelDb.getModelByUid(arg.modelUid).then(getRaw);
 }

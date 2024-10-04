@@ -7,6 +7,7 @@ import {
   ErrorResponse,
   SuccessResponse,
 } from '../model-apps/inference-service';
+import { getRaw } from '../util';
 
 export type RunJobArgs = {
   modelUid: string;
@@ -29,25 +30,7 @@ export type CompleteJobArgs = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getJobs = async (_event: any, _arg: any) => {
-  const jobs: JobDb[] = [];
-  await Promise.all(
-    jobs.map(async (job) => {
-      await JobDb.getJobByUid(job.uid).then((prevJob) => {
-        if (prevJob) {
-          return prevJob.update({ ...job });
-        }
-        return JobDb.createJob(
-          job.uid,
-          job.modelUid,
-          job.startTime,
-          job.inputs,
-          job.outputs,
-          job.parameters,
-        );
-      });
-    }),
-  );
-  return JobDb.getAllJobs();
+  return JobDb.getAllJobs().then((jobsDb) => jobsDb.map(getRaw));
 };
 
 const completeJob = async (args: CompleteJobArgs) => {
@@ -129,11 +112,11 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
       return null;
     });
   log('Job model created successfully, fetching job from database.');
-  return JobDb.getJobByUid(uid);
+  return JobDb.getJobByUid(uid).then(getRaw);
 };
 
 const getJobById = async (_event: any, arg: JobByIdArgs) => {
-  return JobDb.getJobByUid(arg.uid);
+  return JobDb.getJobByUid(arg.uid).then(getRaw);
 };
 
 const deleteJobById = async (_event: any, arg: JobByIdArgs) => {
