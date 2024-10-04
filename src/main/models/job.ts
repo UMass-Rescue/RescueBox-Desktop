@@ -20,6 +20,19 @@ export enum JobStatus {
   Failed = 'Failed',
 }
 
+function applyGetters(job: JobDb) {
+  job.startTime = new Date(job.startTime);
+  // @ts-ignore
+  job.endTime = job.endTime ? new Date(job.endTime) : undefined;
+  job.inputs = JSON.parse(job.inputs as unknown as string);
+  job.outputs = JSON.parse(job.outputs as unknown as string);
+  job.parameters = JSON.parse(job.parameters as unknown as string);
+  job.response = job.response
+    ? JSON.parse(job.response as unknown as string)
+    : undefined;
+  return job;
+}
+
 class JobDb extends Model<
   InferAttributes<JobDb>,
   InferCreationAttributes<JobDb>
@@ -45,7 +58,7 @@ class JobDb extends Model<
   declare response: CreationOptional<object>; // JSON string
 
   public static getAllJobs() {
-    return JobDb.findAll();
+    return JobDb.findAll({ raw: true }).then((jobs) => jobs.map(applyGetters));
   }
 
   public static getJobByStatus(status: JobStatus) {
@@ -56,13 +69,14 @@ class JobDb extends Model<
     });
   }
 
-  public static getJobByUid(uid: string) {
-    return JobDb.findOne({
+  public static async getJobByUid(uid: string) {
+    const job = await JobDb.findOne({
       where: {
         uid,
       },
       raw: true,
     });
+    return job ? applyGetters(job) : job;
   }
 
   public static createJob(

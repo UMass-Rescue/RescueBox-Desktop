@@ -12,12 +12,12 @@ export type Job = {
   uid: string;
   modelUid: string;
   startTime: Date;
-  endTime: Date;
+  endTime?: Date;
   status: JobStatus;
   inputs: Inputs;
   outputs: Outputs;
   parameters: Parameters;
-  response: object;
+  response?: object;
 };
 
 export type ModelServer = {

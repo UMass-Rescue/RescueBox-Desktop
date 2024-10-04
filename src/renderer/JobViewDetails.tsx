@@ -1,4 +1,3 @@
-import { format } from 'date-fns';
 import { Link, useParams } from 'react-router-dom';
 import { OpenDirectoryArgs } from '../main/handlers/file-system';
 import { Button } from './components/ui/button';
@@ -40,14 +39,17 @@ function JobViewDetails() {
         <div className="">
           <h1 className="font-bold mb-4">Start</h1>
           <div className="p-2 border border-slate-400 bg-slate-200 rounded-lg w-full">
-            {format(job.startTime, 'dd/MM/yyyy HH:mm')}
+            {job.startTime.toUTCString()}
           </div>
         </div>
         <div>
           <h1 className="font-bold my-4">Inputs</h1>
           <div className="flex flex-row border border-slate-400 rounded-lg w-full justify-between p-2">
             <div className="" id="input-path">
-              {job.inputs[0].path}
+              {(() => {
+                console.log('job inputs', job.inputs[0]);
+                return job.inputs[0].path;
+              })()}
             </div>
             <Button
               className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg"

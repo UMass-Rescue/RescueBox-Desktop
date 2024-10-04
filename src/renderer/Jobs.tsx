@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { format } from 'date-fns';
 import {
   Table,
   TableBody,
@@ -116,7 +115,7 @@ function Jobs() {
                       {getModelName(job.modelUid)}
                     </TableCell>
                     <TableCell className="w-1/3">
-                      {format(new Date(job.startTime), 'dd/MM/yyyy HH:mm')}
+                      {job.startTime.toUTCString()}
                     </TableCell>
                     <TableCell className="text-center">
                       <ViewButtonCell job={job} />
@@ -169,9 +168,7 @@ function Jobs() {
                       {getModelName(job.modelUid)}
                     </TableCell>
                     <TableCell className="w-1/6">
-                      {job.endTime
-                        ? format(new Date(job.endTime), 'dd/MM/yyyy HH:mm')
-                        : 'N/A'}
+                      {job.endTime ? job.endTime.toUTCString() : 'N/A'}
                     </TableCell>
                     <TableCell className="w-1/6 pl-6">
                       {job.status === 'Failed' ? (
