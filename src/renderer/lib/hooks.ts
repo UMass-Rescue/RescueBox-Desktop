@@ -124,3 +124,19 @@ export function useJobs() {
     mutate,
   };
 }
+
+export function useJob(jobId?: string) {
+  const fetcher = () => window.job.getJobById({ uid: jobId! });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    jobId ? `job:get-job-by-id-${jobId}` : null,
+    fetcher,
+  );
+
+  return {
+    data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}

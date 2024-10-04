@@ -53,7 +53,7 @@ function RedButtonCell({
 }
 
 function handleCancelJob(job: Job) {
-  console.log(`Job ${job.uid} has been camceled`);
+  console.log(`Job ${job.uid} has been canceled`);
 }
 function handleDeleteJob(job: Job) {
   console.log(`Job ${job.uid} has been deleted`);

@@ -61,6 +61,7 @@ class JobDb extends Model<
       where: {
         uid,
       },
+      raw: true,
     });
   }
 

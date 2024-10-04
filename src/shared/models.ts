@@ -14,8 +14,8 @@ export type Job = {
   startTime: Date;
   endTime: Date;
   status: JobStatus;
-  inputDir: Inputs;
-  outputDir: Outputs;
+  inputs: Inputs;
+  outputs: Outputs;
   parameters: Parameters;
   response: object;
 };
