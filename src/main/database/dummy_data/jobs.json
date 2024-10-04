@@ -5,14 +5,14 @@
     "startTime": "2023-10-01T10:00:00Z",
     "endTime": "2023-10-01T12:00:00Z",
     "status": "Completed",
-    "inputs": {
+    "inputs": [{
       "path": "/input/path1",
       "path_type": "temp"
-    },
-    "outputs": {
+    }],
+    "outputs": [{
       "path": "/output/path1",
       "path_type": "temp"
-    },
+    }],
     "parameters": {
       "param1": "value1",
       "param2": "value2"
@@ -28,14 +28,14 @@
     "startTime": "2023-10-02T14:00:00Z",
     "endTime": "2023-10-02T16:00:00Z",
     "status": "Failed",
-    "inputs": {
+    "inputs": [{
       "path": "/input/path2",
       "path_type": "temp"
-    },
-    "outputs": {
+    }],
+    "outputs": [{
       "path": "/output/path2",
       "path_type": "temp"
-    },
+    }],
     "parameters": {
       "param1": "value3",
       "param2": "value4"
@@ -51,14 +51,14 @@
     "startTime": "2023-10-03T09:00:00Z",
     "endTime": null,
     "status": "Running",
-    "inputs": {
+    "inputs": [{
       "path": "/input/path3",
       "path_type": "temp"
-    },
-    "outputs": {
+    }],
+    "outputs": [{
       "path": "/output/path3",
       "path_type": "temp"
-    },
+    }],
     "parameters": {
       "param1": "value5",
       "param2": "value6"
