@@ -47,7 +47,7 @@ const getJobs = async (_event: any, _arg: any) => {
       });
     }),
   );
-  return JobDb.findAll({ raw: true });
+  return JobDb.getAllJobs();
 };
 
 const completeJob = async (args: CompleteJobArgs) => {

@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { format } from 'date-fns';
 import {
   Table,
   TableBody,
@@ -8,17 +7,13 @@ import {
   TableHead,
   TableHeader,
 } from './components/ui/table';
-import sampleJobs from './sample_jobs.json';
-import sampleModels from './sample_models.json';
-import { getModelName } from './utils';
 import { Button } from './components/ui/button';
 import RedXIcon from './components/RedIcons';
 import GreenCheckIcon from './components/GreenCheck';
-import { Job } from './Types';
+import { Job } from '../shared/models';
+import { useJobs, useMLModels } from './lib/hooks';
+import LoadingIcon from './components/LoadingIcon';
 
-// function getModelName(uid: string) {
-//   return sampleModels.find((model) => model.uid === uid)?.name;
-// }
 function ViewButtonCell({ job }: { job: Job }) {
   return (
     <TableCell className="text-center">
@@ -57,18 +52,42 @@ function RedButtonCell({
 }
 
 function handleCancelJob(job: Job) {
-  console.log('Cancel job', job);
+  console.log(`Job ${job.uid} has been canceled`);
 }
 function handleDeleteJob(job: Job) {
-  console.log('Delete job', job);
+  console.log(`Job ${job.uid} has been deleted`);
 }
 
 function Jobs() {
+  const { jobs, error: jobsError, isLoading: jobsIsLoading } = useJobs();
+  const {
+    models,
+    error: modelsError,
+    isLoading: modelsIsLoading,
+  } = useMLModels();
+
+  const getModelName = (uid: string) => {
+    return models?.find((model) => model.uid === uid)?.name;
+  };
+
+  if (jobsError)
+    return <div>failed to load jobs. Error: {jobsError.toString()}</div>;
+  if (jobsIsLoading) return <div>loading...</div>;
+  if (!jobs) return <div>no jobs</div>;
+
+  if (modelsError)
+    return <div>failed to load models. Error: {modelsError.toString()}</div>;
+  if (modelsIsLoading) return <div>loading...</div>;
+  if (!models) return <div>no models</div>;
+
   return (
     <div>
       <div className="mx-3 my-3">
         <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
           Running Jobs
+          {jobsIsLoading && modelsIsLoading && (
+            <LoadingIcon className="size-8 text-blue-600" />
+          )}
         </h1>
         <div className="shadow-md mt-2">
           <Table className="text-md lg:text-lg">
@@ -85,7 +104,7 @@ function Jobs() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {sampleJobs
+              {jobs
                 ?.filter(
                   (job) =>
                     job.status !== 'Completed' && job.status !== 'Failed',
@@ -93,10 +112,10 @@ function Jobs() {
                 .map((job) => (
                   <TableRow key={job.uid}>
                     <TableCell className="pl-4 w-1/3">
-                      {getModelName(sampleModels, job.modelUid)}
+                      {getModelName(job.modelUid)}
                     </TableCell>
                     <TableCell className="w-1/3">
-                      {format(new Date(job.startTime), 'dd/MM/yyyy HH:mm')}
+                      {job.startTime.toUTCString()}
                     </TableCell>
                     <TableCell className="text-center">
                       <ViewButtonCell job={job} />
@@ -118,6 +137,9 @@ function Jobs() {
       <div className="mx-3 mt-3">
         <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-2">
           Completed Jobs
+          {jobsIsLoading && modelsIsLoading && (
+            <LoadingIcon className="size-8 text-blue-600" />
+          )}
         </h1>
         <div className="shadow-md mt-2">
           <Table className="text-md lg:text-lg">
@@ -135,7 +157,7 @@ function Jobs() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {sampleJobs
+              {jobs
                 ?.filter(
                   (job) =>
                     job.status === 'Completed' || job.status === 'Failed',
@@ -143,12 +165,10 @@ function Jobs() {
                 .map((job) => (
                   <TableRow key={job.uid}>
                     <TableCell className="pl-4 w-1/3">
-                      {getModelName(sampleModels, job.modelUid)}
+                      {getModelName(job.modelUid)}
                     </TableCell>
                     <TableCell className="w-1/6">
-                      {job.endTime
-                        ? format(new Date(job.endTime), 'dd/MM/yyyy HH:mm')
-                        : 'N/A'}
+                      {job.endTime ? job.endTime.toUTCString() : 'N/A'}
                     </TableCell>
                     <TableCell className="w-1/6 pl-6">
                       {job.status === 'Failed' ? (
