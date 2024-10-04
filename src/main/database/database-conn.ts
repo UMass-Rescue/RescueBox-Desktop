@@ -23,4 +23,13 @@ export default class DatabaseConn {
       await DatabaseConn.#instance.db.connect();
     }
   }
+
+  static async initDatabaseTest(dbPath: string): Promise<void> {
+    if (!DatabaseConn.#instance) {
+      DatabaseConn.#instance = new DatabaseConn(dbPath);
+      await DatabaseConn.#instance.db.connect();
+      await DatabaseConn.#instance.db.clearDummyData();
+      await DatabaseConn.#instance.db.initDummyData();
+    }
+  }
 }
