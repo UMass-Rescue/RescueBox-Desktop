@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest]
+        os: [windows-latest, macos-latest, ubuntu-latest]
 
     steps:
       - name: Checkout git repo
@@ -41,6 +41,15 @@ jobs:
           npm run postinstall
           npm run build
 
+      - name: Native dependencies
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            npm run rebuild
+          else
+            echo "Skipping, OS is not Windows"
+          fi
+        shell: bash
+
       - name: Publish releases
         env:
           # The APPLE_* values are used for auto updates signing
@@ -52,4 +61,11 @@ jobs:
           # This is used for uploading release assets to github
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm exec electron-builder -- --publish always --mac
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            npm exec electron-builder -- --publish always --win
+          elif [ "$RUNNER_OS" == "Linux" ]; then
+            npm exec electron-builder -- --publish always --linux
+          else
+            npm exec electron-builder -- --publish always --mac
+          fi
+        shell: bash
