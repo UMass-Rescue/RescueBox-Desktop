@@ -54,12 +54,14 @@ function RedButtonCell({
 function handleCancelJob(job: Job) {
   console.log(`Job ${job.uid} has been canceled`);
 }
-function handleDeleteJob(job: Job) {
-  console.log(`Job ${job.uid} has been deleted`);
-}
 
 function Jobs() {
-  const { jobs, error: jobsError, isLoading: jobsIsLoading } = useJobs();
+  const {
+    jobs,
+    error: jobsError,
+    isLoading: jobsIsLoading,
+    mutate: jobsMutate,
+  } = useJobs();
   const {
     models,
     error: modelsError,
@@ -69,6 +71,12 @@ function Jobs() {
   const getModelName = (uid: string) => {
     return models?.find((model) => model.uid === uid)?.name;
   };
+
+  async function handleDeleteJob(job: Job) {
+    await window.job.deleteJobById({ uid: job.uid });
+    await jobsMutate();
+    console.log(`Job ${job.uid} has been deleted`);
+  }
 
   if (jobsError)
     return <div>failed to load jobs. Error: {jobsError.toString()}</div>;
@@ -124,7 +132,7 @@ function Jobs() {
                       <RedButtonCell
                         job={job}
                         text="Cancel"
-                        handleClick={handleCancelJob}
+                        handleClick={() => handleCancelJob(job)}
                       />
                     </TableCell>
                   </TableRow>
@@ -135,7 +143,7 @@ function Jobs() {
       </div>
 
       <div className="mx-3 mt-3">
-        <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-2">
+        <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
           Completed Jobs
           {jobsIsLoading && modelsIsLoading && (
             <LoadingIcon className="size-8 text-blue-600" />
@@ -184,7 +192,7 @@ function Jobs() {
                       <RedButtonCell
                         job={job}
                         text="Delete"
-                        handleClick={handleDeleteJob}
+                        handleClick={() => handleDeleteJob(job)}
                       />
                     </TableCell>
                   </TableRow>
