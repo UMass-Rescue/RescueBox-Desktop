@@ -31,8 +31,8 @@ const unregisterModelAppIp = async (event: any, arg: UnregisterModelArgs) => {
   return ModelServer.deleteServer(arg.modelUid);
 };
 
-const getModelServers = async (): Promise<ModelServer[]> => {
-  return ModelServer.getAllServers();
+const getModelServers = async () => {
+  return ModelServer.getAllServers().then((servers) => servers.map(getRaw));
 };
 
 const getModelAppStatus = async (

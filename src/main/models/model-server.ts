@@ -7,7 +7,6 @@ import {
   Sequelize,
 } from 'sequelize';
 import MLModelDb from './ml-model';
-import { getRaw } from '../util';
 
 class ModelServerDb extends Model<
   InferAttributes<ModelServerDb>,
@@ -19,8 +18,8 @@ class ModelServerDb extends Model<
 
   declare modelUid: string;
 
-  public static getAllServers() {
-    return ModelServerDb.findAll().then((servers) => servers.map(getRaw));
+  public static async getAllServers() {
+    return ModelServerDb.findAll();
   }
 
   public static getServerByModelUid(modelUid: string) {
