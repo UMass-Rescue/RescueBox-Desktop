@@ -1,6 +1,7 @@
 import { ModelAppStatus } from 'src/shared/models';
 import ModelServer from '../models/model-server';
 import { getRaw } from '../util';
+import { getServiceByModelUid } from '../model-apps/config';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SERVER_HEALTH_SLUG = '/health';
@@ -36,27 +37,18 @@ const getModelServers = async (): Promise<ModelServer[]> => {
 
 const getModelAppStatus = async (
   _event: any,
-  _arg: GetModelAppStatusArgs,
+  arg: GetModelAppStatusArgs,
 ): Promise<ModelAppStatus> => {
-  const model = await ModelServer.getServerByModelUid(_arg.modelUid);
-  if (!model) {
+  const server = await ModelServer.getServerByModelUid(arg.modelUid);
+  if (!server) {
     return ModelAppStatus.Unregistered;
   }
-  // mocked to always return online
-  // return fetch(
-  //   `http://${model.serverAddress}:${model.serverPort}${SERVER_HEALTH_SLUG}`,
-  // )
-  //   .then((res) => res.status)
-  //   .then((status) => {
-  //     if (status === 200) {
-  //       return ModelAppStatus.Online;
-  //     }
-  //     return ModelAppStatus.Offline;
-  //   });
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(ModelAppStatus.Online);
-    }, 2000);
+  const service = getServiceByModelUid(arg.modelUid);
+  return service.pingHealth(server).then((isOnline) => {
+    if (isOnline) {
+      return ModelAppStatus.Online;
+    }
+    return ModelAppStatus.Offline;
   });
 };
 export {

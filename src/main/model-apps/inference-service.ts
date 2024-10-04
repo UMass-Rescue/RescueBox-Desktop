@@ -30,6 +30,7 @@ export class ErrorResponse {
 }
 
 export default interface InferenceService {
+  pingHealth(server: ModelServerInfo): Promise<boolean>;
   runInference(args: InferenceArgs): Promise<SuccessResponse | ErrorResponse>;
 }
 
