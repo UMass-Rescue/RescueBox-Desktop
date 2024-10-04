@@ -46,10 +46,7 @@ function JobViewDetails() {
           <h1 className="font-bold my-4">Inputs</h1>
           <div className="flex flex-row border border-slate-400 rounded-lg w-full justify-between p-2">
             <div className="" id="input-path">
-              {(() => {
-                console.log('job inputs', job.inputs[0]);
-                return job.inputs[0].path;
-              })()}
+              {job.inputs[0].path}
             </div>
             <Button
               className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg"
