@@ -71,13 +71,11 @@ function Jobs() {
   async function handleDeleteJob(job: Job) {
     await window.job.deleteJobById({ uid: job.uid });
     await jobsMutate();
-    console.log(`Job ${job.uid} has been deleted`);
   }
 
   async function handleCancelJob(job: Job) {
     await window.job.cancelJob({ uid: job.uid });
     await jobsMutate();
-    console.log(`Job ${job.uid} has been canceled`);
   }
 
   if (jobsError)
