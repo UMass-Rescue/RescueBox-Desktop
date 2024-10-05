@@ -43,6 +43,12 @@ const completeJob = async (args: CompleteJobArgs) => {
   }
 };
 
+const cancelJob = async (_event: any, args: JobByIdArgs) => {
+  await JobDb.updateJobEndTime(args.uid, new Date());
+  await JobDb.updateJobStatus(args.uid, JobStatus.Canceled);
+  await JobDb.updateJobStatusText(args.uid, 'Job canceled by user.');
+};
+
 const runJob = async (_event: any, arg: RunJobArgs) => {
   // Setup job parameters
   const uid = uuidv4();
@@ -79,7 +85,10 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
   service
     .runInference({ ...arg, server })
     .then(async (response: SuccessResponse | ErrorResponse) => {
-      if (response instanceof SuccessResponse) {
+      const job = await JobDb.getJobByUid(uid);
+      if (job?.status === JobStatus.Canceled) {
+        log('Job Canceled: Not updating job information.');
+      } else if (response instanceof SuccessResponse) {
         log('SuccessResponse: Updating job information.');
         completeJob({
           uid,
@@ -87,9 +96,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
           status: JobStatus.Completed,
           response: response.data,
         } as CompleteJobArgs);
-        return null;
-      }
-      if (response instanceof ErrorResponse) {
+      } else if (response instanceof ErrorResponse) {
         log('ErrorResponse: Updating job information.');
         completeJob({
           uid,
@@ -97,9 +104,10 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
           status: JobStatus.Completed,
           response: response.error,
         } as CompleteJobArgs);
-        return null;
+      } else {
+        throw new Error('FATAL: Invalid response type.');
       }
-      throw new Error('FATAL: Invalid response type.');
+      return null;
     })
     .catch(async (err) => {
       log('Request failed: Updating job information.');
@@ -123,4 +131,4 @@ const deleteJobById = async (_event: any, arg: JobByIdArgs) => {
   return JobDb.deleteJob(arg.uid);
 };
 
-export { getJobs, runJob, getJobById, deleteJobById };
+export { getJobs, runJob, getJobById, deleteJobById, cancelJob };
