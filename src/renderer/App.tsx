@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 
 import './App.css';
+import { ErrorBoundary } from 'react-error-boundary';
 import Jobs from './Jobs';
 import Models from './Models';
 import NavBar from './NavBar';
@@ -18,6 +19,7 @@ import JobViewLayout from './JobViewLayout';
 import JobViewDetails from './JobViewDetails';
 import JobViewOutputs from './JobViewOutputs';
 import { ImageTitleNavBar, NavBarItem } from './NavBarItem';
+import FallbackError from './components/FallbackError';
 
 function RootLayout() {
   return (
@@ -36,7 +38,9 @@ function RootLayout() {
       <hr className="h-[0.75px] border-t-0 bg-gray-300 dark:bg-white/10" />
       <div className="flex-1 bg-gray-100 pt-2">
         <div className="mx-4">
-          <Outlet />
+          <ErrorBoundary FallbackComponent={FallbackError}>
+            <Outlet />
+          </ErrorBoundary>
         </div>
       </div>
       <div className="bottom-0 sticky z-10 bg-gray-700 text-gray-50 h-4" />

@@ -55,12 +55,18 @@ const fileSystemHandler = {
     ipcRenderer.invoke('fileSystem:select-directory') as Promise<string>,
 };
 
+const databaseHandler = {
+  resetDatabase: () => ipcRenderer.invoke('database:reset-database'),
+};
+
 contextBridge.exposeInMainWorld('registration', registrationHandler);
 contextBridge.exposeInMainWorld('models', modelsHandler);
 contextBridge.exposeInMainWorld('job', jobHandler);
 contextBridge.exposeInMainWorld('fileSystem', fileSystemHandler);
+contextBridge.exposeInMainWorld('database', databaseHandler);
 
 export type RegistrationHandler = typeof registrationHandler;
 export type ModelsHandler = typeof modelsHandler;
 export type JobHandler = typeof jobHandler;
 export type FileSystemHandler = typeof fileSystemHandler;
+export type DatabaseHandler = typeof databaseHandler;
