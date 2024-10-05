@@ -19,6 +19,7 @@ function resetSWRCache(cache: Cache<any>) {
 function ErrorContentForError({ error }: { error: Error }) {
   return (
     <div className="mx-2 flex flex-col gap-2">
+      <h1 className="text-lg font-bold">Error:</h1>
       <pre className="text-red-500">{error.message}</pre>
       <h1 className="text-lg font-bold">Call Stack:</h1>
       <pre className="text-gray-50">{error.stack}</pre>
@@ -55,7 +56,7 @@ function FallbackError({ error, resetErrorBoundary }: FallbackProps) {
   const [isCopying, setIsCopying] = useState(false);
 
   return (
-    <div className="flex flex-col p-4 gap-4 bg-gray-950 rounded-md drop-shadow-lg text-blue-50">
+    <div className="flex flex-col p-4 gap-2 bg-gray-950 rounded-md drop-shadow-lg text-blue-50">
       <div className="flex flex-row justify-between gap-2 items-center text-xl bg-gray-800 px-3 py-2 rounded-md">
         <div className="flex flex-row items-center gap-2 font-bold">
           <CancelIcon className="fill-white" />
@@ -91,6 +92,10 @@ function FallbackError({ error, resetErrorBoundary }: FallbackProps) {
             Reset Database
           </Button>
         </div>
+      </div>
+      <div className="text-gray-50 mx-2">
+        The application encountered a crash. Please copy the logs and share them
+        with the developers.
       </div>
       {error instanceof Error ? (
         <ErrorContentForError error={error} />

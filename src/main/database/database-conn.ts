@@ -34,18 +34,18 @@ export default class DatabaseConn {
   static async resetDatabase(dbPath: string): Promise<void> {
     if (!DatabaseConn.#instance) {
       DatabaseConn.#instance = new DatabaseConn(dbPath);
-      await DatabaseConn.#instance.db.connect();
     }
     log('Resetting database');
+    await DatabaseConn.#instance.db.connect();
     return DatabaseConn.#instance.db.resetTables();
   }
 
   static async resetDummyData(dbPath: string): Promise<void> {
     if (!DatabaseConn.#instance) {
       DatabaseConn.#instance = new DatabaseConn(dbPath);
-      await DatabaseConn.#instance.db.connect();
     }
     log('Resetting dummy data');
+    await DatabaseConn.#instance.db.connect();
     return DatabaseConn.#instance.db.resetDummyData();
   }
 
