@@ -1,5 +1,5 @@
 import { FallbackProps } from 'react-error-boundary';
-import { useSWRConfig, Cache } from 'swr';
+import { mutate } from 'swr';
 import { CheckCircledIcon, CopyIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { Button } from './ui/button';
@@ -11,9 +11,8 @@ import {
   TooltipTrigger,
 } from './ui/tooltip';
 
-function resetSWRCache(cache: Cache<any>) {
-  const keys = Array.from(cache.keys());
-  keys.forEach((key) => cache.delete(key));
+function resetSWRCache() {
+  return mutate(() => true, undefined);
 }
 
 function ErrorContentForError({ error }: { error: Error }) {
@@ -38,11 +37,9 @@ function ErrorContentForAnyError({ error }: { error: any }) {
 }
 
 function FallbackError({ error, resetErrorBoundary }: FallbackProps) {
-  const { cache } = useSWRConfig();
-
   const handleErrorReset = async (): Promise<void> => {
     await window.database.resetDatabase();
-    resetSWRCache(cache);
+    await resetSWRCache();
     resetErrorBoundary();
   };
 
