@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Tooltip, TooltipProvider } from '@radix-ui/react-tooltip';
 import {
   Table,
   TableBody,
@@ -8,11 +9,13 @@ import {
   TableHeader,
 } from './components/ui/table';
 import { Button } from './components/ui/button';
-import RedXIcon from './components/RedIcons';
-import GreenCheckIcon from './components/GreenCheck';
 import { Job } from '../shared/models';
 import { useJobs, useMLModels } from './lib/hooks';
 import LoadingIcon from './components/LoadingIcon';
+import FailedIcon from './components/FailedIcon';
+import CompletedIcon from './components/CompletedIcon';
+import CanceledIcon from './components/CanceledIcon';
+import { TooltipContent, TooltipTrigger } from './components/ui/tooltip';
 
 function ViewButton({ job }: { job: Job }) {
   return (
@@ -168,12 +171,21 @@ function Jobs() {
                     <TableCell className="w-1/6">
                       {job.endTime ? job.endTime.toUTCString() : 'N/A'}
                     </TableCell>
-                    <TableCell className="w-1/6 pl-6">
-                      {job.status === 'Failed' || job.status === 'Canceled' ? (
-                        <RedXIcon />
-                      ) : (
-                        <GreenCheckIcon />
-                      )}
+                    <TableCell className="w-1/6 pl-7">
+                      <TooltipProvider delayDuration={100}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="flex items-center">
+                              {job.status === 'Completed' && <CompletedIcon />}
+                              {job.status === 'Failed' && <FailedIcon />}
+                              {job.status === 'Canceled' && <CanceledIcon />}
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent side="bottom">
+                            <p>{job.status}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </TableCell>
                     <TableCell className="text-center w-1/12 py-4 px-4">
                       <ViewButton job={job} />
