@@ -13,6 +13,14 @@ import GreenCheckIcon from './components/GreenCheck';
 import { Job } from '../shared/models';
 import { useJobs, useMLModels } from './lib/hooks';
 import LoadingIcon from './components/LoadingIcon';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from './components/ui/tooltip';
+import DeleteIcon from './components/DeleteIcon';
+import CancelIcon from './components/CancelIcon';
 
 function ViewButton({ job }: { job: Job }) {
   return (
@@ -29,21 +37,29 @@ function ViewButton({ job }: { job: Job }) {
 
 function RedButton({
   job,
-  text,
+  variant,
   handleClick,
 }: {
   job: Job;
-  text: string;
+  variant: 'cancel' | 'delete';
   handleClick: (job: Job) => void;
 }) {
   return (
-    <Button
-      variant="outline"
-      className="px-8 mr-2 hover:-translate-y-0.5 transition-all rounded-lg bg-red-200 hover:bg-red-100"
-      onClick={() => handleClick(job)}
-    >
-      {text}
-    </Button>
+    <TooltipProvider delayDuration={100}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            className="px-4 bg-red-600 mr-2 hover:-translate-y-0.5 transition-all"
+            onClick={() => handleClick(job)}
+          >
+            {variant === 'cancel' ? <CancelIcon /> : <DeleteIcon />}
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="bottom">
+          <p>{variant === 'cancel' ? 'Cancel' : 'Delete'}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
 
@@ -127,7 +143,7 @@ function Jobs() {
                     <TableCell className="text-center py-4 px-4">
                       <RedButton
                         job={job}
-                        text="Cancel"
+                        variant="cancel"
                         handleClick={() => handleCancelJob(job)}
                       />
                     </TableCell>
@@ -187,7 +203,7 @@ function Jobs() {
                     <TableCell className="text-center w-1/12 py-4 px-4">
                       <RedButton
                         job={job}
-                        text="Delete"
+                        variant="delete"
                         handleClick={() => handleDeleteJob(job)}
                       />
                     </TableCell>
