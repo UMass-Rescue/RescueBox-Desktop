@@ -93,7 +93,7 @@ function Jobs() {
             <LoadingIcon className="size-8 text-blue-600" />
           )}
         </h1>
-        <div className="shadow-md mt-2">
+        <div className="shadow-md mt-6">
           <Table className="text-md lg:text-lg">
             <TableHeader className="bg-slate-200">
               <TableRow className="justify-between">
@@ -145,7 +145,7 @@ function Jobs() {
             <LoadingIcon className="size-8 text-blue-600" />
           )}
         </h1>
-        <div className="shadow-md mt-2">
+        <div className="shadow-md mt-6">
           <Table className="text-md lg:text-lg">
             <TableHeader className="bg-slate-200">
               <TableRow className="justify-between">
