@@ -3,6 +3,7 @@ import {
   ModelsHandler,
   RegistrationHandler,
   FileSystemHandler,
+  DatabaseHandler,
 } from '../main/preload';
 
 declare global {
@@ -12,6 +13,7 @@ declare global {
     models: ModelsHandler;
     job: JobHandler;
     fileSystem: FileSystemHandler;
+    database: DatabaseHandler;
   }
 }
 
