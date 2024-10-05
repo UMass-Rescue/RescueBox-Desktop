@@ -53,6 +53,17 @@ class SQLiteDB {
     info('Cleared dummy data in SQLite database');
   }
 
+  async resetDummyData(): Promise<void> {
+    await this.clearDummyData();
+    await this.initDummyData();
+  }
+
+  async resetTables(): Promise<void> {
+    await ModelServerDb.destroy({ where: {} });
+    await JobDb.destroy({ where: {} });
+    await this.initTables();
+  }
+
   async disconnect(): Promise<void> {
     info('Disconnecting from SQLite database');
     await this.connection.close();
