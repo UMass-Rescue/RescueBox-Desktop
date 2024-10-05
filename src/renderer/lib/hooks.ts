@@ -1,6 +1,8 @@
 import { ModelAppStatus, ModelServer } from 'src/shared/models';
 import useSWR from 'swr';
 
+const JOBS_REFRESH_INTERVAL = 200;
+
 export function useModels() {
   const fetcher = () => window.models.getModels();
   const { data, error, isLoading, mutate } = useSWR(
@@ -115,7 +117,9 @@ export function useMLModel(modelUid?: string) {
 
 export function useJobs() {
   const fetcher = () => window.job.getJobs();
-  const { data, error, isLoading, mutate } = useSWR(`job:get-jobs`, fetcher);
+  const { data, error, isLoading, mutate } = useSWR(`job:get-jobs`, fetcher, {
+    refreshInterval: JOBS_REFRESH_INTERVAL,
+  });
 
   return {
     jobs: data,
