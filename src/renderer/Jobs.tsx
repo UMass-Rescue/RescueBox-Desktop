@@ -14,22 +14,20 @@ import { Job } from '../shared/models';
 import { useJobs, useMLModels } from './lib/hooks';
 import LoadingIcon from './components/LoadingIcon';
 
-function ViewButtonCell({ job }: { job: Job }) {
+function ViewButton({ job }: { job: Job }) {
   return (
-    <TableCell className="text-center">
-      <Link to={`/jobs/${job.uid}/details`} className="">
-        <Button
-          variant="outline"
-          className="px-8 hover:-translate-y-0.5 transition-all  rounded-lg"
-        >
-          View
-        </Button>
-      </Link>
-    </TableCell>
+    <Link to={`/jobs/${job.uid}/details`} className="">
+      <Button
+        variant="outline"
+        className="px-8 hover:-translate-y-0.5 transition-all rounded-lg"
+      >
+        View
+      </Button>
+    </Link>
   );
 }
 
-function RedButtonCell({
+function RedButton({
   job,
   text,
   handleClick,
@@ -39,15 +37,13 @@ function RedButtonCell({
   handleClick: (job: Job) => void;
 }) {
   return (
-    <TableCell className="text-center">
-      <Button
-        variant="outline"
-        className="px-8 hover:-translate-y-0.5 transition-all rounded-lg bg-red-200 hover:bg-red-100"
-        onClick={() => handleClick(job)}
-      >
-        {text}
-      </Button>
-    </TableCell>
+    <Button
+      variant="outline"
+      className="px-8 mr-2 hover:-translate-y-0.5 transition-all rounded-lg bg-red-200 hover:bg-red-100"
+      onClick={() => handleClick(job)}
+    >
+      {text}
+    </Button>
   );
 }
 
@@ -97,7 +93,7 @@ function Jobs() {
             <LoadingIcon className="size-8 text-blue-600" />
           )}
         </h1>
-        <div className="shadow-md mt-2">
+        <div className="shadow-md mt-6">
           <Table className="text-md lg:text-lg">
             <TableHeader className="bg-slate-200">
               <TableRow className="justify-between">
@@ -122,9 +118,11 @@ function Jobs() {
                     <TableCell className="w-1/3">
                       {job.startTime.toUTCString()}
                     </TableCell>
-                    <ViewButtonCell job={job} />
-                    <TableCell className="text-center">
-                      <RedButtonCell
+                    <TableCell className="text-center py-4 px-4">
+                      <ViewButton job={job} />
+                    </TableCell>
+                    <TableCell className="text-center py-4 px-4">
+                      <RedButton
                         job={job}
                         text="Cancel"
                         handleClick={() => handleCancelJob(job)}
@@ -137,14 +135,14 @@ function Jobs() {
         </div>
       </div>
 
-      <div className="mx-3 mt-3">
+      <div className="mx-3 mt-6">
         <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
           Completed Jobs
           {jobsIsLoading && modelsIsLoading && (
             <LoadingIcon className="size-8 text-blue-600" />
           )}
         </h1>
-        <div className="shadow-md mt-2">
+        <div className="shadow-md mt-6">
           <Table className="text-md lg:text-lg">
             <TableHeader className="bg-slate-200">
               <TableRow className="justify-between">
@@ -177,11 +175,11 @@ function Jobs() {
                         <GreenCheckIcon />
                       )}
                     </TableCell>
-                    <TableCell className="text-center w-1/12">
-                      <ViewButtonCell job={job} />
+                    <TableCell className="text-center w-1/12 py-4 px-4">
+                      <ViewButton job={job} />
                     </TableCell>
-                    <TableCell className="text-center w-1/12">
-                      <RedButtonCell
+                    <TableCell className="text-center w-1/12 py-4 px-4">
+                      <RedButton
                         job={job}
                         text="Delete"
                         handleClick={() => handleDeleteJob(job)}
