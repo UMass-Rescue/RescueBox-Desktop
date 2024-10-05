@@ -8,6 +8,7 @@ import {
   SuccessResponse,
 } from '../model-apps/inference-service';
 import { getRaw } from '../util';
+import JobManager from '../model-apps/job-manager';
 
 export type RunJobArgs = {
   modelUid: string;
@@ -44,6 +45,13 @@ const completeJob = async (args: CompleteJobArgs) => {
 };
 
 const cancelJob = async (_event: any, args: JobByIdArgs) => {
+  const manager = new JobManager(
+    await JobDb.getJobByUid(args.uid).then((job) =>
+      getServiceByModelUid(job!.modelUid),
+    ),
+  );
+  manager.cancelInference();
+
   await JobDb.updateJobEndTime(args.uid, new Date());
   await JobDb.updateJobStatus(args.uid, JobStatus.Canceled);
   await JobDb.updateJobStatusText(args.uid, 'Job canceled by user.');
@@ -52,7 +60,7 @@ const cancelJob = async (_event: any, args: JobByIdArgs) => {
 const runJob = async (_event: any, arg: RunJobArgs) => {
   // Setup job parameters
   const uid = uuidv4();
-  const service = getServiceByModelUid(arg.modelUid);
+  const manager = new JobManager(getServiceByModelUid(arg.modelUid));
   const server = await ModelServerDb.getServerByModelUid(arg.modelUid);
   log(`Getting server for model ${arg.modelUid}`);
   if (!server) {
@@ -82,7 +90,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
   // Call the inference service for the particular model,
   // and update the job status after a reply is received
   log('Calling inference service');
-  service
+  manager
     .runInference({ ...arg, server })
     .then(async (response: SuccessResponse | ErrorResponse) => {
       const job = await JobDb.getJobByUid(uid);
