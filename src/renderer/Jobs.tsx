@@ -125,9 +125,7 @@ function Jobs() {
                     <TableCell className="w-1/3">
                       {job.startTime.toUTCString()}
                     </TableCell>
-                    <TableCell className="text-center">
-                      <ViewButtonCell job={job} />
-                    </TableCell>
+                    <ViewButtonCell job={job} />
                     <TableCell className="text-center">
                       <RedButtonCell
                         job={job}
