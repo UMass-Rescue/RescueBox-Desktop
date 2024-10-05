@@ -30,6 +30,8 @@ class TenSecondModelService implements InferenceService {
   public async runInference(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     args: InferenceArgs,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    signal: AbortSignal,
   ): Promise<SuccessResponse | ErrorResponse> {
     return new Promise((resolve) => {
       setTimeout(() => {

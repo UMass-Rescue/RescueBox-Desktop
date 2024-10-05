@@ -33,6 +33,8 @@ class SuperResInferenceService implements InferenceService {
   public async runInference(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     args: InferenceArgs,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    signal: AbortSignal,
   ): Promise<SuccessResponse | ErrorResponse> {
     // const { serverAddress, serverPort } = args.server;
     // const body = {
@@ -40,23 +42,31 @@ class SuperResInferenceService implements InferenceService {
     //   outputDir: args.outputs[0].path,
     //   parameters: args.parameters,
     // };
-
+    //
     // return fetch(`http://${serverAddress}:${serverPort}/run-inference`, {
     //   method: 'POST',
     //   headers: {
     //     'Content-Type': 'application/json',
     //   },
     //   body: JSON.stringify(body),
-    // }).then((res) => {
-    //   if (!res.ok) {
-    //     log.error(`Job failed to execute. ${res}`);
-    //     throw new Error(
-    //       'Job failed to execute. Make sure the server is running before starting a job.',
-    //     );
-    //   }
-    //   log.info(`Job has been completed. Here are the results: ${res}`);
-    //   return res.json();
-    // });
+    //   signal,
+    // })
+    //   .then((res) => {
+    //     if (!res.ok) {
+    //       log.error(`Job failed to execute. ${res}`);
+    //       return new ErrorResponse([{ message: res.statusText }]);
+    //     }
+    //     log.info(`Job has been completed. Here are the results:\n ${res}`);
+    //     return new SuccessResponse(res.json());
+    //   })
+    //   .catch((error) => {
+    //     if (error.name === 'AbortError') {
+    //       log.info('Job has been canceled.');
+    //       return new ErrorResponse([{ message: 'Job has been canceled.' }]);
+    //     }
+    //     log.error(`Job failed to execute. ${error}`);
+    //     return new ErrorResponse([{ message: error.message }]);
+    //   });
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(
