@@ -56,7 +56,6 @@ function ModelDetails() {
         </div>
         <div className="felx flex-col gap-2">
           <h1 className="font-bold text-lg md:text-xl lg:text-2xl">
-            {' '}
             Constraints
           </h1>
           <ul className="flex flex-col gap-[0.1rem] list-disc ml-4">
@@ -66,7 +65,7 @@ function ModelDetails() {
           </ul>
         </div>
       </div>
-      <div className="border border-green-700 m-4 py-4 px-6 rounded-xl w-1/3 bg-green-200 h-full">
+      <div className="sticky top-16 drop-shadow-md m-4 py-4 px-6 rounded-md w-1/3 bg-sky-200 h-full">
         <h1 className="font-bold text-lg md:text-xl lg:text-2xl m-2">
           Model Version
         </h1>
@@ -79,7 +78,10 @@ function ModelDetails() {
           Last Updated
         </h1>
         <p className="m-2">{model.lastUpdated.toUTCString()}</p>
-        <Button className="bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200  border border-sky-300 my-10 text-black w-full">
+        <Button
+          variant="outline"
+          className="hover:-translate-y-0.5 border my-10 text-black w-full transition-all"
+        >
           <Link to="/models/outputs">Run</Link>
         </Button>
       </div>
