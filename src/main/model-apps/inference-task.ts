@@ -6,7 +6,7 @@ import InferenceService, {
   ModelServerInfo,
 } from './inference-service';
 
-class JobManager {
+class InferenceTask {
   private abortController: AbortController | null = null;
 
   private service: InferenceService;
@@ -21,7 +21,7 @@ class JobManager {
     this.abortController = new AbortController();
     const { signal } = this.abortController;
 
-    return this.service.runInference({ ...args }, signal).finally(() => {
+    return this.service.runInference(args, signal).finally(() => {
       this.abortController = null;
     });
   }
@@ -38,4 +38,4 @@ class JobManager {
   }
 }
 
-export default JobManager;
+export default InferenceTask;

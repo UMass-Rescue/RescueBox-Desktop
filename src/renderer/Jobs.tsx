@@ -109,7 +109,7 @@ function Jobs() {
             </TableHeader>
             <TableBody>
               {jobs
-                ?.filter((job) => job.status === 'Running')
+                .filter((job) => job.status === 'Running')
                 .map((job) => (
                   <TableRow key={job.uid}>
                     <TableCell className="pl-4 w-1/3">
@@ -159,7 +159,7 @@ function Jobs() {
             </TableHeader>
             <TableBody>
               {jobs
-                ?.filter((job) => job.status !== 'Running')
+                .filter((job) => job.status !== 'Running')
                 .map((job) => (
                   <TableRow key={job.uid}>
                     <TableCell className="pl-4 w-1/3">

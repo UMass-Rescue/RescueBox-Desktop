@@ -2,7 +2,7 @@ import { ModelAppStatus } from 'src/shared/models';
 import ModelServer from '../models/model-server';
 import { getRaw } from '../util';
 import { getServiceByModelUid } from '../model-apps/config';
-import JobManager from '../model-apps/job-manager';
+import JobManager from '../model-apps/inference-task';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SERVER_HEALTH_SLUG = '/health';

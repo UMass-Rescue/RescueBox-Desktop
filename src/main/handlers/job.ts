@@ -8,7 +8,7 @@ import {
   SuccessResponse,
 } from '../model-apps/inference-service';
 import { getRaw } from '../util';
-import JobManager from '../model-apps/job-manager';
+import JobManager from '../model-apps/inference-task';
 
 export type RunJobArgs = {
   modelUid: string;
@@ -96,7 +96,9 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
       const job = await JobDb.getJobByUid(uid);
       if (job?.status === JobStatus.Canceled) {
         log('Job Canceled: Not updating job information.');
-      } else if (response instanceof SuccessResponse) {
+        return null;
+      }
+      if (response instanceof SuccessResponse) {
         log('SuccessResponse: Updating job information.');
         completeJob({
           uid,
@@ -104,7 +106,9 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
           status: JobStatus.Completed,
           response: response.data,
         } as CompleteJobArgs);
-      } else if (response instanceof ErrorResponse) {
+        return null;
+      }
+      if (response instanceof ErrorResponse) {
         log('ErrorResponse: Updating job information.');
         completeJob({
           uid,
@@ -112,10 +116,9 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
           status: JobStatus.Completed,
           response: response.error,
         } as CompleteJobArgs);
-      } else {
-        throw new Error('FATAL: Invalid response type.');
+        return null;
       }
-      return null;
+      throw new Error('FATAL: Invalid response type.');
     })
     .catch(async (err) => {
       log('Request failed: Updating job information.');
