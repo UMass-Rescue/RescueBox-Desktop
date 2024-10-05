@@ -3,9 +3,9 @@ import { error, info } from 'electron-log';
 import { initJob } from '../models/job';
 import { initModelServer } from '../models/model-server';
 import { initMLModel } from '../models/ml-model';
-import jobData from './dummy_data/jobs.json';
-import mlmodelData from './dummy_data/mlmodels.json';
-import serverData from './dummy_data/servers.json';
+import jobData from './dummy_data/jobs';
+import mlmodelData from './dummy_data/mlmodels';
+import serverData from './dummy_data/servers';
 
 class SQLiteDB {
   private connection: Sequelize;
