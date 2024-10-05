@@ -51,10 +51,6 @@ function RedButtonCell({
   );
 }
 
-function handleCancelJob(job: Job) {
-  console.log(`Job ${job.uid} has been canceled`);
-}
-
 function Jobs() {
   const {
     jobs,
@@ -76,6 +72,12 @@ function Jobs() {
     await window.job.deleteJobById({ uid: job.uid });
     await jobsMutate();
     console.log(`Job ${job.uid} has been deleted`);
+  }
+
+  async function handleCancelJob(job: Job) {
+    await window.job.cancelJob({ uid: job.uid });
+    await jobsMutate();
+    console.log(`Job ${job.uid} has been canceled`);
   }
 
   if (jobsError)
@@ -113,10 +115,7 @@ function Jobs() {
             </TableHeader>
             <TableBody>
               {jobs
-                ?.filter(
-                  (job) =>
-                    job.status !== 'Completed' && job.status !== 'Failed',
-                )
+                ?.filter((job) => job.status === 'Running')
                 .map((job) => (
                   <TableRow key={job.uid}>
                     <TableCell className="pl-4 w-1/3">
@@ -164,10 +163,7 @@ function Jobs() {
             </TableHeader>
             <TableBody>
               {jobs
-                ?.filter(
-                  (job) =>
-                    job.status === 'Completed' || job.status === 'Failed',
-                )
+                ?.filter((job) => job.status !== 'Running')
                 .map((job) => (
                   <TableRow key={job.uid}>
                     <TableCell className="pl-4 w-1/3">
@@ -177,7 +173,7 @@ function Jobs() {
                       {job.endTime ? job.endTime.toUTCString() : 'N/A'}
                     </TableCell>
                     <TableCell className="w-1/6 pl-6">
-                      {job.status === 'Failed' ? (
+                      {job.status === 'Failed' || job.status === 'Canceled' ? (
                         <RedXIcon />
                       ) : (
                         <GreenCheckIcon />
