@@ -2,8 +2,8 @@ const jobs = [
   {
     uid: 'job1',
     modelUid: 'model1',
-    startTime: '2023-10-01T10:00:00Z',
-    endTime: '2023-10-01T12:00:00Z',
+    startTime: new Date('2023-10-01T10:00:00Z'),
+    endTime: new Date('2023-10-01T12:00:00Z'),
     status: 'Completed',
     inputs: [
       {
@@ -33,8 +33,8 @@ const jobs = [
   {
     uid: 'job2',
     modelUid: 'model2',
-    startTime: '2023-10-02T14:00:00Z',
-    endTime: '2023-10-02T16:00:00Z',
+    startTime: new Date('2023-10-02T14:00:00Z'),
+    endTime: new Date('2023-10-02T16:00:00Z'),
     status: 'Failed',
     inputs: [
       {
@@ -64,7 +64,7 @@ const jobs = [
   {
     uid: 'job3',
     modelUid: 'model1',
-    startTime: '2023-10-03T09:00:00Z',
+    startTime: new Date('2023-10-03T09:00:00Z'),
     endTime: null,
     status: 'Running',
     inputs: [

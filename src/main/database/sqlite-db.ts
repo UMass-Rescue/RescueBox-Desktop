@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize';
 import { error, info } from 'electron-log';
-import { initJob } from '../models/job';
-import { initModelServer } from '../models/model-server';
-import { initMLModel } from '../models/ml-model';
+import JobDb, { initJob } from '../models/job';
+import ModelServerDb, { initModelServer } from '../models/model-server';
+import MLModelDb, { initMLModel } from '../models/ml-model';
 import jobData from './dummy_data/jobs';
 import mlmodelData from './dummy_data/mlmodels';
 import serverData from './dummy_data/servers';
@@ -34,18 +34,21 @@ class SQLiteDB {
     info('Initialized tables in SQLite database');
   }
 
+  // eslint-disable-next-line class-methods-use-this
   async initDummyData(): Promise<void> {
-    await this.connection.models.mlmodels.bulkCreate(mlmodelData);
-    await this.connection.models.ModelServerDb.bulkCreate(serverData);
-    await this.connection.models.JobDb.bulkCreate(jobData);
+    await MLModelDb.bulkCreate(mlmodelData);
+    await ModelServerDb.bulkCreate(serverData);
+    // @ts-ignore
+    await JobDb.bulkCreate(jobData);
 
     info('Initialized dummy data in SQLite database');
   }
 
+  // eslint-disable-next-line class-methods-use-this
   async clearDummyData(): Promise<void> {
-    await this.connection.models.ModelServerDb.destroy({ where: {} });
-    await this.connection.models.JobDb.destroy({ where: {} });
-    await this.connection.models.mlmodels.destroy({ where: {} });
+    await ModelServerDb.destroy({ where: {} });
+    await JobDb.destroy({ where: {} });
+    await MLModelDb.destroy({ where: {} });
 
     info('Cleared dummy data in SQLite database');
   }
