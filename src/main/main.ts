@@ -18,7 +18,7 @@ import * as registration from './handlers/registration';
 import * as job from './handlers/job';
 import * as models from './handlers/models';
 import * as fileSystem from './handlers/file-system';
-import DatabaseConn from './database/database-conn';
+import DatabaseConn, { getDbPath } from './database/database-conn';
 
 class AppUpdater {
   constructor() {
@@ -33,6 +33,11 @@ let mainWindow: BrowserWindow | null = null;
 // IPCMain Setup
 
 function setupIpcMain() {
+  // Database: access to reset database
+  ipcMain.handle('database:reset-database', () =>
+    // DatabaseConn.resetDatabase(getDbPath(app)),
+    DatabaseConn.resetDummyData(getDbPath(app)),
+  );
   // Registration: handles registering models
   ipcMain.handle(
     'register:register-model-app-ip',
@@ -174,7 +179,7 @@ app
   .then(async () => {
     setupIpcMain();
     createWindow();
-    const dbPath = path.join(app.getPath('userData'), 'rbox-data.db');
+    const dbPath = getDbPath(app);
     log.info('Database location is', dbPath);
     // await DatabaseConn.initDatabase(dbPath);
     await DatabaseConn.initDatabaseTest(dbPath);

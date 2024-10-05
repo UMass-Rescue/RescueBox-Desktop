@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 import { error, info } from 'electron-log';
-import { initJob } from '../models/job';
-import { initModelServer } from '../models/model-server';
+import JobDb, { initJob } from '../models/job';
+import ModelServerDb, { initModelServer } from '../models/model-server';
 import { initMLModel } from '../models/ml-model';
 import jobData from './dummy_data/jobs.json';
 import mlmodelData from './dummy_data/mlmodels.json';
@@ -48,6 +48,17 @@ class SQLiteDB {
     await this.connection.models.mlmodels.destroy({ where: {} });
 
     info('Cleared dummy data in SQLite database');
+  }
+
+  async resetDummyData(): Promise<void> {
+    await this.clearDummyData();
+    await this.initDummyData();
+  }
+
+  async resetTables(): Promise<void> {
+    await ModelServerDb.destroy({ where: {} });
+    await JobDb.destroy({ where: {} });
+    await this.initTables();
   }
 
   async disconnect(): Promise<void> {
