@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { Button } from './components/ui/button';
 import { useMLModel } from './lib/hooks';
+import GreenRunIcon from './components/GreenRunIcon';
 
 function ModelDetails() {
   const { modelUid } = useParams();
@@ -78,12 +79,14 @@ function ModelDetails() {
           Last Updated
         </h1>
         <p className="m-2">{model.lastUpdated.toUTCString()}</p>
-        <Button
-          variant="outline"
-          className="hover:-translate-y-0.5 border my-10 text-black w-full transition-all"
-        >
-          <Link to="/models/outputs">Run</Link>
-        </Button>
+        <div className="mt-10">
+          <Link to="/models/outputs">
+            <Button className="w-full flex flex-row gap-2 hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500">
+              Run
+              <GreenRunIcon />
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );
