@@ -4,7 +4,7 @@
 
 <img align="right" width="200" src="./docs/icon.png" width="200" />
 
-RescueBox Desktop (RBox) aims to be a self-contained binary offering a library of ML models for various forensic applications. Users simply specify the model they want to run (selected from a list of available models), specify its inputs and analyze outputs when ready. RBox handles the rest: running the jobs, and interfacing with different ML models. As of v0.1.0, the models need to be running in the background adhering to the FlaskML interface.
+RescueBox Desktop (RBox) aims to be a self-contained binary offering a library of ML models for various forensic applications. Users simply specify the model they want to run (selected from a list of available models), specify its inputs and analyze outputs when ready. RBox handles the rest: running the jobs, and interfacing with different ML models. As of v0.1.0, the models need to be running in the background adhering to the [FlaskML](https://github.com/UMass-Rescue/Flask-ML/tree/master) interface.
 
 For a review of the project's goals, read [What is RescueBox Desktop?](./docs/what-is-rescuebox-desktop.md)
 
