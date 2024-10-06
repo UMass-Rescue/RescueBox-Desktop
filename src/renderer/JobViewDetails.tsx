@@ -1,14 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
-import { OpenDirectoryArgs } from '../main/handlers/file-system';
 import { Button } from './components/ui/button';
 import { useJob, useMLModel } from './lib/hooks';
-
-const handleViewDirectory = (input: boolean) => {
-  const path =
-    document.getElementById(input ? 'input-path' : 'output-path')
-      ?.textContent || '';
-  window.fileSystem.openDirectory({ path } as OpenDirectoryArgs);
-};
+import FilePathField from './components/FilePathField';
 
 function JobViewDetails() {
   const { jobId } = useParams();
@@ -44,41 +37,33 @@ function JobViewDetails() {
         </div>
         <div>
           <h1 className="font-bold my-4">Inputs</h1>
-          <div className="flex flex-row border border-slate-400 rounded-lg w-full justify-between p-2">
-            <div className="" id="input-path">
-              {job.inputs[0].path}
-            </div>
-            <Button
-              className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg"
-              onClick={() => handleViewDirectory(true)}
-            >
-              View
-            </Button>
-          </div>
+          {job.inputs.map((input) => (
+            <FilePathField
+              key={input.path}
+              path={input.path}
+              label={input.path_type}
+            />
+          ))}
         </div>
         <div>
           <h1 className="font-bold my-4">Output</h1>
-          <div className="flex flex-row border border-slate-400 rounded-lg w-full justify-between p-2">
-            <div className="" id="output-path">
-              {job.outputs[0].path}
-            </div>
-            <Button
-              className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg"
-              onClick={() => handleViewDirectory(false)}
-            >
-              View
-            </Button>
-          </div>
+          {job.outputs.map((input) => (
+            <FilePathField
+              key={input.path}
+              path={input.path}
+              label={input.path_type}
+            />
+          ))}
         </div>
         <div>
           <h1 className="font-bold my-4">Model</h1>
-          <div className="flex flex-row border border-slate-400 rounded-lg w-full justify-between p-2">
+          <div className="flex flex-row items-center border border-slate-400 rounded-lg w-full justify-between py-1 px-3">
             <div className="">{model?.name}</div>
             <Link
               to={`/models/${job.modelUid}/details`}
-              className="text-black text-base font-normal bg-slate-300 hover:-translate-y-0.5 hover:bg-slate-200 transition-all py-2 px-2 rounded-lg"
+              className="text-black text-base font-normal hover:-translate-y-0.5 transition-all rounded-lg"
             >
-              Inspect
+              <Button>Inspect</Button>
             </Link>
           </div>
         </div>
