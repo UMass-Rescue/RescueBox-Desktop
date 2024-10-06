@@ -39,7 +39,7 @@ function JobViewDetails() {
         <div className="">
           <h1 className="font-bold mb-4">Start</h1>
           <div className="p-2 border border-slate-400 bg-slate-200 rounded-lg w-full">
-            {job.startTime.toUTCString()}
+            {job.startTime.toLocaleString('en-US', { timeZone: 'EST' })}
           </div>
         </div>
         <div>

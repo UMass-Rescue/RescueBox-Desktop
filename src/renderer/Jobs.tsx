@@ -129,7 +129,10 @@ function Jobs() {
                       {getModelName(job.modelUid)}
                     </TableCell>
                     <TableCell className="w-1/3">
-                      {job.startTime.toUTCString()}
+                      <div className="flex flex-col">
+                        <span>{job.startTime.toLocaleDateString()}</span>
+                        <span>{job.startTime.toLocaleTimeString()}</span>
+                      </div>
                     </TableCell>
                     <TableCell className="text-center py-4 px-4">
                       <ViewButton job={job} />
@@ -179,7 +182,14 @@ function Jobs() {
                       {getModelName(job.modelUid)}
                     </TableCell>
                     <TableCell className="w-1/6">
-                      {job.endTime ? job.endTime.toUTCString() : 'N/A'}
+                      {job.endTime ? (
+                        <div className="flex flex-col">
+                          <span>{job.endTime.toLocaleDateString()}</span>
+                          <span>{job.endTime.toLocaleTimeString()}</span>
+                        </div>
+                      ) : (
+                        'N/A'
+                      )}
                     </TableCell>
                     <TableCell className="w-1/6 pl-7">
                       <TooltipProvider delayDuration={100}>
