@@ -2,7 +2,7 @@ import { ModelAppStatus } from 'src/shared/models';
 import ModelServer from '../models/model-server';
 import { getRaw } from '../util';
 import { getServiceByModelUid } from '../model-apps/config';
-import JobManager from '../model-apps/inference-task';
+import InferenceTask from '../model-apps/inference-task';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SERVER_HEALTH_SLUG = '/health';
@@ -45,7 +45,7 @@ const getModelAppStatus = async (
   if (!server) {
     return ModelAppStatus.Unregistered;
   }
-  const manager = new JobManager(getServiceByModelUid(arg.modelUid));
+  const manager = new InferenceTask(getServiceByModelUid(arg.modelUid));
   return manager.pingHealth(server).then((isOnline) => {
     if (isOnline) {
       return ModelAppStatus.Online;
