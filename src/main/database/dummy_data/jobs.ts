@@ -1,90 +1,123 @@
+import { v4 as uuidv4 } from 'uuid';
+
 const jobs = [
   {
-    uid: 'job1',
-    modelUid: 'model1',
-    startTime: new Date('2023-10-01T10:00:00Z'),
-    endTime: new Date('2023-10-01T12:00:00Z'),
+    uid: uuidv4(),
+    modelUid: 'isr-model',
+    startTime: new Date('2023-10-01T10:14:00Z'),
+    endTime: new Date('2023-10-01T12:09:00Z'),
     status: 'Completed',
     inputs: [
       {
-        path: '/input/path1',
-        path_type: 'temp',
+        path: 'C:/Users/LENOVO/Pictures/Input',
+        path_key: 'Low Res Images',
       },
     ],
     outputs: [
       {
-        path: '/output/path1',
-        path_type: 'temp',
+        path: 'C:/Users/LENOVO/Pictures/Output',
+        path_key: 'High Res Images',
       },
     ],
     parameters: [
       {
-        param1: 'value1',
-      },
-      {
-        param2: 'value2',
+        scale: 4,
       },
     ],
     response: {
-      message: 'Job completed successfully',
+      message: 'Job completed successfully.',
       code: 200,
     },
   },
   {
-    uid: 'job2',
-    modelUid: 'model2',
-    startTime: new Date('2023-10-02T14:00:00Z'),
-    endTime: new Date('2023-10-02T16:00:00Z'),
+    uid: uuidv4(),
+    modelUid: 'sbf-model',
+    startTime: new Date('2023-10-02T14:19:08Z'),
+    endTime: new Date('2023-10-02T14:19:49Z'),
     status: 'Failed',
     inputs: [
       {
-        path: '/input/path2',
-        path_type: 'temp',
+        path: 'F:/USB/Forensic/Input',
+        path_key: 'Known Dataset',
+      },
+      {
+        path: 'F:/USB/Forensic/Target',
+        path_key: 'Target Dataset',
       },
     ],
     outputs: [
       {
-        path: '/output/path2',
-        path_type: 'temp',
+        path: 'F:/USB/Forensic/Output',
+        path_key: 'Results',
       },
     ],
     parameters: [
       {
-        param1: 'value3',
+        blockSize: '4096',
       },
       {
-        param2: 'value4',
+        targetProbability: '0.99',
       },
     ],
     response: {
-      message: 'Job failed due to an error',
+      message: 'Job failed due to an error: Path not found.',
       code: 500,
     },
   },
   {
-    uid: 'job3',
-    modelUid: 'model1',
-    startTime: new Date('2023-10-03T09:00:00Z'),
-    endTime: null,
+    uid: uuidv4(),
+    modelUid: 'sbf-model',
+    startTime: new Date('2023-10-02T14:19:01Z'),
+    endTime: new Date('2023-10-02T14:27:12Z'),
     status: 'Running',
     inputs: [
       {
-        path: '/input/path3',
-        path_type: 'temp',
+        path: 'F:/USB/Forensic/Data',
+        path_key: 'Known Dataset',
+      },
+      {
+        path: 'F:/USB/Forensic/Target',
+        path_key: 'Target Dataset',
       },
     ],
     outputs: [
       {
-        path: '/output/path3',
-        path_type: 'temp',
+        path: 'F:/USB/Forensic/Output',
+        path_key: 'Results',
       },
     ],
     parameters: [
       {
-        param1: 'value5',
+        blockSize: '4096',
+        targetProbability: '0.99',
       },
+    ],
+    response: {
+      message: 'Job completed successfully.',
+      code: 500,
+    },
+  },
+  {
+    uid: uuidv4(),
+    modelUid: 'obj-detection-model',
+    startTime: new Date('2023-10-06T09:03:45Z'),
+    endTime: null,
+    status: 'Running',
+    inputs: [
       {
-        param2: 'value6',
+        path: 'C:/Users/Default/Pictures/Input',
+        path_key: 'Images to Analyze',
+      },
+    ],
+    outputs: [
+      {
+        path: 'C:/Users/Default/Pictures/Input',
+        path_key: 'Images with Bounding Boxes',
+      },
+    ],
+    parameters: [
+      {
+        confidenceThreshold: '0.5',
       },
     ],
     response: {},

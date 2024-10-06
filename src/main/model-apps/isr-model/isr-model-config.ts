@@ -5,15 +5,14 @@ const SuperResolutionModel: ModelAppConfig = {
   uid: 'isr-model',
   name: 'Image Super Resolution',
   version: '1.0.0',
-  author: 'John Doe',
-  lastUpdated: new Date('2023-10-01T12:00:00Z'),
+  author: 'Shriram Giridhara',
+  lastUpdated: new Date('2024-09-23T12:00:00Z'),
   description: 'This model upscales images to a higher resolution.',
   parameters: [
     {
       name: 'Scale',
       type: 'Number',
-      description:
-        'The factor by which to upscale the image (between 1 and 4).',
+      description: 'The factor by which to upscale the image.',
     },
   ],
   inputTypes: [
@@ -30,12 +29,8 @@ const SuperResolutionModel: ModelAppConfig = {
   ],
   constraints: [
     {
-      name: 'Minimum Scale',
-      description: 'The minimum scale factor is 1.',
-    },
-    {
-      name: 'Maximum Scale',
-      description: 'The maximum scale factor is 4.',
+      name: 'Scale Range',
+      description: 'The scale factor must be an integer between 1 and 4.',
     },
   ],
   service: new ISRModelService(),

@@ -4,9 +4,13 @@ import InferenceService from './inference-service';
 import SuperResolutionModel from './isr-model/isr-model-config';
 import TenSecondModel from './ten-second-model/ten-second-model-config';
 import TenSecondModelService from './ten-second-model/ten-second-model-service';
+import ObjectDetectionModel from './obj-detection-model/obj-detection-model-config';
+import SmallBlockForensicsModel from './sbf-model/sbf-model-config';
 
 export const modelAppConfigs: ModelAppConfig[] = [
   SuperResolutionModel,
+  SmallBlockForensicsModel,
+  ObjectDetectionModel,
   TenSecondModel,
 ];
 

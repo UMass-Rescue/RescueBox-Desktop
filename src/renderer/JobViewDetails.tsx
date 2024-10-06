@@ -41,7 +41,7 @@ function JobViewDetails() {
             <FilePathField
               key={input.path}
               path={input.path}
-              label={input.path_type}
+              label={input.path_key}
             />
           ))}
         </div>
@@ -51,7 +51,7 @@ function JobViewDetails() {
             <FilePathField
               key={input.path}
               path={input.path}
-              label={input.path_type}
+              label={input.path_key}
             />
           ))}
         </div>

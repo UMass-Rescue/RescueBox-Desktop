@@ -1,18 +1,18 @@
 const servers = [
   {
-    modelUid: 'model1',
-    serverAddress: '192.168.1.1',
-    serverPort: 8080,
+    modelUid: 'isr-model',
+    serverAddress: '127.0.0.1',
+    serverPort: 5000,
   },
   {
-    modelUid: 'model2',
-    serverAddress: '192.168.1.2',
-    serverPort: 8081,
+    modelUid: 'sbf-model',
+    serverAddress: '127.0.0.1',
+    serverPort: 5001,
   },
   {
-    modelUid: 'model3',
-    serverAddress: '192.168.1.3',
-    serverPort: 8083,
+    modelUid: 'obj-detection-model',
+    serverAddress: '127.0.0.1',
+    serverPort: 5002,
   },
 ];
 
