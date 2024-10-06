@@ -1,68 +1,95 @@
 import { Link, useParams } from 'react-router-dom';
 import { Button } from './components/ui/button';
-import { useMLModel } from './lib/hooks';
+import { useModelAppConfig } from './lib/hooks';
 import GreenRunIcon from './components/GreenRunIcon';
 
 function ModelDetails() {
   const { modelUid } = useParams();
 
-  const modelParameters = [
-    'Input size, default is 256x256',
-    'upscale factor, default is 2',
-  ];
-  const modelConstraints = [
-    "Only images with the '.jpg' or '.png' extension are supported",
-    'The input image must be a square image',
-    'The input images must be smaller than 1024x1024',
-  ];
+  const {
+    data: modelAppConfig,
+    error: modelAppConfigError,
+    isLoading: modelAppConfigIsLoading,
+  } = useModelAppConfig(modelUid);
 
-  const { data: model, isLoading, error } = useMLModel(modelUid);
-  if (isLoading) return <div>loading model..</div>;
-  if (error) return <div>failed to load model. Error: {error.toString()}</div>;
-  if (!model) return <div>no model</div>;
+  if (modelAppConfigIsLoading) return <div>loading model..</div>;
+  if (modelAppConfigError)
+    return (
+      <div>failed to load model. Error: {modelAppConfigError.toString()}</div>
+    );
+  if (!modelAppConfig) return <div>no model</div>;
 
   return (
     <div className="flex flex-row justify-between m-3">
       <div className="w-2/3 flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <h1 className="font-bold text-xl md:text-2xl lg:text-3xl">
-            {model.name}
+            {modelAppConfig.name}
           </h1>
-          <p className="text-md lg:text-lg">{model.name} DESCRIPTION</p>
+          <p className="text-md lg:text-lg">{modelAppConfig.description}</p>
         </div>
-        <div className="felx flex-col gap-2">
+        <div className="flex flex-col gap-2">
           <h1 className="font-bold text-lg md:text-xl lg:text-2xl">
-            {' '}
             Input Type
           </h1>
-          <p className="text-md lg:text-lg">INPUTS</p>
-        </div>
-        <div className="felx flex-col gap-2">
-          <h1 className="font-bold text-lg md:text-xl lg:text-2xl">
-            {' '}
-            Output Type
-          </h1>
-          <p className="text-md lg:text-lg">OUTPUTS</p>
-        </div>
-        <div className="felx flex-col gap-2">
-          <h1 className="font-bold text-lg md:text-xl lg:text-2xl">
-            {' '}
-            Parameters
-          </h1>
-          <ul className="flex flex-col gap-[0.1rem] list-disc ml-4">
-            {modelParameters.map((parameter) => (
-              <li className="text-md lg:text-lg">{parameter}</li>
-            ))}
+          <ul className="text-md lg:text-lg list-disc ml-4">
+            {modelAppConfig.inputTypes.map(
+              (inputType: { type: string; description: string }) => {
+                return (
+                  <li key={inputType.type}>
+                    <strong>{inputType.type}:</strong> {inputType.description}
+                  </li>
+                );
+              },
+            )}
           </ul>
         </div>
-        <div className="felx flex-col gap-2">
+        <div className="flex flex-col gap-2">
+          <h1 className="font-bold text-lg md:text-xl lg:text-2xl">
+            Output Type
+          </h1>
+          <ul className="text-md lg:text-lg list-disc ml-4">
+            {modelAppConfig.outputTypes.map(
+              (outputType: { type: string; description: string }) => {
+                return (
+                  <li key={outputType.type}>
+                    <strong>{outputType.type}:</strong> {outputType.description}
+                  </li>
+                );
+              },
+            )}
+          </ul>
+        </div>
+        <div className="flex flex-col gap-2">
+          <h1 className="font-bold text-lg md:text-xl lg:text-2xl">
+            Parameters
+          </h1>
+          <ul className="text-md lg:text-lg list-disc ml-4">
+            {modelAppConfig.parameters.map(
+              (param: { name: string; type: string; description: string }) => {
+                return (
+                  <li key={param.type}>
+                    <strong>{param.name}:</strong> {param.description}
+                  </li>
+                );
+              },
+            )}
+          </ul>
+        </div>
+        <div className="flex flex-col gap-2">
           <h1 className="font-bold text-lg md:text-xl lg:text-2xl">
             Constraints
           </h1>
-          <ul className="flex flex-col gap-[0.1rem] list-disc ml-4">
-            {modelConstraints.map((constraint) => (
-              <li className="text-md lg:text-lg">{constraint}</li>
-            ))}
+          <ul className="text-md lg:text-lg list-disc ml-4">
+            {modelAppConfig.constraints.map(
+              (constraint: { name: string; description: string }) => {
+                return (
+                  <li key={constraint.name}>
+                    <strong>{constraint.name}:</strong> {constraint.description}
+                  </li>
+                );
+              },
+            )}
           </ul>
         </div>
       </div>
@@ -70,15 +97,19 @@ function ModelDetails() {
         <h1 className="font-bold text-lg md:text-xl lg:text-2xl m-2">
           Model Version
         </h1>
-        <p className="m-2">{model.version}</p>
+        <p className="m-2">{modelAppConfig.version}</p>
         <h1 className="font-bold text-lg md:text-xl lg:text-2xl m-2">
           Developed By
         </h1>
-        <p className="m-2">{model.author}</p>
+        <p className="m-2">{modelAppConfig.author}</p>
         <h1 className="font-bold text-lg md:text-xl lg:text-2xl m-2">
           Last Updated
         </h1>
-        <p className="m-2">{model.lastUpdated.toUTCString()}</p>
+        <p className="m-2">
+          {modelAppConfig.lastUpdated.toLocaleString('en-US', {
+            timeZone: 'EST',
+          })}
+        </p>
         <div className="mt-10">
           <Link to="/models/outputs">
             <Button className="w-full flex flex-row gap-2 hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500">

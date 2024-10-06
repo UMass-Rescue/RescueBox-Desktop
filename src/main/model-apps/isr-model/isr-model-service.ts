@@ -10,7 +10,7 @@ import InferenceService, {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SERVER_HEALTH_SLUG = '/health';
 
-class SuperResInferenceService implements InferenceService {
+class ISRModelService implements InferenceService {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pingHealth(_server: ModelServerInfo): Promise<boolean> {
     // return fetch(
@@ -79,4 +79,4 @@ class SuperResInferenceService implements InferenceService {
   }
 }
 
-export default SuperResInferenceService;
+export default ISRModelService;

@@ -8,7 +8,7 @@ import {
   SuccessResponse,
 } from '../model-apps/inference-service';
 import { getRaw } from '../util';
-import JobManager from '../model-apps/inference-task';
+import InferenceTask from '../model-apps/inference-task';
 
 export type RunJobArgs = {
   modelUid: string;
@@ -45,7 +45,7 @@ const completeJob = async (args: CompleteJobArgs) => {
 };
 
 const cancelJob = async (_event: any, args: JobByIdArgs) => {
-  const manager = new JobManager(
+  const manager = new InferenceTask(
     await JobDb.getJobByUid(args.uid).then((job) =>
       getServiceByModelUid(job!.modelUid),
     ),
@@ -60,7 +60,7 @@ const cancelJob = async (_event: any, args: JobByIdArgs) => {
 const runJob = async (_event: any, arg: RunJobArgs) => {
   // Setup job parameters
   const uid = uuidv4();
-  const manager = new JobManager(getServiceByModelUid(arg.modelUid));
+  const manager = new InferenceTask(getServiceByModelUid(arg.modelUid));
   const server = await ModelServerDb.getServerByModelUid(arg.modelUid);
   log(`Getting server for model ${arg.modelUid}`);
   if (!server) {

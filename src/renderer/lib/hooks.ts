@@ -18,6 +18,21 @@ export function useModels() {
   };
 }
 
+export function useModelAppConfig(modelUid?: string) {
+  const fetcher = () =>
+    window.models.getModelAppConfigByUid({ modelUid: modelUid! });
+  const { data, error, isLoading } = useSWR(
+    modelUid ? `models:get-model-app-config-by-uid-${modelUid}` : null,
+    fetcher,
+  );
+
+  return {
+    data,
+    error,
+    isLoading,
+  };
+}
+
 export function useServerStatuses(servers?: ModelServer[]) {
   const fetcher = () =>
     Promise.all(

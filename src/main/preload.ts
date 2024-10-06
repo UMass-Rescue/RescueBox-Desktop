@@ -1,7 +1,13 @@
 // Disable no-unused-vars, broken for spread args
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer } from 'electron';
-import { MLModel, ModelServer, Job, ModelAppStatus } from 'src/shared/models';
+import {
+  MLModel,
+  ModelServer,
+  Job,
+  ModelAppStatus,
+  ModelAppConfig,
+} from 'src/shared/models';
 import {
   GetModelAppStatusArgs,
   RegisterModelArgs,
@@ -36,6 +42,11 @@ const modelsHandler = {
     ipcRenderer.invoke('models:get-models') as Promise<MLModel[]>,
   getModelByUid: (args: GetModelByIdArgs) =>
     ipcRenderer.invoke('models:get-model-by-uid', args) as Promise<MLModel>,
+  getModelAppConfigByUid: (args: GetModelByIdArgs) =>
+    ipcRenderer.invoke(
+      'models:get-model-app-config-by-uid',
+      args,
+    ) as Promise<ModelAppConfig>,
 };
 
 const jobHandler = {

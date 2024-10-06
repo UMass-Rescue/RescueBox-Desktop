@@ -1,3 +1,5 @@
+import { ModelAppConfig } from 'src/shared/models';
+import { warn } from 'electron-log';
 import { modelAppConfigs } from '../model-apps/config';
 import MLModelDb from '../models/ml-model';
 import { getRaw } from '../util';
@@ -35,4 +37,21 @@ export async function getModels(_event: any, _arg: any) {
 
 export async function getModelByUid(event: any, arg: GetModelByIdArgs) {
   return MLModelDb.getModelByUid(arg.modelUid).then(getRaw);
+}
+
+export function getModelAppConfigByUid(
+  event: any,
+  arg: GetModelByIdArgs,
+): ModelAppConfig {
+  const modelAppConfig = modelAppConfigs.find(
+    (config) => config.uid === arg.modelUid,
+  );
+  if (!modelAppConfig) {
+    warn(`Model with uid ${arg.modelUid} not found in config.ts`);
+    warn(
+      `Returning a dummy config for model with uid ${arg.modelUid}. This is not recommended.`,
+    );
+    return modelAppConfigs.find((config) => config.uid === 'ten-second-model')!;
+  }
+  return modelAppConfig;
 }

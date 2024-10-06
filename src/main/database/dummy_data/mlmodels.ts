@@ -1,21 +1,21 @@
 const models = [
   {
     uid: 'model1',
-    name: 'Image Super Resolution',
+    name: 'Sentiment Analysis',
     version: '1.0.0',
     author: 'John Doe',
     lastUpdated: new Date('2023-10-01T12:00:00Z'),
   },
   {
     uid: 'model2',
-    name: 'Image Classification Model',
+    name: 'Text to Speech',
     version: '1.1.0',
     author: 'Jane Smith',
     lastUpdated: new Date('2023-10-02T15:30:00Z'),
   },
   {
     uid: 'model3',
-    name: 'Sentiment Analysis Model',
+    name: 'Audio Enhancement',
     version: '1.2.0',
     author: 'Alice Johnson',
     lastUpdated: new Date('2023-10-03T09:45:00Z'),
