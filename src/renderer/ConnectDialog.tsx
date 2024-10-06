@@ -23,7 +23,8 @@ import { useMLModel } from './lib/hooks';
 import LoadingIcon from './components/LoadingIcon';
 
 type ConnectInputs = {
-  ipAndPort: string;
+  ip: string;
+  port: string;
 };
 
 function ConnectDialog({
@@ -36,6 +37,8 @@ function ConnectDialog({
   registerModel: (modelUid: string, ipAndPort: string) => any;
 }) {
   // Form Hook
+  const [defaultIp, defaultPort] = defaultValue.split(':');
+
   const {
     register,
     handleSubmit,
@@ -48,7 +51,7 @@ function ConnectDialog({
   } = useMLModel(modelUid);
 
   const onSubmit: SubmitHandler<ConnectInputs> = async (data) => {
-    await registerModel(modelUid, data.ipAndPort);
+    await registerModel(modelUid, data.ip.concat(':', data.port));
   };
 
   if (modelIsLoading) return <LoadingIcon />;
@@ -85,29 +88,56 @@ function ConnectDialog({
           onSubmit={handleSubmit(onSubmit)}
           className="flex items-center space-x-2"
         >
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="ipAndPort" className="text-sm font-medium">
-              Server Address (IP:Port)
+          <div className="grid grid-container grid-cols-3 gap-2">
+            <Label
+              htmlFor="ip"
+              className="text-sm font-medium col-span-2 text-center"
+            >
+              Server IP Address
+            </Label>
+            <Label
+              htmlFor="port"
+              className="text-sm font-medium col-span-1 text-center"
+            >
+              Port
             </Label>
             <Input
-              {...register('ipAndPort', {
+              {...register('ip', {
                 required: 'This field is required',
                 pattern: {
                   value:
-                    /^(localhost|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)):(6553[0-5]|655[0-2][0-9]|65[0-4][0-9][0-9]|6[0-4][0-9][0-9][0-9][0-9]|[1-5](\d){4}|[1-9](\d){0,3})$/,
-                  message: 'Invalid IP:Port format',
+                    /^localhost|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
+                  message: 'Invalid IP format',
                 },
               })}
-              defaultValue={`${defaultValue}`}
+              defaultValue={`${defaultIp}`}
+              className="col-span-2"
+            />
+            <Input
+              {...register('port', {
+                required: 'This field is required',
+                pattern: {
+                  value:
+                    /^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/,
+                  message: 'Invalid Port format',
+                },
+              })}
+              defaultValue={`${defaultPort}`}
+              className="col-span-1"
             />
           </div>
           <Button size="default" className="px-3 self-end" disabled={!isValid}>
             Connect
           </Button>
         </form>
-        {errors.ipAndPort && (
+        {errors.ip && (
           <span className="text-red-500 text-xs -mt-3">
             Please enter a valid server address.
+          </span>
+        )}
+        {errors.port && (
+          <span className="text-red-500 text-xs -mt-3">
+            Please enter a valid port number.
           </span>
         )}
         <DialogFooter className="sm:justify-start" />
