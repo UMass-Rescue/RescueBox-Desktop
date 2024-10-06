@@ -38,7 +38,7 @@ function setupIpcMain() {
     // DatabaseConn.resetDatabase(getDbPath(app)),
     DatabaseConn.resetDummyData(getDbPath(app)),
   );
-  // Registration: handles registering models
+  // Registration: handles registering model servers
   ipcMain.handle(
     'register:register-model-app-ip',
     registration.registerModelAppIp,
@@ -52,6 +52,7 @@ function setupIpcMain() {
     registration.getModelAppStatus,
   );
   ipcMain.handle('register:get-model-servers', registration.getModelServers);
+  ipcMain.handle('register:get-model-info', registration.getModelInfo);
 
   // Models: handles registering models
   ipcMain.handle('models:get-models', models.getModels);

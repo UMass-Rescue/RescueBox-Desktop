@@ -1,4 +1,4 @@
-import { ModelAppStatus } from 'src/shared/models';
+import { ModelAppStatus, ModelInfo } from 'src/shared/models';
 import ModelServer from '../models/model-server';
 import { getRaw } from '../util';
 import { getServiceByModelUid } from '../model-apps/config';
@@ -6,6 +6,8 @@ import JobManager from '../model-apps/inference-task';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SERVER_HEALTH_SLUG = '/health';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const MODEL_APP_INFO_SLUG = '/info';
 
 export type RegisterModelArgs = {
   modelUid: string;
@@ -21,6 +23,10 @@ export type GetModelAppStatusArgs = {
   modelUid: string;
 };
 
+export type GetModelInfoArgs = {
+  modelUid: string;
+};
+
 const registerModelAppIp = async (event: any, arg: RegisterModelArgs) => {
   return ModelServer.registerServer(
     arg.modelUid,
@@ -28,6 +34,7 @@ const registerModelAppIp = async (event: any, arg: RegisterModelArgs) => {
     arg.serverPort,
   ).then(getRaw);
 };
+
 const unregisterModelAppIp = async (event: any, arg: UnregisterModelArgs) => {
   return ModelServer.deleteServer(arg.modelUid);
 };
@@ -52,9 +59,25 @@ const getModelAppStatus = async (
     return ModelAppStatus.Offline;
   });
 };
+
+const getModelInfo = async (
+  _event: any,
+  arg: GetModelInfoArgs,
+): Promise<ModelInfo> => {
+  const server = await ModelServer.getServerByModelUid(arg.modelUid);
+  if (!server) {
+    throw new Error(`Server not found for model ${arg.modelUid}.`);
+  }
+  const manager = new JobManager(getServiceByModelUid(arg.modelUid));
+  return manager.fetchModelInfo(server).then((data) => {
+    return data as ModelInfo;
+  });
+};
+
 export {
   registerModelAppIp,
   unregisterModelAppIp,
   getModelAppStatus,
   getModelServers,
+  getModelInfo,
 };

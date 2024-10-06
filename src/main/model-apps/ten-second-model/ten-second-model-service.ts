@@ -1,4 +1,5 @@
 /* eslint-disable class-methods-use-this */
+import { ModelInfo } from 'src/shared/models';
 import InferenceService, {
   ErrorResponse,
   InferenceArgs,
@@ -8,7 +9,7 @@ import InferenceService, {
 
 class TenSecondModelService implements InferenceService {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  pingHealth(_server: ModelServerInfo): Promise<boolean> {
+  pingHealth(server: ModelServerInfo): Promise<boolean> {
     // return fetch(
     //   `http://${model.serverAddress}:${model.serverPort}${SERVER_HEALTH_SLUG}`,
     // )
@@ -26,7 +27,6 @@ class TenSecondModelService implements InferenceService {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   public async runInference(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     args: InferenceArgs,
@@ -41,6 +41,29 @@ class TenSecondModelService implements InferenceService {
           }),
         );
       }, 10000);
+    });
+  }
+
+  public async fetchModelInfo(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    server: ModelServerInfo,
+  ): Promise<ModelInfo | null> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          uid: 'dummy-1',
+          name: 'Ten Second Model',
+          version: '0.8.5',
+          author: 'Jane Smith',
+          lastUpdated: new Date('2023-11-15T14:30:00Z'),
+          parameters: [
+            { name: 'param1', type: 'number', description: 'Parameter 1' },
+          ],
+          inputTypes: [{ type: 'image', description: 'Input image' }],
+          outputTypes: [{ type: 'image', description: 'Output image' }],
+          constraints: [{ name: 'constraint1', description: 'Constraint 1' }],
+        } as ModelInfo);
+      }, 2000);
     });
   }
 }

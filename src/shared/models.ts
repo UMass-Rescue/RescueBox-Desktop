@@ -15,3 +15,16 @@ export enum ModelAppStatus {
   Error = 'Error',
   Unregistered = 'Unregistered',
 }
+
+export type ModelInfo = {
+  uid: string;
+  name: string;
+  version: string;
+  author: string;
+  lastUpdated: Date;
+  description: string;
+  parameters: { name: string; type: string; description: string }[];
+  inputTypes: { type: string; description: string }[];
+  outputTypes: { type: string; description: string }[];
+  constraints: { name: string; description: string }[];
+};

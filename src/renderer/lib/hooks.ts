@@ -83,6 +83,26 @@ export function useServers() {
   };
 }
 
+export function useModelInfo(modelUid?: string) {
+  const fetcher = () =>
+    window.registration.getModelInfo({
+      modelUid: modelUid!,
+    });
+
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    !modelUid ? null : `register:get-model-info-${modelUid}`,
+    fetcher,
+  );
+
+  return {
+    modelInfo: data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}
+
 export function useMLModels() {
   const fetcher = () => window.models.getModels();
   const { data, error, isLoading, isValidating, mutate } = useSWR(

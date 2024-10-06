@@ -1,4 +1,5 @@
 /* eslint-disable max-classes-per-file */
+import { ModelInfo } from 'src/shared/models';
 import { Inputs, Outputs, Parameters } from '../models/job';
 
 type ModelServerInfo = {
@@ -35,6 +36,7 @@ export default interface InferenceService {
     args: InferenceArgs,
     signal: AbortSignal,
   ): Promise<SuccessResponse | ErrorResponse>;
+  fetchModelInfo(server: ModelServerInfo): Promise<ModelInfo | null>;
 }
 
 export { InferenceArgs, ModelServerInfo };

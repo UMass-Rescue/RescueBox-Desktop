@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this */
 // import log from 'electron-log';
+import { ModelInfo } from 'src/shared/models';
 import InferenceService, {
   ErrorResponse,
   InferenceArgs,
@@ -9,12 +10,14 @@ import InferenceService, {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SERVER_HEALTH_SLUG = '/health';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const MODEL_APP_INFO_SLUG = '/info';
 
 class SuperResInferenceService implements InferenceService {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  pingHealth(_server: ModelServerInfo): Promise<boolean> {
+  pingHealth(server: ModelServerInfo): Promise<boolean> {
     // return fetch(
-    //   `http://${model.serverAddress}:${model.serverPort}${SERVER_HEALTH_SLUG}`,
+    //   `http://${server.serverAddress}:${server.serverPort}${SERVER_HEALTH_SLUG}`,
     // )
     //   .then((res) => res.status)
     //   .then((status) => {
@@ -76,6 +79,64 @@ class SuperResInferenceService implements InferenceService {
         );
       }, 1000);
     });
+  }
+
+  public async fetchModelInfo(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    server: ModelServerInfo,
+  ): Promise<ModelInfo | null> {
+    // return fetch(
+    //   `http://${server.serverAddress}:${server.serverPort}${MODEL_APP_INFO_SLUG}`,
+    // )
+    //   .then((res) => {
+    //     if (res.status !== 200) {
+    //       log.error(`Failed to fetch model info: ${res.statusText}`);
+    //       return null;
+    //     }
+    //     return res.json() as Promise<ModelInfo>;
+    //   })
+    //   .catch((error) => {
+    //     log.error(`Failed to fetch model info: ${error}`);
+    //     return null;
+    // });
+    return {
+      uid: 'model1',
+      name: 'Image Super Resolution',
+      version: '1.0.0',
+      author: 'John Doe',
+      lastUpdated: new Date('2023-10-01T12:00:00Z'),
+      description: 'This model upscales images to a higher resolution.',
+      parameters: [
+        {
+          name: 'Scale',
+          type: 'Number',
+          description:
+            'The factor by which to upscale the image (between 1 and 4).',
+        },
+      ],
+      inputTypes: [
+        {
+          type: 'Image(s)',
+          description: 'The images to be upscaled.',
+        },
+      ],
+      outputTypes: [
+        {
+          type: 'Image(s)',
+          description: 'The upscaled images.',
+        },
+      ],
+      constraints: [
+        {
+          name: 'Minimum Scale',
+          description: 'The minimum scale factor is 1.',
+        },
+        {
+          name: 'Maximum Scale',
+          description: 'The maximum scale factor is 4.',
+        },
+      ],
+    } as ModelInfo;
   }
 }
 

@@ -1,4 +1,5 @@
 import log from 'electron-log';
+import { ModelInfo } from 'src/shared/models';
 import InferenceService, {
   InferenceArgs,
   SuccessResponse,
@@ -35,6 +36,12 @@ class InferenceTask {
 
   public async pingHealth(server: ModelServerInfo): Promise<boolean> {
     return this.service.pingHealth(server);
+  }
+
+  public async fetchModelInfo(
+    server: ModelServerInfo,
+  ): Promise<ModelInfo | null> {
+    return this.service.fetchModelInfo(server);
   }
 }
 

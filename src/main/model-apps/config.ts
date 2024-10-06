@@ -13,7 +13,7 @@ export type ModelAppConfig = {
 };
 
 export const SuperResolutionImageModel: ModelAppConfig = {
-  uid: 'model-super-res',
+  uid: 'model1',
   name: 'Image Super Resolution',
   version: '1.0.0',
   author: 'John Doe',
@@ -22,7 +22,7 @@ export const SuperResolutionImageModel: ModelAppConfig = {
 };
 
 export const TenSecondModel: ModelAppConfig = {
-  uid: 'model1',
+  uid: 'dummy-1',
   name: 'Ten Second Model',
   version: '0.8.5',
   author: 'Jane Smith',
