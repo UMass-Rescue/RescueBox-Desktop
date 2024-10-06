@@ -28,6 +28,7 @@ const registerModelAppIp = async (event: any, arg: RegisterModelArgs) => {
     arg.serverPort,
   ).then(getRaw);
 };
+
 const unregisterModelAppIp = async (event: any, arg: UnregisterModelArgs) => {
   return ModelServer.deleteServer(arg.modelUid);
 };
@@ -52,6 +53,7 @@ const getModelAppStatus = async (
     return ModelAppStatus.Offline;
   });
 };
+
 export {
   registerModelAppIp,
   unregisterModelAppIp,
