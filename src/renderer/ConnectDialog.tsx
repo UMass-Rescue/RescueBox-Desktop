@@ -89,16 +89,10 @@ function ConnectDialog({
           className="flex items-center space-x-2"
         >
           <div className="grid grid-container grid-cols-3 gap-2">
-            <Label
-              htmlFor="ip"
-              className="text-sm font-medium col-span-2 text-center"
-            >
+            <Label htmlFor="ip" className="text-sm font-medium col-span-2">
               Server IP Address
             </Label>
-            <Label
-              htmlFor="port"
-              className="text-sm font-medium col-span-1 text-center"
-            >
+            <Label htmlFor="port" className="text-sm font-medium col-span-1">
               Port
             </Label>
             <Input
