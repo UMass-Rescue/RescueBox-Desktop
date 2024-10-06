@@ -5,13 +5,6 @@ import SuperResolutionModel from './isr-model/isr-model-config';
 import TenSecondModel from './ten-second-model/ten-second-model-config';
 import TenSecondModelService from './ten-second-model/ten-second-model-service';
 
-export enum DataType {
-  Image = 'Image',
-  Video = 'Video',
-  Audio = 'Audio',
-  Text = 'Text',
-}
-
 export const modelAppConfigs: ModelAppConfig[] = [
   SuperResolutionModel,
   TenSecondModel,

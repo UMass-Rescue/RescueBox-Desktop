@@ -1,4 +1,4 @@
-import { ModelAppConfig } from 'src/shared/models';
+import { DataType, ModelAppConfig } from 'src/shared/models';
 import TenSecondModelService from './ten-second-model-service';
 
 const TenSecondModel: ModelAppConfig = {
@@ -17,13 +17,13 @@ const TenSecondModel: ModelAppConfig = {
   ],
   inputTypes: [
     {
-      type: 'Dummy Input Type',
+      type: DataType.Text,
       description: 'Dummy Description',
     },
   ],
   outputTypes: [
     {
-      type: 'Dummy Output Type',
+      type: DataType.Audio,
       description: 'Dummy Description',
     },
   ],

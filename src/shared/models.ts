@@ -17,6 +17,13 @@ export enum ModelAppStatus {
   Unregistered = 'Unregistered',
 }
 
+export enum DataType {
+  Image = 'Image',
+  Video = 'Video',
+  Audio = 'Audio',
+  Text = 'Text',
+}
+
 export type ModelAppConfig = {
   uid: string;
   name: string;

@@ -1,4 +1,4 @@
-import { ModelAppConfig } from 'src/shared/models';
+import { DataType, ModelAppConfig } from 'src/shared/models';
 import ISRModelService from './isr-model-service';
 
 const SuperResolutionModel: ModelAppConfig = {
@@ -18,13 +18,13 @@ const SuperResolutionModel: ModelAppConfig = {
   ],
   inputTypes: [
     {
-      type: 'Image(s)',
+      type: DataType.Image,
       description: 'The images to be upscaled.',
     },
   ],
   outputTypes: [
     {
-      type: 'Image(s)',
+      type: DataType.Image,
       description: 'The upscaled images.',
     },
   ],
