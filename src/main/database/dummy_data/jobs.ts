@@ -10,13 +10,13 @@ const jobs = [
     inputs: [
       {
         path: 'C:/Users/LENOVO/Pictures/Input',
-        path_type: 'local',
+        path_key: 'Low Res Images',
       },
     ],
     outputs: [
       {
         path: 'C:/Users/LENOVO/Pictures/Output',
-        path_type: 'local',
+        path_key: 'High Res Images',
       },
     ],
     parameters: [
@@ -38,13 +38,17 @@ const jobs = [
     inputs: [
       {
         path: 'F:/USB/Forensic/Input',
-        path_type: 'USB Drive',
+        path_key: 'Known Dataset',
+      },
+      {
+        path: 'F:/USB/Forensic/Target',
+        path_key: 'Target Dataset',
       },
     ],
     outputs: [
       {
         path: 'F:/USB/Forensic/Output',
-        path_type: 'USB Drive',
+        path_key: 'Results',
       },
     ],
     parameters: [
@@ -68,14 +72,18 @@ const jobs = [
     status: 'Running',
     inputs: [
       {
-        path: 'F:/USB/Forensic/Input',
-        path_type: 'USB Drive',
+        path: 'F:/USB/Forensic/Data',
+        path_key: 'Known Dataset',
+      },
+      {
+        path: 'F:/USB/Forensic/Target',
+        path_key: 'Target Dataset',
       },
     ],
     outputs: [
       {
         path: 'F:/USB/Forensic/Output',
-        path_type: 'USB Drive',
+        path_key: 'Results',
       },
     ],
     parameters: [
@@ -98,13 +106,13 @@ const jobs = [
     inputs: [
       {
         path: 'C:/Users/Default/Pictures/Input',
-        path_type: 'local',
+        path_key: 'Images to Analyze',
       },
     ],
     outputs: [
       {
         path: 'C:/Users/Default/Pictures/Input',
-        path_type: 'local',
+        path_key: 'Images with Bounding Boxes',
       },
     ],
     parameters: [
