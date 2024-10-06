@@ -1,58 +1,20 @@
 import { warn } from 'electron-log';
 import InferenceService from './inference-service';
-import SuperResInferenceService from './super-res/super-res-inference-service';
+import ModelAppConfig from './model-app-config';
+import SuperResolutionModel from './isr-model/isr-model-config';
+import TenSecondModel from './ten-second-model/ten-second-model-config';
 import TenSecondModelService from './ten-second-model/ten-second-model-service';
 
-export type ModelAppConfig = {
-  uid: string;
-  name: string;
-  version: string;
-  author: string;
-  lastUpdated: Date;
-  service: InferenceService;
-};
-
-export const SuperResolutionImageModel: ModelAppConfig = {
-  uid: 'model-super-res',
-  name: 'Image Super Resolution',
-  version: '1.0.0',
-  author: 'John Doe',
-  lastUpdated: new Date('2023-10-26T10:00:00Z'),
-  service: new SuperResInferenceService(),
-};
-
-export const TenSecondModel: ModelAppConfig = {
-  uid: 'model1',
-  name: 'Ten Second Model',
-  version: '0.8.5',
-  author: 'Jane Smith',
-  lastUpdated: new Date('2023-11-15T14:30:00Z'),
-  service: new TenSecondModelService(), // Replace with your actual service
-};
-
-export const TenSecondModel2: ModelAppConfig = {
-  uid: 'dummy-2',
-  name: 'Ten Second Model',
-  version: '0.8.5',
-  author: 'Jane Smith',
-  lastUpdated: new Date('2023-11-15T14:30:00Z'),
-  service: new TenSecondModelService(), // Replace with your actual service
-};
-
-export const TenSecondModel3: ModelAppConfig = {
-  uid: 'dummy-3',
-  name: 'Ten Second Model',
-  version: '0.8.5',
-  author: 'Jane Smith',
-  lastUpdated: new Date('2023-11-15T14:30:00Z'),
-  service: new TenSecondModelService(), // Replace with your actual service
-};
+export enum DataType {
+  Image = 'Image',
+  Video = 'Video',
+  Audio = 'Audio',
+  Text = 'Text',
+}
 
 export const modelAppConfigs: ModelAppConfig[] = [
-  SuperResolutionImageModel,
+  SuperResolutionModel,
   TenSecondModel,
-  TenSecondModel2,
-  TenSecondModel3,
 ];
 
 export function getServiceByModelUid(modelUid: string): InferenceService {
