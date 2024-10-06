@@ -1,6 +1,6 @@
 import { warn } from 'electron-log';
+import { ModelAppConfig } from 'src/shared/models';
 import InferenceService from './inference-service';
-import ModelAppConfig from './model-app-config';
 import SuperResolutionModel from './isr-model/isr-model-config';
 import TenSecondModel from './ten-second-model/ten-second-model-config';
 import TenSecondModelService from './ten-second-model/ten-second-model-service';
