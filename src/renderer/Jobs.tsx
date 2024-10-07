@@ -152,7 +152,7 @@ function Jobs() {
         </div>
       </div>
 
-      <div className="mx-3 mt-6">
+      <div className="mx-3 my-6">
         <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
           Completed Jobs
           {jobsIsLoading && modelsIsLoading && (

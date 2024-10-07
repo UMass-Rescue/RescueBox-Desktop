@@ -41,7 +41,11 @@ function JobViewDetails() {
           <h1 className="font-bold my-4">Inputs</h1>
           <div className="flex flex-col gap-2">
             {job.inputs.map((input) => (
-              <FilePathField path={input.path} label={input.path_key} />
+              <FilePathField
+                path={input.path}
+                label={input.path_key}
+                key={input.path}
+              />
             ))}
           </div>
         </div>
@@ -49,7 +53,11 @@ function JobViewDetails() {
           <h1 className="font-bold my-4">Output</h1>
           <div className="flex flex-col gap-2">
             {job.outputs.map((output) => (
-              <FilePathField path={output.path} label={output.path_key} />
+              <FilePathField
+                path={output.path}
+                label={output.path_key}
+                key={output.path}
+              />
             ))}
           </div>
         </div>
