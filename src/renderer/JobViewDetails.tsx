@@ -8,6 +8,7 @@ function JobViewDetails() {
   const { jobId } = useParams();
 
   const { data: job, error: jobError, isLoading: jobIsLoading } = useJob(jobId);
+
   const {
     data: model,
     error: modelError,
@@ -44,8 +45,8 @@ function JobViewDetails() {
         </div>
         <div>
           <h1 className="font-bold my-4">Output</h1>
-          {job.outputs.map((input) => (
-            <FilePathField path={input.path} label={input.path_key} />
+          {job.outputs.map((output) => (
+            <FilePathField path={output.path} label={output.path_key} />
           ))}
         </div>
         <div>

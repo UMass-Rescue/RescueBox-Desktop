@@ -130,6 +130,22 @@ export function useMLModel(modelUid?: string) {
   };
 }
 
+export function useDirFiles(path?: string) {
+  const fetcher = () => window.fileSystem.getFilesFromDir({ path: path! });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    path ? `fileSystem:get-files-from-dir-${path}` : null,
+    fetcher,
+  );
+
+  return {
+    data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}
+
 export function useJobs() {
   const fetcher = () => window.job.getJobs();
   const { data, error, isLoading, mutate } = useSWR(`job:get-jobs`, fetcher, {
