@@ -14,7 +14,7 @@ type ModelAppComponents = {
   jobOutputsPage: React.FC<{ modelAppConfig: ModelAppConfig; jobId: string }>;
 };
 
-const componentMap = {
+const componentMap: Record<string, ModelAppComponents> = {
   'isr-model': {
     runPage: TemplateRun, // Replace with ISRModelRun
     infoPage: TemplateInfo, // Replace with ISRModelInfo
@@ -35,7 +35,7 @@ const componentMap = {
     infoPage: TemplateInfo,
     jobOutputsPage: TemplateJobOutputs,
   },
-} as unknown as Record<string, ModelAppComponents>;
+};
 
 const getModelAppComponents = (modelUid: string): ModelAppComponents => {
   if (!componentMap[modelUid]) {
