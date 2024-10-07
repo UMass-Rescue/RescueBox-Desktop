@@ -16,20 +16,33 @@ function ObjDetectionModelRun() {
   const [inputs, setInputs] = useState('No Path Selected');
   const [outputs, setOutputs] = useState('No Path Selected');
   const [modelType, setModelType] = useState(modelTypes[0]);
+  const [isValid, setIsValid] = useState(true);
+
   const navigate = useNavigate();
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const jobUid = await window.job
-      .runJob({
-        modelUid: 'obj-detection-model',
-        inputs: [{ path: inputs, path_key: 'Images to Analyze' }],
-        outputs: [{ path: outputs, path_key: 'Images with Bounding Boxes' }],
-        parameters: [{ modelType }],
-      })
-      .then((job) => job.uid);
-    // navigate(`/jobs/${jobUid}/details`);
-    navigate('/jobs');
+
+    if (
+      inputs === 'No Path Selected' ||
+      inputs === '' ||
+      outputs === 'No Path Selected' ||
+      outputs === '' ||
+      modelType === ''
+    ) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const jobUid = await window.job
+        .runJob({
+          modelUid: 'obj-detection-model',
+          inputs: [{ path: inputs, path_key: 'Images to Analyze' }],
+          outputs: [{ path: outputs, path_key: 'Images with Bounding Boxes' }],
+          parameters: [{ modelType }],
+        })
+        .then((job) => job.uid);
+      navigate('/jobs');
+    }
   };
 
   return (
@@ -68,6 +81,11 @@ function ObjDetectionModelRun() {
             ))}
           </select>
         </div>
+        {!isValid && (
+          <span className="text-red-500 text-sm p-1">
+            All fields must have a value
+          </span>
+        )}
       </div>
       <Button size="lg" type="submit" className="fixed bottom-0 right-0 m-10">
         Run
