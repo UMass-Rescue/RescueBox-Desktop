@@ -3,7 +3,7 @@
 import { Sequelize } from 'sequelize';
 import Main from 'electron/main';
 import path from 'path';
-import { log } from 'electron-log';
+import { log } from 'electron-log/main';
 import SQLiteDB from './sqlite-db';
 
 export function getDbPath(app: Main.App): string {

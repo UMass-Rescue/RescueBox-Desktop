@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-import { error, info } from 'electron-log';
+import { error, info } from 'electron-log/main';
 import JobDb, { initJob } from '../models/job';
 import ModelServerDb, { initModelServer } from '../models/model-server';
 import MLModelDb, { initMLModel } from '../models/ml-model';

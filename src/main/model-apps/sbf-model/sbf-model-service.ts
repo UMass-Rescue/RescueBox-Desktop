@@ -1,5 +1,4 @@
 /* eslint-disable class-methods-use-this */
-// import log from 'electron-log';
 import InferenceService, {
   ErrorResponse,
   InferenceArgs,

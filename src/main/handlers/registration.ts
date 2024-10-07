@@ -1,4 +1,5 @@
 import { ModelAppStatus } from 'src/shared/models';
+import log from 'electron-log/main';
 import ModelServer from '../models/model-server';
 import { getRaw } from '../util';
 import { getServiceByModelUid } from '../model-apps/config';
@@ -22,6 +23,9 @@ export type GetModelAppStatusArgs = {
 };
 
 const registerModelAppIp = async (event: any, arg: RegisterModelArgs) => {
+  log.info(
+    `Registering model ${arg.modelUid} at ${arg.serverAddress}:${arg.serverPort}`,
+  );
   return ModelServer.registerServer(
     arg.modelUid,
     arg.serverAddress,
@@ -30,6 +34,7 @@ const registerModelAppIp = async (event: any, arg: RegisterModelArgs) => {
 };
 
 const unregisterModelAppIp = async (event: any, arg: UnregisterModelArgs) => {
+  log.info(`Unregistering model ${arg.modelUid}`);
   return ModelServer.deleteServer(arg.modelUid);
 };
 
