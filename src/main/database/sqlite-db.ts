@@ -19,7 +19,7 @@ class SQLiteDB {
       info('Connecting to SQLite database');
       await this.connection.authenticate();
       await this.initTables();
-      await this.connection.sync();
+      await this.connection.sync({ force: true });
       info('Connected to SQLite database');
     } catch (err) {
       error('Unable to connect to SQLite database', err);

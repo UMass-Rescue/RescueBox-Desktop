@@ -34,7 +34,7 @@ const registerModelAppIp = async (event: any, arg: RegisterModelArgs) => {
 
 const unregisterModelAppIp = async (event: any, arg: UnregisterModelArgs) => {
   log.info(`Unregistering model ${arg.modelUid}`);
-  return ModelServer.deleteServer(arg.modelUid);
+  return ModelServer.unregisterServer(arg.modelUid);
 };
 
 const getModelServers = async () => {
@@ -46,7 +46,7 @@ const getModelAppStatus = async (
   arg: GetModelAppStatusArgs,
 ): Promise<ModelAppStatus> => {
   const server = await ModelServer.getServerByModelUid(arg.modelUid);
-  if (!server) {
+  if (!server || !server.isUserConnected) {
     return ModelAppStatus.Unregistered;
   }
   const manager = getInferenceTaskByModelUid(arg.modelUid);

@@ -52,15 +52,6 @@ export async function saveLogs(_event: any, _arg: any) {
       if (!file.canceled) {
         log.info('File path selected to save logs: ', file.filePath);
 
-        // Creating and Writing to the sample.txt file
-        fs.writeFile(
-          file.filePath.toString(),
-          'This is a Sample File',
-          function (err) {
-            if (err) throw err;
-            console.log('Saved!');
-          },
-        );
         fs.copyFileSync(log.transports.file.getFile().path, file.filePath);
         log.info('File saved successfully');
       }
