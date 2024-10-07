@@ -2,28 +2,42 @@ import { ModelAppConfig } from 'src/shared/models';
 import React from 'react';
 import TemplateInfo from './template/TemplateInfo';
 import TemplateRun from './template/TemplateRun';
-import TemplateOutputs from './template/TemplateOutputs';
+import TemplateJobOutputs from './template/TemplateJobOutputs';
 
-export type ModelAppComponents = {
-  modelPage: React.FC<{ modelAppConfig: ModelAppConfig }>;
+type ModelAppComponents = {
+  runPage: React.FC<{ modelAppConfig: ModelAppConfig }>;
   infoPage: React.FC<{ modelAppConfig: ModelAppConfig }>;
-  outputsPage: React.FC<{ modelAppConfig: ModelAppConfig }>;
+  jobOutputsPage: React.FC<{ modelAppConfig: ModelAppConfig }>;
 };
 
-export const componentMap = {
+const componentMap = {
   'isr-model': {
     runPage: TemplateRun, // Replace with ISRModelRun
     infoPage: TemplateInfo, // Replace with ISRModelInfo
-    outputsPage: TemplateOutputs, // Replace with ISRModelOutputs
+    jobOutputsPage: TemplateJobOutputs, // Replace with ISRModelJobOutputs
   },
   'sbf-model': {
     runPage: TemplateRun, // Replace with SBFModelRun
     infoPage: TemplateInfo, // Replace with SBFModelInfo
-    outputsPage: TemplateOutputs, // Replace with SBFModelOutputs
+    jobOutputsPage: TemplateJobOutputs, // Replace with SBFModelJobOutputs
   },
   'obj-detection-model': {
     runPage: TemplateRun, // Replace with ObjDetectionModelRun
     infoPage: TemplateInfo, // Replace with ObjDetectionModelInfo
-    outputsPage: TemplateOutputs, // Replace with ObjDetectionModelOutputs
+    jobOutputsPage: TemplateJobOutputs, // Replace with ObjDetectionModelJobOutputs
+  },
+  'ten-second-model': {
+    runPage: TemplateRun,
+    infoPage: TemplateInfo,
+    jobOutputsPage: TemplateJobOutputs,
   },
 } as unknown as Record<string, ModelAppComponents>;
+
+const getModelAppComponents = (modelUid: string): ModelAppComponents => {
+  if (!componentMap[modelUid]) {
+    return componentMap['ten-second-model'];
+  }
+  return componentMap[modelUid];
+};
+
+export default getModelAppComponents;

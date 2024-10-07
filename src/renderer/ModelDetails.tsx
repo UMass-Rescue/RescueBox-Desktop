@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { Button } from './components/ui/button';
 import { useModelAppConfig } from './lib/hooks';
 import GreenRunIcon from './components/GreenRunIcon';
-import { componentMap } from './model-apps/config';
+import getModelAppComponents from './model-apps/config';
 
 function ModelDetails() {
   const { modelUid } = useParams();
@@ -20,7 +20,7 @@ function ModelDetails() {
     );
   if (!modelAppConfig) return <div>no model</div>;
 
-  const ModelInfo = componentMap[modelAppConfig.uid].infoPage;
+  const ModelInfo = getModelAppComponents(modelAppConfig.uid).infoPage;
   if (!ModelInfo) return <div>no model info page</div>;
 
   return (
