@@ -6,6 +6,7 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
+import log from 'electron-log/main';
 import MLModelDb from './ml-model';
 
 class ModelServerDb extends Model<
@@ -17,6 +18,8 @@ class ModelServerDb extends Model<
   declare serverPort: number;
 
   declare modelUid: string;
+
+  declare isUserConnected: boolean;
 
   public static async getAllServers() {
     return ModelServerDb.findAll();
@@ -35,8 +38,7 @@ class ModelServerDb extends Model<
     serverAddress: string,
     serverPort: number,
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [model, _wasCreated] = await ModelServerDb.findOrCreate({
+    const [model, wasCreated] = await ModelServerDb.findOrCreate({
       where: {
         modelUid,
       },
@@ -44,9 +46,30 @@ class ModelServerDb extends Model<
         modelUid,
         serverAddress,
         serverPort,
+        isUserConnected: true,
       },
     });
+    if (!wasCreated) {
+      model.isUserConnected = true;
+      await model.save();
+    }
     return model;
+  }
+
+  public static async unregisterServer(modelUid: string) {
+    const model = await ModelServerDb.findOne({
+      where: {
+        modelUid,
+      },
+    });
+    if (!model) {
+      log.warn(
+        `Server for model ${modelUid} was attempted to be unregistered but not found`,
+      );
+      return;
+    }
+    model.isUserConnected = false;
+    await model.save();
   }
 
   public static updateServer(
@@ -65,14 +88,6 @@ class ModelServerDb extends Model<
         },
       },
     );
-  }
-
-  public static deleteServer(modelUid: string) {
-    return ModelServerDb.destroy({
-      where: {
-        modelUid,
-      },
-    });
   }
 
   public static deleteServerByModelUid(modelUid: string) {
@@ -103,6 +118,10 @@ export const initModelServer = async (connection: Sequelize) => {
       serverPort: {
         type: DataTypes.NUMBER,
         allowNull: true,
+      },
+      isUserConnected: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
       },
     },
     {

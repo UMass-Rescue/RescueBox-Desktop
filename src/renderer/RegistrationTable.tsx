@@ -11,6 +11,7 @@ import { useMLModels, useServers } from './lib/hooks';
 import { createMLServerMap } from './lib/utils';
 import ModelStatusIndicator from './ModelStatusIndicator';
 import ModelConnectionButton from './ModelConnectionButton';
+import { partition } from './utils';
 
 export default function RegistrationTable({
   registered,
@@ -18,11 +19,9 @@ export default function RegistrationTable({
   registered: boolean;
 }) {
   // ML Models Hook
-  const {
-    models,
-    error: modelError,
-    isLoading: modelIsLoading,
-  } = useMLModels();
+  const modelMethods = useMLModels();
+  let { models } = modelMethods;
+  const { error: modelError, isLoading: modelIsLoading } = modelMethods;
 
   // Servers Hook
   const {
@@ -43,6 +42,21 @@ export default function RegistrationTable({
 
   const serverMap = { ...createMLServerMap(servers) };
 
+  const partitionFunction = (model: MLModel) => {
+    return serverMap[model.uid] && serverMap[model.uid].isUserConnected;
+  };
+
+  const [userRegisteredServers, userUnregisteredServers] = partition(
+    models,
+    partitionFunction,
+  );
+
+  if (registered) {
+    models = userRegisteredServers;
+  } else {
+    models = userUnregisteredServers;
+  }
+
   return (
     <div>
       <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
@@ -62,46 +76,40 @@ export default function RegistrationTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {models
-              ?.filter((model: MLModel) =>
-                registered ? serverMap[model.uid] : !serverMap[model.uid],
-              )
-              .map((model: MLModel) => (
-                <TableRow key={model.uid} className="py-2 hover:bg-gray-50">
-                  <TableCell className="pl-4">{model.name}</TableCell>
-                  <TableCell className="">
-                    {serverMap[model.uid]
-                      ? serverMap[model.uid].serverAddress
-                      : ''}
-                  </TableCell>
-                  <TableCell className="">
-                    {serverMap[model.uid]
-                      ? serverMap[model.uid].serverPort
-                      : ''}
-                  </TableCell>
-                  <TableCell className="">
-                    <div className="pl-4">
-                      <ModelStatusIndicator modelUid={model.uid} />
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <ModelConnectionButton
-                      mutate={mutateServers}
-                      modelUid={model.uid}
-                      serverAddress={
-                        serverMap[model.uid]
-                          ? serverMap[model.uid].serverAddress
-                          : ''
-                      }
-                      serverPort={
-                        serverMap[model.uid]
-                          ? serverMap[model.uid].serverPort.toString()
-                          : ''
-                      }
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
+            {models.map((model: MLModel) => (
+              <TableRow key={model.uid} className="py-2 hover:bg-gray-50">
+                <TableCell className="pl-4">{model.name}</TableCell>
+                <TableCell className="">
+                  {serverMap[model.uid]
+                    ? serverMap[model.uid].serverAddress
+                    : ''}
+                </TableCell>
+                <TableCell className="">
+                  {serverMap[model.uid] ? serverMap[model.uid].serverPort : ''}
+                </TableCell>
+                <TableCell className="">
+                  <div className="pl-4">
+                    <ModelStatusIndicator modelUid={model.uid} />
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <ModelConnectionButton
+                    mutate={mutateServers}
+                    modelUid={model.uid}
+                    serverAddress={
+                      serverMap[model.uid]
+                        ? serverMap[model.uid].serverAddress
+                        : ''
+                    }
+                    serverPort={
+                      serverMap[model.uid]
+                        ? serverMap[model.uid].serverPort.toString()
+                        : ''
+                    }
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div>

@@ -12,4 +12,14 @@ function add(a: number, b: number) {
   return a + b;
 }
 
-export { getModelName, add, getJobById };
+function partition<T>(array: T[], isValid: (elem: T) => boolean) {
+  return array.reduce(
+    (acc, elem: T) => {
+      const [pass, fail] = acc;
+      return isValid(elem) ? [[...pass, elem], fail] : [pass, [...fail, elem]];
+    },
+    [[], []] as T[][],
+  );
+}
+
+export { getModelName, add, getJobById, partition };
