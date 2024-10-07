@@ -38,21 +38,13 @@ function JobViewDetails() {
         <div>
           <h1 className="font-bold my-4">Inputs</h1>
           {job.inputs.map((input) => (
-            <FilePathField
-              key={input.path}
-              path={input.path}
-              label={input.path_key}
-            />
+            <FilePathField path={input.path} label={input.path_key} />
           ))}
         </div>
         <div>
           <h1 className="font-bold my-4">Output</h1>
           {job.outputs.map((input) => (
-            <FilePathField
-              key={input.path}
-              path={input.path}
-              label={input.path_key}
-            />
+            <FilePathField path={input.path} label={input.path_key} />
           ))}
         </div>
         <div>

@@ -10,10 +10,9 @@ const ObjectDetectionModel: ModelAppConfig = {
   description: 'This model identifies and classifies objects in an image.',
   parameters: [
     {
-      name: 'Confidence Threshold',
-      type: 'Number',
-      description:
-        'The minimum confidence score required for an object to be detected (between 0 and 1).',
+      name: 'Model Type',
+      type: 'String',
+      description: 'The type of model to use for object detection.',
     },
   ],
   inputTypes: [
@@ -30,8 +29,8 @@ const ObjectDetectionModel: ModelAppConfig = {
   ],
   constraints: [
     {
-      name: 'Confidence Threshold Range',
-      description: 'The confidence threshold must be between 0 and 1.',
+      name: 'Dictionary size',
+      description: 'Detects 80 common objects',
     },
   ],
   service: new ObjDetectionModelService(),

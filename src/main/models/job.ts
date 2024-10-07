@@ -7,11 +7,8 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
+import { Inputs, Outputs, Parameters } from 'src/shared/job';
 import MLModelDb from './ml-model';
-
-export type Inputs = { path: string; path_key: string }[];
-export type Outputs = { path: string; path_key: string }[];
-export type Parameters = { [key: string]: any }[];
 
 export enum JobStatus {
   Running = 'Running',

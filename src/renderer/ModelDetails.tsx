@@ -46,7 +46,7 @@ function ModelDetails() {
           })}
         </p>
         <div className="mt-10">
-          <Link to="/models/outputs">
+          <Link to={`/models/${modelUid}/run`}>
             <Button className="w-full flex flex-row gap-2 hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500">
               Run
               <GreenRunIcon />
