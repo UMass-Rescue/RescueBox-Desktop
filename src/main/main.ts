@@ -12,6 +12,7 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+// import * as remoteMain from '@electron/remote/main';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import * as registration from './handlers/registration';
@@ -97,6 +98,8 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
+// remoteMain.initialize();
+
 /**
  * Window Management ...
  */
@@ -133,6 +136,7 @@ const createWindow = async () => {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
+      // plugins: true,
     },
   });
 
@@ -161,6 +165,9 @@ const createWindow = async () => {
     shell.openExternal(edata.url);
     return { action: 'deny' };
   });
+
+  // To enable remote main -> selecting folders
+  // remoteMain.enable(mainWindow.webContents);
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
