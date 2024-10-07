@@ -31,7 +31,6 @@ export type CompleteJobArgs = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getJobs = async (_event: any, _arg: any) => {
-  log.info('Getting all jobs from the database');
   return JobDb.getAllJobs().then((jobsDb) => jobsDb.map(getRaw));
 };
 
@@ -65,11 +64,11 @@ const cancelJob = async (_event: any, args: JobByIdArgs) => {
 };
 
 const runJob = async (_event: any, arg: RunJobArgs) => {
+  log.info(`Creating a job for model ${arg.modelUid}`);
   // Setup job parameters
   const uid = uuidv4();
   const manager = getInferenceTaskByModelUid(arg.modelUid);
   const server = await ModelServerDb.getServerByModelUid(arg.modelUid);
-  log.info(`Getting server for model ${arg.modelUid}`);
   if (!server) {
     throw new Error(`Server not found for model ${arg.modelUid}`);
   }
@@ -96,7 +95,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
 
   // Call the inference service for the particular model,
   // and update the job status after a reply is received
-  log.info('Calling inference service');
+  log.info('Calling inference service for model', arg.modelUid);
   manager
     .runInference({ ...arg, server })
     .then(async (response: SuccessResponse | ErrorResponse) => {
@@ -142,7 +141,6 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
 };
 
 const getJobById = async (_event: any, arg: JobByIdArgs) => {
-  log.info('Getting job by id', arg.uid);
   return JobDb.getJobByUid(arg.uid).then(getRaw);
 };
 

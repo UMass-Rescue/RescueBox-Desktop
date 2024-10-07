@@ -11,7 +11,6 @@ export type GetModelByIdArgs = {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function getModels(_event: any, _arg: any) {
   const models = modelAppConfigs;
-  log.info('Getting models from the database');
   // create or update
   await Promise.all(
     models.map(async (model) => {
@@ -37,7 +36,6 @@ export async function getModels(_event: any, _arg: any) {
 }
 
 export async function getModelByUid(event: any, arg: GetModelByIdArgs) {
-  log.info('Getting model by uid', arg.modelUid);
   return MLModelDb.getModelByUid(arg.modelUid).then(getRaw);
 }
 
@@ -45,7 +43,6 @@ export function getModelAppConfigByUid(
   event: any,
   arg: GetModelByIdArgs,
 ): ModelAppConfig {
-  log.info('Getting model app config by uid', arg.modelUid);
   const modelAppConfig = modelAppConfigs.find(
     (config) => config.uid === arg.modelUid,
   );
