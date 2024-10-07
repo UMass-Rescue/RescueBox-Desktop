@@ -3,6 +3,8 @@ import React from 'react';
 import TemplateInfo from './template/TemplateInfo';
 import TemplateRun from './template/TemplateRun';
 import TemplateJobOutputs from './template/TemplateJobOutputs';
+import ObjDetectionModelRun from './obj-detection-model/ObjDetectionModelRun';
+import ObjDetectionModelInfo from './obj-detection-model/ObjDetectionModelInfo';
 
 type ModelAppComponents = {
   runPage: React.FC<{ modelAppConfig: ModelAppConfig }>;
@@ -22,8 +24,8 @@ const componentMap = {
     jobOutputsPage: TemplateJobOutputs, // Replace with SBFModelJobOutputs
   },
   'obj-detection-model': {
-    runPage: TemplateRun, // Replace with ObjDetectionModelRun
-    infoPage: TemplateInfo, // Replace with ObjDetectionModelInfo
+    runPage: ObjDetectionModelRun,
+    infoPage: ObjDetectionModelInfo,
     jobOutputsPage: TemplateJobOutputs, // Replace with ObjDetectionModelJobOutputs
   },
   'ten-second-model': {
