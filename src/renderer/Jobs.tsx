@@ -97,6 +97,7 @@ function Jobs() {
   if (modelsIsLoading) return <div>loading...</div>;
   if (!models) return <div>no models</div>;
 
+  jobs.sort((a, b) => b.startTime.getTime() - a.startTime.getTime());
   return (
     <div>
       <div className="mx-3 my-3">

@@ -19,6 +19,7 @@ function ObjDetectionModelRun() {
   const navigate = useNavigate();
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const jobUid = await window.job
       .runJob({
         modelUid: 'obj-detection-model',
@@ -27,7 +28,8 @@ function ObjDetectionModelRun() {
         parameters: [{ modelType }],
       })
       .then((job) => job.uid);
-    navigate(`/jobs/${jobUid}/details`);
+    // navigate(`/jobs/${jobUid}/details`);
+    navigate('/jobs');
   };
 
   return (
