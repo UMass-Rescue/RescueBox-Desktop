@@ -1,4 +1,5 @@
 [![Build Status][github-actions-status]][github-actions-url]
+[![Github Tag][github-tag-image]][github-tag-url]
 
 # RescueBox Desktop
 
@@ -72,3 +73,5 @@ See electron-react's [docs and guides here](https://electron-react-boilerplate.j
 
 [github-actions-status]: https://github.com/UMass-Rescue/RescueBox-Desktop/actions/workflows/test.yml/badge.svg?branch=main
 [github-actions-url]: https://github.com/UMass-Rescue/RescueBox-Desktop/actions/workflows/test.yml
+[github-tag-image]: https://img.shields.io/github/tag/UMass-Rescue/RescueBox-Desktop.svg?label=version
+[github-tag-url]: https://github.com/UMass-Rescue/RescueBox-Desktop/releases/latest
