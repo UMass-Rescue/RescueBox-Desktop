@@ -7,7 +7,9 @@ export type OpenDirectoryArgs = {
 };
 
 export async function openDirectory(_event: any, arg: OpenDirectoryArgs) {
+  log.info('Opening directory', arg.path);
   if (!fs.existsSync(arg.path)) {
+    log.error('Directory does not exist');
     dialog.showErrorBox(
       "We can't find this folder.",
       "Make sure it hasn't been moved or deleted.",

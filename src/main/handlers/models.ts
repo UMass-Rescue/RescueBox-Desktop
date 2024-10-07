@@ -1,5 +1,5 @@
 import { ModelAppConfig } from 'src/shared/models';
-import { warn } from 'electron-log/main';
+import log from 'electron-log/main';
 import { modelAppConfigs } from '../model-apps/config';
 import MLModelDb from '../models/ml-model';
 import { getRaw } from '../util';
@@ -11,6 +11,7 @@ export type GetModelByIdArgs = {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function getModels(_event: any, _arg: any) {
   const models = modelAppConfigs;
+  log.info('Getting models from the database');
   // create or update
   await Promise.all(
     models.map(async (model) => {
@@ -36,6 +37,7 @@ export async function getModels(_event: any, _arg: any) {
 }
 
 export async function getModelByUid(event: any, arg: GetModelByIdArgs) {
+  log.info('Getting model by uid', arg.modelUid);
   return MLModelDb.getModelByUid(arg.modelUid).then(getRaw);
 }
 
@@ -43,12 +45,13 @@ export function getModelAppConfigByUid(
   event: any,
   arg: GetModelByIdArgs,
 ): ModelAppConfig {
+  log.info('Getting model app config by uid', arg.modelUid);
   const modelAppConfig = modelAppConfigs.find(
     (config) => config.uid === arg.modelUid,
   );
   if (!modelAppConfig) {
-    warn(`Model with uid ${arg.modelUid} not found in config.ts`);
-    warn(
+    log.warn(`Model with uid ${arg.modelUid} not found in config.ts`);
+    log.warn(
       `Returning a dummy config for model with uid ${arg.modelUid}. This is not recommended.`,
     );
     return modelAppConfigs.find((config) => config.uid === 'ten-second-model')!;

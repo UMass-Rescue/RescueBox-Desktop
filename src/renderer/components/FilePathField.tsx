@@ -6,7 +6,6 @@ export default function FilePathField({
 }: {
   path: string;
   label: string;
-  // key: any;
 }) {
   const handleViewDirectory = () => {
     window.fileSystem.openDirectory({ path });

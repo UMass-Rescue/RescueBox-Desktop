@@ -6,6 +6,7 @@ import TenSecondModel from './ten-second-model/ten-second-model-config';
 import TenSecondModelService from './ten-second-model/ten-second-model-service';
 import ObjectDetectionModel from './obj-detection-model/obj-detection-model-config';
 import SmallBlockForensicsModel from './sbf-model/sbf-model-config';
+import InferenceTask from './inference-task';
 
 export const modelAppConfigs: ModelAppConfig[] = [
   SuperResolutionModel,
@@ -26,4 +27,8 @@ export function getServiceByModelUid(modelUid: string): InferenceService {
     return new TenSecondModelService();
   }
   return modelAppConfig.service;
+}
+
+export function getInferenceTaskByModelUid(modelUid: string) {
+  return new InferenceTask(getServiceByModelUid(modelUid));
 }

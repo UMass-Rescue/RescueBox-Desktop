@@ -27,7 +27,12 @@ const ObjectDetectionModel: ModelAppConfig = {
       description: 'The images with objects detected and classified.',
     },
   ],
-  constraints: [],
+  constraints: [
+    {
+      name: 'Dictionary size',
+      description: 'Detects 80 common objects',
+    },
+  ],
   service: new ObjDetectionModelService(),
 };
 

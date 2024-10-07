@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import { Inputs, Outputs, Parameters } from '../models/job';
+import { Inputs, Outputs, Parameters } from 'src/shared/job';
 
 type ModelServerInfo = {
   serverAddress: string;

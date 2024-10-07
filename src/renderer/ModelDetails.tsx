@@ -2,6 +2,8 @@ import { Link, useParams } from 'react-router-dom';
 import { Button } from './components/ui/button';
 import { useModelAppConfig } from './lib/hooks';
 import GreenRunIcon from './components/GreenRunIcon';
+import getModelAppComponents from './model-apps/config';
+import LoadingScreen from './components/LoadingScreen';
 
 function ModelDetails() {
   const { modelUid } = useParams();
@@ -12,86 +14,20 @@ function ModelDetails() {
     isLoading: modelAppConfigIsLoading,
   } = useModelAppConfig(modelUid);
 
-  if (modelAppConfigIsLoading) return <div>loading model..</div>;
+  if (modelAppConfigIsLoading) return <LoadingScreen />;
   if (modelAppConfigError)
     return (
       <div>failed to load model. Error: {modelAppConfigError.toString()}</div>
     );
   if (!modelAppConfig) return <div>no model</div>;
 
+  const ModelInfo = getModelAppComponents(modelAppConfig.uid).infoPage;
+  if (!ModelInfo) return <div>no model info page</div>;
+
   return (
     <div className="flex flex-row justify-between m-3">
-      <div className="w-2/3 flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <h1 className="font-bold text-xl md:text-2xl lg:text-3xl">
-            {modelAppConfig.name}
-          </h1>
-          <p className="text-md lg:text-lg">{modelAppConfig.description}</p>
-        </div>
-        <div className="flex flex-col gap-2">
-          <h1 className="font-bold text-lg md:text-xl lg:text-2xl">
-            Input Type
-          </h1>
-          <ul className="text-md lg:text-lg list-disc ml-4">
-            {modelAppConfig.inputTypes.map(
-              (inputType: { type: string; description: string }) => {
-                return (
-                  <li key={inputType.type}>
-                    <strong>{inputType.type}:</strong> {inputType.description}
-                  </li>
-                );
-              },
-            )}
-          </ul>
-        </div>
-        <div className="flex flex-col gap-2">
-          <h1 className="font-bold text-lg md:text-xl lg:text-2xl">
-            Output Type
-          </h1>
-          <ul className="text-md lg:text-lg list-disc ml-4">
-            {modelAppConfig.outputTypes.map(
-              (outputType: { type: string; description: string }) => {
-                return (
-                  <li key={outputType.type}>
-                    <strong>{outputType.type}:</strong> {outputType.description}
-                  </li>
-                );
-              },
-            )}
-          </ul>
-        </div>
-        <div className="flex flex-col gap-2">
-          <h1 className="font-bold text-lg md:text-xl lg:text-2xl">
-            Parameters
-          </h1>
-          <ul className="text-md lg:text-lg list-disc ml-4">
-            {modelAppConfig.parameters.map(
-              (param: { name: string; type: string; description: string }) => {
-                return (
-                  <li key={param.type}>
-                    <strong>{param.name}:</strong> {param.description}
-                  </li>
-                );
-              },
-            )}
-          </ul>
-        </div>
-        <div className="flex flex-col gap-2">
-          <h1 className="font-bold text-lg md:text-xl lg:text-2xl">
-            Constraints
-          </h1>
-          <ul className="text-md lg:text-lg list-disc ml-4">
-            {modelAppConfig.constraints.map(
-              (constraint: { name: string; description: string }) => {
-                return (
-                  <li key={constraint.name}>
-                    <strong>{constraint.name}:</strong> {constraint.description}
-                  </li>
-                );
-              },
-            )}
-          </ul>
-        </div>
+      <div className="w-2/3">
+        <ModelInfo modelAppConfig={modelAppConfig} />
       </div>
       <div className="sticky top-16 drop-shadow-md m-4 py-4 px-6 rounded-md w-1/3 bg-sky-200 h-full">
         <h1 className="font-bold text-lg md:text-xl lg:text-2xl m-2">
