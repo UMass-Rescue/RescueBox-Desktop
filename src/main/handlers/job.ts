@@ -2,14 +2,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { Inputs, Outputs, Parameters } from 'src/shared/job';
 import log from 'electron-log/main';
 import JobDb, { JobStatus } from '../models/job';
-import { getServiceByModelUid } from '../model-apps/config';
+import { getInferenceTaskByModelUid } from '../model-apps/config';
 import ModelServerDb from '../models/model-server';
 import {
   ErrorResponse,
   SuccessResponse,
 } from '../model-apps/inference-service';
 import { getRaw } from '../util';
-import InferenceTask from '../model-apps/inference-task';
 
 export type RunJobArgs = {
   modelUid: string;
@@ -52,10 +51,11 @@ const completeJob = async (args: CompleteJobArgs) => {
 
 const cancelJob = async (_event: any, args: JobByIdArgs) => {
   log.info('Canceling job', args.uid);
-  const manager = new InferenceTask(
-    await JobDb.getJobByUid(args.uid).then((job) =>
-      getServiceByModelUid(job!.modelUid),
-    ),
+  const manager = getInferenceTaskByModelUid(
+    await JobDb.getJobByUid(args.uid).then((job) => {
+      if (!job) throw new Error(`Job not found with uid ${args.uid}`);
+      return job.modelUid;
+    }),
   );
   manager.cancelInference();
 
@@ -67,7 +67,7 @@ const cancelJob = async (_event: any, args: JobByIdArgs) => {
 const runJob = async (_event: any, arg: RunJobArgs) => {
   // Setup job parameters
   const uid = uuidv4();
-  const manager = new InferenceTask(getServiceByModelUid(arg.modelUid));
+  const manager = getInferenceTaskByModelUid(arg.modelUid);
   const server = await ModelServerDb.getServerByModelUid(arg.modelUid);
   log.info(`Getting server for model ${arg.modelUid}`);
   if (!server) {

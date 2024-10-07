@@ -3,6 +3,7 @@ import { Button } from './components/ui/button';
 import { useModelAppConfig } from './lib/hooks';
 import GreenRunIcon from './components/GreenRunIcon';
 import getModelAppComponents from './model-apps/config';
+import LoadingScreen from './components/LoadingScreen';
 
 function ModelDetails() {
   const { modelUid } = useParams();
@@ -13,7 +14,7 @@ function ModelDetails() {
     isLoading: modelAppConfigIsLoading,
   } = useModelAppConfig(modelUid);
 
-  if (modelAppConfigIsLoading) return <div>loading model..</div>;
+  if (modelAppConfigIsLoading) return <LoadingScreen />;
   if (modelAppConfigError)
     return (
       <div>failed to load model. Error: {modelAppConfigError.toString()}</div>

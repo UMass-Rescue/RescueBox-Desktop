@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { Button } from './components/ui/button';
 import { useJob, useMLModel } from './lib/hooks';
 import FilePathField from './components/FilePathField';
+import LoadingScreen from './components/LoadingScreen';
 
 function JobViewDetails() {
   const { jobId } = useParams();
@@ -18,7 +19,7 @@ function JobViewDetails() {
     return <div>failed to load job. Error: {jobError.toString()}</div>;
   if (!job) return <div>no job</div>;
 
-  if (modelIsLoading) return <div>loading model..</div>;
+  if (modelIsLoading) return <LoadingScreen />;
   if (modelError)
     return <div>failed to load model. Error: {modelError.toString()}</div>;
   if (!job) return <div>no model</div>;

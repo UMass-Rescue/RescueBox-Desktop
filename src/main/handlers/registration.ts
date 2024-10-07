@@ -2,8 +2,7 @@ import { ModelAppStatus } from 'src/shared/models';
 import log from 'electron-log/main';
 import ModelServer from '../models/model-server';
 import { getRaw } from '../util';
-import { getServiceByModelUid } from '../model-apps/config';
-import InferenceTask from '../model-apps/inference-task';
+import { getInferenceTaskByModelUid } from '../model-apps/config';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SERVER_HEALTH_SLUG = '/health';
@@ -52,7 +51,7 @@ const getModelAppStatus = async (
   if (!server) {
     return ModelAppStatus.Unregistered;
   }
-  const manager = new InferenceTask(getServiceByModelUid(arg.modelUid));
+  const manager = getInferenceTaskByModelUid(arg.modelUid);
   return manager.pingHealth(server).then((isOnline) => {
     if (isOnline) {
       return ModelAppStatus.Online;

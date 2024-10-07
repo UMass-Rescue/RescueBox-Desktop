@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import getModelAppComponents from './model-apps/config';
 import { useModelAppConfig } from './lib/hooks';
+import LoadingScreen from './components/LoadingScreen';
 
 function ModelRun() {
   const { modelUid } = useParams();
@@ -11,7 +12,7 @@ function ModelRun() {
     isLoading: modelAppConfigIsLoading,
   } = useModelAppConfig(modelUid);
 
-  if (modelAppConfigIsLoading) return <div>loading model..</div>;
+  if (modelAppConfigIsLoading) return <LoadingScreen />;
   if (modelAppConfigError)
     return (
       <div>failed to load model. Error: {modelAppConfigError.toString()}</div>
