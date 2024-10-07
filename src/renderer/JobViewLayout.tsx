@@ -14,7 +14,7 @@ function JobView() {
   if (!job) return <div>no job</div>;
 
   return (
-    <div className="mt-3 mx-2 h-screen">
+    <div className="mt-3 mx-2 ">
       <div className="flex flex-row space-x-4">
         <NavLink
           to={`/jobs/${jobId}/details`}

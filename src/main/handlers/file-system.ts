@@ -2,11 +2,11 @@ import { dialog, shell } from 'electron';
 import fs from 'fs';
 import log from 'electron-log/main';
 
-export type OpenDirectoryArgs = {
+export type DirectoryArgs = {
   path: string;
 };
 
-export async function openDirectory(_event: any, arg: OpenDirectoryArgs) {
+export async function openDirectory(_event: any, arg: DirectoryArgs) {
   log.info('Opening directory', arg.path);
   if (!fs.existsSync(arg.path)) {
     log.error('Directory does not exist');
@@ -69,4 +69,8 @@ export async function saveLogs(_event: any, _arg: any) {
     .catch((err) => {
       log.error('Error in saving logs: ', err);
     });
+}
+
+export async function getFilesFromDir(_event: any, arg: DirectoryArgs) {
+  return fs.readdirSync(arg.path);
 }

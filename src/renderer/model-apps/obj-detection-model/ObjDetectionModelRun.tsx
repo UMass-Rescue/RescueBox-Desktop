@@ -2,6 +2,7 @@
 import SelectDirField from '@shadcn/components/SelectDirField';
 import { Button } from '@shadcn/components/ui/button';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const modelTypes = ['yolov3', 'tiny-yolov3', 'retina'];
 
@@ -15,15 +16,20 @@ function ObjDetectionModelRun() {
   const [inputs, setInputs] = useState('No Path Selected');
   const [outputs, setOutputs] = useState('No Path Selected');
   const [modelType, setModelType] = useState(modelTypes[0]);
-
+  const navigate = useNavigate();
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await window.job.runJob({
-      modelUid: 'obj-detection-model',
-      inputs: [{ path: inputs, path_key: 'Images to Analyze' }],
-      outputs: [{ path: outputs, path_key: 'Images with Bounding Boxes' }],
-      parameters: [{ modelType }],
-    });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const jobUid = await window.job
+      .runJob({
+        modelUid: 'obj-detection-model',
+        inputs: [{ path: inputs, path_key: 'Images to Analyze' }],
+        outputs: [{ path: outputs, path_key: 'Images with Bounding Boxes' }],
+        parameters: [{ modelType }],
+      })
+      .then((job) => job.uid);
+    // navigate(`/jobs/${jobUid}/details`);
+    navigate('/jobs');
   };
 
   return (

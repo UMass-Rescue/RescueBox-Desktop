@@ -8,6 +8,7 @@ function JobViewDetails() {
   const { jobId } = useParams();
 
   const { data: job, error: jobError, isLoading: jobIsLoading } = useJob(jobId);
+
   const {
     data: model,
     error: modelError,
@@ -25,7 +26,7 @@ function JobViewDetails() {
   if (!job) return <div>no model</div>;
 
   return (
-    <div className=" w-full mt-6">
+    <div className=" w-full my-6">
       <h1 className="font-bold text-lg md:text-xl lg:text-3xl mb-4">
         Job Details
       </h1>
@@ -38,15 +39,19 @@ function JobViewDetails() {
         </div>
         <div>
           <h1 className="font-bold my-4">Inputs</h1>
-          {job.inputs.map((input) => (
-            <FilePathField path={input.path} label={input.path_key} />
-          ))}
+          <div className="flex flex-col gap-2">
+            {job.inputs.map((input) => (
+              <FilePathField path={input.path} label={input.path_key} />
+            ))}
+          </div>
         </div>
         <div>
           <h1 className="font-bold my-4">Output</h1>
-          {job.outputs.map((input) => (
-            <FilePathField path={input.path} label={input.path_key} />
-          ))}
+          <div className="flex flex-col gap-2">
+            {job.outputs.map((output) => (
+              <FilePathField path={output.path} label={output.path_key} />
+            ))}
+          </div>
         </div>
         <div>
           <h1 className="font-bold my-4">Model</h1>

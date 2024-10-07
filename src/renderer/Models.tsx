@@ -45,15 +45,13 @@ function Models() {
     (model) => serverStatuses[model.uid] !== 'Online',
   );
 
-  if (onModels.length === 0) {
-    return (
-      <div className="m-3 flex flex-col gap-8">
-        <h1 className="font-bold text-xl md:text-2xl lg:text-4xl flex flex-row gap-8 items-center">
-          Available Models
-          {statusIsValidating && (
-            <LoadingIcon className="size-8 text-blue-600" />
-          )}
-        </h1>
+  return (
+    <div className="m-3">
+      <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4 flex flex-row gap-8 items-center">
+        Available Models
+        {statusIsValidating && <LoadingIcon className="size-8 text-blue-600" />}
+      </h1>
+      {onModels.length === 0 && (
         <Link to="/registration">
           <Button
             className="hover:-translate-y-0.5  flex flex-row gap-2  "
@@ -66,16 +64,7 @@ function Models() {
             </div>
           </Button>
         </Link>
-      </div>
-    );
-  }
-
-  return (
-    <div className="m-3">
-      <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4 flex flex-row gap-8 items-center">
-        Available Models
-        {statusIsValidating && <LoadingIcon className="size-8 text-blue-600" />}
-      </h1>
+      )}
       {onModels.length > 0 && (
         <ModelsTable models={onModels} serverStatuses={serverStatuses} />
       )}

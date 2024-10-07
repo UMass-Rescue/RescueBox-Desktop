@@ -15,7 +15,7 @@ import {
 } from './handlers/registration';
 import { RunJobArgs, JobByIdArgs } from './handlers/job';
 import { GetModelByIdArgs } from './handlers/models';
-import { OpenDirectoryArgs } from './handlers/file-system';
+import { DirectoryArgs } from './handlers/file-system';
 
 const registrationHandler = {
   registerModelAppIp: (args: RegisterModelArgs) =>
@@ -62,11 +62,15 @@ const jobHandler = {
 };
 
 const fileSystemHandler = {
-  openDirectory: (args: OpenDirectoryArgs) =>
+  openDirectory: (args: DirectoryArgs) =>
     ipcRenderer.invoke('fileSystem:open-directory', args) as Promise<string>,
   selectDirectory: () =>
     ipcRenderer.invoke('fileSystem:select-directory') as Promise<string>,
   saveLogs: () => ipcRenderer.invoke('fileSystem:save-logs'),
+  getFilesFromDir: (args: DirectoryArgs) =>
+    ipcRenderer.invoke('fileSystem:get-files-from-dir', args) as Promise<
+      string[]
+    >,
 };
 
 const databaseHandler = {

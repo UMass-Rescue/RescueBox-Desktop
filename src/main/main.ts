@@ -76,6 +76,7 @@ function setupIpcMain() {
   ipcMain.handle('fileSystem:open-directory', fileSystem.openDirectory);
   ipcMain.handle('fileSystem:select-directory', fileSystem.selectDirectory);
   ipcMain.handle('fileSystem:save-logs', fileSystem.saveLogs);
+  ipcMain.handle('fileSystem:get-files-from-dir', fileSystem.getFilesFromDir);
 
   // Logging: handles logging operations
   ipcMain.handle('logging:get-logs', loggingHandler.getLogs);

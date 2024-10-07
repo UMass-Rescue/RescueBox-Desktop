@@ -12,6 +12,7 @@ function JobViewOutputs() {
     error: modelAppConfigError,
     isLoading: modelAppConfigIsLoading,
   } = useModelAppConfig(job!.modelUid);
+  if (!jobId) return <div>no job id</div>;
 
   if (jobIsLoading) return <div>loading job..</div>;
   if (jobError)
@@ -32,7 +33,7 @@ function JobViewOutputs() {
   ).jobOutputsPage;
   if (!JobOutputsPage) return <div>no job outputs page</div>;
 
-  return <JobOutputsPage modelAppConfig={modelAppConfig} />;
+  return <JobOutputsPage modelAppConfig={modelAppConfig} jobId={jobId} />;
 }
 
 export default JobViewOutputs;
