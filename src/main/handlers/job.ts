@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { error, log } from 'electron-log';
+import { error, log } from 'electron-log/main';
 import JobDb, { Inputs, JobStatus, Outputs, Parameters } from '../models/job';
 import { getServiceByModelUid } from '../model-apps/config';
 import ModelServerDb from '../models/model-server';

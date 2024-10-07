@@ -66,10 +66,22 @@ const fileSystemHandler = {
     ipcRenderer.invoke('fileSystem:open-directory', args) as Promise<string>,
   selectDirectory: () =>
     ipcRenderer.invoke('fileSystem:select-directory') as Promise<string>,
+  saveLogs: () => ipcRenderer.invoke('fileSystem:save-logs'),
 };
 
 const databaseHandler = {
   resetDatabase: () => ipcRenderer.invoke('database:reset-database'),
+};
+
+const loggingHandler = {
+  getLogs: () =>
+    ipcRenderer.invoke('logging:get-logs') as Promise<
+      {
+        path: string;
+        lines: string[];
+      }[]
+    >,
+  clearLogs: () => ipcRenderer.invoke('logging:clear-logs') as Promise<boolean>,
 };
 
 contextBridge.exposeInMainWorld('registration', registrationHandler);
@@ -77,9 +89,11 @@ contextBridge.exposeInMainWorld('models', modelsHandler);
 contextBridge.exposeInMainWorld('job', jobHandler);
 contextBridge.exposeInMainWorld('fileSystem', fileSystemHandler);
 contextBridge.exposeInMainWorld('database', databaseHandler);
+contextBridge.exposeInMainWorld('logging', loggingHandler);
 
 export type RegistrationHandler = typeof registrationHandler;
 export type ModelsHandler = typeof modelsHandler;
 export type JobHandler = typeof jobHandler;
 export type FileSystemHandler = typeof fileSystemHandler;
 export type DatabaseHandler = typeof databaseHandler;
+export type LoggingHandler = typeof loggingHandler;

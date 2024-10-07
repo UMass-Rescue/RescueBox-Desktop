@@ -20,6 +20,9 @@ import JobViewDetails from './JobViewDetails';
 import JobViewOutputs from './JobViewOutputs';
 import { ImageTitleNavBar, NavBarItem } from './NavBarItem';
 import FallbackError from './components/FallbackError';
+import RegistrationIcon from './components/RegistrationIcon';
+import LogsIcon from './components/LogsIcon';
+import AuditLogs from './AuditLogs';
 
 function RootLayout() {
   return (
@@ -29,9 +32,16 @@ function RootLayout() {
         <div className="flex-grow items-center flex">
           <NavBar />
         </div>
-        <div className="pr-2">
+        <div className="pr-2 flex flex-row">
+          <NavBarItem path="/logs">
+            <ImageTitleNavBar path="/logs">
+              <LogsIcon className="fill-black group-[.is-active]:fill-blue-500" />
+            </ImageTitleNavBar>
+          </NavBarItem>
           <NavBarItem path="/registration">
-            <ImageTitleNavBar path="/registration" />
+            <ImageTitleNavBar path="/registration">
+              <RegistrationIcon className="group-[.is-active]:fill-blue-500" />
+            </ImageTitleNavBar>
           </NavBarItem>
         </div>
       </div>
@@ -55,6 +65,7 @@ export default function App() {
         <Route path="/" element={<RootLayout />}>
           <Route index element={<Navigate to="/models" replace />} />
           <Route path="/registration" element={<Registration />} />
+          <Route path="/logs" element={<AuditLogs />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/models" element={<Models />} />
           <Route path="/models/:modelUid/details" element={<ModelDetails />} />

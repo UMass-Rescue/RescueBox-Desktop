@@ -159,3 +159,19 @@ export function useJob(jobId?: string) {
     mutate,
   };
 }
+
+export function useLogs() {
+  const fetcher = () => window.logging.getLogs();
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    `logging:get-logs`,
+    fetcher,
+  );
+
+  return {
+    data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}

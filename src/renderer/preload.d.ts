@@ -4,6 +4,7 @@ import {
   RegistrationHandler,
   FileSystemHandler,
   DatabaseHandler,
+  LoggingHandler,
 } from '../main/preload';
 
 declare global {
@@ -14,6 +15,7 @@ declare global {
     job: JobHandler;
     fileSystem: FileSystemHandler;
     database: DatabaseHandler;
+    logging: LoggingHandler;
   }
 }
 

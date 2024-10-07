@@ -1,5 +1,5 @@
 import { ModelAppConfig } from 'src/shared/models';
-import { warn } from 'electron-log';
+import { warn } from 'electron-log/main';
 import { modelAppConfigs } from '../model-apps/config';
 import MLModelDb from '../models/ml-model';
 import { getRaw } from '../util';
