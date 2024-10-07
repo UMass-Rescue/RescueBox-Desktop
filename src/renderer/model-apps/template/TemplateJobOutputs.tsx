@@ -7,7 +7,7 @@ function TemplateJobOutputs({
   modelAppConfig: ModelAppConfig;
 }) {
   return (
-    <div>
+    <div className="mt-4">
       <h1>Template Job Outputs</h1>
     </div>
   );
