@@ -11,14 +11,18 @@
 import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
+import log from 'electron-log/main';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import * as registration from './handlers/registration';
 import * as job from './handlers/job';
 import * as models from './handlers/models';
 import * as fileSystem from './handlers/file-system';
+import * as loggingHandler from './handlers/logging';
 import DatabaseConn, { getDbPath } from './database/database-conn';
+
+// It preloads electron-log IPC code in renderer processes
+log.initialize();
 
 class AppUpdater {
   constructor() {
@@ -68,8 +72,14 @@ function setupIpcMain() {
   ipcMain.handle('job:cancel-job', job.cancelJob);
   ipcMain.handle('job:delete-job-by-id', job.deleteJobById);
 
+  // File System: handles file system operations
   ipcMain.handle('fileSystem:open-directory', fileSystem.openDirectory);
   ipcMain.handle('fileSystem:select-directory', fileSystem.selectDirectory);
+  ipcMain.handle('fileSystem:save-logs', fileSystem.saveLogs);
+
+  // Logging: handles logging operations
+  ipcMain.handle('logging:get-logs', loggingHandler.getLogs);
+  ipcMain.handle('logging:clear-logs', loggingHandler.clearLogs);
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -96,6 +106,8 @@ const installExtensions = async () => {
     )
     .catch(console.log);
 };
+
+// remoteMain.initialize();
 
 /**
  * Window Management ...
@@ -133,6 +145,7 @@ const createWindow = async () => {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
+      // plugins: true,
     },
   });
 
@@ -161,6 +174,9 @@ const createWindow = async () => {
     shell.openExternal(edata.url);
     return { action: 'deny' };
   });
+
+  // To enable remote main -> selecting folders
+  // remoteMain.enable(mainWindow.webContents);
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line

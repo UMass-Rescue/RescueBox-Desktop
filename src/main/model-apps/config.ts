@@ -1,4 +1,4 @@
-import { warn } from 'electron-log';
+import { warn } from 'electron-log/main';
 import { ModelAppConfig } from 'src/shared/models';
 import InferenceService from './inference-service';
 import SuperResolutionModel from './isr-model/isr-model-config';
