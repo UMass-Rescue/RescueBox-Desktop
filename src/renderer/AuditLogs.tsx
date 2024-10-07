@@ -26,8 +26,10 @@ export default function AuditLogs() {
   if (error) return <div>Error: {error.message}</div>;
   if (!logs) return <div>Loading...</div>;
 
+  logs[0].lines.reverse();
+
   const handleCopy = async (): Promise<void> => {
-    await navigator.clipboard.writeText(logs[0].lines.reverse().join('\n'));
+    await navigator.clipboard.writeText(logs[0].lines.join('\n'));
   };
 
   const handleExport = async (): Promise<void> => {
@@ -116,7 +118,7 @@ export default function AuditLogs() {
         </pre>
         <pre className="text-gray-50">
           {isLoading && <div>Loading...</div>}
-          {logs[0].lines.slice(-MAX_LOGS).reverse().join('\n')}
+          {logs[0].lines.slice(0, MAX_LOGS).join('\n')}
         </pre>
       </div>
     </div>
