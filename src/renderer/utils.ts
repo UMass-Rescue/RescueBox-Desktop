@@ -1,6 +1,6 @@
-import { Model } from './Types';
+import { MLModel } from 'src/shared/models';
 
-function getModelName(models: Model[], uid: string) {
+function getModelName(models: MLModel[], uid: string) {
   return models.find((model) => model.uid === uid)?.name;
 }
 
