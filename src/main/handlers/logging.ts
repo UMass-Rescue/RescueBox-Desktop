@@ -2,7 +2,6 @@
 import log from 'electron-log/main';
 
 export async function getLogs(_event: any, _arg: any) {
-  log.info('Getting logs');
   return log.transports.file.readAllLogs();
 }
 
