@@ -1,15 +1,7 @@
-import { ModelAppConfig } from 'src/shared/models';
 import { useDirFiles, useJob } from '@shadcn/lib/hooks';
-import { Textarea } from '@shadcn/components/ui/textarea';
 import FilePathField from '@shadcn/components/FilePathField';
 
-export default function ObjDetectionModelOutputs({
-  modelAppConfig,
-  jobId,
-}: {
-  modelAppConfig: ModelAppConfig;
-  jobId: string;
-}) {
+export default function ObjDetectionModelOutputs({ jobId }: { jobId: string }) {
   const { data: job, error: jobError, isLoading: jobIsLoading } = useJob(jobId);
   const {
     data: files,
