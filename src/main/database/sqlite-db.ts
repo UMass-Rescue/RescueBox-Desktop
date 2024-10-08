@@ -34,20 +34,18 @@ class SQLiteDB {
       error('Failed to run migrations', err);
     }
     try {
-      info('Initializing models');
       await this.initModels();
-      info('Models initialized');
     } catch (err) {
       error('Failed to initialize models', err);
     }
   }
 
   async initModels(): Promise<void> {
-    info('Initializing tables in SQLite database');
+    info('Initializing models');
     await initMLModel(this.connection);
     await initJob(this.connection);
     await initModelServer(this.connection);
-    info('Initialized tables in SQLite database');
+    info('Models initialized');
   }
 
   // eslint-disable-next-line class-methods-use-this
