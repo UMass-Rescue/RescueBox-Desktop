@@ -35,14 +35,14 @@ class SQLiteDB {
     }
     try {
       info('Initializing models');
-      await this.initTables();
+      await this.initModels();
       info('Models initialized');
     } catch (err) {
       error('Failed to initialize models', err);
     }
   }
 
-  async initTables(): Promise<void> {
+  async initModels(): Promise<void> {
     info('Initializing tables in SQLite database');
     await initMLModel(this.connection);
     await initJob(this.connection);
@@ -77,7 +77,7 @@ class SQLiteDB {
   async resetTables(): Promise<void> {
     await ModelServerDb.destroy({ where: {} });
     await JobDb.destroy({ where: {} });
-    await this.initTables();
+    await this.initModels();
   }
 
   async disconnect(): Promise<void> {
