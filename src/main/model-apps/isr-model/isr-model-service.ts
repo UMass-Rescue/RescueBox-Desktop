@@ -1,4 +1,5 @@
 /* eslint-disable class-methods-use-this */
+// import log from 'electron-log';
 import InferenceService, {
   ErrorResponse,
   InferenceArgs,
@@ -8,21 +9,21 @@ import InferenceService, {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SERVER_HEALTH_SLUG = '/health';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const SERVER_INFERENCE_SLUG = '/run-inference';
 
 // Replace this with your own model service implementation
 class ISRModelService implements InferenceService {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  pingHealth(_server: ModelServerInfo): Promise<boolean> {
+  public async pingHealth(server: ModelServerInfo): Promise<boolean> {
     // return fetch(
-    //   `http://${model.serverAddress}:${model.serverPort}${SERVER_HEALTH_SLUG}`,
-    // )
-    //   .then((res) => res.status)
-    //   .then((status) => {
-    //     if (status === 200) {
-    //       return true;
-    //     }
-    //     return false;
-    //   });
+    //   `http://${server.serverAddress}:${server.serverPort}${SERVER_HEALTH_SLUG}`,
+    // ).then((res) => {
+    //   if (res.status === 200) {
+    //     return true;
+    //   }
+    //   return false;
+    // });
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(true);
@@ -42,17 +43,19 @@ class ISRModelService implements InferenceService {
     //   outputDir: args.outputs[0].path,
     //   parameters: args.parameters,
     // };
-    //
-    // return fetch(`http://${serverAddress}:${serverPort}/run-inference`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
+    // return fetch(
+    //   `http://${serverAddress}:${serverPort}${SERVER_INFERENCE_SLUG}`,
+    //   {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(body),
+    //     signal,
     //   },
-    //   body: JSON.stringify(body),
-    //   signal,
-    // })
+    // )
     //   .then((res) => {
-    //     if (!res.ok) {
+    //     if (res.status !== 200) {
     //       log.error(`Job failed to execute. ${res}`);
     //       return new ErrorResponse([{ message: res.statusText }]);
     //     }
