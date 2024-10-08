@@ -8,7 +8,7 @@ export default function FilePathField({
   label: string;
 }) {
   const handleViewDirectory = () => {
-    window.fileSystem.openDirectory({ path });
+    window.fileSystem.openPath({ path });
   };
 
   return (
