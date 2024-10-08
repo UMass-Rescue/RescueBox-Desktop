@@ -253,8 +253,7 @@
       "output": "release/build"
     },
     "extraResources": [
-      "./assets/**",
-      "./src/main/database/migrations/**"
+      "./assets/**"
     ],
     "publish": {
       "provider": "github",
