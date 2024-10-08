@@ -115,6 +115,7 @@
     "react-hook-form": "^7.53.0",
     "react-router-dom": "^6.16.0",
     "swr": "^2.2.5",
+    "umzug": "^3.8.2",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
@@ -252,7 +253,8 @@
       "output": "release/build"
     },
     "extraResources": [
-      "./assets/**"
+      "./assets/**",
+      "./src/main/database/migrations/**"
     ],
     "publish": {
       "provider": "github",
