@@ -1,5 +1,6 @@
-import { Sequelize } from 'sequelize';
+import { Sequelize, QueryInterface } from 'sequelize';
 import { error, info } from 'electron-log/main';
+import { Umzug } from 'umzug';
 import JobDb, { initJob } from '../models/job';
 import ModelServerDb, { initModelServer } from '../models/model-server';
 import MLModelDb, { initMLModel } from '../models/ml-model';
@@ -10,28 +11,41 @@ import serverData from './dummy_data/servers';
 class SQLiteDB {
   private connection: Sequelize;
 
-  constructor(conn: Sequelize) {
+  private umzug: Umzug<QueryInterface>;
+
+  constructor(conn: Sequelize, umzug: Umzug<QueryInterface>) {
     this.connection = conn;
+    this.umzug = umzug;
   }
 
   async connect(): Promise<void> {
     try {
       info('Connecting to SQLite database');
       await this.connection.authenticate();
-      await this.initTables();
-      await this.connection.sync({ force: true });
       info('Connected to SQLite database');
+    } catch (err: any) {
+      error('Failed to connect to SQLite database', err);
+    }
+    try {
+      info('Running migrations');
+      const migrations = await this.umzug.up();
+      info('Migrations ran successfully', migrations);
+    } catch (err: any) {
+      error('Failed to run migrations', err);
+    }
+    try {
+      await this.initModels();
     } catch (err) {
-      error('Unable to connect to SQLite database', err);
+      error('Failed to initialize models', err);
     }
   }
 
-  async initTables(): Promise<void> {
-    info('Initializing tables in SQLite database');
+  async initModels(): Promise<void> {
+    info('Initializing models');
     await initMLModel(this.connection);
     await initJob(this.connection);
     await initModelServer(this.connection);
-    info('Initialized tables in SQLite database');
+    info('Models initialized');
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -61,7 +75,7 @@ class SQLiteDB {
   async resetTables(): Promise<void> {
     await ModelServerDb.destroy({ where: {} });
     await JobDb.destroy({ where: {} });
-    await this.initTables();
+    await this.initModels();
   }
 
   async disconnect(): Promise<void> {
