@@ -73,10 +73,11 @@ function setupIpcMain() {
   ipcMain.handle('job:delete-job-by-id', job.deleteJobById);
 
   // File System: handles file system operations
-  ipcMain.handle('fileSystem:open-directory', fileSystem.openDirectory);
+  ipcMain.handle('fileSystem:open-path', fileSystem.openPath);
   ipcMain.handle('fileSystem:select-directory', fileSystem.selectDirectory);
   ipcMain.handle('fileSystem:save-logs', fileSystem.saveLogs);
   ipcMain.handle('fileSystem:get-files-from-dir', fileSystem.getFilesFromDir);
+  ipcMain.handle('fileSystem:delete-file', fileSystem.deleteFile);
 
   // Logging: handles logging operations
   ipcMain.handle('logging:get-logs', loggingHandler.getLogs);
@@ -144,6 +145,7 @@ const createWindow = async () => {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
+      webSecurity: process.env.NODE_ENV !== 'development',
     },
   });
 
