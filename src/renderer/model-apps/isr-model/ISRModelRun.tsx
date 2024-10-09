@@ -2,7 +2,7 @@
 import { Button } from '@shadcn/components/ui/button';
 import { ModelAppConfig } from 'src/shared/models';
 import { Link, useNavigate } from 'react-router-dom';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { log } from 'electron-log/renderer';
 import { Label } from '@shadcn/components/ui/label';
 import { Input } from '@shadcn/components/ui/input';
@@ -13,9 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@shadcn/components/ui/select';
-import Slider from '@shadcn/components/ui/slider';
 import GreenRunIcon from '@shadcn/components/GreenRunIcon';
-import React from 'react';
+import { useState } from 'react';
 
 enum Weights {
   GANS = 'gans',
@@ -35,16 +34,23 @@ type ISRJobInputs = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function ISRModelRun({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
-  const { register, handleSubmit, watch, setValue } = useForm<ISRJobInputs>({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    control,
+    formState: { errors },
+  } = useForm<ISRJobInputs>({
     mode: 'onChange',
   });
-  const [showWeightsInfo, setShowWeightsInfo] = React.useState(false);
+  const [showWeightsInfo, setShowWeightsInfo] = useState(false);
 
   const navigate = useNavigate();
 
-  const watchedInputDir = watch('inputDir', 'No Path Selected');
-  const watchedOutputDir = watch('outputDir', 'No Path Selected');
-  const watchedScale = watch('parameters.scale', 2);
+  const watchedInputDir = watch('inputDir');
+  const watchedOutputDir = watch('outputDir');
+  const watchedScale = watch('parameters.scale', 2.0);
 
   const onSubmit: SubmitHandler<ISRJobInputs> = async (data) => {
     const jobUid = await window.job
@@ -85,7 +91,9 @@ function ISRModelRun({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
                 id="inputDirPath"
                 className="flex-1 mr-2"
                 value={watchedInputDir}
+                placeholder="No path selected"
                 readOnly
+                {...register('inputDir', { required: true })}
               />
               <Button
                 id="inputDir"
@@ -93,13 +101,18 @@ function ISRModelRun({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
                 onClick={async () => {
                   const selectedDir = await window.fileSystem.selectDirectory();
                   if (selectedDir) {
-                    setValue('inputDir', selectedDir);
+                    setValue('inputDir', selectedDir, { shouldValidate: true });
                   }
                 }}
               >
                 Browse
               </Button>
             </div>
+            {errors.inputDir && (
+              <p className="text-red-500 text-xs mt-1">
+                Please select an input directory.
+              </p>
+            )}
           </div>
           <div>
             <h2 className="font-semibold text-lg">Output Directory</h2>
@@ -109,7 +122,9 @@ function ISRModelRun({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
                 id="outputDirPath"
                 className="flex-1 mr-2"
                 value={watchedOutputDir}
+                placeholder="No path selected"
                 readOnly
+                {...register('outputDir', { required: true })}
               />
               <Button
                 id="outputDir"
@@ -117,13 +132,20 @@ function ISRModelRun({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
                 onClick={async () => {
                   const selectedDir = await window.fileSystem.selectDirectory();
                   if (selectedDir) {
-                    setValue('outputDir', selectedDir);
+                    setValue('outputDir', selectedDir, {
+                      shouldValidate: true,
+                    });
                   }
                 }}
               >
                 Browse
               </Button>
             </div>
+            {errors.outputDir && (
+              <p className="text-red-500 text-xs mt-1">
+                Please select an output directory.
+              </p>
+            )}
           </div>
         </div>
         <h2 className="font-bold text-lg md:text-xl lg:text-2xl mt-6">
@@ -146,40 +168,63 @@ function ISRModelRun({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
                 {showWeightsInfo ? 'Hide Details' : 'More Details'}
               </button>
             </div>
-            <Select {...register('parameters.weights')}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Weights" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="GANS">GANS</SelectItem>
-                <SelectItem value="PSNR_LARGE">PSNR Large</SelectItem>
-                <SelectItem value="PSNR_SMALL">PSNR Small</SelectItem>
-                <SelectItem value="NOISE_CANCEL">Noise Cancel</SelectItem>
-              </SelectContent>
-            </Select>
+            <Controller
+              name="parameters.weights"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Select
+                  value={field.value}
+                  onValueChange={(value) => field.onChange(value)}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select Weights" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={Weights.GANS}>GANS</SelectItem>
+                    <SelectItem value={Weights.PSNR_LARGE}>
+                      PSNR Large
+                    </SelectItem>
+                    <SelectItem value={Weights.PSNR_SMALL}>
+                      PSNR Small
+                    </SelectItem>
+                    <SelectItem value={Weights.NOISE_CANCEL}>
+                      Noise Cancel
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
+            {errors.parameters?.weights && (
+              <p className="text-red-500 text-xs mt-1">
+                Please select weights for the model.
+              </p>
+            )}
           </div>
           <div>
             <Label htmlFor="scale" className="block font-semibold text-lg">
               Scaling Factor
             </Label>
-            <div className="grid grid-cols-6 items-center mt-2">
-              <Slider
+            <div className="grid grid-cols-5 items-center mt-2">
+              <Input
+                type="range"
                 {...register('parameters.scale')}
                 id="scale"
-                min={1}
-                max={4}
-                step={0.1}
-                defaultValue={[watchedScale]}
-                className="col-span-5"
+                min="1"
+                max="4"
+                defaultValue={watchedScale}
+                step="0.1"
+                className="col-span-4 accent-gray-900 p-0 border-none shadow-none"
               />
               <span className="col-span-1 ml-5 text-lg text-center bg-gray-200 rounded-full px-2 py-1">
-                {Number(watchedScale).toFixed(1)}×
+                {Number(watchedScale).toFixed(1)}
+                {String.fromCharCode(215)}
               </span>
             </div>
           </div>
           {showWeightsInfo && (
             <div className="md:col-span-2">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <h3 className="font-bold text-md">GANS</h3>
                   <p className="text-sm mr-3">
