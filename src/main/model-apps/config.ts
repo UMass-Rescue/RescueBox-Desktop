@@ -5,12 +5,12 @@ import ISRModel from './isr-model/isr-model-config';
 import TenSecondModel from './ten-second-model/ten-second-model-config';
 import TenSecondModelService from './ten-second-model/ten-second-model-service';
 import ObjectDetectionModel from './obj-detection-model/obj-detection-model-config';
-import SmallBlockForensicsModel from './sbf-model/sbf-model-config';
+import SmallBlockForensicsConfig from './sbf-model/sbf-model-config';
 import InferenceTask from './inference-task';
 
 export const modelAppConfigs: ModelAppConfig[] = [
   ISRModel,
-  SmallBlockForensicsModel,
+  SmallBlockForensicsConfig,
   ObjectDetectionModel,
   TenSecondModel,
 ];

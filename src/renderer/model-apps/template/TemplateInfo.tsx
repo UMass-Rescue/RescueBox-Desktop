@@ -7,7 +7,9 @@ function TemplateInfo({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
         <h1 className="font-bold text-xl md:text-2xl lg:text-3xl">
           {modelAppConfig.name}
         </h1>
-        <p className="text-md lg:text-lg">{modelAppConfig.description}</p>
+        <p className="text-md lg:text-lg whitespace-pre-wrap">
+          {modelAppConfig.description}
+        </p>
       </div>
       <div className="flex flex-col gap-2">
         <h1 className="font-bold text-lg md:text-xl lg:text-2xl">Input Type</h1>
@@ -15,7 +17,7 @@ function TemplateInfo({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
           {modelAppConfig.inputTypes.map(
             (inputType: { type: string; description: string }) => {
               return (
-                <li key={inputType.type}>
+                <li key={inputType.type + inputType.description}>
                   <strong>{inputType.type}:</strong> {inputType.description}
                 </li>
               );
@@ -31,7 +33,7 @@ function TemplateInfo({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
           {modelAppConfig.outputTypes.map(
             (outputType: { type: string; description: string }) => {
               return (
-                <li key={outputType.type}>
+                <li key={outputType.type + outputType.description}>
                   <strong>{outputType.type}:</strong> {outputType.description}
                 </li>
               );
@@ -45,7 +47,7 @@ function TemplateInfo({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
           {modelAppConfig.parameters.map(
             (param: { name: string; type: string; description: string }) => {
               return (
-                <li key={param.type}>
+                <li key={param.type + param.description + param.name}>
                   <strong>{param.name}:</strong> {param.description}
                 </li>
               );
@@ -61,7 +63,7 @@ function TemplateInfo({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
           {modelAppConfig.constraints.map(
             (constraint: { name: string; description: string }) => {
               return (
-                <li key={constraint.name}>
+                <li key={constraint.name + constraint.description}>
                   <strong>{constraint.name}:</strong> {constraint.description}
                 </li>
               );
