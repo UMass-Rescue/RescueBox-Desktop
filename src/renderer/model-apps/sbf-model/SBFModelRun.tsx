@@ -58,8 +58,6 @@ export default function SBFModelRun({
   const blockSizeInKiB = watch('parameters.blockSizeInKiB');
   const targetProbability = watch('parameters.targetProbability');
 
-  console.log('blockSizeInKiB', blockSizeInKiB);
-
   const onSubmit: SubmitHandler<
     yup.InferType<typeof SBFJobInputsSchema>
   > = async (data) => {
@@ -218,8 +216,7 @@ export default function SBFModelRun({
               </Label>
               <div className="grid grid-cols-6 items-center mt-2">
                 <Slider
-                  {...(register('parameters.blockSizeInKiB'),
-                  { required: true })}
+                  {...register('parameters.blockSizeInKiB', { required: true })}
                   min={4}
                   max={64}
                   step={4}
@@ -237,8 +234,9 @@ export default function SBFModelRun({
               </Label>
               <div className="grid grid-cols-6 items-center mt-2">
                 <Slider
-                  {...(register('parameters.targetProbability'),
-                  { required: true })}
+                  {...register('parameters.targetProbability', {
+                    required: true,
+                  })}
                   min={50}
                   max={100}
                   step={1}

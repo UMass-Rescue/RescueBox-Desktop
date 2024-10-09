@@ -15,6 +15,7 @@ import {
 } from '@shadcn/components/ui/select';
 import GreenRunIcon from '@shadcn/components/GreenRunIcon';
 import { useState } from 'react';
+import Slider from '@shadcn/components/ui/slider';
 
 enum Weights {
   GANS = 'gans',
@@ -206,15 +207,15 @@ function ISRModelRun({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
               Scaling Factor
             </Label>
             <div className="grid grid-cols-5 items-center mt-2">
-              <Input
-                type="range"
-                {...register('parameters.scale')}
-                id="scale"
-                min="1"
-                max="4"
-                defaultValue={watchedScale}
-                step="0.1"
-                className="col-span-4 accent-gray-900 p-0 border-none shadow-none"
+              <Slider
+                {...register('parameters.scale', {
+                  required: true,
+                })}
+                min={1}
+                max={4}
+                step={0.1}
+                defaultValue={[watchedScale]}
+                className="col-span-4"
               />
               <span className="col-span-1 ml-5 text-lg text-center bg-gray-200 rounded-full px-2 py-1">
                 {Number(watchedScale).toFixed(1)}
