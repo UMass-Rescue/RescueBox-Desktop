@@ -56,8 +56,6 @@ export default function SBFModelJobOutputs({
     await window.fileSystem.openPath({ path });
   };
 
-  console.log(response);
-
   return (
     <div className="mt-4 bg-gray-900 p-5 rounded-md overflow-y-scroll max-h-[calc(100vh-375px)] text-white">
       <h2 className="text-xl text-orange-400 font-bold mb-4">Results:</h2>
