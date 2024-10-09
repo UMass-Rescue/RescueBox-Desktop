@@ -10,13 +10,13 @@ const jobs: Object[] = [
     status: 'Completed',
     inputs: [
       {
-        path: 'C:/Users/LENOVO/UMass/IMG-Super-Resolution/input',
+        path: '/Users/atharvakale/Downloads/known_dataset_images',
         path_key: 'Low Res Images',
       },
     ],
     outputs: [
       {
-        path: 'C:/Users/LENOVO/UMass/IMG-Super-Resolution/output',
+        path: '/Users/atharvakale/Downloads/known_dataset_images',
         path_key: 'High Res Images',
       },
     ],
