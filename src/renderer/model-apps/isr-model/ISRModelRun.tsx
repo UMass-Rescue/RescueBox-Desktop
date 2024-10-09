@@ -168,12 +168,12 @@ function ISRModelRun({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
                 id="scale"
                 min={1}
                 max={4}
-                step={1}
-                defaultValue={[2]}
+                step={0.1}
+                defaultValue={[watchedScale]}
                 className="col-span-5"
               />
               <span className="col-span-1 ml-5 text-lg text-center bg-gray-200 rounded-full px-2 py-1">
-                {watchedScale}×
+                {Number(watchedScale).toFixed(1)}×
               </span>
             </div>
           </div>
