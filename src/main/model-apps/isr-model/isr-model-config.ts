@@ -10,14 +10,14 @@ const ISRModel: ModelAppConfig = {
   description: 'This model upscales images to a higher resolution.',
   parameters: [
     {
-      name: 'Scaling Factor',
-      type: 'Number',
-      description: 'The factor by which to upscale the image.',
-    },
-    {
       name: 'Model Weights',
       type: 'Weights',
       description: 'The weights of the model to be used for upscaling.',
+    },
+    {
+      name: 'Scaling Factor',
+      type: 'Number',
+      description: 'The factor by which to upscale the image.',
     },
   ],
   inputTypes: [
@@ -36,6 +36,10 @@ const ISRModel: ModelAppConfig = {
     {
       name: 'Image File Types',
       description: 'The input images must be in PNG, JPG, or JPEG format.',
+    },
+    {
+      name: 'Scaling Range',
+      description: 'The scaling factor must be between 1 and 4.',
     },
   ],
   service: new ISRModelService(),
