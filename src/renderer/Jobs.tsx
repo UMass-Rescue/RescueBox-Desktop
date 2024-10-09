@@ -114,8 +114,11 @@ function Jobs() {
                 <TableHead className="pl-4 w-1/3 text-gray-900">
                   Model
                 </TableHead>
-                <TableHead className="w-1/3 text-gray-900">
+                <TableHead className="w-1/6 text-gray-900">
                   Start Time
+                </TableHead>
+                <TableHead className="w-1/6 text-gray-900 pl-4">
+                  Status
                 </TableHead>
                 <TableHead className="w-1/12" />
                 <TableHead className="w-1/12" />
@@ -129,11 +132,25 @@ function Jobs() {
                     <TableCell className="pl-4 w-1/3">
                       {getModelName(job.modelUid)}
                     </TableCell>
-                    <TableCell className="w-1/3">
+                    <TableCell className="w-1/6">
                       <div className="flex flex-col">
                         <span>{job.startTime.toLocaleDateString()}</span>
                         <span>{job.startTime.toLocaleTimeString()}</span>
                       </div>
+                    </TableCell>
+                    <TableCell className="w-1/6 pl-7">
+                      <TooltipProvider delayDuration={100}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="flex items-center">
+                              <LoadingIcon className="size-6" />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent side="bottom">
+                            <p>Running</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </TableCell>
                     <TableCell className="text-center py-4 px-4">
                       <ViewButton job={job} />

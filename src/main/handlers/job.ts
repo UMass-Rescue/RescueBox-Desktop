@@ -111,17 +111,18 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
           endTime: new Date(),
           status: JobStatus.Completed,
           response: response.data,
-        } as CompleteJobArgs);
+        });
         return null;
       }
       if (response instanceof ErrorResponse) {
         log.info('ErrorResponse: Updating job information.');
+        log.info(response.error);
         completeJob({
           uid,
           endTime: new Date(),
           status: JobStatus.Failed,
-          response: response.error,
-        } as CompleteJobArgs);
+          statusText: JSON.stringify(response.error),
+        });
         return null;
       }
       throw new Error('FATAL: Invalid response type.');

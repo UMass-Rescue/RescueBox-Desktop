@@ -50,6 +50,38 @@ export async function selectDirectory(_event: any, _arg: any) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function selectFilePath(_event: any, _arg: any) {
+  return dialog
+    .showSaveDialog({
+      title: 'Select the File Path to save the SQL File containing the hashes',
+      defaultPath: `sqlite-hashes-${new Date().toISOString()}.db`,
+      buttonLabel: 'Choose',
+      // Restricting the user to only Text Files.
+      filters: [
+        {
+          name: 'SQLite Files',
+          extensions: ['db'],
+        },
+      ],
+      properties: [],
+    })
+    .then((file) => {
+      // Stating whether dialog operation was cancelled or not.
+      log.info(
+        file.canceled ? 'Dialog was cancelled' : 'Dialog was not cancelled',
+      );
+      if (!file.canceled) {
+        log.info('File path selected to save SQLite DB: ', file.filePath);
+        return file.filePath;
+      }
+      return '';
+    })
+    .catch((err) => {
+      log.error('Error in selecting file path: ', err);
+    });
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function saveLogs(_event: any, _arg: any) {
   return dialog
     .showSaveDialog({

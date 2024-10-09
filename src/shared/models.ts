@@ -22,6 +22,8 @@ export enum DataType {
   Video = 'Video',
   Audio = 'Audio',
   Text = 'Text',
+  Directory = 'Directory',
+  Path = 'Path',
 }
 
 export type ModelAppConfig = {
