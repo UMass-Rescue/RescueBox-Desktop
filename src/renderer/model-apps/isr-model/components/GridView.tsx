@@ -37,7 +37,7 @@ function GridView({
           >
             <div className="flex flex-col items-center">
               <img
-                src={`${outputDir}/${file}`}
+                src={`file://${outputDir}/${file}`}
                 alt={file}
                 className="object-cover w-20 h-20 mb-2"
               />

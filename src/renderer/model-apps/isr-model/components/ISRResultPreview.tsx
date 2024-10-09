@@ -16,7 +16,7 @@ function ISRResultPreview({
         <h2 className="font-bold text-xl mb-4">ISR Result Preview</h2>
         <div className="flex items-center justify-center space-x-4">
           <img
-            src={inputPath}
+            src={`file://${inputPath}`}
             alt="Input Preview"
             className="object-contain max-h-96 max-w-full"
           />
@@ -24,7 +24,7 @@ function ISRResultPreview({
             <DoubleArrowRightIcon />
           </span>
           <img
-            src={outputPath}
+            src={`file://${outputPath}`}
             alt="Output Preview"
             className="object-contain max-h-96 max-w-full"
           />
