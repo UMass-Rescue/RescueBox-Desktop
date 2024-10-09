@@ -58,6 +58,8 @@ export default function SBFModelRun({
   const blockSizeInKiB = watch('parameters.blockSizeInKiB');
   const targetProbability = watch('parameters.targetProbability');
 
+  console.log('blockSizeInKiB', blockSizeInKiB);
+
   const onSubmit: SubmitHandler<
     yup.InferType<typeof SBFJobInputsSchema>
   > = async (data) => {
