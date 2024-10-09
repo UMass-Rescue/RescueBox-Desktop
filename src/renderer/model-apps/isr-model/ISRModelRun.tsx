@@ -34,7 +34,7 @@ type ISRJobInputs = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function TemplateRun({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
+function ISRModelRun({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
   const { register, handleSubmit, watch, setValue } = useForm<ISRJobInputs>({
     mode: 'onChange',
   });
@@ -227,4 +227,4 @@ function TemplateRun({ modelAppConfig }: { modelAppConfig: ModelAppConfig }) {
   );
 }
 
-export default TemplateRun;
+export default ISRModelRun;
