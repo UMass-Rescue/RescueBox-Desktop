@@ -119,7 +119,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
         completeJob({
           uid,
           endTime: new Date(),
-          status: JobStatus.Completed,
+          status: JobStatus.Failed,
           response: response.error,
         } as CompleteJobArgs);
         return null;

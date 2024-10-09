@@ -7,6 +7,9 @@ import TemplateJobOutputs from './template/TemplateJobOutputs';
 import ObjDetectionModelRun from './obj-detection-model/ObjDetectionModelRun';
 import ObjDetectionModelInfo from './obj-detection-model/ObjDetectionModelInfo';
 import ObjDetectionModelOutputs from './obj-detection-model/ObjDetectionModelJobOutputs';
+import ISRModelRun from './isr-model/ISRModelRun';
+import ISRModelInfo from './isr-model/ISRModelInfo';
+import ISRModelJobOutputs from './isr-model/ISRModelJobOutputs';
 
 type ModelAppComponents = {
   runPage: React.FC<{ modelAppConfig: ModelAppConfig }>;
@@ -16,9 +19,9 @@ type ModelAppComponents = {
 
 const componentMap: Record<string, ModelAppComponents> = {
   'isr-model': {
-    runPage: TemplateRun, // Replace with ISRModelRun
-    infoPage: TemplateInfo, // Replace with ISRModelInfo
-    jobOutputsPage: TemplateJobOutputs, // Replace with ISRModelJobOutputs
+    runPage: ISRModelRun,
+    infoPage: ISRModelInfo,
+    jobOutputsPage: ISRModelJobOutputs,
   },
   'sbf-model': {
     runPage: TemplateRun, // Replace with SBFModelRun
@@ -28,7 +31,7 @@ const componentMap: Record<string, ModelAppComponents> = {
   'obj-detection-model': {
     runPage: ObjDetectionModelRun,
     infoPage: ObjDetectionModelInfo,
-    jobOutputsPage: ObjDetectionModelOutputs, // Replace with ObjDetectionModelJobOutputs
+    jobOutputsPage: ObjDetectionModelOutputs,
   },
   'ten-second-model': {
     runPage: TemplateRun,

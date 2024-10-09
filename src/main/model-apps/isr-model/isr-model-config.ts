@@ -1,7 +1,7 @@
 import { DataType, ModelAppConfig } from 'src/shared/models';
 import ISRModelService from './isr-model-service';
 
-const SuperResolutionModel: ModelAppConfig = {
+const ISRModel: ModelAppConfig = {
   uid: 'isr-model',
   name: 'Image Super Resolution',
   version: '1.0.0',
@@ -10,7 +10,12 @@ const SuperResolutionModel: ModelAppConfig = {
   description: 'This model upscales images to a higher resolution.',
   parameters: [
     {
-      name: 'Scale',
+      name: 'Model Weights',
+      type: 'Weights',
+      description: 'The weights of the model to be used for upscaling.',
+    },
+    {
+      name: 'Scaling Factor',
       type: 'Number',
       description: 'The factor by which to upscale the image.',
     },
@@ -29,11 +34,15 @@ const SuperResolutionModel: ModelAppConfig = {
   ],
   constraints: [
     {
-      name: 'Scale Range',
-      description: 'The scale factor must be an integer between 1 and 4.',
+      name: 'Image File Types',
+      description: 'The input images must be in PNG, JPG, or JPEG format.',
+    },
+    {
+      name: 'Scaling Range',
+      description: 'The scaling factor must be between 1 and 4.',
     },
   ],
   service: new ISRModelService(),
 };
 
-export default SuperResolutionModel;
+export default ISRModel;

@@ -1,12 +1,13 @@
 import { dialog, shell } from 'electron';
 import fs from 'fs';
 import log from 'electron-log/main';
+import path from 'path';
 
-export type DirectoryArgs = {
+export type PathArgs = {
   path: string;
 };
 
-export async function openDirectory(_event: any, arg: DirectoryArgs) {
+export async function openPath(_event: any, arg: PathArgs) {
   log.info('Opening directory', arg.path);
   if (!fs.existsSync(arg.path)) {
     log.error('Directory does not exist');
@@ -15,7 +16,27 @@ export async function openDirectory(_event: any, arg: DirectoryArgs) {
       "Make sure it hasn't been moved or deleted.",
     );
   } else {
-    shell.openPath(arg.path);
+    shell.openPath(arg.path).catch((err) => {
+      log.error('Error opening directory', err);
+      dialog.showErrorBox('Error opening directory', err.message);
+    });
+  }
+}
+
+export async function deleteFile(_event: any, arg: PathArgs) {
+  const filePath = path.resolve(arg.path);
+  if (!fs.existsSync(filePath)) {
+    log.error('File does not exist');
+    dialog.showErrorBox(
+      "We can't find this file.",
+      "Make sure it hasn't been moved or deleted.",
+    );
+  } else {
+    log.info('Deleting file', filePath);
+    await shell.trashItem(filePath).catch((err) => {
+      log.error('Error deleting file', err);
+      dialog.showErrorBox('Error deleting file', err.message);
+    });
   }
 }
 
@@ -62,6 +83,6 @@ export async function saveLogs(_event: any, _arg: any) {
     });
 }
 
-export async function getFilesFromDir(_event: any, arg: DirectoryArgs) {
+export async function getFilesFromDir(_event: any, arg: PathArgs) {
   return fs.readdirSync(arg.path);
 }
