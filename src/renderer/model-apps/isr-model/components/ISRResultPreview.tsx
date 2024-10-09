@@ -14,7 +14,7 @@ function ISRResultPreview({
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center">
       <div className="bg-white p-4 rounded-lg shadow-lg max-w-3xl w-full">
         <h2 className="font-bold text-xl mb-4">ISR Result Preview</h2>
-        <div className="flex items-center justify-center space-x-4">
+        <div className="flex items-center justify-center space-x-4 overflow-hidden">
           <img
             src={`file://${inputPath}`}
             alt="Input Preview"
