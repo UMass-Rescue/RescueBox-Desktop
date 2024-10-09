@@ -12,12 +12,12 @@ const SERVER_HEALTH_SLUG = '/health';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SERVER_INFERENCE_SLUG = '/run-inference';
 
-// Replace this with your own model service implementation
 class ISRModelService implements InferenceService {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async pingHealth(server: ModelServerInfo): Promise<boolean> {
+    // const { serverAddress, serverPort } = server;
     // return fetch(
-    //   `http://${server.serverAddress}:${server.serverPort}${SERVER_HEALTH_SLUG}`,
+    //   `http://${serverAddress}:${serverPort}${SERVER_HEALTH_SLUG}`,
     // ).then((res) => {
     //   if (res.status === 200) {
     //     return true;
