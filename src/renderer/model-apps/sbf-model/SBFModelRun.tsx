@@ -230,7 +230,7 @@ export default function SBFModelRun({
             </div>
             <div>
               <Label className="block font-semibold text-lg">
-                Target Probability (0-1)
+                Target Probability
               </Label>
               <div className="grid grid-cols-6 items-center mt-2">
                 <Slider
