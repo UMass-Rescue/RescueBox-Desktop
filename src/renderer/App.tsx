@@ -31,7 +31,6 @@ function RootLayout() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log(location);
   return (
     <div className="flex flex-col min-h-screen">
       <div className="title-bar bg-gray-700 h-[30.4px] top-0 sticky z-10" />
