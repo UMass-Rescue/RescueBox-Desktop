@@ -5,10 +5,13 @@ import {
   Route,
   Outlet,
   Navigate,
+  useLocation,
+  useNavigate,
 } from 'react-router-dom';
 
 import './App.css';
 import { ErrorBoundary } from 'react-error-boundary';
+import { ChevronLeftIcon } from '@radix-ui/react-icons';
 import Jobs from './Jobs';
 import Models from './Models';
 import NavBar from './NavBar';
@@ -25,11 +28,23 @@ import LogsIcon from './components/LogsIcon';
 import AuditLogs from './AuditLogs';
 
 function RootLayout() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <div className="flex flex-col min-h-screen">
       <div className="title-bar bg-gray-700 h-[30.4px] top-0 sticky z-10" />
       <div className="flex flex-row bg-gray-100 pt-1">
-        <div className="flex-grow items-center flex">
+        <div className="flex-grow items-center flex ml-6">
+          <button
+            type="button"
+            aria-label="Back"
+            className="group disabled:pointer-events-none disabled:bg-transparent px-2 py-2 text-center hover:bg-slate-200 rounded-md flex items-center justify-center transition-all"
+            onClick={() => location.pathname !== '/models' && navigate(-1)}
+            disabled={location.pathname === '/models'}
+          >
+            <ChevronLeftIcon className="font-bold text-blue-500 group-disabled:text-gray-500 size-5 sm:size-6 lg:size-7" />
+          </button>
           <NavBar />
         </div>
         <div className="pr-2 flex flex-row">

@@ -214,7 +214,7 @@ export default function SBFModelRun({
               <Label className="block font-semibold text-lg">
                 Block Size (KiB)
               </Label>
-              <div className="grid grid-cols-6 items-center mt-2">
+              <div className="grid grid-cols-6 items-center mt-2 gap-5">
                 <Slider
                   {...register('parameters.blockSizeInKiB', { required: true })}
                   min={4}
@@ -223,8 +223,8 @@ export default function SBFModelRun({
                   defaultValue={[blockSizeInKiB]}
                   className="col-span-5"
                 />
-                <div className="col-span-1 ml-5 whitespace-nowrap text-lg text-center bg-gray-200 rounded-full px-2 py-1">
-                  {Number(blockSizeInKiB).toFixed(0)} KiB
+                <div className="col-span-1 whitespace-nowrap text-lg flex justify-center text-center bg-gray-200 rounded-full px-3 py-1">
+                  <span>{Number(blockSizeInKiB).toFixed(0)} KiB</span>
                 </div>
               </div>
             </div>
