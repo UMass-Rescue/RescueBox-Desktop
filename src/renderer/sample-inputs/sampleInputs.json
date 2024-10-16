@@ -1,0 +1,61 @@
+[
+  {
+    "inputs": [
+      {
+        "key": "input1",
+        "label": "Input File",
+        "subtitle": "Select a file",
+        "type": "InputType.file"
+      },
+      {
+        "key": "input2",
+        "label": "Input Directory",
+        "subtitle": "Select a directory",
+        "type": "InputType.directory"
+      },
+      {
+        "key": "input3",
+        "label": "Input Text",
+        "subtitle": "Enter some text",
+        "type": "InputType.text"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "param1",
+        "label": "Float Parameter",
+        "subtitle": "Enter a float value",
+        "value": { "type": "parameterValuesType.float" }
+      },
+      {
+        "key": "param2",
+        "label": "Ranged Float Parameter",
+        "subtitle": "Enter a value within the range",
+        "value": {
+          "type": "parameterValuesType.rangedFloat",
+          "range": { "min": 0.0, "max": 10.0 },
+          "default": 5.0
+        }
+      },
+      {
+        "key": "param3",
+        "label": "Enum Parameter",
+        "subtitle": "Select an option",
+        "value": {
+          "type": "parameterValuesType.TypeEnum",
+          "enum_vals": [
+            { "label": "Option 1", "key": "opt1" },
+            { "label": "Option 2", "key": "opt2" }
+          ],
+          "default": "opt1"
+        }
+      },
+      {
+        "key": "param4",
+        "label": "Text Parameter",
+        "subtitle": "Enter some text",
+        "value": { "type": "parameterValuesType.text" }
+      }
+    ]
+  }
+]
