@@ -1,61 +1,84 @@
-[
-  {
-    "inputs": [
+{
+  "schemas": {
+    "InfoPage": {
+      "info": "# Welcome to the Face Match App\n\nThis app will help you to match faces in your images...",
+      "author": "John Doe",
+      "version": "1.0.0",
+      "lastUpdated": "2023-10-01T12:00:00Z"
+    },
+    "APIRoutes": [
       {
-        "key": "input1",
-        "label": "Input File",
-        "subtitle": "Select a file",
-        "type": "InputType.file"
-      },
-      {
-        "key": "input2",
-        "label": "Input Directory",
-        "subtitle": "Select a directory",
-        "type": "InputType.directory"
-      },
-      {
-        "key": "input3",
-        "label": "Input Text",
-        "subtitle": "Enter some text",
-        "type": "InputType.text"
+        "input_schema": "/tasks/face_match/input_schema",
+        "run_task": "/tasks/face_match",
+        "payload_schema": "/tasks/face_match/payload_schema",
+        "short_title": "Face Match",
+        "order": 1
       }
     ],
-    "parameters": [
-      {
-        "key": "param1",
-        "label": "Float Parameter",
-        "subtitle": "Enter a float value",
-        "value": { "type": "parameterValuesType.float" }
-      },
-      {
-        "key": "param2",
-        "label": "Ranged Float Parameter",
-        "subtitle": "Enter a value within the range",
-        "value": {
-          "type": "parameterValuesType.rangedFloat",
-          "range": { "min": 0.0, "max": 10.0 },
-          "default": 5.0
+    "FileInput": {
+      "path": "/path/to/file.jpg"
+    },
+    "DirectoryInput": {
+      "path": "/path/to/directory"
+    },
+    "TextInput": {
+      "text": "Sample text input"
+    },
+    "BatchFileInput": {
+      "files": [
+        {
+          "path": "/path/to/file1.jpg"
+        },
+        {
+          "path": "/path/to/file2.jpg"
+        }
+      ]
+    },
+    "BatchTextInput": {
+      "texts": [
+        {
+          "text": "Sample text input 1"
+        },
+        {
+          "text": "Sample text input 2"
+        }
+      ]
+    },
+    "TaskSchema": {
+      "inputs": [
+        {
+          "key": "input1",
+          "label": "Input 1",
+          "subtitle": null,
+          "inputType": "file"
+        }
+      ],
+      "parameters": [
+        {
+          "key": "param1",
+          "label": "Parameter 1",
+          "subtitle": null,
+          "value": {
+            "parameterType": "float",
+            "default": 1.0
+          }
+        }
+      ]
+    },
+    "RequestBody": {
+      "inputs": {
+        "input1": {
+          "path": "/path/to/file.jpg"
         }
       },
-      {
-        "key": "param3",
-        "label": "Enum Parameter",
-        "subtitle": "Select an option",
-        "value": {
-          "type": "parameterValuesType.TypeEnum",
-          "enum_vals": [
-            { "label": "Option 1", "key": "opt1" },
-            { "label": "Option 2", "key": "opt2" }
-          ],
-          "default": "opt1"
-        }
-      },
-      {
-        "key": "param4",
-        "label": "Text Parameter",
-        "subtitle": "Enter some text",
-        "value": { "type": "parameterValuesType.text" }
-      }
-    ]
+      "parameters": {}
+    },
+    "ResponseBody": {
+      "output_type": "file",
+      "file_type": "img",
+      "path": "/path/to/output.jpg",
+      "title": "Output Image",
+      "subtitle": "Processed image"
+    }
   }
-]
+}
