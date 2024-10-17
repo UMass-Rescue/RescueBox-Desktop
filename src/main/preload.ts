@@ -1,13 +1,8 @@
 // Disable no-unused-vars, broken for spread args
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer } from 'electron';
-import {
-  MLModel,
-  ModelServer,
-  Job,
-  ModelAppStatus,
-  ModelAppConfig,
-} from 'src/shared/models';
+import { MLModel, ModelServer, Job, ModelAppStatus } from 'src/shared/models';
+import { APIRoutes, InfoPage, TaskSchema } from 'src/shared/schema-types';
 import {
   GetModelAppStatusArgs,
   RegisterModelArgs,
@@ -16,6 +11,11 @@ import {
 import { RunJobArgs, JobByIdArgs } from './handlers/job';
 import { GetModelByIdArgs } from './handlers/models';
 import { PathArgs } from './handlers/file-system';
+import {
+  GetApiRoutesArgs,
+  GetInfoArgs,
+  GetTaskSchemaArgs,
+} from './handlers/task';
 
 const registrationHandler = {
   registerModelAppIp: (args: RegisterModelArgs) =>
@@ -76,6 +76,15 @@ const databaseHandler = {
   resetDatabase: () => ipcRenderer.invoke('database:reset-database'),
 };
 
+const taskHandler = {
+  getApiRoutes: (args: GetApiRoutesArgs) =>
+    ipcRenderer.invoke('task:get-api-routes', args) as Promise<APIRoutes>,
+  getInfo: (args: GetInfoArgs) =>
+    ipcRenderer.invoke('task:get-info', args) as Promise<InfoPage>,
+  getTaskSchema: (args: GetTaskSchemaArgs) =>
+    ipcRenderer.invoke('task:get-task-schema', args) as Promise<TaskSchema>,
+};
+
 const loggingHandler = {
   getLogs: () =>
     ipcRenderer.invoke('logging:get-logs') as Promise<
@@ -93,6 +102,7 @@ contextBridge.exposeInMainWorld('job', jobHandler);
 contextBridge.exposeInMainWorld('fileSystem', fileSystemHandler);
 contextBridge.exposeInMainWorld('database', databaseHandler);
 contextBridge.exposeInMainWorld('logging', loggingHandler);
+contextBridge.exposeInMainWorld('task', taskHandler);
 
 export type RegistrationHandler = typeof registrationHandler;
 export type ModelsHandler = typeof modelsHandler;
@@ -100,3 +110,4 @@ export type JobHandler = typeof jobHandler;
 export type FileSystemHandler = typeof fileSystemHandler;
 export type DatabaseHandler = typeof databaseHandler;
 export type LoggingHandler = typeof loggingHandler;
+export type TaskHandler = typeof taskHandler;

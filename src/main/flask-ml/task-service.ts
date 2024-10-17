@@ -28,7 +28,7 @@ class TaskService {
     this.initializeAPIRoutes();
   }
 
-  public async initializeAPIRoutes(): Promise<void> {
+  private async initializeAPIRoutes(): Promise<void> {
     // this.apiRoutes = await fetch(
     //   `http://${this.serverAddress}:${this.serverPort}${API_ROUTES_SLUG}`,
     // )
@@ -52,6 +52,10 @@ class TaskService {
         ]);
       }, 2000);
     });
+  }
+
+  public async getApiRoutes(): Promise<APIRoutes> {
+    return this.apiRoutes;
   }
 
   // eslint-disable-next-line class-methods-use-this

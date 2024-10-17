@@ -19,6 +19,7 @@ import * as job from './handlers/job';
 import * as models from './handlers/models';
 import * as fileSystem from './handlers/file-system';
 import * as loggingHandler from './handlers/logging';
+import * as taskHandler from './handlers/task';
 import DatabaseConn, { getDbPath } from './database/database-conn';
 
 // It preloads electron-log IPC code in renderer processes
@@ -79,6 +80,11 @@ function setupIpcMain() {
   // Logging: handles logging operations
   ipcMain.handle('logging:get-logs', loggingHandler.getLogs);
   ipcMain.handle('logging:clear-logs', loggingHandler.clearLogs);
+
+  // Task: handles task service operations
+  ipcMain.handle('task:get-api-routes', taskHandler.getApiRoutes);
+  ipcMain.handle('task:get-info', taskHandler.getInfo);
+  ipcMain.handle('task:get-task-schema', taskHandler.getTaskSchema);
 }
 
 if (process.env.NODE_ENV === 'production') {
