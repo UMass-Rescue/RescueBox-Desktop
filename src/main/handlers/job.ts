@@ -1,20 +1,14 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Inputs, Outputs, Parameters } from 'src/shared/job';
 import log from 'electron-log/main';
+import { RequestBody, ResponseBody } from 'src/shared/schema-types';
 import JobDb, { JobStatus } from '../models/job';
-import { getInferenceTaskByModelUid } from '../model-apps/config';
-import ModelServerDb from '../models/model-server';
-import {
-  ErrorResponse,
-  SuccessResponse,
-} from '../model-apps/inference-service';
 import { getRaw } from '../util';
+import getTaskServiceByModelUid from '../flask-ml/task-service';
 
 export type RunJobArgs = {
   modelUid: string;
-  inputs: Inputs;
-  outputs: Outputs;
-  parameters: Parameters;
+  taskRoute: string;
+  requestBody: RequestBody;
 };
 
 export type JobByIdArgs = {
@@ -25,7 +19,7 @@ export type CompleteJobArgs = {
   uid: string;
   endTime: Date;
   status: JobStatus;
-  response?: object;
+  response?: ResponseBody;
   statusText?: string;
 };
 
@@ -50,13 +44,12 @@ const completeJob = async (args: CompleteJobArgs) => {
 
 const cancelJob = async (_event: any, args: JobByIdArgs) => {
   log.info('Canceling job', args.uid);
-  const manager = getInferenceTaskByModelUid(
-    await JobDb.getJobByUid(args.uid).then((job) => {
-      if (!job) throw new Error(`Job not found with uid ${args.uid}`);
-      return job.modelUid;
-    }),
-  );
-  manager.cancelInference();
+  const modelUid = await JobDb.getJobByUid(args.uid).then((job) => {
+    if (!job) throw new Error(`Job not found with uid ${args.uid}`);
+    return job.modelUid;
+  });
+  const service = await getTaskServiceByModelUid(modelUid);
+  service.cancelTask();
 
   await JobDb.updateJobEndTime(args.uid, new Date());
   await JobDb.updateJobStatus(args.uid, JobStatus.Canceled);
@@ -67,12 +60,6 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
   log.info(`Creating a job for model ${arg.modelUid}`);
   // Setup job parameters
   const uid = uuidv4();
-  const manager = getInferenceTaskByModelUid(arg.modelUid);
-  const server = await ModelServerDb.getServerByModelUid(arg.modelUid);
-  if (!server) {
-    throw new Error(`Server not found for model ${arg.modelUid}`);
-  }
-
   log.info('Trying to create a job in the Job model');
 
   // Create a job in the database
@@ -81,9 +68,8 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
       uid,
       arg.modelUid,
       new Date(),
-      arg.inputs,
-      arg.outputs,
-      arg.parameters,
+      arg.requestBody.inputs,
+      arg.requestBody.parameters,
     );
   } catch (err) {
     log.error(
@@ -96,36 +82,23 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
   // Call the inference service for the particular model,
   // and update the job status after a reply is received
   log.info('Calling inference service for model', arg.modelUid);
-  manager
-    .runInference({ ...arg, server })
-    .then(async (response: SuccessResponse | ErrorResponse) => {
+  const service = await getTaskServiceByModelUid(arg.modelUid);
+  service
+    .runTask(arg.taskRoute, arg.requestBody)
+    .then(async (response: ResponseBody) => {
       const job = await JobDb.getJobByUid(uid);
       if (job?.status === JobStatus.Canceled) {
         log.info('Job Canceled: Not updating job information.');
-        return null;
-      }
-      if (response instanceof SuccessResponse) {
-        log.info('SuccessResponse: Updating job information.');
+      } else {
+        log.info('Success: Updating job information.');
         completeJob({
           uid,
           endTime: new Date(),
           status: JobStatus.Completed,
-          response: response.data,
+          response,
         });
-        return null;
       }
-      if (response instanceof ErrorResponse) {
-        log.info('ErrorResponse: Updating job information.');
-        log.info(response.error);
-        completeJob({
-          uid,
-          endTime: new Date(),
-          status: JobStatus.Failed,
-          statusText: JSON.stringify(response.error),
-        });
-        return null;
-      }
-      throw new Error('FATAL: Invalid response type.');
+      return null;
     })
     .catch(async (err) => {
       log.error('Request failed: Updating job information.');

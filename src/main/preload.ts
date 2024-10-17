@@ -42,11 +42,6 @@ const modelsHandler = {
     ipcRenderer.invoke('models:get-models') as Promise<MLModel[]>,
   getModelByUid: (args: GetModelByIdArgs) =>
     ipcRenderer.invoke('models:get-model-by-uid', args) as Promise<MLModel>,
-  getModelAppConfigByUid: (args: GetModelByIdArgs) =>
-    ipcRenderer.invoke(
-      'models:get-model-app-config-by-uid',
-      args,
-    ) as Promise<ModelAppConfig>,
 };
 
 const jobHandler = {

@@ -2,7 +2,8 @@ import { ModelAppStatus } from 'src/shared/models';
 import log from 'electron-log/main';
 import ModelServer from '../models/model-server';
 import { getRaw } from '../util';
-import { getInferenceTaskByModelUid } from '../model-apps/config';
+import getTaskServiceByModelUid from '../flask-ml/task-service';
+import { InfoPage } from 'src/shared/schema-types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SERVER_HEALTH_SLUG = '/health';
@@ -49,13 +50,10 @@ const getModelAppStatus = async (
   if (!server || !server.isUserConnected) {
     return ModelAppStatus.Unregistered;
   }
-  const manager = getInferenceTaskByModelUid(arg.modelUid);
-  return manager.pingHealth(server).then((isOnline) => {
-    if (isOnline) {
-      return ModelAppStatus.Online;
-    }
-    return ModelAppStatus.Offline;
-  });
+  const taskService = await getTaskServiceByModelUid(arg.modelUid);
+  return taskService.getInfo()
+  .then((res: InfoPage) =>  ModelAppStatus.Online)
+  .catch((err) => ModelAppStatus.Offline);
 };
 
 export {

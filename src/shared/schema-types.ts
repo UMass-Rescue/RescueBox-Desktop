@@ -133,7 +133,7 @@ export interface components {
       inputs: {
         [key: string]: components['schemas']['Input'];
       };
-      parameters: Record<string, never>;
+      parameters: Record<string, any>;
     };
     ResponseBody:
       | components['schemas']['FileResponse']
