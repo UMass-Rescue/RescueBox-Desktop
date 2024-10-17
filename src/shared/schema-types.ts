@@ -12,8 +12,8 @@ export interface components {
       lastUpdated: string;
     };
     APIRoutes: {
-      /** @example /tasks/{name_of_task}/input_schema */
-      input_schema: string;
+      /** @example /tasks/{name_of_task}/task_schema */
+      task_schema: string;
       /** @example /tasks/{name_of_task} */
       run_task: string;
       /** @example /tasks/{name_of_task}/payload_schema */
