@@ -203,3 +203,41 @@ export interface components {
   headers: never;
   pathItems: never;
 }
+
+export type InfoPage = components['schemas']['InfoPage'];
+export type APIRoutes = components['schemas']['APIRoutes'];
+export type Input = components['schemas']['Input'];
+export type FileInput = components['schemas']['FileInput'];
+export type DirectoryInput = components['schemas']['DirectoryInput'];
+export type TextInput = components['schemas']['TextInput'];
+export type BatchFileInput = components['schemas']['BatchFileInput'];
+export type BatchTextInput = components['schemas']['BatchTextInput'];
+export type TaskSchema = components['schemas']['TaskSchema'];
+export type InputSchema = components['schemas']['InputSchema'];
+export type InputType = components['schemas']['InputType'];
+export type ParameterSchema = components['schemas']['ParameterSchema'];
+export type ParameterType = components['schemas']['ParameterType'];
+export type RangedFloatParameterDescriptor =
+  components['schemas']['RangedFloatParameterDescriptor'];
+export type FloatParameterDescriptor =
+  components['schemas']['FloatParameterDescriptor'];
+export type EnumParameterDescriptor =
+  components['schemas']['EnumParameterDescriptor'];
+export type TextParameterDescriptor =
+  components['schemas']['TextParameterDescriptor'];
+export type RangedIntParameterDescriptor =
+  components['schemas']['RangedIntParameterDescriptor'];
+export type IntParameterDescriptor =
+  components['schemas']['IntParameterDescriptor'];
+export type IntRangeDescriptor = components['schemas']['IntRangeDescriptor'];
+export type FloatRangeDescriptor =
+  components['schemas']['FloatRangeDescriptor'];
+export type RequestBody = components['schemas']['RequestBody'];
+export type ResponseBody = components['schemas']['ResponseBody'];
+export type ResponseType = components['schemas']['ResponseType'];
+export type FileResponse = components['schemas']['FileResponse'];
+export type DirectoryResponse = components['schemas']['DirectoryResponse'];
+export type MarkdownResponse = components['schemas']['MarkdownResponse'];
+export type TextResponse = components['schemas']['TextResponse'];
+export type BatchFileResponse = components['schemas']['BatchFileResponse'];
+export type BatchTextResponse = components['schemas']['BatchTextResponse'];
