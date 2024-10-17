@@ -40,6 +40,8 @@ class JobDb extends Model<
 
   declare response: CreationOptional<ResponseBody>; // JSON string
 
+  declare taskRoute: string;
+
   public static getAllJobs() {
     return JobDb.findAll();
   }
@@ -66,6 +68,7 @@ class JobDb extends Model<
     startTime: Date,
     inputs: Inputs,
     parameters: Parameters,
+    taskRoute: string,
   ) {
     return JobDb.create({
       uid,
@@ -74,7 +77,7 @@ class JobDb extends Model<
       inputs,
       parameters,
       status: JobStatus.Running,
-      response: undefined,
+      taskRoute,
     });
   }
 
@@ -188,6 +191,10 @@ export const initJob = async (connection: Sequelize) => {
           // @ts-ignore
           this.setDataValue('response', JSON.stringify(value));
         },
+      },
+      taskRoute: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
     },
     {

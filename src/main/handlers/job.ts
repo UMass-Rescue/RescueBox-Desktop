@@ -70,6 +70,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
       new Date(),
       arg.requestBody.inputs,
       arg.requestBody.parameters,
+      arg.taskRoute,
     );
   } catch (err) {
     log.error(

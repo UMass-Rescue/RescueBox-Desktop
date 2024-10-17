@@ -6,6 +6,7 @@ import migration0001Jobs from './0001_jobs';
 import migration0002Servers from './0002_servers';
 import migration0003ServersAddCol from './0003_servers_add_col';
 import migration0004JobsDropOutputs from './0004_jobs_drop_outputs';
+import migration0005JobsAddTaskRoute from './0005_jobs_add_task_route';
 
 export default function getMigrationsUmzug(sequelize: Sequelize) {
   return new Umzug({
@@ -17,6 +18,7 @@ export default function getMigrationsUmzug(sequelize: Sequelize) {
       migration0002Servers,
       migration0003ServersAddCol,
       migration0004JobsDropOutputs,
+      migration0005JobsAddTaskRoute,
     ],
     logger: log,
   });
