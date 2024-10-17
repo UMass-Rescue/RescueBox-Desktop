@@ -102,7 +102,7 @@ export interface components {
         label?: string;
         key?: string;
       }[];
-      messageWhenEmpty: string;
+      messageWhenEmpty?: string;
       default: string;
     };
     TextParameterDescriptor: {
