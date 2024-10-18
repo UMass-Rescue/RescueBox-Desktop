@@ -1,7 +1,7 @@
 import { QueryInterface, DataTypes } from 'sequelize';
 
 const TABLE_NAME = 'jobs';
-const MIGRATION_NAME = '0004_jobs_add_task_route';
+const MIGRATION_NAME = '0005_jobs_add_task_route';
 
 const migration0005JobsAddTaskRoute = {
   name: MIGRATION_NAME,
