@@ -1,0 +1,9 @@
+[
+  {
+    "input_schema": "/tasks/face_match/input_schema",
+    "run_task": "/tasks/face_match",
+    "payload_schema": "/tasks/face_match/payload_schema",
+    "short_title": "Face Match",
+    "order": 1
+  }
+]

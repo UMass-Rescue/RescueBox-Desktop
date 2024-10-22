@@ -1,0 +1,21 @@
+{
+  "inputs": [
+    {
+      "key": "input1",
+      "label": "Input 1",
+      "subtitle": null,
+      "inputType": "file"
+    }
+  ],
+  "parameters": [
+    {
+      "key": "param1",
+      "label": "Parameter 1",
+      "subtitle": null,
+      "value": {
+        "parameterType": "float",
+        "default": 1.0
+      }
+    }
+  ]
+}
