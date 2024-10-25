@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@shadcn/*": ["./src/renderer/*"]
-    }
+    },
+    "skipLibCheck": true
   },
   "exclude": ["test", "release/build", "release/app/dist", ".erb/dll"]
 }
