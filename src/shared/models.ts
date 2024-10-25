@@ -1,5 +1,4 @@
 import { InferAttributes } from 'sequelize/types/model';
-import InferenceService from 'src/main/model-apps/inference-service';
 import JobDb from 'src/main/models/job';
 import MLModelDb from 'src/main/models/ml-model';
 import ModelServerDb from 'src/main/models/model-server';
@@ -37,7 +36,6 @@ export type ModelAppConfig = {
   inputTypes: { type: string; description: string }[];
   outputTypes: { type: string; description: string }[];
   constraints: { name: string; description: string }[];
-  service: InferenceService;
 };
 
 export type Inputs = { path: string; path_key: string }[];
