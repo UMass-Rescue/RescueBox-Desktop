@@ -1,14 +1,20 @@
 // Disable no-unused-vars, broken for spread args
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer } from 'electron';
-import { MLModel, ModelServer, Job, ModelAppStatus } from 'src/shared/models';
+import {
+  MLModel,
+  ModelServer,
+  Job,
+  ModelAppStatus,
+  RunJobArgs,
+} from 'src/shared/models';
 import { APIRoutes, InfoPage, TaskSchema } from 'src/shared/generated_models';
 import {
   GetModelAppStatusArgs,
   RegisterModelArgs,
   UnregisterModelArgs,
 } from './handlers/registration';
-import { RunJobArgs, JobByIdArgs } from './handlers/job';
+import { JobByIdArgs } from './handlers/job';
 import { GetModelByIdArgs } from './handlers/models';
 import { PathArgs } from './handlers/file-system';
 import {
