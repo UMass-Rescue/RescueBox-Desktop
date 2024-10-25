@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Button } from './components/ui/button';
-import { ConnectIcon } from './components/ConnectIcon';
-import { useMLModels, useServers, useServerStatuses } from './lib/hooks';
-import LoadingIcon from './components/LoadingIcon';
-import LoadingScreen from './components/LoadingScreen';
+import { Button } from '../components/ui/button';
+import { ConnectIcon } from '../components/ConnectIcon';
+import { useMLModels, useServers, useServerStatuses } from '../lib/hooks';
+import LoadingIcon from '../components/LoadingIcon';
+import LoadingScreen from '../components/LoadingScreen';
 import ModelsTable from './ModelsTable';
 
 function Models() {

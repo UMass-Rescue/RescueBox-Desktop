@@ -1,6 +1,6 @@
 import { ModelAppStatus } from 'src/shared/models';
 import log from 'electron-log/main';
-import { InfoPage } from 'src/shared/schema-types';
+import { InfoPage } from 'src/shared/generated_models';
 import ModelServer from '../models/model-server';
 import { getRaw } from '../util';
 import getTaskServiceByModelUid from '../flask-ml/task-service';

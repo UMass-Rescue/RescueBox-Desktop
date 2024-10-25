@@ -1,15 +1,15 @@
 import { ModelAppStatus, ModelServer } from 'src/shared/models';
 import { KeyedMutator } from 'swr';
-import { useServerStatus } from './lib/hooks';
-import { ConnectIcon, DisconnectIcon } from './components/ConnectIcon';
-import { Button } from './components/ui/button';
+import { useServerStatus } from '../lib/hooks';
+import { ConnectIcon, DisconnectIcon } from '../components/ConnectIcon';
+import { Button } from '../components/ui/button';
 import ConnectDialog from './ConnectDialog';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from './components/ui/tooltip';
+} from '../components/ui/tooltip';
 
 function ModelConnectionButton({
   modelUid,

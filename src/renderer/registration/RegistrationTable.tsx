@@ -7,11 +7,29 @@ import {
   TableRow,
 } from '@shadcn/components/ui/table';
 import { MLModel } from 'src/shared/models';
-import { useMLModels, useServers } from './lib/hooks';
-import { createMLServerMap } from './lib/utils';
-import ModelStatusIndicator from './ModelStatusIndicator';
+import { useMLModels, useServers } from '../lib/hooks';
+import { createMLServerMap } from '../lib/utils';
+import ModelStatusIndicator from '../models/ModelStatusIndicator';
 import ModelConnectionButton from './ModelConnectionButton';
-import { partition } from './utils';
+
+/**
+ * Partitions an array into two arrays, one with elements that pass a test and one with elements that fail the test.
+ * @param array an array to partition of type T
+ * @param isValid a predicate function that takes an element of type T and returns a boolean
+ * @returns [pass, fail] where pass is an array of elements that passed the test and fail is an array of elements that failed the test
+ */
+export function partition<T>(
+  array: T[],
+  isValid: (elem: T) => boolean,
+): [T[], T[]] {
+  return array.reduce(
+    (acc, elem: T) => {
+      const [pass, fail] = acc;
+      return isValid(elem) ? [[...pass, elem], fail] : [pass, [...fail, elem]];
+    },
+    [[], []] as [T[], T[]],
+  );
+}
 
 export default function RegistrationTable({
   registered,

@@ -1,4 +1,4 @@
-import { APIRoutes } from 'src/shared/schema-types';
+import { APIRoutes } from 'src/shared/generated_models';
 import getTaskServiceByModelUid from '../flask-ml/task-service';
 
 export type GetApiRoutesArgs = {

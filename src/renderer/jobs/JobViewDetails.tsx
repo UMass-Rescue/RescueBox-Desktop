@@ -1,12 +1,11 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ReloadIcon } from '@radix-ui/react-icons';
-import { Button } from './components/ui/button';
-import { useJob, useMLModel } from './lib/hooks';
-import FilePathField from './components/FilePathField';
-import LoadingScreen from './components/LoadingScreen';
-import CompletedIcon from './components/CompletedIcon';
-import FailedIcon from './components/FailedIcon';
-import CanceledIcon from './components/CanceledIcon';
+import { Button } from '../components/ui/button';
+import { useJob, useMLModel } from '../lib/hooks';
+import LoadingScreen from '../components/LoadingScreen';
+import CompletedIcon from '../components/CompletedIcon';
+import FailedIcon from '../components/FailedIcon';
+import CanceledIcon from '../components/CanceledIcon';
 
 function JobViewDetails() {
   const { jobId } = useParams();
@@ -32,12 +31,6 @@ function JobViewDetails() {
   if (!job) return <div>no model</div>;
 
   const handleRetry = async () => {
-    await window.job.runJob({
-      modelUid: job.modelUid,
-      inputs: job.inputs,
-      outputs: job.outputs,
-      parameters: job.parameters,
-    });
     navigate('/jobs');
   };
 
@@ -91,30 +84,6 @@ function JobViewDetails() {
             </div>
           </div>
         )}
-        <div className="flex flex-col gap-2">
-          <h1 className="font-bold">Inputs</h1>
-          <div className="flex flex-col gap-2">
-            {job.inputs.map((input) => (
-              <FilePathField
-                path={input.path}
-                label={input.path_key}
-                key={input.path}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-2">
-          <h1 className="font-bold">Output</h1>
-          <div className="flex flex-col gap-2">
-            {job.outputs.map((output) => (
-              <FilePathField
-                path={output.path}
-                label={output.path_key}
-                key={output.path}
-              />
-            ))}
-          </div>
-        </div>
         <div className="flex flex-col gap-2">
           <h1 className="font-bold">Model</h1>
           <div className="flex flex-row items-center border border-slate-400 rounded-lg w-full justify-between py-1 px-3">

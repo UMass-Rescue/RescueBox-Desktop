@@ -3,36 +3,6 @@ import useSWR from 'swr';
 
 const JOBS_REFRESH_INTERVAL = 200;
 
-export function useModels() {
-  const fetcher = () => window.models.getModels();
-  const { data, error, isLoading, mutate } = useSWR(
-    `models:get-models`,
-    fetcher,
-  );
-
-  return {
-    models: data,
-    error,
-    isLoading,
-    mutate,
-  };
-}
-
-export function useModelAppConfig(modelUid?: string) {
-  const fetcher = () =>
-    window.models.getModelAppConfigByUid({ modelUid: modelUid! });
-  const { data, error, isLoading } = useSWR(
-    modelUid ? `models:get-model-app-config-by-uid-${modelUid}` : null,
-    fetcher,
-  );
-
-  return {
-    data,
-    error,
-    isLoading,
-  };
-}
-
 export function useServerStatuses(servers?: ModelServer[]) {
   const fetcher = () =>
     Promise.all(

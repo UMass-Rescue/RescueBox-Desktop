@@ -1,15 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 import log from 'electron-log/main';
-import { RequestBody, ResponseBody } from 'src/shared/schema-types';
+import { ResponseBody } from 'src/shared/generated_models';
+import { RunJobArgs } from 'src/shared/models';
 import JobDb, { JobStatus } from '../models/job';
 import { getRaw } from '../util';
 import getTaskServiceByModelUid from '../flask-ml/task-service';
-
-export type RunJobArgs = {
-  modelUid: string;
-  taskRoute: string;
-  requestBody: RequestBody;
-};
 
 export type JobByIdArgs = {
   uid: string;

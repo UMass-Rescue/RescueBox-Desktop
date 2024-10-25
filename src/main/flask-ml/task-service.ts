@@ -2,10 +2,10 @@ import { ModelServer } from 'src/shared/models';
 import {
   APIRoutes,
   InfoPage,
+  TaskSchema,
   RequestBody,
   ResponseBody,
-  TaskSchema,
-} from 'src/shared/schema-types';
+} from 'src/shared/generated_models';
 import ModelServerDb from '../models/model-server';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

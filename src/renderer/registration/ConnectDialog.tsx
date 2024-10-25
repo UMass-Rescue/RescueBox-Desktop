@@ -14,13 +14,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
   Tooltip,
-} from './components/ui/tooltip';
-import { Button } from './components/ui/button';
-import { Label } from './components/ui/label';
-import { Input } from './components/ui/input';
-import { ConnectIcon } from './components/ConnectIcon';
-import { useMLModel } from './lib/hooks';
-import LoadingIcon from './components/LoadingIcon';
+} from '../components/ui/tooltip';
+import { Button } from '../components/ui/button';
+import { Label } from '../components/ui/label';
+import { Input } from '../components/ui/input';
+import { ConnectIcon } from '../components/ConnectIcon';
+import { useMLModel } from '../lib/hooks';
+import LoadingIcon from '../components/LoadingIcon';
 
 type ConnectInputs = {
   ip: string;

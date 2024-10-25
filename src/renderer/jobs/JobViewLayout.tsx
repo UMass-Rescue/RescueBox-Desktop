@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useParams } from 'react-router-dom';
 
-import { cn } from './lib/utils';
-import { useJob } from './lib/hooks';
+import { cn } from '../lib/utils';
+import { useJob } from '../lib/hooks';
 
 function JobView() {
   const { jobId } = useParams();

@@ -7,9 +7,11 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import { Inputs, Parameters } from 'src/shared/job';
-import { ResponseBody } from 'src/shared/schema-types';
+import { Input, ResponseBody } from 'src/shared/generated_models';
 import MLModelDb from './ml-model';
+
+type Inputs = { [key: string]: Input };
+type Parameters = Record<string, number | string>;
 
 export enum JobStatus {
   Running = 'Running',
