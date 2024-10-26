@@ -31,10 +31,8 @@ function ModelDetails() {
 
   return (
     <div className="flex flex-row justify-between m-3">
-      <div className="w-2/3 m-2">
-        <Markdown remarkPlugins={[remarkGfm]} className="prose markdown">
-          {infoPage.info}
-        </Markdown>
+      <div className="w-2/3 m-2 mr-4 prose max-w-none markdown">
+        <Markdown remarkPlugins={[remarkGfm]}>{infoPage.info}</Markdown>
       </div>
       <div className="sticky top-16 drop-shadow-md m-4 py-4 px-6 rounded-md w-1/3 bg-sky-200 h-full">
         <h1 className="font-bold text-lg md:text-xl lg:text-2xl m-2">
