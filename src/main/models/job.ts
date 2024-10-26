@@ -7,11 +7,8 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import { Input, ResponseBody } from 'src/shared/generated_models';
+import { RequestBody, ResponseBody } from 'src/shared/generated_models';
 import MLModelDb from './ml-model';
-
-type Inputs = { [key: string]: Input };
-type Parameters = Record<string, number | string>;
 
 export enum JobStatus {
   Running = 'Running',
@@ -36,9 +33,7 @@ class JobDb extends Model<
 
   declare statusText: CreationOptional<string>;
 
-  declare inputs: Inputs; // JSON string
-
-  declare parameters: Parameters; // JSON string
+  declare request: RequestBody; // JSON string
 
   declare response: CreationOptional<ResponseBody>; // JSON string
 
@@ -68,16 +63,14 @@ class JobDb extends Model<
     uid: string,
     modelUid: string,
     startTime: Date,
-    inputs: Inputs,
-    parameters: Parameters,
+    request: RequestBody,
     taskRoute: string,
   ) {
     return JobDb.create({
       uid,
       modelUid,
       startTime,
-      inputs,
-      parameters,
+      request,
       status: JobStatus.Running,
       taskRoute,
     });
@@ -160,27 +153,14 @@ export const initJob = async (connection: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      inputs: {
+      request: {
         type: DataTypes.TEXT,
         allowNull: false,
         get() {
-          return JSON.parse(this.getDataValue('inputs') as unknown as string);
+          return JSON.parse(this.getDataValue('request') as unknown as string);
         },
         set(value) {
-          this.setDataValue('inputs', JSON.stringify(value) as any);
-        },
-      },
-      parameters: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-        get() {
-          return JSON.parse(
-            this.getDataValue('parameters') as unknown as string,
-          );
-        },
-        set(value) {
-          // @ts-ignore
-          this.setDataValue('parameters', JSON.stringify(value));
+          this.setDataValue('request', JSON.stringify(value) as any);
         },
       },
       response: {

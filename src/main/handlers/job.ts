@@ -63,8 +63,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
       uid,
       arg.modelUid,
       new Date(),
-      arg.requestBody.inputs,
-      arg.requestBody.parameters,
+      arg.requestBody,
       arg.taskRoute,
     );
   } catch (err) {
@@ -103,7 +102,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
         status: JobStatus.Failed,
         endTime: new Date(),
         statusText: err.message,
-      } as CompleteJobArgs);
+      });
       return null;
     });
   log.info('Job model created successfully, fetching job from database.');

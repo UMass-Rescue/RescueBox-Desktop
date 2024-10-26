@@ -67,8 +67,12 @@ const fileSystemHandler = {
     ipcRenderer.invoke('fileSystem:open-path', args) as Promise<string>,
   selectDirectory: () =>
     ipcRenderer.invoke('fileSystem:select-directory') as Promise<string>,
-  selectFilePath: () =>
-    ipcRenderer.invoke('fileSystem:select-file-path') as Promise<string>,
+  selectDirectories: () =>
+    ipcRenderer.invoke('fileSystem:select-directories') as Promise<string[]>,
+  selectFile: () =>
+    ipcRenderer.invoke('fileSystem:select-file') as Promise<string>,
+  selectFiles: () =>
+    ipcRenderer.invoke('fileSystem:select-files') as Promise<string[]>,
   saveLogs: () => ipcRenderer.invoke('fileSystem:save-logs'),
   getFilesFromDir: (args: PathArgs) =>
     ipcRenderer.invoke('fileSystem:get-files-from-dir', args) as Promise<

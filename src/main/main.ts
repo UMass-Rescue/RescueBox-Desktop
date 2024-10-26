@@ -72,7 +72,9 @@ function setupIpcMain() {
   // File System: handles file system operations
   ipcMain.handle('fileSystem:open-path', fileSystem.openPath);
   ipcMain.handle('fileSystem:select-directory', fileSystem.selectDirectory);
-  ipcMain.handle('fileSystem:select-file-path', fileSystem.selectFilePath);
+  ipcMain.handle('fileSystem:select-directories', fileSystem.selectDirectories);
+  ipcMain.handle('fileSystem:select-file', fileSystem.selectFile);
+  ipcMain.handle('fileSystem:select-files', fileSystem.selectFiles);
   ipcMain.handle('fileSystem:save-logs', fileSystem.saveLogs);
   ipcMain.handle('fileSystem:get-files-from-dir', fileSystem.getFilesFromDir);
   ipcMain.handle('fileSystem:delete-file', fileSystem.deleteFile);

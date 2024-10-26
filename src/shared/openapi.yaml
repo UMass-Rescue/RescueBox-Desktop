@@ -110,7 +110,7 @@ components:
         oneOf:
           - $ref: "#/components/schemas/SchemaAPIRoute"
           - $ref: "#/components/schemas/NoSchemaAPIRoute"
-    
+
     SchemaAPIRoute:
       type: object
       required: [task_schema, run_task, payload_schema, short_title, order]
@@ -133,7 +133,7 @@ components:
         order:
           type: integer
           example: 1
-    
+
     NoSchemaAPIRoute:
       type: object
       required: [run_task, short_title, order]
@@ -157,28 +157,28 @@ components:
         - $ref: "#/components/schemas/BatchFileInput"
         - $ref: "#/components/schemas/BatchTextInput"
         - $ref: "#/components/schemas/BatchDirectoryInput"
-          
+
     FileInput:
       type: object
       required: [path]
       properties:
         path:
           type: string
-    
+
     DirectoryInput:
       type: object
       required: [path]
       properties:
         path:
           type: string
-    
+
     TextInput:
       type: object
       required: [text]
       properties:
         text:
           type: string
-    
+
     BatchFileInput:
       type: object
       required: [files]
@@ -187,7 +187,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/FileInput"
-    
+
     BatchTextInput:
       type: object
       required: [texts]
@@ -196,7 +196,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/TextInput"
-    
+
     BatchDirectoryInput:
       type: object
       required: [directories]
@@ -220,7 +220,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ParameterSchema"
-    
+
     InputSchema:
       type: object
       required: [key, label, subtitle, inputType]
@@ -235,7 +235,7 @@ components:
           default: ''
         inputType:
           $ref: "#/components/schemas/InputType"
-    
+
     InputType:
       type: string
       enum: ["file", "directory", "text", "textarea", "batchfile", "batchtext", "batchdirectory"]
@@ -260,7 +260,7 @@ components:
             - $ref: '#/components/schemas/TextParameterDescriptor'
             - $ref: '#/components/schemas/RangedIntParameterDescriptor'
             - $ref: '#/components/schemas/IntParameterDescriptor'
-          
+
     ParameterType:
       type: string
       enum: ["ranged_float", "float", "enum", "text", "ranged_int", "int"]
@@ -399,7 +399,7 @@ components:
         - $ref: '#/components/schemas/BatchFileResponse'
         - $ref: '#/components/schemas/BatchTextResponse'
         - $ref: '#/components/schemas/BatchDirectoryResponse'
-      
+
     ResponseType:
       type: string
       enum: ["file", "directory", "markdown", "text", "batchfile", "batchtext", "batchdirectory"]
@@ -458,7 +458,7 @@ components:
           type: string
         subtitle:
           type: string
-    
+
     TextResponse:
       type: object
       required: [output_type, value]
@@ -476,7 +476,7 @@ components:
         subtitle:
           type: string
 
-    
+
     BatchFileResponse:
       type: object
       required: [output_type, files]
@@ -491,7 +491,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/FileResponse"
-    
+
     BatchTextResponse:
       type: object
       required: [output_type, texts]
@@ -506,7 +506,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/TextResponse"
-    
+
     BatchDirectoryResponse:
       type: object
       required: [output_type, directories]
