@@ -161,3 +161,19 @@ export function useLogs() {
     mutate,
   };
 }
+
+export function useModelInfo(modelUid?: string) {
+  const fetcher = () => window.task.getInfo({ modelUid: modelUid! });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    modelUid ? `task:get-info-${modelUid}` : null,
+    fetcher,
+  );
+
+  return {
+    data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}

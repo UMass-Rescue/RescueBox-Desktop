@@ -6,6 +6,10 @@ import {
   RequestBody,
   ResponseBody,
 } from 'src/shared/generated_models';
+import apiRoutes from 'src/shared/dummy_data/api_routes';
+import taskSchema1 from 'src/shared/dummy_data/task_schema1';
+import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
+import infoPage from 'src/shared/dummy_data/info_page';
 import ModelServerDb from '../models/model-server';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -41,15 +45,7 @@ class TaskService {
     //   .then((data: APIRoutes) => data);
     this.apiRoutes = await new Promise((resolve) => {
       setTimeout(() => {
-        resolve([
-          {
-            task_schema: '/tasks/face_match/task_schema',
-            run_task: '/tasks/face_match',
-            payload_schema: '/tasks/face_match/payload_schema',
-            short_title: 'Face Match',
-            order: 1,
-          },
-        ]);
+        resolve(apiRoutes);
       }, 2000);
     });
   }
@@ -70,12 +66,7 @@ class TaskService {
     //   .then((data: InfoPage) => data);
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve({
-          info: '# Welcome to the Face Match App\n\nThis app will help you to match faces in your images...',
-          author: 'John Doe',
-          version: '1.0.0',
-          lastUpdated: '2023-10-01T12:00:00Z',
-        });
+        resolve(infoPage);
       }, 2000);
     });
   }
@@ -96,27 +87,7 @@ class TaskService {
     //   .then((data: TaskSchema) => data);
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve({
-          inputs: [
-            {
-              key: 'input1',
-              label: 'Input 1',
-              subtitle: null,
-              inputType: 'file',
-            },
-          ],
-          parameters: [
-            {
-              key: 'param1',
-              label: 'Parameter 1',
-              subtitle: null,
-              value: {
-                parameterType: 'float',
-                default: 1.0,
-              },
-            },
-          ],
-        });
+        resolve(taskSchema1);
       }, 2000);
     });
   }
@@ -151,13 +122,7 @@ class TaskService {
     //   .then((data: ResponseBody) => data);
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve({
-          output_type: 'file',
-          file_type: 'img',
-          path: '/path/to/output.jpg',
-          title: 'Output Image',
-          subtitle: 'Processed image',
-        });
+        resolve(markdownResponseBody);
       }, 2000);
     });
   }
