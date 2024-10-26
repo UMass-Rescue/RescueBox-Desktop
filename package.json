@@ -81,7 +81,9 @@
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/.erb/mocks/fileMock.js",
       "\\.(css|less|sass|scss)$": "identity-obj-proxy",
-      "^@shadcn/(.*)$": "<rootDir>/src/renderer/$1"
+      "^@shadcn/(.*)$": "<rootDir>/src/renderer/$1",
+      "react-markdown": "<rootDir>/src/__mocks__/ReactMarkdownMock.tsx",
+      "remark-gfm": "<rootDir>/src/__mocks__/RemarkGfmMock.ts"
     },
     "setupFiles": [
       "./.erb/scripts/check-build-exists.ts"
