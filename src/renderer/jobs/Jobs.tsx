@@ -73,7 +73,6 @@ function Jobs() {
     models,
     error: modelsError,
     isLoading: modelsIsLoading,
-    isValidating: modelsIsValidating,
   } = useMLModels();
 
   const getModelName = (uid: string) => {
@@ -92,12 +91,12 @@ function Jobs() {
 
   if (jobsError)
     return <div>failed to load jobs. Error: {jobsError.toString()}</div>;
-  if (jobsIsValidating) return <LoadingScreen />;
+  if (jobsIsLoading) return <LoadingScreen />;
   if (!jobs) return <div>no jobs</div>;
 
   if (modelsError)
     return <div>failed to load models. Error: {modelsError.toString()}</div>;
-  if (modelsIsValidating) return <LoadingScreen />;
+  if (modelsIsLoading) return <LoadingScreen />;
   if (!models) return <div>no models</div>;
 
   jobs.sort((a, b) => b.startTime.getTime() - a.startTime.getTime());
