@@ -26,7 +26,7 @@ export default function BatchFileField({
           type="text"
           className="flex-1 mr-2"
           value={value}
-          placeholder="No file selected"
+          placeholder="No files selected"
           readOnly
         />
         <Button type="button" onClick={handleSelectFiles}>

@@ -27,7 +27,7 @@ export default function RangedIntField({
           className="col-span-4"
         />
         <span className="col-span-1 ml-5 text-lg text-center bg-gray-200 rounded-full px-2 py-1">
-          {value || descriptor.default}
+          {value}
         </span>
       </div>
     </div>

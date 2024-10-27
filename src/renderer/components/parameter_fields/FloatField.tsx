@@ -16,8 +16,9 @@ export default function FloatField({
       <div className="flex items-center mt-2">
         <Input
           type="number"
-          value={value || Number(parameterSchema.value.default)}
+          value={value}
           step={0.01}
+          defaultValue={Number(parameterSchema.value.default)}
           onChange={(e) => onChange(e.target.valueAsNumber)}
         />
       </div>
