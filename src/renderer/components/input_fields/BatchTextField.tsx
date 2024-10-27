@@ -13,7 +13,7 @@ export default function BatchTextField({
   value: string[];
   onChange: (value: string[]) => void;
 }) {
-  const [fields, setFields] = useState<string[]>(value);
+  const [fields, setFields] = useState<string[]>(value || []);
 
   const handleAddField = () => {
     setFields([...fields, '']);
