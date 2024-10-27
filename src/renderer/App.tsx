@@ -88,7 +88,7 @@ export default function App() {
           <Route path="/models" element={<Models />} />
           <Route path="/models/:modelUid/details" element={<ModelDetails />} />
           <Route path="/models/:modelUid/run" element={<ModelRun />}>
-            <Route index element={<Navigate to="0" />} />
+            <Route index element={<Navigate to="0" replace />} />
             <Route path=":order" element={<ModelRunTask />} />
           </Route>
           <Route path="/jobs/:jobId" element={<JobViewLayout />}>

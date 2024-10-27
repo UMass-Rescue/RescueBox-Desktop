@@ -14,19 +14,19 @@ export default function ModelRunTask() {
   const {
     data: taskSchema,
     error: taskSchemaError,
-    isLoading: taskSchemaIsLoading,
-  } = useTaskSchema(modelUid, Number(order));
+    isValidating: taskSchemaIsValidating,
+  } = useTaskSchema(modelUid, order);
 
   const { handleSubmit, control } = useForm({ mode: 'onChange' });
 
-  if (!taskSchema) {
-    return <div>No task schemas found</div>;
-  }
-  if (taskSchemaIsLoading) {
+  if (taskSchemaIsValidating) {
     return <LoadingScreen />;
   }
   if (taskSchemaError) {
     return <div>Error loading task schema</div>;
+  }
+  if (!taskSchema) {
+    return <div>No task schemas found</div>;
   }
 
   const onSubmit = (data: any) => {
@@ -34,7 +34,7 @@ export default function ModelRunTask() {
   };
 
   return (
-    <div className="mt-6 m-2">
+    <div className="mt-6 m-2 flex items-center flex-col">
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1 className="text-2xl font-extrabold mb-4">Select Inputs</h1>
         <div className="grid grid-cols-1 gap-6">

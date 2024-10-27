@@ -59,10 +59,10 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
 
   const service = await getTaskServiceByModelUid(arg.modelUid);
   const apiRoute = (await service.getApiRoutes()).find(
-    (route) => route.order === arg.order,
+    (route) => String(route.order) === arg.taskId,
   );
   if (!apiRoute) {
-    log.error('API route not found for task with order: ', arg.order);
+    log.error('API route not found for task with order: ', arg.taskId);
     throw new Error('Error creating job');
   }
   // Create a job in the database
@@ -86,7 +86,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
   // and update the job status after a reply is received
   log.info('Calling inference service for model', arg.modelUid);
   service
-    .runTask(arg.order, arg.requestBody)
+    .runTask(arg.taskId, arg.requestBody)
     .then(async (response: ResponseBody) => {
       const job = await JobDb.getJobByUid(uid);
       if (job?.status === JobStatus.Canceled) {

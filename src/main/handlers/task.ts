@@ -11,7 +11,7 @@ export type GetInfoArgs = {
 
 export type GetTaskSchemaArgs = {
   modelUid: string;
-  order: number;
+  taskId: string;
 };
 
 const getApiRoutes = async (
@@ -29,7 +29,7 @@ const getInfo = async (_event: any, arg: GetInfoArgs) => {
 
 const getTaskSchema = async (_event: any, arg: GetTaskSchemaArgs) => {
   const service = await getTaskServiceByModelUid(arg.modelUid);
-  return service.getTaskSchema(arg.order);
+  return service.getTaskSchema(arg.taskId);
 };
 
 export { getApiRoutes, getInfo, getTaskSchema };

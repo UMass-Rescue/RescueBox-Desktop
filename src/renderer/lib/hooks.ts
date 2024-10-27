@@ -55,7 +55,7 @@ export function useServerStatus(modelUid?: string) {
 
 export function useServers() {
   const serverFetcher = () => window.registration.getModelServers();
-  const { data, error, isLoading, mutate } = useSWR(
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
     `register:get-model-servers`,
     serverFetcher,
   );
@@ -64,6 +64,7 @@ export function useServers() {
     servers: data,
     error,
     isLoading,
+    isValidating,
     mutate,
   };
 }
@@ -118,14 +119,19 @@ export function useDirFiles(path?: string) {
 
 export function useJobs() {
   const fetcher = () => window.job.getJobs();
-  const { data, error, isLoading, mutate } = useSWR(`job:get-jobs`, fetcher, {
-    refreshInterval: JOBS_REFRESH_INTERVAL,
-  });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    `job:get-jobs`,
+    fetcher,
+    {
+      refreshInterval: JOBS_REFRESH_INTERVAL,
+    },
+  );
 
   return {
     jobs: data,
     error,
     isLoading,
+    isValidating,
     mutate,
   };
 }
@@ -178,11 +184,14 @@ export function useModelInfo(modelUid?: string) {
   };
 }
 
-export function useTaskSchema(modelUid?: string, order?: number) {
-  const fetcher = () =>
-    window.task.getTaskSchema({ modelUid: modelUid!, order: order! });
+export function useTaskSchema(modelUid?: string, taskId?: string) {
+  const fetcher = async () =>
+    window.task.getTaskSchema({
+      modelUid: modelUid!,
+      taskId: taskId!,
+    });
   const { data, error, isLoading, isValidating, mutate } = useSWR(
-    modelUid && order ? `task:get-task-schema-${modelUid}-${order}` : null,
+    modelUid && taskId ? `task:get-task-schema-${modelUid}-${taskId}` : null,
     fetcher,
   );
   return {

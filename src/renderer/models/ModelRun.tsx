@@ -28,7 +28,7 @@ function ModelRun() {
   }
 
   return (
-    <div>
+    <div className="">
       <div className="tabs mt-3 mx-2">
         <div className="flex flex-row space-x-4">
           {apiRoutes
@@ -37,6 +37,7 @@ function ModelRun() {
               <NavLink
                 key={apiRoute.order}
                 to={`/models/${modelUid}/run/${apiRoute.order}`}
+                replace
                 className={({ isActive }) =>
                   isActive
                     ? cn(

@@ -78,13 +78,13 @@ class TaskService {
   // eslint-disable-next-line class-methods-use-this
   public async runTask(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    order: number,
+    taskId: string,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     requestBody: RequestBody,
   ): Promise<ResponseBody> {
     // this.abortController = new AbortController();
     // const { signal } = this.abortController;
-    // const task = this.apiRoutes.find((route) => route.order === order);
+    // const task = this.apiRoutes.find((route) => route.order === taskId);
     // if (!task) {
     //   throw new Error('Task not found');
     // }
@@ -121,8 +121,8 @@ class TaskService {
   }
 
   // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  public async getTaskSchema(order: number): Promise<TaskSchema> {
-    // const task = this.apiRoutes.find((route) => route.order === order);
+  public async getTaskSchema(taskId: string): Promise<TaskSchema> {
+    // const task = this.apiRoutes.find((route) => route.order === taskId);
     // if (!task) {
     //   throw new Error('Task not found');
     // }

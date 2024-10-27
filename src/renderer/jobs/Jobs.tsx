@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Tooltip, TooltipProvider } from '@radix-ui/react-tooltip';
+import LoadingScreen from '@shadcn/components/LoadingScreen';
 import {
   Table,
   TableBody,
@@ -65,12 +66,14 @@ function Jobs() {
     jobs,
     error: jobsError,
     isLoading: jobsIsLoading,
+    isValidating: jobsIsValidating,
     mutate: jobsMutate,
   } = useJobs();
   const {
     models,
     error: modelsError,
     isLoading: modelsIsLoading,
+    isValidating: modelsIsValidating,
   } = useMLModels();
 
   const getModelName = (uid: string) => {
@@ -89,12 +92,12 @@ function Jobs() {
 
   if (jobsError)
     return <div>failed to load jobs. Error: {jobsError.toString()}</div>;
-  if (jobsIsLoading) return <div>loading...</div>;
+  if (jobsIsValidating) return <LoadingScreen />;
   if (!jobs) return <div>no jobs</div>;
 
   if (modelsError)
     return <div>failed to load models. Error: {modelsError.toString()}</div>;
-  if (modelsIsLoading) return <div>loading...</div>;
+  if (modelsIsValidating) return <LoadingScreen />;
   if (!models) return <div>no models</div>;
 
   jobs.sort((a, b) => b.startTime.getTime() - a.startTime.getTime());

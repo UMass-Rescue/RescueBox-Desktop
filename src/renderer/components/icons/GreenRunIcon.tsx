@@ -6,7 +6,6 @@ function GreenRunIcon() {
       xmlns="http://www.w3.org/2000/svg"
       className="size-6"
     >
-      <title>Fill 1</title>
       <desc>Created with Sketch.</desc>
       <g id="-" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g id="Icon/playBig" fill="#FFFFFF">

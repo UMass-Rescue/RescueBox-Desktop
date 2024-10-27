@@ -15,7 +15,7 @@ function Models() {
   } = useMLModels();
 
   // Servers Hook
-  const { servers, error, isLoading } = useServers();
+  const { servers, error, isValidating: serversIsValidating } = useServers();
 
   // Server Statuses Hook
   const {
@@ -26,11 +26,11 @@ function Models() {
 
   if (modelsError)
     return <div>failed to load models. Error: {modelsError.toString()}</div>;
-  if (modelsIsValidating) return <div>loading...</div>;
+  if (modelsIsValidating) return <LoadingScreen />;
   if (!models) return <div>no models</div>;
 
   if (error) return <div>failed to load {error.toString()}</div>;
-  if (isLoading) return <div>loading...</div>;
+  if (serversIsValidating) return <LoadingScreen />;
   if (!servers) return <div>no servers</div>;
 
   if (statusError)
