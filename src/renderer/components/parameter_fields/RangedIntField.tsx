@@ -5,11 +5,8 @@ import {
 import Slider from '../ui/slider';
 
 export default function RangedIntField({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   parameterSchema,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   value,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onChange,
 }: {
   parameterSchema: ParameterSchema;

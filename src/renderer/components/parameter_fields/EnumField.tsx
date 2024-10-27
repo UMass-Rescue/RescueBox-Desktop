@@ -11,11 +11,8 @@ import {
 } from '../ui/select';
 
 export default function EnumField({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   parameterSchema,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   value,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onChange,
 }: {
   parameterSchema: ParameterSchema;

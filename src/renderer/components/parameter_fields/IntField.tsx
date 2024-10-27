@@ -2,11 +2,8 @@ import { ParameterSchema } from 'src/shared/generated_models';
 import { Input } from '../ui/input';
 
 export default function IntField({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   parameterSchema,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   value,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onChange,
 }: {
   parameterSchema: ParameterSchema;
