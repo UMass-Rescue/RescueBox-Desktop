@@ -1,8 +1,14 @@
 import { useState } from 'react';
 import { InputSchema } from 'src/shared/generated_models';
 import { MinusCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons';
-import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { Textarea } from '../ui/textarea';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../ui/tooltip';
 
 export default function BatchTextField({
   inputSchema,
@@ -38,15 +44,27 @@ export default function BatchTextField({
       <div className="mt-2">
         {fields.length === 0 && (
           <div className="flex items-center mb-2">
-            <Input
-              type="text"
+            <Textarea
               value=""
               onChange={(e) => handleChange(0, e.target.value)}
               className="flex-grow"
             />
-            <Button onClick={handleAddField} className="ml-2">
-              <PlusCircledIcon className="size-5" />
-            </Button>
+            <TooltipProvider delayDuration={100}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    onClick={handleAddField}
+                    className="ml-2 self-start"
+                  >
+                    <PlusCircledIcon className="size-5" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  <p>Add</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         )}
         {fields.map((field, index) => (
@@ -55,20 +73,45 @@ export default function BatchTextField({
             key={`${index}`}
             className="flex items-center mb-2"
           >
-            <Input
-              type="text"
+            <Textarea
               value={field}
               onChange={(e) => handleChange(index, e.target.value)}
               className="flex-grow"
             />
             {index === fields.length - 1 ? (
-              <Button onClick={handleAddField} className="ml-2">
-                <PlusCircledIcon className="size-5" />
-              </Button>
+              <TooltipProvider delayDuration={100}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      type="button"
+                      onClick={handleAddField}
+                      className="ml-2 self-start"
+                    >
+                      <PlusCircledIcon className="size-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">
+                    <p>Add</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             ) : (
-              <Button onClick={() => handleRemoveField(index)} className="ml-2">
-                <MinusCircledIcon className="size-5" />
-              </Button>
+              <TooltipProvider delayDuration={100}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      type="button"
+                      onClick={() => handleRemoveField(index)}
+                      className="ml-2 self-start"
+                    >
+                      <MinusCircledIcon className="size-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">
+                    <p>Remove</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             )}
           </div>
         ))}
