@@ -2,11 +2,10 @@
 import LoadingScreen from '@shadcn/components/LoadingScreen';
 import { useApiRoutes } from '@shadcn/lib/hooks';
 import { cn } from '@shadcn/lib/utils';
-import { NavLink, useOutlet, useParams } from 'react-router-dom';
+import { NavLink, Outlet, useParams } from 'react-router-dom';
 
 function ModelRun() {
   const { modelUid } = useParams();
-  const outlet = useOutlet();
 
   const {
     data: apiRoutes,
@@ -56,7 +55,7 @@ function ModelRun() {
             ))}
         </div>
       </div>
-      <div>{outlet}</div>
+      <Outlet />
     </div>
   );
 }
