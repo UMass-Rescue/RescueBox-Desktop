@@ -32,7 +32,7 @@ const apiRoutes: APIRoutes = [
     payload_schema: '/gen_hash_random/payload_schema',
     run_task: '/gen_hash_random',
     sample_payload: '/gen_hash_random/sample_payload',
-    short_title: 'Hash random blocks of a target directory',
+    short_title: 'Hash Random Blocks of a Target Directory',
     task_schema: '/gen_hash_random/task_schema',
   },
 ] satisfies APIRoutes;
