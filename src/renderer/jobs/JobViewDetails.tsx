@@ -106,7 +106,7 @@ function JobViewDetails() {
               <DialogHeader>
                 <DialogTitle>Task Request Body</DialogTitle>
               </DialogHeader>
-              <div className="border border-slate-400 rounded-lg w-full py-2 px-3 bg-gray-800 text-blue-50">
+              <div className="border border-slate-400 overflow-x-scroll rounded-lg py-2 px-3 bg-gray-800 text-blue-50">
                 {JSON.stringify(job.request)}
               </div>
               <DialogFooter className="sm:justify-start" />
