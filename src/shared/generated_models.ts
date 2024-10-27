@@ -3,6 +3,13 @@
 declare namespace Components {
   namespace Schemas {
     export type APIRoutes = (SchemaAPIRoute | NoSchemaAPIRoute)[];
+    export interface BatchDirectoryInput {
+      directories: DirectoryInput[];
+    }
+    export interface BatchDirectoryResponse {
+      output_type: ResponseType;
+      directories: DirectoryResponse[];
+    }
     export interface BatchFileInput {
       files: FileInput[];
     }
@@ -24,7 +31,7 @@ declare namespace Components {
       output_type: ResponseType;
       path: string;
       title: string;
-      subtitle: string | null;
+      subtitle?: string | null;
     }
     export interface EnumParameterDescriptor {
       parameterType: ParameterType;
@@ -80,7 +87,8 @@ declare namespace Components {
       | DirectoryInput
       | TextInput
       | BatchFileInput
-      | BatchTextInput;
+      | BatchTextInput
+      | BatchDirectoryInput;
     export interface InputSchema {
       key: string;
       label: string;
@@ -93,7 +101,8 @@ declare namespace Components {
       | 'text'
       | 'textarea'
       | 'batchfile'
-      | 'batchtext';
+      | 'batchtext'
+      | 'batchdirectory';
     export interface IntParameterDescriptor {
       parameterType: ParameterType;
       default: number | null;
@@ -168,14 +177,16 @@ declare namespace Components {
       | MarkdownResponse
       | TextResponse
       | BatchFileResponse
-      | BatchTextResponse;
+      | BatchTextResponse
+      | BatchDirectoryResponse;
     export type ResponseType =
       | 'file'
       | 'directory'
       | 'markdown'
       | 'text'
       | 'batchfile'
-      | 'batchtext';
+      | 'batchtext'
+      | 'batchdirectory';
     export interface SchemaAPIRoute {
       /**
        * example:
@@ -229,6 +240,8 @@ declare namespace Components {
 }
 
 export type APIRoutes = Components.Schemas.APIRoutes;
+export type BatchDirectoryInput = Components.Schemas.BatchDirectoryInput;
+export type BatchDirectoryResponse = Components.Schemas.BatchDirectoryResponse;
 export type BatchFileInput = Components.Schemas.BatchFileInput;
 export type BatchFileResponse = Components.Schemas.BatchFileResponse;
 export type BatchTextInput = Components.Schemas.BatchTextInput;
