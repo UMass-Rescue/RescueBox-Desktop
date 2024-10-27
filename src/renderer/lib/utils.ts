@@ -1,5 +1,5 @@
 import { clsx, type ClassValue } from 'clsx';
-import { InputSchema } from 'src/shared/generated_models';
+import { RequestBody, TaskSchema } from 'src/shared/generated_models';
 import { ModelServer } from 'src/shared/models';
 import { twMerge } from 'tailwind-merge';
 
@@ -16,21 +16,39 @@ export function createMLServerMap(servers: ModelServer[]) {
   return serverMap;
 }
 
-export function getInputKey(inputSchema: InputSchema): string {
-  switch (inputSchema.inputType) {
-    case 'text':
-    case 'textarea':
-      return `${inputSchema.key}.text`;
-    case 'file':
-    case 'directory':
-      return `${inputSchema.key}.path`;
-    case 'batchtext':
-      return `${inputSchema.key}.texts`;
-    case 'batchfile':
-      return `${inputSchema.key}.files`;
-    case 'batchdirectory':
-      return `${inputSchema.key}.directories`;
-    default:
-      return 'invalid';
-  }
+export function buildRequestBody(
+  taskSchema: TaskSchema,
+  data: { [key: string]: any },
+): RequestBody {
+  const requestBody: RequestBody = {
+    inputs: {},
+    parameters: {},
+  };
+  taskSchema.inputs.forEach((input) => {
+    switch (input.inputType) {
+      case 'text':
+      case 'textarea':
+        requestBody.inputs[input.key] = { text: data[input.key] };
+        break;
+      case 'file':
+      case 'directory':
+        requestBody.inputs[input.key] = { path: data[input.key] };
+        break;
+      case 'batchtext':
+        requestBody.inputs[input.key] = { texts: data[input.key] };
+        break;
+      case 'batchfile':
+        requestBody.inputs[input.key] = { files: data[input.key] };
+        break;
+      case 'batchdirectory':
+        requestBody.inputs[input.key] = { directories: data[input.key] };
+        break;
+      default:
+        break;
+    }
+  });
+  taskSchema.parameters.forEach((parameter) => {
+    requestBody.inputs[parameter.key] = data[parameter.key];
+  });
+  return requestBody;
 }

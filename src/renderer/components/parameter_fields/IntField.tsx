@@ -16,9 +16,9 @@ export default function IntField({
       <div className="flex items-center mt-2">
         <Input
           type="number"
-          value={Math.floor(value)}
+          value={value}
           defaultValue={Number(parameterSchema.value.default)}
-          onChange={(e) => onChange(Math.floor(e.target.valueAsNumber))}
+          onChange={(e) => onChange(e.target.valueAsNumber)}
         />
       </div>
     </div>

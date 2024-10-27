@@ -4,14 +4,10 @@ import LoadingScreen from '@shadcn/components/LoadingScreen';
 import ParameterField from '@shadcn/components/ParameterField';
 import { Button } from '@shadcn/components/ui/button';
 import { useTaskSchema } from '@shadcn/lib/hooks';
-import { getInputKey } from '@shadcn/lib/utils';
+import { buildRequestBody } from '@shadcn/lib/utils';
 import { Controller, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import {
-  InputSchema,
-  ParameterSchema,
-  RequestBody,
-} from 'src/shared/generated_models';
+import { InputSchema, ParameterSchema } from 'src/shared/generated_models';
 import { RunJobArgs } from 'src/shared/models';
 
 export default function ModelRunTask() {
@@ -27,7 +23,7 @@ export default function ModelRunTask() {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<RequestBody>({
+  } = useForm({
     mode: 'onChange',
   });
 
@@ -45,11 +41,11 @@ export default function ModelRunTask() {
     return <div>No task schemas found</div>;
   }
 
-  const onSubmit = (data: RequestBody) => {
+  const onSubmit = (data: any) => {
     const runJobArgs: RunJobArgs = {
       modelUid,
       taskId: order,
-      requestBody: data,
+      requestBody: buildRequestBody(taskSchema, data),
     };
     window.job.runJob(runJobArgs);
   };
@@ -60,11 +56,11 @@ export default function ModelRunTask() {
         <h1 className="text-2xl font-extrabold mb-4">Select Inputs</h1>
         <div className="grid grid-cols-1 gap-6">
           {taskSchema.inputs.map((inputSchema: InputSchema) => (
-            <div key={`inputs.${getInputKey(inputSchema)}`}>
+            <div key={inputSchema.key}>
               <Controller
-                name={`inputs.${getInputKey(inputSchema)}`}
+                name={inputSchema.key}
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: `Field is required.` }}
                 render={({ field }) => (
                   <InputField
                     inputSchema={inputSchema}
@@ -73,9 +69,9 @@ export default function ModelRunTask() {
                   />
                 )}
               />
-              {errors.inputs?.[inputSchema.key] && (
-                <span className="text-red-500 text-xs">
-                  Please fill this field.
+              {errors[inputSchema.key] && (
+                <span className="text-red-500 text-xs mt-1">
+                  {errors[inputSchema.key]?.message?.toString()}
                 </span>
               )}
             </div>
@@ -87,11 +83,23 @@ export default function ModelRunTask() {
             <h1 className="text-2xl font-extrabold mb-4">Select Parameters</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {taskSchema.parameters.map((parameterSchema: ParameterSchema) => (
-                <div key={`parameters.${parameterSchema.key}`}>
+                <div key={parameterSchema.key}>
                   <Controller
-                    name={`parameters.${parameterSchema.key}`}
+                    name={parameterSchema.key}
                     control={control}
-                    rules={{ required: true }}
+                    rules={{
+                      required: `Field is required.`,
+                      validate: {
+                        validInt: (v) =>
+                          (parameterSchema.value.parameterType === 'int'
+                            ? !Number.isNaN(v) && Number.isInteger(v)
+                            : true) || `Value must be an integer.`,
+                        validFloat: (v) =>
+                          (parameterSchema.value.parameterType === 'float'
+                            ? !Number.isNaN(v)
+                            : true) || `Value must be a float.`,
+                      },
+                    }}
                     defaultValue={parameterSchema.value.default || ''}
                     render={({ field }) => (
                       <ParameterField
@@ -101,9 +109,9 @@ export default function ModelRunTask() {
                       />
                     )}
                   />
-                  {errors.parameters?.[parameterSchema.key] && (
-                    <span className="text-red-500 text-xs">
-                      Please fill this field.
+                  {errors[parameterSchema.key] && (
+                    <span className="text-red-500 text-xs mt-1">
+                      {errors[parameterSchema.key]?.message?.toString()}
                     </span>
                   )}
                 </div>
