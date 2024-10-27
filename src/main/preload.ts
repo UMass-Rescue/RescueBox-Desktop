@@ -8,7 +8,11 @@ import {
   ModelAppStatus,
   RunJobArgs,
 } from 'src/shared/models';
-import { APIRoutes, InfoPage, TaskSchema } from 'src/shared/generated_models';
+import {
+  InfoPage,
+  SchemaAPIRoute,
+  TaskSchema,
+} from 'src/shared/generated_models';
 import {
   GetModelAppStatusArgs,
   RegisterModelArgs,
@@ -88,7 +92,9 @@ const databaseHandler = {
 
 const taskHandler = {
   getApiRoutes: (args: GetApiRoutesArgs) =>
-    ipcRenderer.invoke('task:get-api-routes', args) as Promise<APIRoutes>,
+    ipcRenderer.invoke('task:get-api-routes', args) as Promise<
+      SchemaAPIRoute[]
+    >,
   getInfo: (args: GetInfoArgs) =>
     ipcRenderer.invoke('task:get-info', args) as Promise<InfoPage>,
   getTaskSchema: (args: GetTaskSchemaArgs) =>

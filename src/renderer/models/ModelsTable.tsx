@@ -15,9 +15,12 @@ import {
   TableRow,
 } from '../components/ui/table';
 import { Button } from '../components/ui/button';
-import { GreenCircleIcon, RedCircleIcon } from '../components/CircleIcons';
-import GreenRunIcon from '../components/GreenRunIcon';
-import { ConnectIcon } from '../components/ConnectIcon';
+import {
+  GreenCircleIcon,
+  RedCircleIcon,
+} from '../components/icons/CircleIcons';
+import GreenRunIcon from '../components/icons/GreenRunIcon';
+import { ConnectIcon } from '../components/icons/ConnectIcon';
 
 function ModelsTable({
   models,

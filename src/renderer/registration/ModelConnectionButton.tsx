@@ -1,7 +1,7 @@
 import { ModelAppStatus, ModelServer } from 'src/shared/models';
 import { KeyedMutator } from 'swr';
 import { useServerStatus } from '../lib/hooks';
-import { ConnectIcon, DisconnectIcon } from '../components/ConnectIcon';
+import { ConnectIcon, DisconnectIcon } from '../components/icons/ConnectIcon';
 import { Button } from '../components/ui/button';
 import ConnectDialog from './ConnectDialog';
 import {

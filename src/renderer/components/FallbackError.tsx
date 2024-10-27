@@ -3,7 +3,7 @@ import { mutate } from 'swr';
 import { CheckCircledIcon, CopyIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { Button } from './ui/button';
-import CancelIcon from './CancelIcon';
+import CancelIcon from './icons/CancelIcon';
 import {
   Tooltip,
   TooltipContent,

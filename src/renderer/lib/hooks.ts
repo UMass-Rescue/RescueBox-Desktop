@@ -55,7 +55,7 @@ export function useServerStatus(modelUid?: string) {
 
 export function useServers() {
   const serverFetcher = () => window.registration.getModelServers();
-  const { data, error, isLoading, mutate } = useSWR(
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
     `register:get-model-servers`,
     serverFetcher,
   );
@@ -64,6 +64,7 @@ export function useServers() {
     servers: data,
     error,
     isLoading,
+    isValidating,
     mutate,
   };
 }
@@ -118,14 +119,19 @@ export function useDirFiles(path?: string) {
 
 export function useJobs() {
   const fetcher = () => window.job.getJobs();
-  const { data, error, isLoading, mutate } = useSWR(`job:get-jobs`, fetcher, {
-    refreshInterval: JOBS_REFRESH_INTERVAL,
-  });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    `job:get-jobs`,
+    fetcher,
+    {
+      refreshInterval: JOBS_REFRESH_INTERVAL,
+    },
+  );
 
   return {
     jobs: data,
     error,
     isLoading,
+    isValidating,
     mutate,
   };
 }
@@ -166,6 +172,41 @@ export function useModelInfo(modelUid?: string) {
   const fetcher = () => window.task.getInfo({ modelUid: modelUid! });
   const { data, error, isLoading, isValidating, mutate } = useSWR(
     modelUid ? `task:get-info-${modelUid}` : null,
+    fetcher,
+  );
+
+  return {
+    data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}
+
+export function useTaskSchema(modelUid?: string, taskId?: string) {
+  const fetcher = async () =>
+    window.task.getTaskSchema({
+      modelUid: modelUid!,
+      taskId: taskId!,
+    });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    modelUid && taskId ? `task:get-task-schema-${modelUid}-${taskId}` : null,
+    fetcher,
+  );
+  return {
+    data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}
+
+export function useApiRoutes(modelUid?: string) {
+  const fetcher = () => window.task.getApiRoutes({ modelUid: modelUid! });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    modelUid ? `task:get-api-routes-${modelUid}` : null,
     fetcher,
   );
 

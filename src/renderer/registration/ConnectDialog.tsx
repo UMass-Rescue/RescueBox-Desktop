@@ -18,9 +18,9 @@ import {
 import { Button } from '../components/ui/button';
 import { Label } from '../components/ui/label';
 import { Input } from '../components/ui/input';
-import { ConnectIcon } from '../components/ConnectIcon';
+import { ConnectIcon } from '../components/icons/ConnectIcon';
 import { useMLModel } from '../lib/hooks';
-import LoadingIcon from '../components/LoadingIcon';
+import LoadingIcon from '../components/icons/LoadingIcon';
 
 type ConnectInputs = {
   ip: string;
