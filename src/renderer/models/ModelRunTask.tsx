@@ -4,6 +4,7 @@ import LoadingScreen from '@shadcn/components/LoadingScreen';
 import ParameterField from '@shadcn/components/ParameterField';
 import { Button } from '@shadcn/components/ui/button';
 import { useTaskSchema } from '@shadcn/lib/hooks';
+import { getInputKey } from '@shadcn/lib/utils';
 import { Controller, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import {
@@ -47,7 +48,7 @@ export default function ModelRunTask() {
   const onSubmit = (data: RequestBody) => {
     const runJobArgs: RunJobArgs = {
       modelUid,
-      taskId: String(order),
+      taskId: order,
       requestBody: data,
     };
     window.job.runJob(runJobArgs);
@@ -59,9 +60,9 @@ export default function ModelRunTask() {
         <h1 className="text-2xl font-extrabold mb-4">Select Inputs</h1>
         <div className="grid grid-cols-1 gap-6">
           {taskSchema.inputs.map((inputSchema: InputSchema) => (
-            <div key={`inputs.${inputSchema.key}`}>
+            <div key={`inputs.${getInputKey(inputSchema)}`}>
               <Controller
-                name={`inputs.${inputSchema.key}`}
+                name={`inputs.${getInputKey(inputSchema)}`}
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
