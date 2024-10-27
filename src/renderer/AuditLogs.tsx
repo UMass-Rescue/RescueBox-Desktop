@@ -5,7 +5,7 @@ import {
   ResetIcon,
 } from '@radix-ui/react-icons';
 import { useState } from 'react';
-import LogsIcon from './components/LogsIcon';
+import LogsIcon from './components/icons/LogsIcon';
 import { Button } from './components/ui/button';
 import {
   Tooltip,
@@ -14,8 +14,8 @@ import {
   TooltipTrigger,
 } from './components/ui/tooltip';
 import { useLogs } from './lib/hooks';
-import LoadingIcon from './components/LoadingIcon';
-import ExportIcon from './components/ExportIcon';
+import LoadingIcon from './components/icons/LoadingIcon';
+import ExportIcon from './components/icons/ExportIcon';
 
 const MAX_LOGS = 100;
 

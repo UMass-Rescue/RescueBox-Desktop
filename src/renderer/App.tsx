@@ -23,9 +23,10 @@ import JobViewDetails from './jobs/JobViewDetails';
 import JobViewOutputs from './jobs/JobViewOutputs';
 import { ImageTitleNavBar, NavBarItem } from './NavBarItem';
 import FallbackError from './components/FallbackError';
-import RegistrationIcon from './components/RegistrationIcon';
-import LogsIcon from './components/LogsIcon';
+import RegistrationIcon from './components/icons/RegistrationIcon';
+import LogsIcon from './components/icons/LogsIcon';
 import AuditLogs from './AuditLogs';
+import ModelRunTask from './models/ModelRunTask';
 
 function RootLayout() {
   const navigate = useNavigate();
@@ -86,7 +87,12 @@ export default function App() {
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/models" element={<Models />} />
           <Route path="/models/:modelUid/details" element={<ModelDetails />} />
-          <Route path="/models/:modelUid/run" element={<ModelRun />} />
+          <Route path="/models/:modelUid/run" element={<ModelRun />}>
+            <Route
+              path="/models/:modelUid/run/:taskRoute"
+              element={<ModelRunTask />}
+            />
+          </Route>
           <Route path="/jobs/:jobId" element={<JobViewLayout />}>
             <Route path="/jobs/:jobId/details" element={<JobViewDetails />} />
             <Route path="/jobs/:jobId/outputs" element={<JobViewOutputs />} />

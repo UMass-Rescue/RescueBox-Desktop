@@ -11,13 +11,13 @@ import {
 import { Button } from '../components/ui/button';
 import { Job } from '../../shared/models';
 import { useJobs, useMLModels } from '../lib/hooks';
-import LoadingIcon from '../components/LoadingIcon';
+import LoadingIcon from '../components/icons/LoadingIcon';
 import { TooltipContent, TooltipTrigger } from '../components/ui/tooltip';
-import DeleteIcon from '../components/DeleteIcon';
-import CancelIcon from '../components/CancelIcon';
-import CompletedIcon from '../components/CompletedIcon';
-import FailedIcon from '../components/FailedIcon';
-import CanceledIcon from '../components/CanceledIcon';
+import DeleteIcon from '../components/icons/DeleteIcon';
+import CancelIcon from '../components/icons/CancelIcon';
+import CompletedIcon from '../components/icons/CompletedIcon';
+import FailedIcon from '../components/icons/FailedIcon';
+import CanceledIcon from '../components/icons/CanceledIcon';
 
 function ViewButton({ job }: { job: Job }) {
   return (

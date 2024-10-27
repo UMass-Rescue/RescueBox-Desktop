@@ -1,5 +1,5 @@
 import { cn } from '@shadcn/lib/utils';
-import LoadingIcon from './LoadingIcon';
+import LoadingIcon from './icons/LoadingIcon';
 
 // eslint-disable-next-line react/require-default-props
 function LoadingScreen({ className = '' }: { className?: string }) {

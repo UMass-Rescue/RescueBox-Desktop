@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
-import { ConnectIcon } from '../components/ConnectIcon';
+import { ConnectIcon } from '../components/icons/ConnectIcon';
 import { useMLModels, useServers, useServerStatuses } from '../lib/hooks';
-import LoadingIcon from '../components/LoadingIcon';
+import LoadingIcon from '../components/icons/LoadingIcon';
 import LoadingScreen from '../components/LoadingScreen';
 import ModelsTable from './ModelsTable';
 
