@@ -177,3 +177,38 @@ export function useModelInfo(modelUid?: string) {
     mutate,
   };
 }
+
+export function useTaskSchema(modelUid?: string, taskRoute?: string) {
+  const fetcher = () =>
+    window.task.getTaskSchema({ modelUid: modelUid!, taskRoute: taskRoute! });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    modelUid && taskRoute
+      ? `task:get-task-schema-${modelUid}-${taskRoute}`
+      : null,
+    fetcher,
+  );
+
+  return {
+    data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}
+
+export function useApiRoutes(modelUid?: string) {
+  const fetcher = () => window.task.getApiRoutes({ modelUid: modelUid! });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    modelUid ? `task:get-api-routes-${modelUid}` : null,
+    fetcher,
+  );
+
+  return {
+    data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}
