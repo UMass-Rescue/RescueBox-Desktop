@@ -19,6 +19,6 @@ export enum ModelAppStatus {
 
 export type RunJobArgs = {
   modelUid: string;
-  taskRoute: string;
+  order: number;
   requestBody: RequestBody;
 };

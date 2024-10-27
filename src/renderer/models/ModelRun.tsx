@@ -24,7 +24,7 @@ function ModelRun() {
     return <LoadingScreen />;
   }
   if (apiRoutesError) {
-    return <div>Error loading api routes</div>;
+    return <div>Error loading API routes</div>;
   }
 
   return (
@@ -32,12 +32,11 @@ function ModelRun() {
       <div className="tabs mt-3 mx-2">
         <div className="flex flex-row space-x-4">
           {apiRoutes
-            .filter((apiRoute) => 'order' in apiRoute)
             .sort((a, b) => a.order - b.order)
             .map((apiRoute) => (
               <NavLink
                 key={apiRoute.order}
-                to={`/models/${modelUid}/run${apiRoute.run_task}`}
+                to={`/models/${modelUid}/run/${apiRoute.order}`}
                 className={({ isActive }) =>
                   isActive
                     ? cn(

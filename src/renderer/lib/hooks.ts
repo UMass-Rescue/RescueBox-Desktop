@@ -178,16 +178,13 @@ export function useModelInfo(modelUid?: string) {
   };
 }
 
-export function useTaskSchema(modelUid?: string, taskRoute?: string) {
+export function useTaskSchema(modelUid?: string, order?: number) {
   const fetcher = () =>
-    window.task.getTaskSchema({ modelUid: modelUid!, taskRoute: taskRoute! });
+    window.task.getTaskSchema({ modelUid: modelUid!, order: order! });
   const { data, error, isLoading, isValidating, mutate } = useSWR(
-    modelUid && taskRoute
-      ? `task:get-task-schema-${modelUid}-${taskRoute}`
-      : null,
+    modelUid && order ? `task:get-task-schema-${modelUid}-${order}` : null,
     fetcher,
   );
-
   return {
     data,
     error,

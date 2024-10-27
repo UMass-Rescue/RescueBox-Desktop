@@ -1,10 +1,10 @@
 import { ModelServer } from 'src/shared/models';
 import {
-  APIRoutes,
   InfoPage,
   TaskSchema,
   RequestBody,
   ResponseBody,
+  SchemaAPIRoute,
 } from 'src/shared/generated_models';
 import apiRoutes from 'src/shared/dummy_data/api_routes';
 import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
@@ -22,7 +22,7 @@ class TaskService {
 
   private serverPort: number;
 
-  private apiRoutes: APIRoutes = [];
+  private apiRoutes: SchemaAPIRoute[] = [];
 
   private abortController: AbortController | null = null;
 
@@ -41,15 +41,17 @@ class TaskService {
     //     }
     //     return res.json();
     //   })
-    //   .then((data: APIRoutes) => data);
+    //   .then((data: APIRoutes) =>
+    //     data.filter((apiRoute) => 'order' in apiRoute),
+    //   );
     this.apiRoutes = await new Promise((resolve) => {
       setTimeout(() => {
-        resolve(apiRoutes);
+        resolve(apiRoutes.filter((apiRoute) => 'order' in apiRoute));
       }, 1000);
     });
   }
 
-  public async getApiRoutes(): Promise<APIRoutes> {
+  public async getApiRoutes(): Promise<SchemaAPIRoute[]> {
     if (this.apiRoutes.length === 0) {
       await this.initializeAPIRoutes();
     }
@@ -76,13 +78,13 @@ class TaskService {
   // eslint-disable-next-line class-methods-use-this
   public async runTask(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    taskRoute: string,
+    order: number,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     requestBody: RequestBody,
   ): Promise<ResponseBody> {
     // this.abortController = new AbortController();
     // const { signal } = this.abortController;
-    // const task = this.apiRoutes.find((route) => route.run_task === taskRoute);
+    // const task = this.apiRoutes.find((route) => route.order === order);
     // if (!task) {
     //   throw new Error('Task not found');
     // }
@@ -119,8 +121,8 @@ class TaskService {
   }
 
   // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  public async getTaskSchema(taskRoute: string): Promise<TaskSchema> {
-    // const task = this.apiRoutes.find((route) => route.run_task === taskRoute);
+  public async getTaskSchema(order: number): Promise<TaskSchema> {
+    // const task = this.apiRoutes.find((route) => route.order === order);
     // if (!task) {
     //   throw new Error('Task not found');
     // }

@@ -9,22 +9,18 @@ import { useParams } from 'react-router-dom';
 import { InputSchema, ParameterSchema } from 'src/shared/generated_models';
 
 export default function ModelRunTask() {
-  const { modelUid, taskRoute } = useParams();
+  const { modelUid, order } = useParams();
 
   const {
     data: taskSchema,
     error: taskSchemaError,
     isLoading: taskSchemaIsLoading,
-  } = useTaskSchema(modelUid, `/${taskRoute}`);
+  } = useTaskSchema(modelUid, Number(order));
 
-  const {
-    handleSubmit,
-    control,
-    formState: { isValid },
-  } = useForm({ mode: 'onChange' });
+  const { handleSubmit, control } = useForm({ mode: 'onChange' });
 
   if (!taskSchema) {
-    return <LoadingScreen />;
+    return <div>No task schemas found</div>;
   }
   if (taskSchemaIsLoading) {
     return <LoadingScreen />;
@@ -85,7 +81,6 @@ export default function ModelRunTask() {
           <Button
             type="submit"
             className="w-full flex flex-row gap-2 hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500"
-            disabled={!isValid}
           >
             Run Model
             <GreenRunIcon />
