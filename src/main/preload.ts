@@ -6,16 +6,26 @@ import {
   ModelServer,
   Job,
   ModelAppStatus,
-  ModelAppConfig,
+  RunJobArgs,
 } from 'src/shared/models';
+import {
+  InfoPage,
+  SchemaAPIRoute,
+  TaskSchema,
+} from 'src/shared/generated_models';
 import {
   GetModelAppStatusArgs,
   RegisterModelArgs,
   UnregisterModelArgs,
 } from './handlers/registration';
-import { RunJobArgs, JobByIdArgs } from './handlers/job';
+import { JobByIdArgs } from './handlers/job';
 import { GetModelByIdArgs } from './handlers/models';
 import { PathArgs } from './handlers/file-system';
+import {
+  GetApiRoutesArgs,
+  GetInfoArgs,
+  GetTaskSchemaArgs,
+} from './handlers/task';
 
 const registrationHandler = {
   registerModelAppIp: (args: RegisterModelArgs) =>
@@ -42,11 +52,6 @@ const modelsHandler = {
     ipcRenderer.invoke('models:get-models') as Promise<MLModel[]>,
   getModelByUid: (args: GetModelByIdArgs) =>
     ipcRenderer.invoke('models:get-model-by-uid', args) as Promise<MLModel>,
-  getModelAppConfigByUid: (args: GetModelByIdArgs) =>
-    ipcRenderer.invoke(
-      'models:get-model-app-config-by-uid',
-      args,
-    ) as Promise<ModelAppConfig>,
 };
 
 const jobHandler = {
@@ -66,8 +71,12 @@ const fileSystemHandler = {
     ipcRenderer.invoke('fileSystem:open-path', args) as Promise<string>,
   selectDirectory: () =>
     ipcRenderer.invoke('fileSystem:select-directory') as Promise<string>,
-  selectFilePath: () =>
-    ipcRenderer.invoke('fileSystem:select-file-path') as Promise<string>,
+  selectDirectories: () =>
+    ipcRenderer.invoke('fileSystem:select-directories') as Promise<string[]>,
+  selectFile: () =>
+    ipcRenderer.invoke('fileSystem:select-file') as Promise<string>,
+  selectFiles: () =>
+    ipcRenderer.invoke('fileSystem:select-files') as Promise<string[]>,
   saveLogs: () => ipcRenderer.invoke('fileSystem:save-logs'),
   getFilesFromDir: (args: PathArgs) =>
     ipcRenderer.invoke('fileSystem:get-files-from-dir', args) as Promise<
@@ -79,6 +88,17 @@ const fileSystemHandler = {
 
 const databaseHandler = {
   resetDatabase: () => ipcRenderer.invoke('database:reset-database'),
+};
+
+const taskHandler = {
+  getApiRoutes: (args: GetApiRoutesArgs) =>
+    ipcRenderer.invoke('task:get-api-routes', args) as Promise<
+      SchemaAPIRoute[]
+    >,
+  getInfo: (args: GetInfoArgs) =>
+    ipcRenderer.invoke('task:get-info', args) as Promise<InfoPage>,
+  getTaskSchema: (args: GetTaskSchemaArgs) =>
+    ipcRenderer.invoke('task:get-task-schema', args) as Promise<TaskSchema>,
 };
 
 const loggingHandler = {
@@ -98,6 +118,7 @@ contextBridge.exposeInMainWorld('job', jobHandler);
 contextBridge.exposeInMainWorld('fileSystem', fileSystemHandler);
 contextBridge.exposeInMainWorld('database', databaseHandler);
 contextBridge.exposeInMainWorld('logging', loggingHandler);
+contextBridge.exposeInMainWorld('task', taskHandler);
 
 export type RegistrationHandler = typeof registrationHandler;
 export type ModelsHandler = typeof modelsHandler;
@@ -105,3 +126,4 @@ export type JobHandler = typeof jobHandler;
 export type FileSystemHandler = typeof fileSystemHandler;
 export type DatabaseHandler = typeof databaseHandler;
 export type LoggingHandler = typeof loggingHandler;
+export type TaskHandler = typeof taskHandler;

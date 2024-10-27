@@ -7,7 +7,7 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import { Inputs, Outputs, Parameters } from 'src/shared/job';
+import { RequestBody, ResponseBody } from 'src/shared/generated_models';
 import MLModelDb from './ml-model';
 
 export enum JobStatus {
@@ -33,13 +33,11 @@ class JobDb extends Model<
 
   declare statusText: CreationOptional<string>;
 
-  declare inputs: Inputs; // JSON string
+  declare request: RequestBody; // JSON string
 
-  declare outputs: Outputs; // JSON string
+  declare response: CreationOptional<ResponseBody>; // JSON string
 
-  declare parameters: Parameters; // JSON string
-
-  declare response: CreationOptional<object>; // JSON string
+  declare taskRoute: string;
 
   public static getAllJobs() {
     return JobDb.findAll();
@@ -65,19 +63,16 @@ class JobDb extends Model<
     uid: string,
     modelUid: string,
     startTime: Date,
-    inputs: Inputs,
-    outputs: Outputs,
-    parameters: Parameters,
+    request: RequestBody,
+    taskRoute: string,
   ) {
     return JobDb.create({
       uid,
       modelUid,
       startTime,
-      inputs,
-      outputs,
-      parameters,
+      request,
       status: JobStatus.Running,
-      response: undefined,
+      taskRoute,
     });
   }
 
@@ -99,7 +94,7 @@ class JobDb extends Model<
     return job.save();
   }
 
-  public static async updateJobResponse(uid: string, response: object) {
+  public static async updateJobResponse(uid: string, response: ResponseBody) {
     const job = await JobDb.findByPk(uid);
     if (!job) {
       throw new Error(`Job with uid ${uid} not found`);
@@ -158,38 +153,14 @@ export const initJob = async (connection: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      inputs: {
+      request: {
         type: DataTypes.TEXT,
         allowNull: false,
         get() {
-          return JSON.parse(this.getDataValue('inputs') as unknown as string);
+          return JSON.parse(this.getDataValue('request') as unknown as string);
         },
         set(value) {
-          this.setDataValue('inputs', JSON.stringify(value) as any);
-        },
-      },
-      outputs: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-        get() {
-          return JSON.parse(this.getDataValue('outputs') as unknown as string);
-        },
-        set(value) {
-          // @ts-ignore
-          this.setDataValue('outputs', JSON.stringify(value));
-        },
-      },
-      parameters: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-        get() {
-          return JSON.parse(
-            this.getDataValue('parameters') as unknown as string,
-          );
-        },
-        set(value) {
-          // @ts-ignore
-          this.setDataValue('parameters', JSON.stringify(value));
+          this.setDataValue('request', JSON.stringify(value) as any);
         },
       },
       response: {
@@ -202,6 +173,10 @@ export const initJob = async (connection: Sequelize) => {
           // @ts-ignore
           this.setDataValue('response', JSON.stringify(value));
         },
+      },
+      taskRoute: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
     },
     {

@@ -1,11 +1,9 @@
 import { ModelAppStatus } from 'src/shared/models';
 import log from 'electron-log/main';
+import { InfoPage } from 'src/shared/generated_models';
 import ModelServer from '../models/model-server';
 import { getRaw } from '../util';
-import { getInferenceTaskByModelUid } from '../model-apps/config';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const SERVER_HEALTH_SLUG = '/health';
+import getTaskServiceByModelUid from '../flask-ml/task-service';
 
 export type RegisterModelArgs = {
   modelUid: string;
@@ -21,7 +19,7 @@ export type GetModelAppStatusArgs = {
   modelUid: string;
 };
 
-const registerModelAppIp = async (event: any, arg: RegisterModelArgs) => {
+const registerModelAppIp = async (_event: any, arg: RegisterModelArgs) => {
   log.info(
     `Registering model ${arg.modelUid} at ${arg.serverAddress}:${arg.serverPort}`,
   );
@@ -32,7 +30,7 @@ const registerModelAppIp = async (event: any, arg: RegisterModelArgs) => {
   ).then(getRaw);
 };
 
-const unregisterModelAppIp = async (event: any, arg: UnregisterModelArgs) => {
+const unregisterModelAppIp = async (_event: any, arg: UnregisterModelArgs) => {
   log.info(`Unregistering model ${arg.modelUid}`);
   return ModelServer.unregisterServer(arg.modelUid);
 };
@@ -49,13 +47,15 @@ const getModelAppStatus = async (
   if (!server || !server.isUserConnected) {
     return ModelAppStatus.Unregistered;
   }
-  const manager = getInferenceTaskByModelUid(arg.modelUid);
-  return manager.pingHealth(server).then((isOnline) => {
-    if (isOnline) {
-      return ModelAppStatus.Online;
-    }
-    return ModelAppStatus.Offline;
-  });
+  const taskService = await getTaskServiceByModelUid(arg.modelUid);
+  return (
+    taskService
+      .getInfo()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .then((res: InfoPage) => ModelAppStatus.Online)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .catch((_err) => ModelAppStatus.Offline)
+  );
 };
 
 export {

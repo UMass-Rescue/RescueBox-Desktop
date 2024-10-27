@@ -1,4 +1,3 @@
-// import JobDb from 'src/main/models/job';
 import { v4 as uuidv4 } from 'uuid';
 
 const jobs: Object[] = [
@@ -8,26 +7,25 @@ const jobs: Object[] = [
     startTime: new Date('2023-10-01T10:14:00Z'),
     endTime: new Date('2023-10-01T12:09:00Z'),
     status: 'Completed',
-    inputs: [
-      {
-        path: '/Users/atharvakale/Downloads/known_dataset_images',
-        path_key: 'Low Res Images',
+    statusText: null,
+    request: {
+      inputs: {
+        LOW_RES_IMAGES: {
+          path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\input',
+        },
+        HIGH_RES_IMAGES: {
+          path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\output',
+        },
       },
-    ],
-    outputs: [
-      {
-        path: '/Users/atharvakale/Downloads/known_dataset_images',
-        path_key: 'High Res Images',
+      parameters: {
+        weights: 'gans',
+        scale: 4.0,
       },
-    ],
-    parameters: [
-      {
-        scale: 4,
-      },
-    ],
+    },
     response: {
-      message: 'Job completed successfully.',
-      code: 200,
+      output_type: 'directory',
+      path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\output',
+      title: 'High Resolution Images',
     },
   },
   {
@@ -36,33 +34,23 @@ const jobs: Object[] = [
     startTime: new Date('2023-10-02T14:19:08Z'),
     endTime: new Date('2023-10-02T14:19:49Z'),
     status: 'Failed',
-    inputs: [
-      {
-        path: 'F:/USB/Forensic/Input',
-        path_key: 'Known Dataset',
+    statusText: '[{"message":"fetch failed"}]',
+    request: {
+      inputs: {
+        KNOWN_DATASET: {
+          path: 'F:/USB/Forensic/Input',
+        },
+        OUTPUT_SQL_PATH: {
+          path: 'F:/USB/Forensic/Output.sqlite',
+        },
+        TARGET_FOLDER: {
+          path: 'F:/USB/Forensic/Target',
+        },
       },
-      {
-        path: 'F:/USB/Forensic/Target',
-        path_key: 'Target Dataset',
+      parameters: {
+        block_size: 4096,
+        target_probability: 0.99,
       },
-    ],
-    outputs: [
-      {
-        path: 'F:/USB/Forensic/Output',
-        path_key: 'Results',
-      },
-    ],
-    parameters: [
-      {
-        blockSize: '4096',
-      },
-      {
-        targetProbability: '0.99',
-      },
-    ],
-    response: {
-      message: 'Job failed due to an error: Path not found.',
-      code: 500,
     },
   },
   {
@@ -71,31 +59,19 @@ const jobs: Object[] = [
     startTime: new Date('2023-10-02T14:19:01Z'),
     endTime: new Date('2023-10-02T14:27:12Z'),
     status: 'Canceled',
-    inputs: [
-      {
-        path: 'F:/USB/fake_images/data',
-        path_key: 'Images to be analyzed',
+    statusText: 'Job was canceled by the user',
+    request: {
+      inputs: {
+        DATASET: {
+          path: 'F:/USB/fake_images/data',
+        },
+        OUTPUT_CSV_NAME: {
+          text: 'results.csv',
+        },
       },
-    ],
-    outputs: [
-      {
-        path: 'F:/USB/results/deepfake_images',
-        path_key: 'Contraband Images flagged as a deepfake',
-      },
-      {
-        path: 'F:/USB/results/contraband_images',
-        path_key: 'Contraband Images flagged as real',
-      },
-      {
-        path: 'F:/USB/results/safe_images',
-        path_key: 'Images flagged as safe',
-      },
-    ],
-    parameters: [],
-    response: {
-      message: 'Job Canceled.',
-      code: 500,
+      parameters: {},
     },
+    response: null,
   },
   {
     uid: uuidv4(),
@@ -103,26 +79,27 @@ const jobs: Object[] = [
     startTime: new Date('2023-10-02T14:20:01Z'),
     endTime: new Date('2023-10-02T14:26:12Z'),
     status: 'Completed',
-    inputs: [
-      {
-        path: 'F:/USB/images_db/',
-        path_key: 'Large dataset of images of faces',
+    statusText: null,
+    request: {
+      inputs: {
+        FACES_TO_MATCH: {
+          files: [
+            { path: 'F:/USB/faces/face1.jpg' },
+            { path: 'F:/USB/faces/face2.jpg' },
+            { path: 'F:/USB/faces/face3.jpg' },
+          ],
+        },
       },
-      {
-        path: 'F:/USB/target/candidates',
-        path_key: 'Candidate faces to match',
+      parameters: {
+        db_name: 'faces_db',
+        top_k_matches: '5',
       },
-    ],
-    outputs: [
-      {
-        path: 'F:/USB/results/matched_faces.csv',
-        path_key: 'Results of face matching',
-      },
-    ],
-    parameters: [],
+    },
     response: {
-      message: 'Job Completed.',
-      code: 200,
+      output_type: 'file',
+      file_type: 'csv',
+      path: 'F:/USB/faces/top_5_matches.csv',
+      title: 'Matched Faces',
     },
   },
   {
@@ -132,50 +109,28 @@ const jobs: Object[] = [
     endTime: new Date('2024-10-09T17:24:23.634Z'),
     status: 'Completed',
     statusText: null,
-    inputs: JSON.parse(
-      '[{"path":"/Users/atharvakale/Downloads/known_dataset_images_input2","path_key":"Known Dataset"},{"path":"/Users/atharvakale/Downloads/known_dataset_images_output","path_key":"Target Dataset"}]',
-    ),
-    outputs: JSON.parse(
-      '[{"path":"/Users/atharvakale/Downloads/sqlite-hashes-2024-10-09T17:24:19.935Z.db","path_key":"SQL Database"}]',
-    ),
-    parameters: '[{"blockSizeInKiB":16},{"targetProbability":90}]',
-    response: JSON.parse(
-      '{"status":"SUCCESS","results":[{"result":{"found":true,"target_file":"/Users/atharvakale/Downloads/known_dataset_images_output/cat11287.jpg","known_dataset_file":"/Users/atharvakale/Downloads/known_dataset_images_input2/cat11287.jpg","block_num_in_known_dataset":0,"block_num_in_target":0},"text":"RESULTS"},{"result":"/Users/atharvakale/Downloads/sqlite-hashes-2024-10-09T17:24:19.935Z.db","text":"Successfully stored hashes"}]}',
-    ),
-  },
-  {
-    uid: '44a7462b-bd4b-42f6-9a00-3666468d6531',
-    modelUid: 'sbf-model',
-    startTime: new Date('2024-10-09T18:44:46.673Z'),
-    endTime: new Date('2024-10-09T18:44:46.717Z'),
-    status: 'Completed',
-    statusText: null,
-    inputs: JSON.parse(
-      '[{"path":"/Users/atharvakale/Downloads/sample_in","path_key":"Known Dataset"},{"path":"/Users/atharvakale/Downloads/sample_out","path_key":"Target Dataset"}]',
-    ),
-    outputs: JSON.parse(
-      '[{"path":"/Users/atharvakale/Downloads/sqlite-hashes-2024-10-09T18:44:42.717Z.db","path_key":"SQL Database"}]',
-    ),
-    parameters: JSON.parse('[{"blockSizeInKiB":16},{"targetProbability":90}]'),
-    response: JSON.parse(
-      '{"status":"SUCCESS","results":[{"result":{"found":false},"text":"RESULTS"},{"result":"/Users/atharvakale/Downloads/sqlite-hashes-2024-10-09T18:44:42.717Z.db","text":"Successfully stored hashes"}]}',
-    ),
-  },
-  {
-    uid: uuidv4(),
-    modelUid: 'sbf-model',
-    startTime: new Date('2024-10-10T18:44:46.673Z'),
-    endTime: new Date('2024-10-10T18:44:46.717Z'),
-    status: 'Failed',
-    statusText: '[{"message":"fetch failed"}]',
-    inputs: JSON.parse(
-      '[{"path":"/Users/atharvakale/Downloads/sample_in","path_key":"Known Dataset"},{"path":"/Users/atharvakale/Downloads/sample_out","path_key":"Target Dataset"}]',
-    ),
-    outputs: JSON.parse(
-      '[{"path":"/Users/atharvakale/Downloads/sqlite-hashes-2024-10-09T18:44:42.717Z.db","path_key":"SQL Database"}]',
-    ),
-    parameters: JSON.parse('[{"blockSizeInKiB":16},{"targetProbability":90}]'),
-    response: null,
+    request: {
+      inputs: {
+        KNOWN_DATASET: {
+          path: '/Users/atharvakale/Downloads/known_dataset_images_input2',
+        },
+        TARGET_DATASET: {
+          path: '/Users/atharvakale/Downloads/known_dataset_images_output',
+        },
+        SQL_DATABASE: {
+          path: '/Users/atharvakale/Downloads/sqlite-hashes-2024-10-09T17:24:19.935Z.db',
+        },
+      },
+      parameters: {
+        block_size: 16,
+        target_probability: 0.9,
+      },
+    },
+    response: {
+      output_type: 'markdown',
+      value: '## Results\n\nThe model has successfully completed the task.',
+      title: 'Model Output',
+    },
   },
   // {
   //   uid: uuidv4(),
@@ -189,18 +144,17 @@ const jobs: Object[] = [
   //       path_key: 'Images to Analyze',
   //     },
   //   ],
-  //   outputs: [
-  //     {
-  //       path: 'C:/Users/Default/Pictures/Input',
-  //       path_key: 'Images with Bounding Boxes',
-  //     },
-  //   ],
   //   parameters: [
   //     {
   //       confidenceThreshold: '0.5',
   //     },
   //   ],
-  //   response: {},
+  //   response: [
+  //     {
+  //       path: 'C:/Users/Default/Pictures/Input',
+  //       path_key: 'Images with Bounding Boxes',
+  //     },
+  //   ],
   // },
 ];
 
