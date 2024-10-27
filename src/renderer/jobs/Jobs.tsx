@@ -66,7 +66,6 @@ function Jobs() {
     jobs,
     error: jobsError,
     isLoading: jobsIsLoading,
-    isValidating: jobsIsValidating,
     mutate: jobsMutate,
   } = useJobs();
   const {
