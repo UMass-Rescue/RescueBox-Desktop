@@ -84,7 +84,7 @@ class TaskService {
   ): Promise<ResponseBody> {
     // this.abortController = new AbortController();
     // const { signal } = this.abortController;
-    // const task = this.apiRoutes.find((route) => route.order === taskId);
+    // const task = this.apiRoutes.find((route) => String(route.order) === taskId);
     // if (!task) {
     //   throw new Error('Task not found');
     // }
@@ -122,7 +122,7 @@ class TaskService {
 
   // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
   public async getTaskSchema(taskId: string): Promise<TaskSchema> {
-    // const task = this.apiRoutes.find((route) => route.order === taskId);
+    // const task = this.apiRoutes.find((route) => String(route.order) === taskId);
     // if (!task) {
     //   throw new Error('Task not found');
     // }

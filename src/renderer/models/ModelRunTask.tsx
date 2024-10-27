@@ -6,7 +6,12 @@ import { Button } from '@shadcn/components/ui/button';
 import { useTaskSchema } from '@shadcn/lib/hooks';
 import { Controller, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { InputSchema, ParameterSchema } from 'src/shared/generated_models';
+import {
+  InputSchema,
+  ParameterSchema,
+  RequestBody,
+} from 'src/shared/generated_models';
+import { RunJobArgs } from 'src/shared/models';
 
 export default function ModelRunTask() {
   const { modelUid, order } = useParams();
@@ -17,7 +22,17 @@ export default function ModelRunTask() {
     isValidating: taskSchemaIsValidating,
   } = useTaskSchema(modelUid, order);
 
-  const { handleSubmit, control } = useForm({ mode: 'onChange' });
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<RequestBody>({
+    mode: 'onChange',
+  });
+
+  if (!modelUid || !order) {
+    return <div>Invalid Model UID or Task ID.</div>;
+  }
 
   if (taskSchemaIsValidating) {
     return <LoadingScreen />;
@@ -29,8 +44,13 @@ export default function ModelRunTask() {
     return <div>No task schemas found</div>;
   }
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = (data: RequestBody) => {
+    const runJobArgs: RunJobArgs = {
+      modelUid,
+      taskId: String(order),
+      requestBody: data,
+    };
+    window.job.runJob(runJobArgs);
   };
 
   return (
@@ -39,10 +59,11 @@ export default function ModelRunTask() {
         <h1 className="text-2xl font-extrabold mb-4">Select Inputs</h1>
         <div className="grid grid-cols-1 gap-6">
           {taskSchema.inputs.map((inputSchema: InputSchema) => (
-            <div key={inputSchema.key}>
+            <div key={`inputs.${inputSchema.key}`}>
               <Controller
-                name={inputSchema.key}
+                name={`inputs.${inputSchema.key}`}
                 control={control}
+                rules={{ required: true }}
                 render={({ field }) => (
                   <InputField
                     inputSchema={inputSchema}
@@ -51,19 +72,26 @@ export default function ModelRunTask() {
                   />
                 )}
               />
+              {errors.inputs?.[inputSchema.key] && (
+                <span className="text-red-500 text-xs">
+                  Please fill this field.
+                </span>
+              )}
             </div>
           ))}
         </div>
-        <hr className="mt-8 mb-4" />
         {taskSchema.parameters.length > 0 && (
           <>
+            <hr className="mt-8 mb-4" />
             <h1 className="text-2xl font-extrabold mb-4">Select Parameters</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {taskSchema.parameters.map((parameterSchema: ParameterSchema) => (
-                <div key={parameterSchema.key}>
+                <div key={`parameters.${parameterSchema.key}`}>
                   <Controller
-                    name={parameterSchema.key}
+                    name={`parameters.${parameterSchema.key}`}
                     control={control}
+                    rules={{ required: true }}
+                    defaultValue={parameterSchema.value.default || ''}
                     render={({ field }) => (
                       <ParameterField
                         parameterSchema={parameterSchema}
@@ -72,6 +100,11 @@ export default function ModelRunTask() {
                       />
                     )}
                   />
+                  {errors.parameters?.[parameterSchema.key] && (
+                    <span className="text-red-500 text-xs">
+                      Please fill this field.
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
