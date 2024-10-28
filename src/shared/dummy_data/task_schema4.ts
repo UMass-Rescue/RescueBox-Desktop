@@ -78,7 +78,7 @@ const taskSchema4: TaskSchema = {
       label: 'Normalization',
       subtitle: 'Choose a method of normalization',
       value: {
-        default: 'None',
+        default: 'none',
         parameterType: 'enum',
         enumVals: [
           {

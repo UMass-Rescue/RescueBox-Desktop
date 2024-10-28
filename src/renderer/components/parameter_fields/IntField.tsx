@@ -2,11 +2,8 @@ import { ParameterSchema } from 'src/shared/generated_models';
 import { Input } from '../ui/input';
 
 export default function IntField({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   parameterSchema,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   value,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onChange,
 }: {
   parameterSchema: ParameterSchema;
@@ -19,7 +16,8 @@ export default function IntField({
       <div className="flex items-center mt-2">
         <Input
           type="number"
-          value={value || Number(parameterSchema.value.default)}
+          value={value}
+          defaultValue={Number(parameterSchema.value.default)}
           onChange={(e) => onChange(e.target.valueAsNumber)}
         />
       </div>

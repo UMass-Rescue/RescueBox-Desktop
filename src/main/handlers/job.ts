@@ -82,9 +82,9 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
     throw new Error('Error creating job');
   }
 
-  // Call the inference service for the particular model,
+  // Call the task service for the particular model,
   // and update the job status after a reply is received
-  log.info('Calling inference service for model', arg.modelUid);
+  log.info('Calling task service for model', arg.modelUid);
   service
     .runTask(arg.taskId, arg.requestBody)
     .then(async (response: ResponseBody) => {

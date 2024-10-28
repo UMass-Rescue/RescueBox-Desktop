@@ -4,9 +4,11 @@ import LoadingScreen from '@shadcn/components/LoadingScreen';
 import ParameterField from '@shadcn/components/ParameterField';
 import { Button } from '@shadcn/components/ui/button';
 import { useTaskSchema } from '@shadcn/lib/hooks';
+import { buildRequestBody } from '@shadcn/lib/utils';
 import { Controller, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { InputSchema, ParameterSchema } from 'src/shared/generated_models';
+import { RunJobArgs } from 'src/shared/models';
 
 export default function ModelRunTask() {
   const { modelUid, order } = useParams();
@@ -17,7 +19,17 @@ export default function ModelRunTask() {
     isValidating: taskSchemaIsValidating,
   } = useTaskSchema(modelUid, order);
 
-  const { handleSubmit, control } = useForm({ mode: 'onChange' });
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+  });
+
+  if (!modelUid || !order) {
+    return <div>Invalid Model UID or Task ID.</div>;
+  }
 
   if (taskSchemaIsValidating) {
     return <LoadingScreen />;
@@ -30,7 +42,12 @@ export default function ModelRunTask() {
   }
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    const runJobArgs: RunJobArgs = {
+      modelUid,
+      taskId: order,
+      requestBody: buildRequestBody(taskSchema, data),
+    };
+    window.job.runJob(runJobArgs);
   };
 
   return (
@@ -43,6 +60,7 @@ export default function ModelRunTask() {
               <Controller
                 name={inputSchema.key}
                 control={control}
+                rules={{ required: `Field is required.` }}
                 render={({ field }) => (
                   <InputField
                     inputSchema={inputSchema}
@@ -51,12 +69,17 @@ export default function ModelRunTask() {
                   />
                 )}
               />
+              {errors[inputSchema.key] && (
+                <span className="text-red-500 text-xs mt-1">
+                  {errors[inputSchema.key]?.message?.toString()}
+                </span>
+              )}
             </div>
           ))}
         </div>
-        <hr className="mt-8 mb-4" />
         {taskSchema.parameters.length > 0 && (
           <>
+            <hr className="mt-8 mb-4" />
             <h1 className="text-2xl font-extrabold mb-4">Select Parameters</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {taskSchema.parameters.map((parameterSchema: ParameterSchema) => (
@@ -64,6 +87,20 @@ export default function ModelRunTask() {
                   <Controller
                     name={parameterSchema.key}
                     control={control}
+                    rules={{
+                      required: `Field is required.`,
+                      validate: {
+                        validInt: (v) =>
+                          (parameterSchema.value.parameterType === 'int'
+                            ? !Number.isNaN(v) && Number.isInteger(v)
+                            : true) || `Value must be an integer.`,
+                        validFloat: (v) =>
+                          (parameterSchema.value.parameterType === 'float'
+                            ? !Number.isNaN(v)
+                            : true) || `Value must be a float.`,
+                      },
+                    }}
+                    defaultValue={parameterSchema.value.default || ''}
                     render={({ field }) => (
                       <ParameterField
                         parameterSchema={parameterSchema}
@@ -72,6 +109,11 @@ export default function ModelRunTask() {
                       />
                     )}
                   />
+                  {errors[parameterSchema.key] && (
+                    <span className="text-red-500 text-xs mt-1">
+                      {errors[parameterSchema.key]?.message?.toString()}
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
