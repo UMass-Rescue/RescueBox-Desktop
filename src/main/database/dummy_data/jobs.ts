@@ -27,6 +27,7 @@ const jobs: Object[] = [
       path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\output',
       title: 'High Resolution Images',
     },
+    taskUid: '0',
   },
   {
     uid: uuidv4(),
@@ -52,6 +53,7 @@ const jobs: Object[] = [
         target_probability: 0.99,
       },
     },
+    taskUid: '0',
   },
   {
     uid: 'ddd43cfe-fa7e-4b80-a7c6-25ddd5e92dc7',
@@ -82,6 +84,7 @@ const jobs: Object[] = [
       value: '## Results\n\nThe model has successfully completed the task.',
       title: 'Model Output',
     },
+    taskUid: '0',
   },
   {
     uid: uuidv4(),
@@ -107,6 +110,7 @@ const jobs: Object[] = [
       },
     },
     response: null,
+    taskUid: '0',
   },
 ];
 
