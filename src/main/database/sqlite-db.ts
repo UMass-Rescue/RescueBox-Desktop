@@ -5,8 +5,8 @@ import JobDb, { initJob } from '../models/job';
 import ModelServerDb, { initModelServer } from '../models/model-server';
 import MLModelDb, { initMLModel } from '../models/ml-model';
 import jobData from './dummy_data/jobs';
-import mlmodelData from './dummy_data/mlmodels';
 import serverData from './dummy_data/servers';
+import dummyModels from './dummy_data/mlmodels';
 
 class SQLiteDB {
   private connection: Sequelize;
@@ -50,7 +50,7 @@ class SQLiteDB {
 
   // eslint-disable-next-line class-methods-use-this
   async initDummyData(): Promise<void> {
-    await MLModelDb.bulkCreate(mlmodelData);
+    await MLModelDb.createModels(dummyModels);
     await ModelServerDb.bulkCreate(serverData);
     // @ts-ignore
     await JobDb.bulkCreate(jobData);

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 const jobs: Object[] = [
   {
     uid: uuidv4(),
-    modelUid: 'isr-model',
+    modelUid: '6013c170572054321c36d3bc141ed7f7',
     startTime: new Date('2023-10-01T10:14:00Z'),
     endTime: new Date('2023-10-01T12:09:00Z'),
     status: 'Completed',
@@ -30,7 +30,7 @@ const jobs: Object[] = [
   },
   {
     uid: uuidv4(),
-    modelUid: 'sbf-model',
+    modelUid: 'c7698391b3d6d45a8b0aa72813c4961f',
     startTime: new Date('2023-10-02T14:19:08Z'),
     endTime: new Date('2023-10-02T14:19:49Z'),
     status: 'Failed',
@@ -54,57 +54,8 @@ const jobs: Object[] = [
     },
   },
   {
-    uid: uuidv4(),
-    modelUid: 'deepfake-detection-model',
-    startTime: new Date('2023-10-02T14:19:01Z'),
-    endTime: new Date('2023-10-02T14:27:12Z'),
-    status: 'Canceled',
-    statusText: 'Job was canceled by the user',
-    request: {
-      inputs: {
-        DATASET: {
-          path: 'F:/USB/fake_images/data',
-        },
-        OUTPUT_CSV_NAME: {
-          text: 'results.csv',
-        },
-      },
-      parameters: {},
-    },
-    response: null,
-  },
-  {
-    uid: uuidv4(),
-    modelUid: 'face-matching-model',
-    startTime: new Date('2023-10-02T14:20:01Z'),
-    endTime: new Date('2023-10-02T14:26:12Z'),
-    status: 'Completed',
-    statusText: null,
-    request: {
-      inputs: {
-        FACES_TO_MATCH: {
-          files: [
-            { path: 'F:/USB/faces/face1.jpg' },
-            { path: 'F:/USB/faces/face2.jpg' },
-            { path: 'F:/USB/faces/face3.jpg' },
-          ],
-        },
-      },
-      parameters: {
-        db_name: 'faces_db',
-        top_k_matches: '5',
-      },
-    },
-    response: {
-      output_type: 'file',
-      file_type: 'csv',
-      path: 'F:/USB/faces/top_5_matches.csv',
-      title: 'Matched Faces',
-    },
-  },
-  {
     uid: 'ddd43cfe-fa7e-4b80-a7c6-25ddd5e92dc7',
-    modelUid: 'sbf-model',
+    modelUid: 'c7698391b3d6d45a8b0aa72813c4961f',
     startTime: new Date('2024-10-09T17:24:23.526Z'),
     endTime: new Date('2024-10-09T17:24:23.634Z'),
     status: 'Completed',
@@ -132,30 +83,31 @@ const jobs: Object[] = [
       title: 'Model Output',
     },
   },
-  // {
-  //   uid: uuidv4(),
-  //   modelUid: 'obj-detection-model',
-  //   startTime: new Date('2023-10-06T09:03:45Z'),
-  //   endTime: null,
-  //   status: 'Running',
-  //   inputs: [
-  //     {
-  //       path: 'C:/Users/Default/Pictures/Input',
-  //       path_key: 'Images to Analyze',
-  //     },
-  //   ],
-  //   parameters: [
-  //     {
-  //       confidenceThreshold: '0.5',
-  //     },
-  //   ],
-  //   response: [
-  //     {
-  //       path: 'C:/Users/Default/Pictures/Input',
-  //       path_key: 'Images with Bounding Boxes',
-  //     },
-  //   ],
-  // },
+  {
+    uid: uuidv4(),
+    modelUid: '6d3aa67081b54b272b0946dfad476c52',
+    startTime: new Date('2023-10-06T09:03:45Z'),
+    endTime: null,
+    status: 'Running',
+    request: {
+      inputs: {
+        input_path: {
+          path: '/Users/path/to/file.png',
+        },
+        output_csv: {
+          path: '/Users/path/to/file.csv',
+        },
+        output_img: {
+          path: '/Users/path/to/file-out.png',
+        },
+      },
+      parameters: {
+        min_perc_prob: 30,
+        model_type: 'yolov3',
+      },
+    },
+    response: null,
+  },
 ];
 
 export default jobs;

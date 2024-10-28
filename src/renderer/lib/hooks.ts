@@ -169,9 +169,9 @@ export function useLogs() {
 }
 
 export function useModelInfo(modelUid?: string) {
-  const fetcher = () => window.task.getInfo({ modelUid: modelUid! });
+  const fetcher = () => window.models.getModelByUid({ modelUid: modelUid! });
   const { data, error, isLoading, isValidating, mutate } = useSWR(
-    modelUid ? `task:get-info-${modelUid}` : null,
+    modelUid ? `models:get-model-by-uid-${modelUid}` : null,
     fetcher,
   );
 
