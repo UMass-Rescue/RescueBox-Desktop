@@ -9,7 +9,7 @@ import {
 import apiRoutes from 'src/shared/dummy_data/api_routes';
 import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
 import isrModelInfo from 'src/shared/dummy_data/info_page';
-import taskSchema4 from 'src/shared/dummy_data/task_schema4';
+import taskSchemas from 'src/shared/dummy_data/task_schemas';
 import ModelServerDb from '../models/model-server';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -141,7 +141,7 @@ class TaskService {
     //   .then((data: TaskSchema) => data);
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(taskSchema4);
+        resolve(taskSchemas[Number(taskId)]);
       }, 1000);
     });
   }
