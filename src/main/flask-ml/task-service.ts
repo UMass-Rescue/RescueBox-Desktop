@@ -1,15 +1,15 @@
 import { ModelServer } from 'src/shared/models';
 import {
-  APIRoutes,
   InfoPage,
   TaskSchema,
   RequestBody,
   ResponseBody,
+  SchemaAPIRoute,
 } from 'src/shared/generated_models';
 import apiRoutes from 'src/shared/dummy_data/api_routes';
-import taskSchema1 from 'src/shared/dummy_data/task_schema1';
 import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
 import infoPage from 'src/shared/dummy_data/info_page';
+import taskSchema4 from 'src/shared/dummy_data/task_schema4';
 import ModelServerDb from '../models/model-server';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -22,14 +22,13 @@ class TaskService {
 
   private serverPort: number;
 
-  private apiRoutes: APIRoutes = [];
+  private apiRoutes: SchemaAPIRoute[] = [];
 
   private abortController: AbortController | null = null;
 
   constructor(server: ModelServer) {
     this.serverAddress = server.serverAddress;
     this.serverPort = server.serverPort;
-    this.initializeAPIRoutes();
   }
 
   private async initializeAPIRoutes(): Promise<void> {
@@ -42,15 +41,20 @@ class TaskService {
     //     }
     //     return res.json();
     //   })
-    //   .then((data: APIRoutes) => data);
+    //   .then((data: APIRoutes) =>
+    //     data.filter((apiRoute) => 'order' in apiRoute),
+    //   );
     this.apiRoutes = await new Promise((resolve) => {
       setTimeout(() => {
-        resolve(apiRoutes);
-      }, 2000);
+        resolve(apiRoutes.filter((apiRoute) => 'order' in apiRoute));
+      }, 1000);
     });
   }
 
-  public async getApiRoutes(): Promise<APIRoutes> {
+  public async getApiRoutes(): Promise<SchemaAPIRoute[]> {
+    if (this.apiRoutes.length === 0) {
+      await this.initializeAPIRoutes();
+    }
     return this.apiRoutes;
   }
 
@@ -67,52 +71,34 @@ class TaskService {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(infoPage);
-      }, 2000);
-    });
-  }
-
-  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  public async getTaskSchema(taskRoute: string): Promise<TaskSchema> {
-    // const task = this.apiRoutes.find((route) => route.run_task === taskRoute);
-    // if (!task) {
-    //   throw new Error('Task not found');
-    // }
-    // return fetch(task.task_schema)
-    //   .then((res) => {
-    //     if (res.status !== 200) {
-    //       throw new Error('Failed to fetch task schema.');
-    //     }
-    //     return res.json();
-    //   })
-    //   .then((data: TaskSchema) => data);
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(taskSchema1);
-      }, 2000);
+      }, 1000);
     });
   }
 
   // eslint-disable-next-line class-methods-use-this
   public async runTask(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    taskRoute: string,
+    taskId: string,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     requestBody: RequestBody,
   ): Promise<ResponseBody> {
     // this.abortController = new AbortController();
     // const { signal } = this.abortController;
-    // const task = this.apiRoutes.find((route) => route.run_task === taskRoute);
+    // const task = this.apiRoutes.find((route) => String(route.order) === taskId);
     // if (!task) {
     //   throw new Error('Task not found');
     // }
-    // return fetch(task.run_task, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
+    // return fetch(
+    //   `http://${this.serverAddress}:${this.serverPort}${task.run_task}`,
+    //   {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(requestBody),
+    //     signal,
     //   },
-    //   body: JSON.stringify(requestBody),
-    //   signal,
-    // })
+    // )
     //   .then((res) => {
     //     if (res.status !== 200) {
     //       throw new Error('Failed to run task.');
@@ -123,7 +109,7 @@ class TaskService {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(markdownResponseBody);
-      }, 2000);
+      }, 1000);
     });
   }
 
@@ -132,6 +118,32 @@ class TaskService {
     if (this.abortController) {
       this.abortController.abort();
     }
+  }
+
+  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
+  public async getTaskSchema(taskId: string): Promise<TaskSchema> {
+    // const task = this.apiRoutes.find((route) => String(route.order) === taskId);
+    // if (!task) {
+    //   throw new Error('Task not found');
+    // }
+    // if ('task_schema' in task === false) {
+    //   throw new Error('This task does not have a schema.');
+    // }
+    // return fetch(
+    //   `http://${this.serverAddress}:${this.serverPort}${task.task_schema}`,
+    // )
+    //   .then((res) => {
+    //     if (res.status !== 200) {
+    //       throw new Error('Failed to fetch task schema.');
+    //     }
+    //     return res.json();
+    //   })
+    //   .then((data: TaskSchema) => data);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(taskSchema4);
+      }, 1000);
+    });
   }
 }
 

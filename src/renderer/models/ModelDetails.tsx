@@ -4,7 +4,7 @@ import LoadingScreen from '@shadcn/components/LoadingScreen';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Button } from '../components/ui/button';
-import GreenRunIcon from '../components/GreenRunIcon';
+import GreenRunIcon from '../components/icons/GreenRunIcon';
 
 function ModelDetails() {
   const { modelUid } = useParams();

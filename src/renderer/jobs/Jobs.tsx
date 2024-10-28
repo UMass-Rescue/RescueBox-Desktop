@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Tooltip, TooltipProvider } from '@radix-ui/react-tooltip';
+import LoadingScreen from '@shadcn/components/LoadingScreen';
 import {
   Table,
   TableBody,
@@ -11,13 +12,13 @@ import {
 import { Button } from '../components/ui/button';
 import { Job } from '../../shared/models';
 import { useJobs, useMLModels } from '../lib/hooks';
-import LoadingIcon from '../components/LoadingIcon';
+import LoadingIcon from '../components/icons/LoadingIcon';
 import { TooltipContent, TooltipTrigger } from '../components/ui/tooltip';
-import DeleteIcon from '../components/DeleteIcon';
-import CancelIcon from '../components/CancelIcon';
-import CompletedIcon from '../components/CompletedIcon';
-import FailedIcon from '../components/FailedIcon';
-import CanceledIcon from '../components/CanceledIcon';
+import DeleteIcon from '../components/icons/DeleteIcon';
+import CancelIcon from '../components/icons/CancelIcon';
+import CompletedIcon from '../components/icons/CompletedIcon';
+import FailedIcon from '../components/icons/FailedIcon';
+import CanceledIcon from '../components/icons/CanceledIcon';
 
 function ViewButton({ job }: { job: Job }) {
   return (
@@ -89,12 +90,12 @@ function Jobs() {
 
   if (jobsError)
     return <div>failed to load jobs. Error: {jobsError.toString()}</div>;
-  if (jobsIsLoading) return <div>loading...</div>;
+  if (jobsIsLoading) return <LoadingScreen />;
   if (!jobs) return <div>no jobs</div>;
 
   if (modelsError)
     return <div>failed to load models. Error: {modelsError.toString()}</div>;
-  if (modelsIsLoading) return <div>loading...</div>;
+  if (modelsIsLoading) return <LoadingScreen />;
   if (!models) return <div>no models</div>;
 
   jobs.sort((a, b) => b.startTime.getTime() - a.startTime.getTime());

@@ -5,7 +5,7 @@ import {
   ResetIcon,
 } from '@radix-ui/react-icons';
 import { useState } from 'react';
-import LogsIcon from './components/LogsIcon';
+import LogsIcon from './components/icons/LogsIcon';
 import { Button } from './components/ui/button';
 import {
   Tooltip,
@@ -14,8 +14,9 @@ import {
   TooltipTrigger,
 } from './components/ui/tooltip';
 import { useLogs } from './lib/hooks';
-import LoadingIcon from './components/LoadingIcon';
-import ExportIcon from './components/ExportIcon';
+import LoadingIcon from './components/icons/LoadingIcon';
+import ExportIcon from './components/icons/ExportIcon';
+import LoadingScreen from './components/LoadingScreen';
 
 const MAX_LOGS = 100;
 
@@ -24,7 +25,7 @@ export default function AuditLogs() {
   const [isCopying, setIsCopying] = useState(false);
 
   if (error) return <div>Error: {error.message}</div>;
-  if (!logs) return <div>Loading...</div>;
+  if (!logs) return <LoadingScreen />;
 
   logs[0].lines.reverse();
 
@@ -117,7 +118,7 @@ export default function AuditLogs() {
           Displaying the last {MAX_LOGS} logs...
         </pre>
         <pre className="text-gray-50">
-          {isLoading && <div>Loading...</div>}
+          {isLoading && <LoadingIcon className="text-blue-500" />}
           {logs[0].lines.slice(0, MAX_LOGS).join('\n')}
         </pre>
       </div>

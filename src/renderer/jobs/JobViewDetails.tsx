@@ -3,9 +3,9 @@ import { ReloadIcon } from '@radix-ui/react-icons';
 import { Button } from '../components/ui/button';
 import { useJob, useMLModel } from '../lib/hooks';
 import LoadingScreen from '../components/LoadingScreen';
-import CompletedIcon from '../components/CompletedIcon';
-import FailedIcon from '../components/FailedIcon';
-import CanceledIcon from '../components/CanceledIcon';
+import CompletedIcon from '../components/icons/CompletedIcon';
+import FailedIcon from '../components/icons/FailedIcon';
+import CanceledIcon from '../components/icons/CanceledIcon';
 
 function JobViewDetails() {
   const { jobId } = useParams();

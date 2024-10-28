@@ -8,17 +8,19 @@ const jobs: Object[] = [
     endTime: new Date('2023-10-01T12:09:00Z'),
     status: 'Completed',
     statusText: null,
-    inputs: {
-      LOW_RES_IMAGES: {
-        path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\input',
+    request: {
+      inputs: {
+        LOW_RES_IMAGES: {
+          path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\input',
+        },
+        HIGH_RES_IMAGES: {
+          path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\output',
+        },
       },
-      HIGH_RES_IMAGES: {
-        path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\output',
+      parameters: {
+        weights: 'gans',
+        scale: 4.0,
       },
-    },
-    parameters: {
-      weights: 'gans',
-      scale: 4.0,
     },
     response: {
       output_type: 'directory',
@@ -34,18 +36,25 @@ const jobs: Object[] = [
     endTime: new Date('2023-10-02T14:19:49Z'),
     status: 'Failed',
     statusText: '[{"message":"fetch failed"}]',
-    inputs: {
-      KNOWN_DATASET: {
-        path: 'F:/USB/Forensic/Input',
+    request: {
+      inputs: {
+        KNOWN_DATASET: {
+          path: 'F:/USB/Forensic/Input',
+        },
+        OUTPUT_SQL_PATH: {
+          path: 'F:/USB/Forensic/Output.sqlite',
+        },
+        TARGET_FOLDER: {
+          path: 'F:/USB/Forensic/Target',
+        },
       },
-      OUTPUT_SQL_PATH: {
-        path: 'F:/USB/Forensic/Output.sqlite',
-      },
-      TARGET_FOLDER: {
-        path: 'F:/USB/Forensic/Target',
+      parameters: {
+        block_size: 4096,
+        target_probability: 0.99,
       },
     },
     taskUid: 'sbf-task',
+
   },
   {
     uid: uuidv4(),
@@ -54,15 +63,17 @@ const jobs: Object[] = [
     endTime: new Date('2023-10-02T14:27:12Z'),
     status: 'Canceled',
     statusText: 'Job was canceled by the user',
-    inputs: {
-      DATASET: {
-        path: 'F:/USB/fake_images/data',
+    request: {
+      inputs: {
+        DATASET: {
+          path: 'F:/USB/fake_images/data',
+        },
+        OUTPUT_CSV_NAME: {
+          text: 'results.csv',
+        },
       },
-      OUTPUT_CSV_NAME: {
-        text: 'results.csv',
-      },
+      parameters: {},
     },
-    parameters: {},
     response: null,
     taskUid: 'deepfake-detection-task',
   },
@@ -73,18 +84,20 @@ const jobs: Object[] = [
     endTime: new Date('2023-10-02T14:26:12Z'),
     status: 'Completed',
     statusText: null,
-    inputs: {
-      FACES_TO_MATCH: {
-        files: [
-          { path: 'F:/USB/faces/face1.jpg' },
-          { path: 'F:/USB/faces/face2.jpg' },
-          { path: 'F:/USB/faces/face3.jpg' },
-        ],
+    request: {
+      inputs: {
+        FACES_TO_MATCH: {
+          files: [
+            { path: 'F:/USB/faces/face1.jpg' },
+            { path: 'F:/USB/faces/face2.jpg' },
+            { path: 'F:/USB/faces/face3.jpg' },
+          ],
+        },
       },
-    },
-    parameters: {
-      db_name: 'faces_db',
-      top_k_matches: '5',
+      parameters: {
+        db_name: 'faces_db',
+        top_k_matches: '5',
+      },
     },
     response: {
       output_type: 'file',
@@ -101,20 +114,22 @@ const jobs: Object[] = [
     endTime: new Date('2024-10-09T17:24:23.634Z'),
     status: 'Completed',
     statusText: null,
-    inputs: {
-      KNOWN_DATASET: {
-        path: '/Users/atharvakale/Downloads/known_dataset_images_input2',
+    request: {
+      inputs: {
+        KNOWN_DATASET: {
+          path: '/Users/atharvakale/Downloads/known_dataset_images_input2',
+        },
+        TARGET_DATASET: {
+          path: '/Users/atharvakale/Downloads/known_dataset_images_output',
+        },
+        SQL_DATABASE: {
+          path: '/Users/atharvakale/Downloads/sqlite-hashes-2024-10-09T17:24:19.935Z.db',
+        },
       },
-      TARGET_DATASET: {
-        path: '/Users/atharvakale/Downloads/known_dataset_images_output',
+      parameters: {
+        block_size: 16,
+        target_probability: 0.9,
       },
-      SQL_DATABASE: {
-        path: '/Users/atharvakale/Downloads/sqlite-hashes-2024-10-09T17:24:19.935Z.db',
-      },
-    },
-    parameters: {
-      block_size: 16,
-      target_probability: 0.9,
     },
     response: {
       output_type: 'markdown',

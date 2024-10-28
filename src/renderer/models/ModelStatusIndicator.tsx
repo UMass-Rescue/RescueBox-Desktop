@@ -1,7 +1,10 @@
 import { ModelAppStatus } from 'src/shared/models';
 import { useServerStatus } from '../lib/hooks';
-import { GreenCircleIcon, RedCircleIcon } from '../components/CircleIcons';
-import LoadingIcon from '../components/LoadingIcon';
+import {
+  GreenCircleIcon,
+  RedCircleIcon,
+} from '../components/icons/CircleIcons';
+import LoadingIcon from '../components/icons/LoadingIcon';
 
 function ModelStatusIndicator({ modelUid }: { modelUid: string }) {
   const { serverStatus, isValidating } = useServerStatus(modelUid);
