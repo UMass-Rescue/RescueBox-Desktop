@@ -34,7 +34,7 @@ This model determines the existence of any subset of some small dataset in a lar
 - **Block Size Range:** The block size must be positive and less than the size of the small dataset.
 - **Target Probability:** This value should be between 0 and 1 (inclusive).
 `,
-      author: 'Atharva Kale',
+      author: 'Jane Appleseed',
       version: '1.0.0',
     },
     routes: [
@@ -85,7 +85,7 @@ This model identifies and classifies objects in an image.
 ## Constraints
 - **Dictionary size:** Detects 80 common objects
 `,
-      author: 'Shreyan Mallik',
+      author: 'Random Hacker',
       version: '1.0.0',
     },
     routes: [
