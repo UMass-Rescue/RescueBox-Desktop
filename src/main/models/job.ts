@@ -157,7 +157,10 @@ export const initJob = async (connection: Sequelize) => {
         type: DataTypes.TEXT,
         allowNull: false,
         get() {
-          return JSON.parse(this.getDataValue('request') as unknown as string);
+          return JSON.parse(
+            // @ts-ignore
+            this.getDataValue('request') as unknown as RequestBody,
+          );
         },
         set(value) {
           this.setDataValue('request', JSON.stringify(value) as any);
