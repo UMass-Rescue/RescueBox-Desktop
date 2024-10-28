@@ -8,7 +8,7 @@ import {
 } from 'src/shared/generated_models';
 import apiRoutes from 'src/shared/dummy_data/api_routes';
 import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
-import ModelInfo from 'src/shared/dummy_data/info_page';
+import isrModelInfo from 'src/shared/dummy_data/info_page';
 import taskSchema4 from 'src/shared/dummy_data/task_schema4';
 import ModelServerDb from '../models/model-server';
 
@@ -70,7 +70,7 @@ class TaskService {
     //   .then((data: ModelInfo) => data);
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(ModelInfo);
+        resolve(isrModelInfo);
       }, 1000);
     });
   }
