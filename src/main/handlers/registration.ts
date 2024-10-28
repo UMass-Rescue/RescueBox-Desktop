@@ -1,6 +1,6 @@
 import { ModelAppStatus } from 'src/shared/models';
 import log from 'electron-log/main';
-import { InfoPage } from 'src/shared/generated_models';
+import { ModelInfo } from 'src/shared/generated_models';
 import ModelServer from '../models/model-server';
 import { getRaw } from '../util';
 import getTaskServiceByModelUid from '../flask-ml/task-service';
@@ -52,7 +52,7 @@ const getModelAppStatus = async (
     taskService
       .getInfo()
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .then((res: InfoPage) => ModelAppStatus.Online)
+      .then((res: ModelInfo) => ModelAppStatus.Online)
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .catch((_err) => ModelAppStatus.Offline)
   );
