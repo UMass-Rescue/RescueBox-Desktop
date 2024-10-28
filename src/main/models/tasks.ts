@@ -54,6 +54,7 @@ class TaskDb extends Model<
   }
 
   public static createTask(
+    uid: string,
     modelUid: string,
     schemaApiRoute: SchemaAPIRoute,
     taskSchema: TaskSchema,
@@ -64,8 +65,6 @@ class TaskDb extends Model<
       order: taskOrder,
     } = schemaApiRoute;
 
-    const uid = String(taskOrder);
-
     return TaskDb.create({
       uid,
       modelUid,
@@ -74,6 +73,26 @@ class TaskDb extends Model<
       taskOrder,
       taskSchema,
     });
+  }
+
+  public static createTasks(
+    taskParams: {
+      uid: string;
+      modelUid: string;
+      schemaApiRoute: SchemaAPIRoute;
+      taskSchema: TaskSchema;
+    }[],
+  ) {
+    return Promise.all(
+      taskParams.map((tP) =>
+        TaskDb.createTask(
+          tP.uid,
+          tP.modelUid,
+          tP.schemaApiRoute,
+          tP.taskSchema,
+        ),
+      ),
+    );
   }
 
   public static deleteTask(uid: string) {

@@ -7,6 +7,7 @@ import MLModelDb, { initMLModel } from '../models/ml-model';
 import jobData from './dummy_data/jobs';
 import mlmodelData from './dummy_data/mlmodels';
 import serverData from './dummy_data/servers';
+import TaskDb, { initTask } from '../models/tasks';
 
 class SQLiteDB {
   private connection: Sequelize;
@@ -44,6 +45,7 @@ class SQLiteDB {
     info('Initializing models');
     await initMLModel(this.connection);
     await initJob(this.connection);
+    await initTask(this.connection);
     await initModelServer(this.connection);
     info('Models initialized');
   }
@@ -62,6 +64,7 @@ class SQLiteDB {
   async clearDummyData(): Promise<void> {
     await ModelServerDb.destroy({ where: {} });
     await JobDb.destroy({ where: {} });
+    await TaskDb.destroy({ where: {} });
     await MLModelDb.destroy({ where: {} });
 
     info('Cleared dummy data in SQLite database');
@@ -75,6 +78,7 @@ class SQLiteDB {
   async resetTables(): Promise<void> {
     await ModelServerDb.destroy({ where: {} });
     await JobDb.destroy({ where: {} });
+    await TaskDb.destroy({ where: {} });
     await this.initModels();
   }
 
