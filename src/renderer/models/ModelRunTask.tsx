@@ -6,12 +6,18 @@ import { Button } from '@shadcn/components/ui/button';
 import { useTaskSchema } from '@shadcn/lib/hooks';
 import { buildRequestBody } from '@shadcn/lib/utils';
 import { Controller, useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
-import { InputSchema, ParameterSchema } from 'src/shared/generated_models';
+import { useOutletContext, useParams } from 'react-router-dom';
+import {
+  InputSchema,
+  ParameterSchema,
+  SchemaAPIRoute,
+} from 'src/shared/generated_models';
 import { RunJobArgs } from 'src/shared/models';
 
 export default function ModelRunTask() {
   const { modelUid, order } = useParams();
+  const apiRoutes: SchemaAPIRoute[] = useOutletContext();
+  const thisApiRoute = apiRoutes.find((route) => String(route.order) === order);
 
   const {
     data: taskSchema,
@@ -29,6 +35,10 @@ export default function ModelRunTask() {
 
   if (!modelUid || !order) {
     return <div>Invalid Model UID or Task ID.</div>;
+  }
+
+  if (!thisApiRoute) {
+    return <div>Task not found.</div>;
   }
 
   if (taskSchemaIsValidating) {
@@ -51,9 +61,9 @@ export default function ModelRunTask() {
   };
 
   return (
-    <div className="mt-6 m-2 flex items-center flex-col">
+    <div className="flex pl-2 items-center flex-col">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h1 className="text-2xl font-extrabold mb-4">Select Inputs</h1>
+        <h1 className="text-2xl font-bold mb-4">{thisApiRoute.short_title}</h1>
         <div className="grid grid-cols-1 gap-6">
           {taskSchema.inputs.map((inputSchema: InputSchema) => (
             <div key={inputSchema.key}>
@@ -80,7 +90,6 @@ export default function ModelRunTask() {
         {taskSchema.parameters.length > 0 && (
           <>
             <hr className="mt-8 mb-4" />
-            <h1 className="text-2xl font-extrabold mb-4">Select Parameters</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {taskSchema.parameters.map((parameterSchema: ParameterSchema) => (
                 <div key={parameterSchema.key}>
