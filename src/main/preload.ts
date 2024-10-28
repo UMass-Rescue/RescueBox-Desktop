@@ -9,7 +9,7 @@ import {
   RunJobArgs,
 } from 'src/shared/models';
 import {
-  InfoPage,
+  ModelInfo,
   SchemaAPIRoute,
   TaskSchema,
 } from 'src/shared/generated_models';
@@ -96,7 +96,7 @@ const taskHandler = {
       SchemaAPIRoute[]
     >,
   getInfo: (args: GetInfoArgs) =>
-    ipcRenderer.invoke('task:get-info', args) as Promise<InfoPage>,
+    ipcRenderer.invoke('task:get-info', args) as Promise<ModelInfo>,
   getTaskSchema: (args: GetTaskSchemaArgs) =>
     ipcRenderer.invoke('task:get-task-schema', args) as Promise<TaskSchema>,
 };

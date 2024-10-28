@@ -1,60 +1,104 @@
-const models = [
+import isrModelInfo from 'src/shared/dummy_data/info_page';
+import { APIRoutes, ModelInfo } from 'src/shared/generated_models';
+
+const dummyModels: { info: ModelInfo; routes: APIRoutes }[] = [
   {
-    uid: 'isr-model',
-    name: 'Image Super Resolution',
-    version: '1.0.0',
-    author: 'Shriram Giridhara',
-    lastUpdated: new Date('2024-09-23T12:00:00Z'),
+    info: isrModelInfo,
+    routes: [
+      {
+        order: 0,
+        payload_schema: '/super-resolution/payload_schema',
+        run_task: '/super-resolution',
+        sample_payload: '/super-resolution/sample_payload',
+        short_title: 'Super Resolution',
+        task_schema: '/super-resolution/task_schema',
+      },
+    ],
   },
   {
-    uid: 'sbf-model',
-    name: 'Small Block Forensics',
-    version: '1.0.0',
-    author: 'Atharva Kale',
-    lastUpdated: new Date('2024-09-23T15:30:00Z'),
+    info: {
+      name: 'Small Block Forensics',
+      info: `
+# Small Block Forensics
+This model determines the existence of any subset of some small dataset in a large target dataset.
+
+## Input Type
+- **Image:** The small dataset to be searched for in the large dataset.
+## Output Type
+- **Text:** True or False for each element in the small dataset, indicating whether it exists in the large dataset.
+
+## Parameters
+- **Block Size:** The size of the blocks to be hashed and compared between the small and large datasets.
+
+## Constraints
+- **Block Size Range:** The block size must be positive and less than the size of the small dataset.
+- **Target Probability:** This value should be between 0 and 1 (inclusive).
+`,
+      author: 'Jane Appleseed',
+      version: '1.0.0',
+    },
+    routes: [
+      {
+        order: 0,
+        payload_schema: '/gen_hash_random/payload_schema',
+        run_task: '/gen_hash_random',
+        sample_payload: '/gen_hash_random/sample_payload',
+        short_title: 'Hash random blocks of a target directory',
+        task_schema: '/gen_hash_random/task_schema',
+      },
+      {
+        order: 1,
+        payload_schema: '/hash_random/payload_schema',
+        run_task: '/hash_random',
+        sample_payload: '/hash_random/sample_payload',
+        short_title: 'Hash random blocks of a target directory with seed DB',
+        task_schema: '/hash_random/task_schema',
+      },
+      {
+        order: 2,
+        payload_schema: '/gen_hash/payload_schema',
+        run_task: '/gen_hash',
+        sample_payload: '/gen_hash/sample_payload',
+        short_title: 'Generate SQLite DB of Hashes',
+        task_schema: '/gen_hash/task_schema',
+      },
+    ],
   },
   {
-    uid: 'obj-detection-model',
-    name: 'Image Object Detection',
-    version: '1.0.0',
-    author: 'Shreyan Mallik',
-    lastUpdated: new Date('2024-09-23T09:45:00Z'),
-  },
-  {
-    uid: 'deepfake-detection-model',
-    name: 'Deepfake Detection',
-    version: '1.0.0',
-    author: 'UMass RescueLab',
-    lastUpdated: new Date('2024-10-02T11:20:00Z'),
-  },
-  {
-    uid: 'face-matching-model',
-    name: 'Face Detection and Matching',
-    version: '1.0.0',
-    author: 'UMass RescueLab',
-    lastUpdated: new Date('2024-10-07T23:19:00Z'),
-  },
-  {
-    uid: 'geolocation-model',
-    name: 'Geolocation Prediction',
-    version: '1.0.0',
-    author: 'UMass RescueLab',
-    lastUpdated: new Date('2024-10-03T11:34:00Z'),
-  },
-  {
-    uid: 'context-based-qa-model',
-    name: 'Context-Based Question Answering',
-    version: '1.0.0',
-    author: 'UMass RescueLab',
-    lastUpdated: new Date('2024-10-05T14:10:00Z'),
-  },
-  {
-    uid: 'image-retrieval-model',
-    name: 'Text-Based Image Retrieval',
-    version: '1.0.0',
-    author: 'UMass RescueLab',
-    lastUpdated: new Date('2024-10-04T12:05:00Z'),
+    info: {
+      name: 'Image Object Detection',
+      info: `
+# Image Object Detection
+This model identifies and classifies objects in an image.
+
+## Input Type
+- **Image:** The image to be analyzed.
+
+## Output Type
+- **Image:** The analyzed image with bounding boxes around detected objects.
+- **CSV:** A CSV file containing the bounding boxes, labels, probabilities of detected objects.
+
+## Parameters
+- **Model Type:** The type of model to use for object detection.
+- **Threshold:** The minimum probability required for an object to be detected.
+
+## Constraints
+- **Dictionary size:** Detects 80 common objects
+`,
+      author: 'Random Hacker',
+      version: '1.0.0',
+    },
+    routes: [
+      {
+        order: 0,
+        payload_schema: '/detect/payload_schema',
+        run_task: '/detect',
+        sample_payload: '/detect/sample_payload',
+        short_title: 'Detect Objects',
+        task_schema: '/detect/task_schema',
+      },
+    ],
   },
 ];
 
-export default models;
+export default dummyModels;
