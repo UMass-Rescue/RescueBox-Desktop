@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import LoadingScreen from '@shadcn/components/LoadingScreen';
 import { useApiRoutes } from '@shadcn/lib/hooks';
 import { cn } from '@shadcn/lib/utils';
