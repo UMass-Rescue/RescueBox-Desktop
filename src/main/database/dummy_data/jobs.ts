@@ -54,7 +54,6 @@ const jobs: Object[] = [
       },
     },
     taskUid: 'sbf-task',
-
   },
   {
     uid: uuidv4(),
