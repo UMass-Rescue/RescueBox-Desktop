@@ -67,21 +67,6 @@ declare namespace Components {
       min: number;
       max: number;
     }
-    /**
-     * example:
-     * {
-     *   "info": "# Welcome to the Face Match App\n\nThis app will help you to match faces in your images..."
-     * }
-     */
-    export interface InfoPage {
-      /**
-       * Markdown content to render on the info page
-       */
-      info: string;
-      author: string;
-      version: string;
-      lastUpdated: string; // date-time
-    }
     export type Input =
       | FileInput
       | DirectoryInput
@@ -116,6 +101,25 @@ declare namespace Components {
       value: string;
       title?: string;
       subtitle?: string;
+    }
+    /**
+     * example:
+     * {
+     *   "info": "# Welcome to the Face Match App\n\nThis app will help you to match faces in your images..."
+     * }
+     */
+    export interface ModelInfo {
+      /**
+       * Markdown content to render on the info page
+       */
+      info: string;
+      author: string;
+      version: string;
+      /**
+       * example:
+       * Image Super Resolution
+       */
+      name: string;
     }
     export interface NoSchemaAPIRoute {
       /**
@@ -255,13 +259,13 @@ export type FileResponse = Components.Schemas.FileResponse;
 export type FloatParameterDescriptor =
   Components.Schemas.FloatParameterDescriptor;
 export type FloatRangeDescriptor = Components.Schemas.FloatRangeDescriptor;
-export type InfoPage = Components.Schemas.InfoPage;
 export type Input = Components.Schemas.Input;
 export type InputSchema = Components.Schemas.InputSchema;
 export type InputType = Components.Schemas.InputType;
 export type IntParameterDescriptor = Components.Schemas.IntParameterDescriptor;
 export type IntRangeDescriptor = Components.Schemas.IntRangeDescriptor;
 export type MarkdownResponse = Components.Schemas.MarkdownResponse;
+export type ModelInfo = Components.Schemas.ModelInfo;
 export type NoSchemaAPIRoute = Components.Schemas.NoSchemaAPIRoute;
 export type ParameterSchema = Components.Schemas.ParameterSchema;
 export type ParameterType = Components.Schemas.ParameterType;

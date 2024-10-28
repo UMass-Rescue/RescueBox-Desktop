@@ -37,7 +37,7 @@ class JobDb extends Model<
 
   declare response: CreationOptional<ResponseBody>; // JSON string
 
-  declare taskRoute: string;
+  declare taskUid: string;
 
   public static getAllJobs() {
     return JobDb.findAll();
@@ -64,7 +64,7 @@ class JobDb extends Model<
     modelUid: string,
     startTime: Date,
     request: RequestBody,
-    taskRoute: string,
+    taskUid: string,
   ) {
     return JobDb.create({
       uid,
@@ -72,7 +72,7 @@ class JobDb extends Model<
       startTime,
       request,
       status: JobStatus.Running,
-      taskRoute,
+      taskUid,
     });
   }
 
@@ -157,7 +157,10 @@ export const initJob = async (connection: Sequelize) => {
         type: DataTypes.TEXT,
         allowNull: false,
         get() {
-          return JSON.parse(this.getDataValue('request') as unknown as string);
+          return JSON.parse(
+            // @ts-ignore
+            this.getDataValue('request') as unknown as RequestBody,
+          );
         },
         set(value) {
           this.setDataValue('request', JSON.stringify(value) as any);
@@ -174,7 +177,7 @@ export const initJob = async (connection: Sequelize) => {
           this.setDataValue('response', JSON.stringify(value));
         },
       },
-      taskRoute: {
+      taskUid: {
         type: DataTypes.STRING,
         allowNull: false,
       },
