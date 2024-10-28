@@ -25,8 +25,7 @@ export default function FileField({
         <Input
           type="text"
           className="flex-1 mr-2"
-          value={value}
-          placeholder="No file selected"
+          value={value || 'No File Selected'}
           readOnly
         />
         <Button type="button" onClick={handleSelectFile}>

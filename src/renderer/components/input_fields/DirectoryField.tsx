@@ -25,8 +25,7 @@ export default function DirectoryField({
         <Input
           type="text"
           className="flex-1 mr-2"
-          value={value}
-          placeholder="No path selected"
+          value={value || 'No Directory Selected'}
           readOnly
         />
         <Button type="button" onClick={handleSelectDirectory}>

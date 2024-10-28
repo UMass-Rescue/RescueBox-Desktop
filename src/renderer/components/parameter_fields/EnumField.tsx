@@ -23,7 +23,7 @@ export default function EnumField({
   return (
     <div>
       <h2 className="font-semibold text-lg mb-2">{parameterSchema.label}</h2>
-      <Select value={value} onValueChange={(val) => onChange(val)}>
+      <Select value={value} onValueChange={onChange}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Select Value" />
         </SelectTrigger>

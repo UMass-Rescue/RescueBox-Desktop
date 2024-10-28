@@ -3,11 +3,9 @@ import { Input } from '../ui/input';
 
 export default function TextField({
   parameterSchema,
-  value,
   onChange,
 }: {
   parameterSchema: ParameterSchema;
-  value: string;
   onChange: (value: string) => void;
 }) {
   return (
@@ -16,7 +14,6 @@ export default function TextField({
       <div className="flex items-center mt-2">
         <Input
           type="text"
-          value={value}
           placeholder={parameterSchema.subtitle || ''}
           onChange={(e) => onChange(e.target.value)}
         />
