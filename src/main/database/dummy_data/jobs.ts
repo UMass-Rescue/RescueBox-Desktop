@@ -27,7 +27,7 @@ const jobs: Object[] = [
       path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\output',
       title: 'High Resolution Images',
     },
-    taskRoute: '/isr-model/scale',
+    taskUid: 'isr-task',
   },
   {
     uid: uuidv4(),
@@ -53,7 +53,7 @@ const jobs: Object[] = [
         target_probability: 0.99,
       },
     },
-    taskRoute: '/sbf-model/forensic',
+    taskUid: 'sbf-task',
   },
   {
     uid: uuidv4(),
@@ -74,7 +74,7 @@ const jobs: Object[] = [
       parameters: {},
     },
     response: null,
-    taskRoute: '/deepfake-detection-model/detect',
+    taskUid: 'deepfake-detection-task',
   },
   {
     uid: uuidv4(),
@@ -104,7 +104,7 @@ const jobs: Object[] = [
       path: 'F:/USB/faces/top_5_matches.csv',
       title: 'Matched Faces',
     },
-    taskRoute: '/face-matching-model/match',
+    taskUid: 'face-matching-task',
   },
   {
     uid: 'ddd43cfe-fa7e-4b80-a7c6-25ddd5e92dc7',
@@ -135,7 +135,7 @@ const jobs: Object[] = [
       value: '## Results\n\nThe model has successfully completed the task.',
       title: 'Model Output',
     },
-    taskRoute: '/sbf-model/forensic',
+    taskUid: 'sbf-task',
   },
   // {
   //   uid: uuidv4(),

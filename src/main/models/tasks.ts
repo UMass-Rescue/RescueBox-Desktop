@@ -6,7 +6,7 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import { TaskSchema } from 'src/shared/generated_models';
+import { SchemaAPIRoute, TaskSchema } from 'src/shared/generated_models';
 import MLModelDb from './ml-model';
 
 /*
@@ -53,14 +53,19 @@ class TaskDb extends Model<
     });
   }
 
-  public static createJob(
-    uid: string,
+  public static createTask(
     modelUid: string,
-    shortTitle: string,
-    taskRoute: string,
-    taskOrder: number,
+    schemaApiRoute: SchemaAPIRoute,
     taskSchema: TaskSchema,
   ) {
+    const {
+      short_title: shortTitle,
+      run_task: taskRoute,
+      order: taskOrder,
+    } = schemaApiRoute;
+
+    const uid = String(taskOrder);
+
     return TaskDb.create({
       uid,
       modelUid,
