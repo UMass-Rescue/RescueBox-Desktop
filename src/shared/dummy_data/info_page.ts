@@ -25,7 +25,7 @@ This model upscales low-resolution images to higher resolutions, improving the c
 ### Constraints
 - The image must be in .png, .jpg, or .jpeg format.
 `,
-  author: 'John Doe',
+  author: 'Mr Bob',
   version: '1.0.0',
 };
 
