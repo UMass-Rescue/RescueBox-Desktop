@@ -8,6 +8,10 @@ const migration0007JobsAddTaskUid = {
   async up({ context: queryInterface }: { context: QueryInterface }) {
     await queryInterface.removeColumn(TABLE_NAME, 'taskRoute');
     await queryInterface.addColumn(TABLE_NAME, 'taskUid', DataTypes.STRING);
+    await queryInterface.changeColumn(TABLE_NAME, 'taskUid', {
+      type: DataTypes.STRING,
+      allowNull: false,
+    });
   },
   async down({ context: queryInterface }: { context: QueryInterface }) {
     await queryInterface.addColumn(TABLE_NAME, 'taskRoute', DataTypes.STRING);
