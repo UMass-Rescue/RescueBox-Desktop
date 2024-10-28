@@ -1,8 +1,9 @@
 import { Link, useParams } from 'react-router-dom';
-import { useModelInfo } from '@shadcn/lib/hooks';
+import { useModelInfo, useServerStatus } from '@shadcn/lib/hooks';
 import LoadingScreen from '@shadcn/components/LoadingScreen';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { ModelAppStatus } from 'src/shared/models';
 import { Button } from '../components/ui/button';
 import GreenRunIcon from '../components/icons/GreenRunIcon';
 
@@ -14,6 +15,12 @@ function ModelDetails() {
     error: modelInfoError,
     isLoading: modelInfoIsLoading,
   } = useModelInfo(modelUid);
+
+  const {
+    serverStatus,
+    error: serverStatusError,
+    isLoading: serverStatusIsLoading,
+  } = useServerStatus(modelUid);
 
   if (!modelUid) {
     return <div>Error: Model UID not found</div>;
@@ -27,6 +34,16 @@ function ModelDetails() {
   }
   if (modelInfoError) {
     return <div>Error loading model info</div>;
+  }
+
+  if (serverStatusIsLoading) {
+    return <LoadingScreen />;
+  }
+  if (serverStatusError) {
+    return <div>Error loading server status</div>;
+  }
+  if (!serverStatus) {
+    return <div>No server status available</div>;
   }
 
   return (
@@ -50,7 +67,14 @@ function ModelDetails() {
         </h1>
         <p className="m-2">{new Date(modelInfo.updatedAt).toUTCString()}</p>
         <div className="mt-10">
-          <Link to={`/models/${modelUid}/run`}>
+          <Link
+            to={`/models/${modelUid}/run`}
+            className={
+              serverStatus !== ModelAppStatus.Online
+                ? 'pointer-events-none opacity-50'
+                : ''
+            }
+          >
             <Button className="w-full flex flex-row gap-2 hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500">
               Run
               <GreenRunIcon />
