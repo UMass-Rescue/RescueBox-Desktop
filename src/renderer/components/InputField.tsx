@@ -18,13 +18,7 @@ export default function InputField({
 }) {
   switch (inputSchema.inputType) {
     case 'text':
-      return (
-        <TextField
-          inputSchema={inputSchema}
-          value={value}
-          onChange={onChange}
-        />
-      );
+      return <TextField inputSchema={inputSchema} onChange={onChange} />;
     case 'textarea':
       return (
         <TextAreaField

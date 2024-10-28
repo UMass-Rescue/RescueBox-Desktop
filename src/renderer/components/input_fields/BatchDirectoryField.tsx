@@ -25,8 +25,7 @@ export default function BatchDirectoryField({
         <Input
           type="text"
           className="flex-1 mr-2"
-          value={value}
-          placeholder="No directories selected"
+          value={value || 'No Directories Selected'}
           readOnly
         />
         <Button type="button" onClick={handleSelectDirectories}>
