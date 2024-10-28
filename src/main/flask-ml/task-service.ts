@@ -1,6 +1,6 @@
 import { ModelServer } from 'src/shared/models';
 import {
-  InfoPage,
+  ModelInfo,
   TaskSchema,
   RequestBody,
   ResponseBody,
@@ -8,7 +8,7 @@ import {
 } from 'src/shared/generated_models';
 import apiRoutes from 'src/shared/dummy_data/api_routes';
 import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
-import infoPage from 'src/shared/dummy_data/info_page';
+import ModelInfo from 'src/shared/dummy_data/info_page';
 import taskSchema4 from 'src/shared/dummy_data/task_schema4';
 import ModelServerDb from '../models/model-server';
 
@@ -59,7 +59,7 @@ class TaskService {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  public async getInfo(): Promise<InfoPage> {
+  public async getInfo(): Promise<ModelInfo> {
     // return fetch(`http://${this.serverAddress}:${this.serverPort}${INFO_SLUG}`)
     //   .then((res) => {
     //     if (res.status !== 200) {
@@ -67,10 +67,10 @@ class TaskService {
     //     }
     //     return res.json();
     //   })
-    //   .then((data: InfoPage) => data);
+    //   .then((data: ModelInfo) => data);
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(infoPage);
+        resolve(ModelInfo);
       }, 1000);
     });
   }

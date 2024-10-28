@@ -1,4 +1,7 @@
-const infoPage = {
+import { ModelInfo } from '../generated_models';
+
+const isrModelInfo: ModelInfo = {
+  name: 'Image Super Resolution',
   info: `
 # Image Super Resolution
 This model upscales low-resolution images to higher resolutions, improving the clarity and detail of the images.
@@ -24,7 +27,6 @@ This model upscales low-resolution images to higher resolutions, improving the c
 `,
   author: 'John Doe',
   version: '1.0.0',
-  lastUpdated: '2023-10-01T12:00:00Z',
 };
 
-export default infoPage;
+export default isrModelInfo;
