@@ -1,24 +1,21 @@
+import { createModelId } from 'src/main/models/ml-model';
 import isrModelInfo from 'src/shared/dummy_data/info_page';
 import { APIRoutes, ModelInfo } from 'src/shared/generated_models';
 
-const dummyModels: { info: ModelInfo; routes: APIRoutes }[] = [
+const isrModelRoutes: APIRoutes = [
   {
-    info: isrModelInfo,
-    routes: [
-      {
-        order: 0,
-        payload_schema: '/super-resolution/payload_schema',
-        run_task: '/super-resolution',
-        sample_payload: '/super-resolution/sample_payload',
-        short_title: 'Super Resolution',
-        task_schema: '/super-resolution/task_schema',
-      },
-    ],
+    order: 0,
+    payload_schema: '/super-resolution/payload_schema',
+    run_task: '/super-resolution',
+    sample_payload: '/super-resolution/sample_payload',
+    short_title: 'Super Resolution',
+    task_schema: '/super-resolution/task_schema',
   },
-  {
-    info: {
-      name: 'Small Block Forensics',
-      info: `
+];
+
+const sbfModelInfo: ModelInfo = {
+  name: 'Small Block Forensics',
+  info: `
 # Small Block Forensics
 This model determines the existence of any subset of some small dataset in a large target dataset.
 
@@ -34,40 +31,40 @@ This model determines the existence of any subset of some small dataset in a lar
 - **Block Size Range:** The block size must be positive and less than the size of the small dataset.
 - **Target Probability:** This value should be between 0 and 1 (inclusive).
 `,
-      author: 'Jane Appleseed',
-      version: '1.0.0',
-    },
-    routes: [
-      {
-        order: 0,
-        payload_schema: '/gen_hash_random/payload_schema',
-        run_task: '/gen_hash_random',
-        sample_payload: '/gen_hash_random/sample_payload',
-        short_title: 'Hash random blocks of a target directory',
-        task_schema: '/gen_hash_random/task_schema',
-      },
-      {
-        order: 1,
-        payload_schema: '/hash_random/payload_schema',
-        run_task: '/hash_random',
-        sample_payload: '/hash_random/sample_payload',
-        short_title: 'Hash random blocks of a target directory with seed DB',
-        task_schema: '/hash_random/task_schema',
-      },
-      {
-        order: 2,
-        payload_schema: '/gen_hash/payload_schema',
-        run_task: '/gen_hash',
-        sample_payload: '/gen_hash/sample_payload',
-        short_title: 'Generate SQLite DB of Hashes',
-        task_schema: '/gen_hash/task_schema',
-      },
-    ],
+  author: 'Jane Appleseed',
+  version: '1.0.0',
+};
+
+const sbfModelRoutes: APIRoutes = [
+  {
+    order: 0,
+    payload_schema: '/gen_hash_random/payload_schema',
+    run_task: '/gen_hash_random',
+    sample_payload: '/gen_hash_random/sample_payload',
+    short_title: 'Hash random blocks of a target directory',
+    task_schema: '/gen_hash_random/task_schema',
   },
   {
-    info: {
-      name: 'Image Object Detection',
-      info: `
+    order: 1,
+    payload_schema: '/hash_random/payload_schema',
+    run_task: '/hash_random',
+    sample_payload: '/hash_random/sample_payload',
+    short_title: 'Hash random blocks of a target directory with seed DB',
+    task_schema: '/hash_random/task_schema',
+  },
+  {
+    order: 2,
+    payload_schema: '/gen_hash/payload_schema',
+    run_task: '/gen_hash',
+    sample_payload: '/gen_hash/sample_payload',
+    short_title: 'Generate SQLite DB of Hashes',
+    task_schema: '/gen_hash/task_schema',
+  },
+];
+
+const imgObjModelInfo: ModelInfo = {
+  name: 'Image Object Detection',
+  info: `
 # Image Object Detection
 This model identifies and classifies objects in an image.
 
@@ -85,20 +82,36 @@ This model identifies and classifies objects in an image.
 ## Constraints
 - **Dictionary size:** Detects 80 common objects
 `,
-      author: 'Random Hacker',
-      version: '1.0.0',
-    },
-    routes: [
-      {
-        order: 0,
-        payload_schema: '/detect/payload_schema',
-        run_task: '/detect',
-        sample_payload: '/detect/sample_payload',
-        short_title: 'Detect Objects',
-        task_schema: '/detect/task_schema',
-      },
-    ],
+  author: 'Random Hacker',
+  version: '1.0.0',
+};
+
+const imgObjModelRoutes: APIRoutes = [
+  {
+    order: 0,
+    payload_schema: '/detect/payload_schema',
+    run_task: '/detect',
+    sample_payload: '/detect/sample_payload',
+    short_title: 'Detect Objects',
+    task_schema: '/detect/task_schema',
   },
 ];
 
-export default dummyModels;
+export const dummyModels: { info: ModelInfo; routes: APIRoutes }[] = [
+  {
+    info: isrModelInfo,
+    routes: isrModelRoutes,
+  },
+  {
+    info: sbfModelInfo,
+    routes: sbfModelRoutes,
+  },
+  {
+    info: imgObjModelInfo,
+    routes: imgObjModelRoutes,
+  },
+];
+
+export const isrModelId = createModelId(isrModelInfo, isrModelRoutes);
+export const sbfModelId = createModelId(sbfModelInfo, sbfModelRoutes);
+export const imgObjModelId = createModelId(imgObjModelInfo, imgObjModelRoutes);

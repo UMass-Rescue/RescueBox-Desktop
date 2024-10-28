@@ -1,9 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
+import { imgObjModelId, isrModelId, sbfModelId } from './mlmodels';
 
 const jobs: Object[] = [
   {
     uid: uuidv4(),
-    modelUid: '6013c170572054321c36d3bc141ed7f7',
+    modelUid: isrModelId,
     startTime: new Date('2023-10-01T10:14:00Z'),
     endTime: new Date('2023-10-01T12:09:00Z'),
     status: 'Completed',
@@ -31,7 +32,7 @@ const jobs: Object[] = [
   },
   {
     uid: uuidv4(),
-    modelUid: 'c7698391b3d6d45a8b0aa72813c4961f',
+    modelUid: sbfModelId,
     startTime: new Date('2023-10-02T14:19:08Z'),
     endTime: new Date('2023-10-02T14:19:49Z'),
     status: 'Failed',
@@ -57,7 +58,7 @@ const jobs: Object[] = [
   },
   {
     uid: 'ddd43cfe-fa7e-4b80-a7c6-25ddd5e92dc7',
-    modelUid: 'c7698391b3d6d45a8b0aa72813c4961f',
+    modelUid: sbfModelId,
     startTime: new Date('2024-10-09T17:24:23.526Z'),
     endTime: new Date('2024-10-09T17:24:23.634Z'),
     status: 'Completed',
@@ -88,7 +89,7 @@ const jobs: Object[] = [
   },
   {
     uid: uuidv4(),
-    modelUid: '6d3aa67081b54b272b0946dfad476c52',
+    modelUid: imgObjModelId,
     startTime: new Date('2023-10-06T09:03:45Z'),
     endTime: null,
     status: 'Running',

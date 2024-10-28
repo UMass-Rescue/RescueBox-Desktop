@@ -1,4 +1,5 @@
 import { SchemaAPIRoute, TaskSchema } from 'src/shared/generated_models';
+import { imgObjModelId, isrModelId, sbfModelId } from './mlmodels';
 
 const dummyTaskData: {
   uid: string;
@@ -8,7 +9,7 @@ const dummyTaskData: {
 }[] = [
   {
     uid: '0',
-    modelUid: '6013c170572054321c36d3bc141ed7f7',
+    modelUid: isrModelId,
     schemaApiRoute: {
       order: 0,
       payload_schema: '/gen_hash_random/payload_schema',
@@ -78,7 +79,7 @@ const dummyTaskData: {
   },
   {
     uid: '0',
-    modelUid: 'c7698391b3d6d45a8b0aa72813c4961f',
+    modelUid: sbfModelId,
     schemaApiRoute: {
       order: 0,
       payload_schema: '/gen_hash_random/payload_schema',
@@ -143,7 +144,7 @@ const dummyTaskData: {
   },
   {
     uid: '0',
-    modelUid: '6d3aa67081b54b272b0946dfad476c52',
+    modelUid: imgObjModelId,
     schemaApiRoute: {
       order: 0,
       payload_schema: '/detect/payload_schema',
