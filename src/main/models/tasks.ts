@@ -85,7 +85,7 @@ class TaskDb extends Model<
   }
 }
 
-export const initJob = async (connection: Sequelize) => {
+export const initTask = async (connection: Sequelize) => {
   TaskDb.init(
     {
       uid: {
