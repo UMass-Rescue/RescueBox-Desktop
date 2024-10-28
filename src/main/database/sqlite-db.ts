@@ -8,6 +8,7 @@ import jobData from './dummy_data/jobs';
 import serverData from './dummy_data/servers';
 import TaskDb, { initTask } from '../models/tasks';
 import dummyModels from './dummy_data/mlmodels';
+import dummyTaskData from './dummy_data/tasks';
 
 class SQLiteDB {
   private connection: Sequelize;
@@ -56,6 +57,7 @@ class SQLiteDB {
     await ModelServerDb.bulkCreate(serverData);
     // @ts-ignore
     await JobDb.bulkCreate(jobData);
+    await TaskDb.createTasks(dummyTaskData);
 
     info('Initialized dummy data in SQLite database');
   }
