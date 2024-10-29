@@ -4,6 +4,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { mutate } from 'swr';
+import { useState } from 'react';
 import { Button } from '../components/ui/button';
 import { Label } from '../components/ui/label';
 import { Input } from '../components/ui/input';
@@ -22,6 +23,8 @@ function ModelAppConnect() {
   if (!modelUid) throw new Error('modelUid is required');
 
   const navigate = useNavigate();
+
+  const [isConnecting, setIsConnecting] = useState(false);
 
   const {
     register,
@@ -47,24 +50,24 @@ function ModelAppConnect() {
     return <p>Error: {serverError.message}</p>;
   }
   if (serverIsLoading) return <LoadingIcon />;
-  if (!server) return <p>No server</p>;
-
-  const registerModel = async (
-    modelUid: string,
-    ipAddress: string,
-    port: string,
-  ) => {
-    await window.registration.registerModelAppIp({
-      modelUid,
-      serverAddress: ipAddress,
-      serverPort: Number(port),
-    });
-    navigate('/registration');
-    await mutate(() => true, undefined);
-  };
 
   const onSubmit: SubmitHandler<ConnectInputs> = async (data) => {
-    await registerModel(modelUid, data.ip, data.port);
+    setIsConnecting(true);
+    if (modelUid === 'new_model') {
+      await window.registration.registerModelAppIp({
+        serverAddress: data.ip,
+        serverPort: Number(data.port),
+      });
+    } else {
+      await window.registration.registerModelAppIp({
+        modelUid,
+        serverAddress: data.ip,
+        serverPort: Number(data.port),
+      });
+    }
+    await mutate(() => true, undefined);
+    setIsConnecting(false);
+    navigate('/registration');
   };
 
   if (modelIsLoading) return <LoadingIcon />;
@@ -77,10 +80,12 @@ function ModelAppConnect() {
   return (
     <Modal title="Register Model Application" onClose={onClose}>
       <div className="flex flex-col gap-y-3">
-        <h2 className="font-semibold flex flex-col space-y-2">
-          <p>{model!.name}</p>
-          <p className="text-sm font-normal">Version {model!.version}</p>
-        </h2>
+        {model && (
+          <h2 className="font-semibold flex flex-col space-y-2">
+            <p>{model.name}</p>
+            <p className="text-sm font-normal">Version {model.version}</p>
+          </h2>
+        )}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex items-center space-x-2"
@@ -101,7 +106,7 @@ function ModelAppConnect() {
                   message: 'Invalid IP format',
                 },
               })}
-              defaultValue={server.serverAddress || ''}
+              defaultValue={server?.serverAddress || ''}
               className="col-span-2"
             />
             <Input
@@ -113,12 +118,20 @@ function ModelAppConnect() {
                   message: 'Invalid Port format',
                 },
               })}
-              defaultValue={server.serverPort || ''}
+              defaultValue={server?.serverPort || ''}
               className="col-span-1"
             />
           </div>
-          <Button size="default" className="px-3 self-end" disabled={!isValid}>
-            Connect
+          <Button
+            size="default"
+            className="px-3 self-end w-32 flex items-center justify-center"
+            disabled={!isValid || isConnecting}
+          >
+            {isConnecting ? (
+              <LoadingIcon className="text-white mr-0 ml-0" />
+            ) : (
+              'Connect'
+            )}
           </Button>
         </form>
         {errors.ip && (

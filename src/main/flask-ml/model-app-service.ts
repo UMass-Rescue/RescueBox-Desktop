@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ModelServer } from 'src/shared/models';
+import { MLModel, ModelServer } from 'src/shared/models';
 import {
   ModelInfo,
   TaskSchema,
@@ -14,25 +14,21 @@ import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
 import isrModelInfo from 'src/shared/dummy_data/info_page';
 import taskSchemas from 'src/shared/dummy_data/task_schemas';
 import ModelServerDb from '../models/model-server';
+import MLModelDb from '../models/ml-model';
 
-const INFO_SLUG = '/info';
 const API_ROUTES_SLUG = '/api/routes';
 
 class ModelAppService {
-  private modelUid: string;
+  private modelDb: MLModel;
 
   private modelServer: ModelServer;
 
   private apiRoutes: SchemaAPIRoute[];
 
-  private constructor(
-    modelUid: string,
-    server: ModelServer,
-    schemaRoutes: SchemaAPIRoute[],
-  ) {
-    this.modelUid = modelUid;
+  private constructor(modelDb: MLModel, server: ModelServer) {
+    this.modelDb = modelDb;
     this.modelServer = server;
-    this.apiRoutes = schemaRoutes;
+    this.apiRoutes = modelDb.routes.filter((apiRoute) => 'order' in apiRoute);
   }
 
   static async init(modelUid: string): Promise<ModelAppService> {
@@ -40,35 +36,11 @@ class ModelAppService {
     if (!modelServer) {
       throw new Error(`Server not found for model ${modelUid}`);
     }
-    const apiRoutess = await ModelAppService.initializeAPIRoutes(
-      modelServer.serverAddress,
-      modelServer.serverPort,
-    );
-    return new ModelAppService(modelUid, modelServer, apiRoutess);
-  }
-
-  private static async initializeAPIRoutes(
-    serverAddress: string,
-    serverPort: number,
-  ): Promise<SchemaAPIRoute[]> {
-    // const apiRoutes: APIRoutes = await fetch(
-    //   `http://${serverAddress}:${serverPort}${API_ROUTES_SLUG}`,
-    // )
-    //   .then((res) => {
-    //     if (res.status !== 200) {
-    //       throw new Error('Failed to fetch info.');
-    //     }
-    //     return res.json();
-    //   })
-    //   .then((data: APIRoutes) =>
-    //     data.filter((apiRoute) => 'order' in apiRoute),
-    //   );
-    const apiRoutes = dummyApiRoutes;
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(apiRoutes.filter((apiRoute) => 'order' in apiRoute));
-      }, 1000);
-    });
+    const modelDb = await MLModelDb.getModelByUid(modelUid);
+    if (!modelDb) {
+      throw new Error(`Model not found for model ${modelUid}`);
+    }
+    return new ModelAppService(modelDb, modelServer);
   }
 
   public async getApiRoutes(): Promise<SchemaAPIRoute[]> {
@@ -76,19 +48,14 @@ class ModelAppService {
   }
 
   public async getInfo(): Promise<ModelInfo> {
-    // return fetch(
-    //   `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${INFO_SLUG}`,
-    // )
-    //   .then((res) => {
-    //     if (res.status !== 200) {
-    //       throw new Error('Failed to fetch info.');
-    //     }
-    //     return res.json();
-    //   })
-    //   .then((data: ModelInfo) => data);
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(isrModelInfo);
+        resolve({
+          name: this.modelDb.name,
+          version: this.modelDb.version,
+          author: this.modelDb.author,
+          info: this.modelDb.info,
+        } satisfies ModelInfo);
       }, 1000);
     });
   }
@@ -150,6 +117,25 @@ class ModelAppService {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(taskSchemas[Number(taskId)]);
+      }, 1000);
+    });
+  }
+
+  public async pingHealth(): Promise<boolean> {
+    // return fetch(
+    //   `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${API_ROUTES_SLUG}`,
+    // )
+    //   .then((res) => {
+    //     if (res.status !== 200) {
+    //       throw new Error('Failed to fetch info.');
+    //     }
+    //     return res.json();
+    //   })
+    //   .then(() => true)
+    //   .catch(() => false);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(true);
       }, 1000);
     });
   }

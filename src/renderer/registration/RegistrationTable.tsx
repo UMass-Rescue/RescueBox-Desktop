@@ -7,6 +7,7 @@ import {
   TableRow,
 } from '@shadcn/components/ui/table';
 import { MLModel } from 'src/shared/models';
+import RegisterModelButton from '@shadcn/components/RegisterModelButton';
 import { useMLModels, useServers } from '../lib/hooks';
 import { createMLServerMap } from '../lib/utils';
 import ModelStatusIndicator from '../models/ModelStatusIndicator';
@@ -61,6 +62,7 @@ export default function RegistrationTable() {
       <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
         Registered Models
       </h1>
+      <RegisterModelButton />
       <div className="shadow-md mt-6">
         <Table className="text-md lg:text-lg">
           <TableHeader className="bg-slate-200">

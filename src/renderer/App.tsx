@@ -84,7 +84,9 @@ export default function App() {
         <Route path="/" element={<RootLayout />}>
           <Route index element={<Navigate to="/models" replace />} />
           <Route path="/registration" element={<Registration />}>
-            <Route path=":modelUid" element={<ModelAppConnect />} />
+            <Route path=":modelUid" element={<ModelAppConnect />}>
+              <Route path="new_model" element={<ModelAppConnect />} />
+            </Route>
           </Route>
           <Route path="/logs" element={<AuditLogs />} />
           <Route path="/jobs" element={<Jobs />} />

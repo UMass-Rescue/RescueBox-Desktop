@@ -5,9 +5,11 @@ import { ModelInfo } from 'src/shared/generated_models';
 import ModelServer from '../models/model-server';
 import { getRaw } from '../util';
 import ModelAppService from '../flask-ml/model-app-service';
+import MLModelDb from '../models/ml-model';
+import RegisterModelService from '../flask-ml/register-model-service';
 
 export type RegisterModelArgs = {
-  modelUid: string;
+  modelUid?: string;
   serverAddress: string;
   serverPort: number;
 };
@@ -23,14 +25,25 @@ export type GetModelAppStatusArgs = {
 export type GetModelServerArgs = GetModelAppStatusArgs;
 
 const registerModelAppIp = async (_event: any, arg: RegisterModelArgs) => {
+  if (!arg.modelUid) {
+    return RegisterModelService.registerModel(
+      arg.serverAddress,
+      arg.serverPort,
+    ).then(getRaw);
+  }
   log.info(
-    `Registering model ${arg.modelUid} at ${arg.serverAddress}:${arg.serverPort}`,
+    `Updating registration info for ${arg.modelUid} at ${arg.serverAddress}:${arg.serverPort}`,
   );
-  return ModelServer.registerServer(
+  await ModelServer.updateServer(
     arg.modelUid,
     arg.serverAddress,
     arg.serverPort,
-  ).then(getRaw);
+  );
+  const server = await ModelServer.getServerByModelUid(arg.modelUid);
+  if (!server) {
+    throw new Error(`FATAL: Server not found for model ${arg.modelUid}`);
+  }
+  return getRaw(server);
 };
 
 const unregisterModelAppIp = async (_event: any, arg: UnregisterModelArgs) => {
@@ -51,14 +64,18 @@ const getModelAppStatus = async (
   arg: GetModelAppStatusArgs,
 ): Promise<ModelAppStatus> => {
   const server = await ModelServer.getServerByModelUid(arg.modelUid);
-  if (!server || !server.isUserConnected) {
+  if (!server) {
+    log.error(`Server not found for model ${arg.modelUid}`);
+    throw new Error('Server not found');
+  }
+  if (!server.isUserConnected) {
     return ModelAppStatus.Unregistered;
   }
   const taskService = await ModelAppService.init(arg.modelUid);
-  return taskService
-    .getInfo()
-    .then((res: ModelInfo) => ModelAppStatus.Online)
-    .catch((_err) => ModelAppStatus.Offline);
+  const healthBool = await taskService.pingHealth();
+  server.isUserConnected = healthBool;
+  await server.save();
+  return healthBool ? ModelAppStatus.Online : ModelAppStatus.Offline;
 };
 
 export {
