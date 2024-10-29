@@ -20,6 +20,8 @@ export type GetModelAppStatusArgs = {
   modelUid: string;
 };
 
+export type GetModelServerArgs = GetModelAppStatusArgs;
+
 const registerModelAppIp = async (_event: any, arg: RegisterModelArgs) => {
   log.info(
     `Registering model ${arg.modelUid} at ${arg.serverAddress}:${arg.serverPort}`,
@@ -38,6 +40,10 @@ const unregisterModelAppIp = async (_event: any, arg: UnregisterModelArgs) => {
 
 const getModelServers = async () => {
   return ModelServer.getAllServers().then((servers) => servers.map(getRaw));
+};
+
+const getModelServer = async (event: any, arg: GetModelServerArgs) => {
+  return ModelServer.getServerByModelUid(arg.modelUid).then(getRaw);
 };
 
 const getModelAppStatus = async (
@@ -60,4 +66,5 @@ export {
   unregisterModelAppIp,
   getModelAppStatus,
   getModelServers,
+  getModelServer,
 };

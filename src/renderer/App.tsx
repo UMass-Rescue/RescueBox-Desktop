@@ -27,6 +27,7 @@ import RegistrationIcon from './components/icons/RegistrationIcon';
 import LogsIcon from './components/icons/LogsIcon';
 import AuditLogs from './AuditLogs';
 import ModelRunTask from './models/ModelRunTask';
+import ConnectDialog from './registration/ConnectDialog';
 
 function RootLayout() {
   const navigate = useNavigate();
@@ -82,7 +83,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<RootLayout />}>
           <Route index element={<Navigate to="/models" replace />} />
-          <Route path="/registration" element={<Registration />} />
+          <Route path="/registration" element={<Registration />}>
+            <Route path=":modelUid" element={<ConnectDialog />} />
+          </Route>
           <Route path="/logs" element={<AuditLogs />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/models" element={<Models />} />

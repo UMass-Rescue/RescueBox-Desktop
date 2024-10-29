@@ -57,6 +57,7 @@ function setupIpcMain() {
     registration.getModelAppStatus,
   );
   ipcMain.handle('register:get-model-servers', registration.getModelServers);
+  ipcMain.handle('register:get-model-server', registration.getModelServer);
 
   // Models: handles registering models
   ipcMain.handle('models:get-models', models.getModels);

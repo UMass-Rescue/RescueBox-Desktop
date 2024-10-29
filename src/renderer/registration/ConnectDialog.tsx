@@ -1,89 +1,86 @@
+/* eslint-disable react/require-default-props */
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/jsx-props-no-spreading */
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@shadcn/components/ui/dialog';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import {
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-  Tooltip,
-} from '../components/ui/tooltip';
+import { useNavigate, useParams } from 'react-router-dom';
+import { mutate } from 'swr';
 import { Button } from '../components/ui/button';
 import { Label } from '../components/ui/label';
 import { Input } from '../components/ui/input';
-import { ConnectIcon } from '../components/icons/ConnectIcon';
-import { useMLModel } from '../lib/hooks';
+import { useMLModel, useServer } from '../lib/hooks';
 import LoadingIcon from '../components/icons/LoadingIcon';
+import Modal from './Modal';
 
 type ConnectInputs = {
   ip: string;
   port: string;
 };
 
-function ConnectDialog({
-  defaultValue,
-  modelUid,
-  registerModel,
-}: {
-  defaultValue: string;
-  modelUid: string;
-  registerModel: (modelUid: string, ipAndPort: string) => any;
-}) {
-  // Form Hook
-  const [defaultIp, defaultPort] = defaultValue.split(':');
+function ConnectDialog() {
+  // Params from URL
+  const { modelUid } = useParams();
+  if (!modelUid) throw new Error('modelUid is required');
+
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<ConnectInputs>({ mode: 'onChange' });
+
   const {
     data: model,
     error: modelError,
     isLoading: modelIsLoading,
   } = useMLModel(modelUid);
 
+  const {
+    data: server,
+    error: serverError,
+    isLoading: serverIsLoading,
+  } = useServer(modelUid, {
+    shouldRetryOnError: false,
+  });
+
+  if (serverError) {
+    return <p>Error: {serverError.message}</p>;
+  }
+  if (serverIsLoading) return <LoadingIcon />;
+  if (!server) return <p>No server</p>;
+
+  const registerModel = async (
+    modelUid: string,
+    ipAddress: string,
+    port: string,
+  ) => {
+    await window.registration.registerModelAppIp({
+      modelUid,
+      serverAddress: ipAddress,
+      serverPort: Number(port),
+    });
+    navigate('/registration');
+    await mutate(() => true, undefined);
+  };
+
   const onSubmit: SubmitHandler<ConnectInputs> = async (data) => {
-    await registerModel(modelUid, data.ip.concat(':', data.port));
+    await registerModel(modelUid, data.ip, data.port);
   };
 
   if (modelIsLoading) return <LoadingIcon />;
   if (modelError) return <p>Error: {modelError.message}</p>;
 
-  return (
-    <Dialog>
-      <TooltipProvider delayDuration={100}>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <DialogTrigger asChild className="py-1 rounded-lg text-base">
-              <Button
-                variant="outline"
-                className="hover:-translate-y-0.5 transition-all py-2 rounded-lg"
-              >
-                <ConnectIcon />
-              </Button>
-            </DialogTrigger>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            <p>Connect</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+  const onClose = () => {
+    navigate('/registration');
+  };
 
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Connect Model</DialogTitle>
-          <DialogDescription>
-            {model!.name} - Version {model!.version}
-          </DialogDescription>
-        </DialogHeader>
+  return (
+    <Modal title="Register Model Application" onClose={onClose}>
+      <div className="flex flex-col gap-y-3">
+        <h2 className="font-semibold flex flex-col space-y-2">
+          <p>{model!.name}</p>
+          <p className="text-sm font-normal">Version {model!.version}</p>
+        </h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex items-center space-x-2"
@@ -104,7 +101,7 @@ function ConnectDialog({
                   message: 'Invalid IP format',
                 },
               })}
-              defaultValue={`${defaultIp}`}
+              defaultValue={server.serverAddress || ''}
               className="col-span-2"
             />
             <Input
@@ -116,7 +113,7 @@ function ConnectDialog({
                   message: 'Invalid Port format',
                 },
               })}
-              defaultValue={`${defaultPort}`}
+              defaultValue={server.serverPort || ''}
               className="col-span-1"
             />
           </div>
@@ -134,9 +131,8 @@ function ConnectDialog({
             Please enter a valid port number.
           </span>
         )}
-        <DialogFooter className="sm:justify-start" />
-      </DialogContent>
-    </Dialog>
+      </div>
+    </Modal>
   );
 }
 export default ConnectDialog;

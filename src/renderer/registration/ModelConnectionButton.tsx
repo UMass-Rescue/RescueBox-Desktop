@@ -1,9 +1,9 @@
 import { ModelAppStatus, ModelServer } from 'src/shared/models';
 import { KeyedMutator } from 'swr';
+import { Link } from 'react-router-dom';
 import { useServerStatus } from '../lib/hooks';
 import { ConnectIcon, DisconnectIcon } from '../components/icons/ConnectIcon';
 import { Button } from '../components/ui/button';
-import ConnectDialog from './ConnectDialog';
 import {
   Tooltip,
   TooltipContent,
@@ -13,13 +13,9 @@ import {
 
 function ModelConnectionButton({
   modelUid,
-  serverAddress,
-  serverPort,
   mutate,
 }: {
   modelUid: string;
-  serverAddress: string;
-  serverPort: string;
   mutate: KeyedMutator<ModelServer[]>;
 }) {
   const {
@@ -27,17 +23,6 @@ function ModelConnectionButton({
     isValidating,
     mutate: mutateServerStatus,
   } = useServerStatus(modelUid);
-
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const registerModel = async (modelUid: string, ipAndPort: string) => {
-    await window.registration.registerModelAppIp({
-      modelUid,
-      serverAddress: ipAndPort.split(':')[0],
-      serverPort: Number(ipAndPort.split(':')[1]),
-    });
-    await mutate();
-    await mutateServerStatus();
-  };
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
   async function disconnect(modelUid: string) {
@@ -58,12 +43,25 @@ function ModelConnectionButton({
     );
   }
   if (serverStatus === ModelAppStatus.Unregistered) {
+    // return <ConnectDialog defaultValue={`${serverAddress}:${serverPort}`} />;
     return (
-      <ConnectDialog
-        modelUid={modelUid}
-        defaultValue={`${serverAddress}:${serverPort}`}
-        registerModel={registerModel}
-      />
+      <TooltipProvider delayDuration={100}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Link to={`/registration/${modelUid}`}>
+              <Button
+                variant="outline"
+                className="hover:-translate-y-0.5 transition-all py-2 rounded-lg"
+              >
+                <ConnectIcon />
+              </Button>
+            </Link>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>Connect</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     );
   }
   return (

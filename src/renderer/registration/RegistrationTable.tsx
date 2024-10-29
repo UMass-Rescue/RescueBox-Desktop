@@ -31,14 +31,10 @@ export function partition<T>(
   );
 }
 
-export default function RegistrationTable({
-  registered,
-}: {
-  registered: boolean;
-}) {
+export default function RegistrationTable() {
   // ML Models Hook
   const modelMethods = useMLModels();
-  let { models } = modelMethods;
+  const { models } = modelMethods;
   const { error: modelError, isLoading: modelIsLoading } = modelMethods;
 
   // Servers Hook
@@ -60,25 +56,10 @@ export default function RegistrationTable({
 
   const serverMap = { ...createMLServerMap(servers) };
 
-  const partitionFunction = (model: MLModel) => {
-    return serverMap[model.uid] && serverMap[model.uid].isUserConnected;
-  };
-
-  const [userRegisteredServers, userUnregisteredServers] = partition(
-    models,
-    partitionFunction,
-  );
-
-  if (registered) {
-    models = userRegisteredServers;
-  } else {
-    models = userUnregisteredServers;
-  }
-
   return (
-    <div>
+    <div className="w-[calc(80%-1rem)] max-w-full">
       <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
-        {registered ? 'Registered Models' : 'Unregistered Models'}
+        Registered Models
       </h1>
       <div className="shadow-md mt-6">
         <Table className="text-md lg:text-lg">
@@ -114,16 +95,6 @@ export default function RegistrationTable({
                   <ModelConnectionButton
                     mutate={mutateServers}
                     modelUid={model.uid}
-                    serverAddress={
-                      serverMap[model.uid]
-                        ? serverMap[model.uid].serverAddress
-                        : ''
-                    }
-                    serverPort={
-                      serverMap[model.uid]
-                        ? serverMap[model.uid].serverPort.toString()
-                        : ''
-                    }
                   />
                 </TableCell>
               </TableRow>
