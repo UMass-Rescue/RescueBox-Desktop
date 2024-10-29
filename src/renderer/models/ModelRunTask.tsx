@@ -70,8 +70,11 @@ export default function ModelRunTask() {
   };
 
   return (
-    <div className="flex flex-col mb-10 justify-between min-h-full">
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col justify-between min-h-full"
+    >
+      <div className="mb-10">
         <h1 className="text-2xl font-bold mb-4">{thisApiRoute.short_title}</h1>
         <div className="grid grid-cols-1 gap-6">
           {taskSchema.inputs.map((inputSchema: InputSchema) => (
@@ -137,7 +140,7 @@ export default function ModelRunTask() {
             </div>
           </div>
         )}
-      </form>
+      </div>
       <Button
         type="submit"
         className="w-full gap-2 hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500"
@@ -145,6 +148,6 @@ export default function ModelRunTask() {
         Run Model
         <GreenRunIcon />
       </Button>
-    </div>
+    </form>
   );
 }
