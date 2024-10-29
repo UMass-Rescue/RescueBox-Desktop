@@ -13,6 +13,7 @@ import dummyApiRoutes from 'src/shared/dummy_data/api_routes';
 import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
 import isrModelInfo from 'src/shared/dummy_data/info_page';
 import taskSchemas from 'src/shared/dummy_data/task_schemas';
+import isDummyMode from 'src/shared/dummy_data/set_dummy_mode';
 import ModelServerDb from '../models/model-server';
 import MLModelDb from '../models/ml-model';
 
@@ -77,67 +78,73 @@ class ModelAppService {
     taskId: string,
     requestBody: RequestBody,
   ): Promise<ResponseBody> {
-    // const task = this.findRouteByTaskId(taskId);
-    // return fetch(
-    //   `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${task.run_task}`,
-    //   {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(requestBody),
-    //   },
-    // )
-    //   .then((res) => {
-    //     if (res.status !== 200) {
-    //       throw new Error('Failed to run task.');
-    //     }
-    //     return res.json();
-    //   })
-    //   .then((data: ResponseBody) => data);
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(markdownResponseBody);
-      }, 1000);
-    });
+    if (isDummyMode) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(markdownResponseBody);
+        }, 1000);
+      });
+    }
+    const task = this.findRouteByTaskId(taskId);
+    return fetch(
+      `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${task.run_task}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      },
+    )
+      .then((res) => {
+        if (res.status !== 200) {
+          throw new Error('Failed to run task.');
+        }
+        return res.json();
+      })
+      .then((data: ResponseBody) => data);
   }
 
   public async getTaskSchema(taskId: string): Promise<TaskSchema> {
-    // const task = this.findRouteByTaskId(taskId);
-    // return fetch(
-    //   `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${task.task_schema}`,
-    // )
-    //   .then((res) => {
-    //     if (res.status !== 200) {
-    //       throw new Error('Failed to fetch task schema.');
-    //     }
-    //     return res.json();
-    //   })
-    //   .then((data: TaskSchema) => data);
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(taskSchemas[Number(taskId)]);
-      }, 1000);
-    });
+    if (isDummyMode) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(taskSchemas[Number(taskId)]);
+        }, 1000);
+      });
+    }
+    const task = this.findRouteByTaskId(taskId);
+    return fetch(
+      `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${task.task_schema}`,
+    )
+      .then((res) => {
+        if (res.status !== 200) {
+          throw new Error('Failed to fetch task schema.');
+        }
+        return res.json();
+      })
+      .then((data: TaskSchema) => data);
   }
 
   public async pingHealth(): Promise<boolean> {
-    // return fetch(
-    //   `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${API_ROUTES_SLUG}`,
-    // )
-    //   .then((res) => {
-    //     if (res.status !== 200) {
-    //       throw new Error('Failed to fetch info.');
-    //     }
-    //     return res.json();
-    //   })
-    //   .then(() => true)
-    //   .catch(() => false);
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true);
-      }, 1000);
-    });
+    if (isDummyMode) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(true);
+        }, 1000);
+      });
+    }
+    return fetch(
+      `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${API_ROUTES_SLUG}`,
+    )
+      .then((res) => {
+        if (res.status !== 200) {
+          throw new Error('Failed to fetch info.');
+        }
+        return res.json();
+      })
+      .then(() => true)
+      .catch(() => false);
   }
 }
 

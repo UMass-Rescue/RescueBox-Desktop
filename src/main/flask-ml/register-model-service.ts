@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { APIRoutes, ModelInfo } from 'src/shared/generated_models';
 import isrModelInfo from 'src/shared/dummy_data/info_page';
-import { isrModelRoutes } from 'src/main/database/dummy_data/mlmodels';
+import {
+  isrModelRoutes,
+  sbfModelInfo,
+} from 'src/main/database/dummy_data/mlmodels';
 import log from 'electron-log/main';
+import isDummyMode from 'src/shared/dummy_data/set_dummy_mode';
 import MLModelDb from '../models/ml-model';
 import ModelServerDb from '../models/model-server';
 
@@ -48,8 +52,12 @@ export default class RegisterModelService {
     serverAddress: string,
     serverPort: number,
   ): Promise<ModelInfo> {
+    log.info(
+      `Fetching info from http://${serverAddress}:${serverPort}${INFO_SLUG}`,
+    );
+
     // return fetch(`http://${serverAddress}:${serverPort}${INFO_SLUG}`)
-    //   .then((res) => {
+    //   .then(async (res) => {
     //     if (res.status !== 200) {
     //       throw new Error('Failed to fetch info.');
     //     }
@@ -58,7 +66,7 @@ export default class RegisterModelService {
     //   .then((data: ModelInfo) => data);
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(isrModelInfo);
+        resolve(sbfModelInfo);
       }, 1000);
     });
   }
@@ -67,20 +75,25 @@ export default class RegisterModelService {
     serverAddress: string,
     serverPort: number,
   ): Promise<APIRoutes> {
-    // const apiRoutes: APIRoutes = await fetch(
-    //   `http://${serverAddress}:${serverPort}${API_ROUTES_SLUG}`,
-    // ).then((res) => {
-    //   if (res.status !== 200) {
-    //     throw new Error('Failed to fetch info.');
-    //   }
-    //   return res.json();
-    // });
-    // return apiRoutes;
-    const apiRoutes = isrModelRoutes;
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(apiRoutes.filter((apiRoute) => 'order' in apiRoute));
-      }, 1000);
+    log.info(
+      `Fetching api routes from http://${serverAddress}:${serverPort}${INFO_SLUG}`,
+    );
+    if (isDummyMode) {
+      const apiRoutes = isrModelRoutes;
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(apiRoutes.filter((apiRoute) => 'order' in apiRoute));
+        }, 1000);
+      });
+    }
+    const apiRoutes: APIRoutes = await fetch(
+      `http://${serverAddress}:${serverPort}${API_ROUTES_SLUG}`,
+    ).then((res) => {
+      if (res.status !== 200) {
+        throw new Error(`Failed to fetch api routes. Status: ${res.status}`);
+      }
+      return res.json();
     });
+    return apiRoutes;
   }
 }

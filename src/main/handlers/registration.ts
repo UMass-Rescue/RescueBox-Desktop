@@ -66,7 +66,8 @@ const getModelAppStatus = async (
   const server = await ModelServer.getServerByModelUid(arg.modelUid);
   if (!server) {
     log.error(`Server not found for model ${arg.modelUid}`);
-    throw new Error('Server not found');
+    log.info("Returning 'Unregistered' status");
+    return ModelAppStatus.Unregistered;
   }
   if (!server.isUserConnected) {
     return ModelAppStatus.Unregistered;

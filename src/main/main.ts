@@ -12,6 +12,7 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log/main';
+import isDummyMode from 'src/shared/dummy_data/set_dummy_mode';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import * as registration from './handlers/registration';
@@ -205,8 +206,14 @@ app
     createWindow();
     const dbPath = getDbPath(app);
     log.info('Database location is', dbPath);
-    // await DatabaseConn.initDatabase(dbPath);
-    await DatabaseConn.initDatabaseTest(dbPath);
+    if (isDummyMode) {
+      log.info('Initializing dummy data');
+      await DatabaseConn.initDatabaseTest(dbPath);
+    } else {
+      log.info('Initializing database');
+      await DatabaseConn.initDatabase(dbPath);
+      await DatabaseConn.resetDatabase(dbPath);
+    }
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
