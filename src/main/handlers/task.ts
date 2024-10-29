@@ -1,5 +1,7 @@
 import { SchemaAPIRoute } from 'src/shared/generated_models';
 import ModelAppService from '../flask-ml/model-app-service';
+import TaskDb from '../models/tasks';
+import { getRaw } from '../util';
 
 export type GetApiRoutesArgs = {
   modelUid: string;
@@ -13,6 +15,8 @@ export type GetTaskSchemaArgs = {
   modelUid: string;
   taskId: string;
 };
+
+export type GetTaskByModelUidAndTaskIdArgs = GetTaskSchemaArgs;
 
 const getApiRoutes = async (
   _event: any,
@@ -32,4 +36,13 @@ const getTaskSchema = async (_event: any, arg: GetTaskSchemaArgs) => {
   return service.getTaskSchema(arg.taskId);
 };
 
-export { getApiRoutes, getInfo, getTaskSchema };
+const getTaskByModelUidAndTaskId = async (
+  _event: any,
+  arg: GetTaskByModelUidAndTaskIdArgs,
+) => {
+  return TaskDb.getTaskByModelUidAndTaskId(arg.taskId, arg.modelUid).then(
+    getRaw,
+  );
+};
+
+export { getApiRoutes, getInfo, getTaskSchema, getTaskByModelUidAndTaskId };

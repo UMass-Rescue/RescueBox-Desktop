@@ -4,9 +4,11 @@ import { Input } from '../ui/input';
 export default function TextField({
   inputSchema,
   onChange,
+  disabled,
 }: {
   inputSchema: InputSchema;
   onChange: (value: string) => void;
+  disabled: boolean
 }) {
   return (
     <div>
@@ -16,6 +18,7 @@ export default function TextField({
           type="text"
           placeholder={inputSchema.subtitle || ''}
           onChange={(e) => onChange(e.target.value)}
+          disabled={disabled}
         />
       </div>
     </div>

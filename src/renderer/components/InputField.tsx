@@ -11,20 +11,23 @@ export default function InputField({
   inputSchema,
   value,
   onChange,
+  disabled = false,
 }: {
   inputSchema: InputSchema;
   value: any;
   onChange: (value: any) => void;
+  disabled?: boolean;
 }) {
   switch (inputSchema.inputType) {
     case 'text':
-      return <TextField inputSchema={inputSchema} onChange={onChange} />;
+      return <TextField inputSchema={inputSchema} onChange={onChange} disabled={disabled} />;
     case 'textarea':
       return (
         <TextAreaField
           inputSchema={inputSchema}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     case 'file':
@@ -33,6 +36,7 @@ export default function InputField({
           inputSchema={inputSchema}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     case 'directory':
@@ -41,8 +45,12 @@ export default function InputField({
           inputSchema={inputSchema}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       );
+      {/*
+    TODO: Implement disabled functionality for batch inputs as well
+    */}
     case 'batchtext':
       return (
         <BatchTextField

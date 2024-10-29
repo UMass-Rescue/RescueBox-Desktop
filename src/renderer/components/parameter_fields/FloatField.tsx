@@ -4,9 +4,11 @@ import { Input } from '../ui/input';
 export default function FloatField({
   parameterSchema,
   onChange,
+  disabled,
 }: {
   parameterSchema: ParameterSchema;
   onChange: (value: number) => void;
+  disabled: boolean;
 }) {
   return (
     <div>
@@ -17,6 +19,7 @@ export default function FloatField({
           step={0.01}
           defaultValue={Number(parameterSchema.value.default)}
           onChange={(e) => onChange(e.target.valueAsNumber)}
+          disabled={disabled}
         />
       </div>
     </div>

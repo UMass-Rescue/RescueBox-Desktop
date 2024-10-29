@@ -7,6 +7,7 @@ import {
   Job,
   ModelAppStatus,
   RunJobArgs,
+  Task,
 } from 'src/shared/models';
 import {
   ModelInfo,
@@ -24,6 +25,7 @@ import { PathArgs } from './handlers/file-system';
 import {
   GetApiRoutesArgs,
   GetInfoArgs,
+  GetTaskByModelUidAndTaskIdArgs,
   GetTaskSchemaArgs,
 } from './handlers/task';
 
@@ -99,6 +101,11 @@ const taskHandler = {
     ipcRenderer.invoke('task:get-info', args) as Promise<ModelInfo>,
   getTaskSchema: (args: GetTaskSchemaArgs) =>
     ipcRenderer.invoke('task:get-task-schema', args) as Promise<TaskSchema>,
+  getTaskByModelUidAndTaskId: (args: GetTaskByModelUidAndTaskIdArgs) =>
+    ipcRenderer.invoke(
+      'task:get-task-by-model-uid-and-task-id',
+      args,
+    ) as Promise<Task>,
 };
 
 const loggingHandler = {

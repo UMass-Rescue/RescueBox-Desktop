@@ -206,6 +206,30 @@ export function useTaskSchema(modelUid?: string, taskId?: string) {
   };
 }
 
+export function useTask(taskId?: string, modelUid?: string) {
+  const fetcher = async () =>
+    window.task.getTaskByModelUidAndTaskId({
+      modelUid: modelUid!,
+      taskId: taskId!,
+    });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    modelUid && taskId
+      ? `task:get-task-by-model-uid-and-task-id-${modelUid}-${taskId}`
+      : null,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    },
+  );
+  return {
+    data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}
+
 export function useApiRoutes(modelUid?: string) {
   const fetcher = () => window.task.getApiRoutes({ modelUid: modelUid! });
   const { data, error, isLoading, isValidating, mutate } = useSWR(

@@ -6,10 +6,12 @@ export default function DirectoryField({
   onChange,
   value,
   inputSchema,
+  disabled,
 }: {
   onChange: (filePath: string) => void;
   value: string;
   inputSchema: InputSchema;
+  disabled: boolean;
 }) {
   const handleSelectDirectory = async () => {
     await window.fileSystem.selectDirectory().then((newPath) => {
@@ -17,6 +19,10 @@ export default function DirectoryField({
       return newPath;
     });
   };
+
+  const handleOpenDirectory = () => {
+    throw new Error("Not Implemented");
+  }
 
   return (
     <div>
@@ -28,7 +34,7 @@ export default function DirectoryField({
           value={value || 'No Directory Selected'}
           readOnly
         />
-        <Button type="button" onClick={handleSelectDirectory}>
+        <Button type="button" onClick={disabled ? handleOpenDirectory : handleSelectDirectory}>
           Browse
         </Button>
       </div>

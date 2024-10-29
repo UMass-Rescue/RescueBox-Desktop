@@ -5,10 +5,12 @@ export default function TextAreaField({
   inputSchema,
   value,
   onChange,
+  disabled
 }: {
   inputSchema: InputSchema;
   value: string;
   onChange: (value: string) => void;
+  disabled: boolean;
 }) {
   return (
     <div>
@@ -18,6 +20,7 @@ export default function TextAreaField({
           value={value || ''}
           placeholder={inputSchema.subtitle || ''}
           onChange={(e) => onChange(e.target.value)}
+          disabled={disabled}
         />
       </div>
     </div>

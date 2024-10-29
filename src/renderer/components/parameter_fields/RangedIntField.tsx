@@ -8,10 +8,12 @@ export default function RangedIntField({
   parameterSchema,
   value,
   onChange,
+  disabled,
 }: {
   parameterSchema: ParameterSchema;
   value: number;
   onChange: (value: number) => void;
+  disabled: boolean;
 }) {
   const descriptor = parameterSchema.value as RangedIntParameterDescriptor;
   return (
@@ -25,6 +27,7 @@ export default function RangedIntField({
           step={1}
           defaultValue={[descriptor.default]}
           className="col-span-4"
+          disabled={disabled}
         />
         <span className="col-span-1 ml-5 text-lg text-center bg-gray-200 rounded-full px-2 py-1">
           {value}

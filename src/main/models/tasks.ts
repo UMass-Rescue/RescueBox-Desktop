@@ -55,6 +55,15 @@ class TaskDb extends Model<
     });
   }
 
+  public static getTaskByModelUidAndTaskId(taskId: string, modelUid: string) {
+    return TaskDb.findOne({
+      where: {
+        taskId,
+        modelUid,
+      },
+    });
+  }
+
   public static createTask(
     taskId: string,
     modelUid: string,

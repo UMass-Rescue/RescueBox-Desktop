@@ -6,10 +6,12 @@ export default function FileField({
   onChange,
   value,
   inputSchema,
+  disabled,
 }: {
   onChange: (filePath: string) => void;
   value: string;
   inputSchema: InputSchema;
+  disabled: boolean;
 }) {
   const handleSelectFile = async () => {
     await window.fileSystem.selectFile().then((path) => {
@@ -17,6 +19,11 @@ export default function FileField({
       return path;
     });
   };
+
+  const handleOpenFile = async () => {
+    //TODO:
+    throw new Error("Not Implemented");
+  }
 
   return (
     <div>
@@ -28,7 +35,7 @@ export default function FileField({
           value={value || 'No File Selected'}
           readOnly
         />
-        <Button type="button" onClick={handleSelectFile}>
+        <Button type="button" onClick={disabled ? handleOpenFile : handleSelectFile}>
           Browse
         </Button>
       </div>

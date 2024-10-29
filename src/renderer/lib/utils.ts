@@ -1,7 +1,8 @@
 import { clsx, type ClassValue } from 'clsx';
-import { RequestBody, TaskSchema } from 'src/shared/generated_models';
+import { Input, InputType, ParameterType, RequestBody, TaskSchema } from 'src/shared/generated_models';
 import { ModelServer } from 'src/shared/models';
 import { twMerge } from 'tailwind-merge';
+
 
 // eslint-disable-next-line import/prefer-default-export
 export function cn(...inputs: ClassValue[]) {
@@ -52,3 +53,49 @@ export function buildRequestBody(
   });
   return requestBody;
 }
+
+export function extractValuesFromRequestBodyInput(inputType: InputType, reqInput: Input) {
+  let value: string | string[];
+  switch (inputType) {
+    case 'file':
+      //@ts-ignore
+      value = reqInput["path"];
+      break;
+    case 'directory':
+      //@ts-ignore
+      value = reqInput["path"];
+      break;
+    case 'batchfile':
+      //@ts-ignore
+      value = reqInput["files"];
+      break;
+    case 'batchdirectory':
+      //@ts-ignore
+      value = reqInput["directories"];
+    case 'text':
+      //@ts-ignore
+      value = reqInput["text"];
+    case 'batchtext':
+      //@ts-ignore
+      value = reqInput["texts"];
+    case 'textarea':
+      //@ts-ignore
+      value = reqInput["text"];
+  }
+  return value;
+}
+
+// export function extractValauesFromRequestBodyParameters(parameterType: ParameterType, reqParams: any): string | number {
+//   let value: string | number;
+//   switch(parameterType) {
+//     case 'text':
+//       value = reqParams[]
+//   }
+// }
+
+
+
+
+
+
+

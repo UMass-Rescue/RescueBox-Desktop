@@ -4,9 +4,11 @@ import { Input } from '../ui/input';
 export default function IntField({
   parameterSchema,
   onChange,
+  disabled,
 }: {
   parameterSchema: ParameterSchema;
   onChange: (value: number) => void;
+  disabled: boolean;
 }) {
   return (
     <div>
@@ -16,6 +18,7 @@ export default function IntField({
           type="number"
           defaultValue={Number(parameterSchema.value.default)}
           onChange={(e) => onChange(e.target.valueAsNumber)}
+          disabled={disabled}
         />
       </div>
     </div>
