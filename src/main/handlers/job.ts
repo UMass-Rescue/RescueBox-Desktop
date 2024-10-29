@@ -67,6 +67,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
       new Date(),
       arg.requestBody,
       arg.taskUid,
+      arg.taskSchemaAtTimeOfRun,
     );
   } catch (err) {
     log.error(
