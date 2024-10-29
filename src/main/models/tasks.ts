@@ -1,5 +1,6 @@
 /* eslint-disable no-use-before-define */
 import {
+  CreationOptional,
   DataTypes,
   InferAttributes,
   InferCreationAttributes,
@@ -21,7 +22,9 @@ class TaskDb extends Model<
   InferAttributes<TaskDb>,
   InferCreationAttributes<TaskDb>
 > {
-  declare uid: string;
+  declare id: CreationOptional<number>;
+
+  declare taskId: string;
 
   declare modelUid: string;
 
@@ -35,10 +38,11 @@ class TaskDb extends Model<
     return TaskDb.findAll();
   }
 
-  public static async getTaskByUid(uid: string) {
+  public static async getTask(taskId: string, modelUid: string) {
     return TaskDb.findOne({
       where: {
-        uid,
+        taskId,
+        modelUid,
       },
     });
   }
@@ -52,7 +56,7 @@ class TaskDb extends Model<
   }
 
   public static createTask(
-    uid: string,
+    taskId: string,
     modelUid: string,
     schemaApiRoute: SchemaAPIRoute,
   ) {
@@ -63,7 +67,7 @@ class TaskDb extends Model<
     } = schemaApiRoute;
 
     return TaskDb.create({
-      uid,
+      taskId,
       modelUid,
       shortTitle,
       taskRoute,
@@ -85,10 +89,11 @@ class TaskDb extends Model<
     );
   }
 
-  public static deleteTask(uid: string) {
+  public static deleteTask(taskId: string, modelUid: string) {
     return TaskDb.destroy({
       where: {
-        uid,
+        taskId,
+        modelUid,
       },
     });
   }
@@ -97,10 +102,14 @@ class TaskDb extends Model<
 export const initTask = async (connection: Sequelize) => {
   TaskDb.init(
     {
-      uid: {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      taskId: {
         type: DataTypes.STRING,
         allowNull: false,
-        primaryKey: true,
       },
       modelUid: {
         type: DataTypes.STRING,
@@ -109,7 +118,6 @@ export const initTask = async (connection: Sequelize) => {
           model: MLModelDb,
           key: 'uid',
         },
-        primaryKey: true,
       },
       shortTitle: {
         type: DataTypes.STRING,

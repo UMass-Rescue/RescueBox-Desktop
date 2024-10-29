@@ -17,6 +17,12 @@ const migration0010ShiftTaskSchemaFromTasksToJobs = {
       type: DataTypes.TEXT,
       allowNull: false,
     });
+    // add unique constraint on modelUid, taskOrder
+    await queryInterface.addConstraint(TASKS_TABLE_NAME, {
+      type: 'unique',
+      fields: ['taskId', 'modelUid'],
+      name: 'unique_tasks_taskId_modelUid',
+    });
   },
   async down({ context: queryInterface }: { context: QueryInterface }) {
     await queryInterface.addColumn(
@@ -29,6 +35,11 @@ const migration0010ShiftTaskSchemaFromTasksToJobs = {
       allowNull: false,
     });
     await queryInterface.removeColumn(JOBS_TABLE_NAME, 'taskSchema');
+    // remove unique constraint on modelUid, taskOrder
+    await queryInterface.removeConstraint(
+      TASKS_TABLE_NAME,
+      'unique_tasks_taskId_modelUid',
+    );
   },
 };
 
