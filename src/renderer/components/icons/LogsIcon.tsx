@@ -11,7 +11,6 @@ export default function LogsIcon({
       xmlns="http://www.w3.org/2000/svg"
       className="size-7 sm:size-8 lg:size-9"
     >
-      <title>log</title>
       <g
         id="Page-1"
         stroke="none"
