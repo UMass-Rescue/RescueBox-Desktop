@@ -31,8 +31,6 @@ class TaskDb extends Model<
 
   declare taskOrder: number;
 
-  declare taskSchema: TaskSchema; // JSON String
-
   public static getAllTasks() {
     return TaskDb.findAll();
   }
@@ -57,7 +55,6 @@ class TaskDb extends Model<
     uid: string,
     modelUid: string,
     schemaApiRoute: SchemaAPIRoute,
-    taskSchema: TaskSchema,
   ) {
     const {
       short_title: shortTitle,
@@ -71,7 +68,6 @@ class TaskDb extends Model<
       shortTitle,
       taskRoute,
       taskOrder,
-      taskSchema,
     });
   }
 
@@ -85,12 +81,7 @@ class TaskDb extends Model<
   ) {
     return Promise.all(
       taskParams.map((tP) =>
-        TaskDb.createTask(
-          tP.uid,
-          tP.modelUid,
-          tP.schemaApiRoute,
-          tP.taskSchema,
-        ),
+        TaskDb.createTask(tP.uid, tP.modelUid, tP.schemaApiRoute),
       ),
     );
   }
@@ -132,17 +123,6 @@ export const initTask = async (connection: Sequelize) => {
       taskRoute: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      taskSchema: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-        get() {
-          // @ts-ignore
-          return JSON.parse(this.getDataValue('taskSchema') as TaskSchema);
-        },
-        set(value) {
-          this.setDataValue('taskSchema', JSON.stringify(value) as any);
-        },
       },
     },
     {

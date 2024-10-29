@@ -7,7 +7,11 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import { RequestBody, ResponseBody } from 'src/shared/generated_models';
+import {
+  RequestBody,
+  ResponseBody,
+  TaskSchema,
+} from 'src/shared/generated_models';
 import MLModelDb from './ml-model';
 
 export enum JobStatus {
@@ -39,6 +43,8 @@ class JobDb extends Model<
 
   declare taskUid: string;
 
+  declare taskSchema: TaskSchema; // JSON String
+
   public static getAllJobs() {
     return JobDb.findAll();
   }
@@ -65,6 +71,7 @@ class JobDb extends Model<
     startTime: Date,
     request: RequestBody,
     taskUid: string,
+    taskSchema: TaskSchema,
   ) {
     return JobDb.create({
       uid,
@@ -73,6 +80,7 @@ class JobDb extends Model<
       request,
       status: JobStatus.Running,
       taskUid,
+      taskSchema,
     });
   }
 
@@ -180,6 +188,17 @@ export const initJob = async (connection: Sequelize) => {
       taskUid: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      taskSchema: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        get() {
+          // @ts-ignore
+          return JSON.parse(this.getDataValue('taskSchema') as TaskSchema);
+        },
+        set(value) {
+          this.setDataValue('taskSchema', JSON.stringify(value) as any);
+        },
       },
     },
     {
