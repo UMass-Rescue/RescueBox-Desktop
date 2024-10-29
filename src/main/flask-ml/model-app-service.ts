@@ -1,3 +1,5 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ModelServer } from 'src/shared/models';
 import {
   ModelInfo,
@@ -5,35 +7,52 @@ import {
   RequestBody,
   ResponseBody,
   SchemaAPIRoute,
+  APIRoutes,
 } from 'src/shared/generated_models';
-import apiRoutes from 'src/shared/dummy_data/api_routes';
+import dummyApiRoutes from 'src/shared/dummy_data/api_routes';
 import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
 import isrModelInfo from 'src/shared/dummy_data/info_page';
 import taskSchema4 from 'src/shared/dummy_data/task_schema4';
 import ModelServerDb from '../models/model-server';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const INFO_SLUG = '/info';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const API_ROUTES_SLUG = '/api/routes';
 
-class TaskService {
-  private serverAddress: string;
+class ModelAppService {
+  private modelUid: string;
 
-  private serverPort: number;
+  private modelServer: ModelServer;
 
-  private apiRoutes: SchemaAPIRoute[] = [];
+  private apiRoutes: SchemaAPIRoute[];
 
-  private abortController: AbortController | null = null;
-
-  constructor(server: ModelServer) {
-    this.serverAddress = server.serverAddress;
-    this.serverPort = server.serverPort;
+  private constructor(
+    modelUid: string,
+    server: ModelServer,
+    schemaRoutes: SchemaAPIRoute[],
+  ) {
+    this.modelUid = modelUid;
+    this.modelServer = server;
+    this.apiRoutes = schemaRoutes;
   }
 
-  private async initializeAPIRoutes(): Promise<void> {
-    // this.apiRoutes = await fetch(
-    //   `http://${this.serverAddress}:${this.serverPort}${API_ROUTES_SLUG}`,
+  static async init(modelUid: string): Promise<ModelAppService> {
+    const modelServer = await ModelServerDb.getServerByModelUid(modelUid);
+    if (!modelServer) {
+      throw new Error(`Server not found for model ${modelUid}`);
+    }
+    const apiRoutess = await ModelAppService.initializeAPIRoutes(
+      modelServer.serverAddress,
+      modelServer.serverPort,
+    );
+    return new ModelAppService(modelUid, modelServer, apiRoutess);
+  }
+
+  private static async initializeAPIRoutes(
+    serverAddress: string,
+    serverPort: number,
+  ): Promise<SchemaAPIRoute[]> {
+    // const apiRoutes: APIRoutes = await fetch(
+    //   `http://${serverAddress}:${serverPort}${API_ROUTES_SLUG}`,
     // )
     //   .then((res) => {
     //     if (res.status !== 200) {
@@ -44,7 +63,8 @@ class TaskService {
     //   .then((data: APIRoutes) =>
     //     data.filter((apiRoute) => 'order' in apiRoute),
     //   );
-    this.apiRoutes = await new Promise((resolve) => {
+    const apiRoutes = dummyApiRoutes;
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve(apiRoutes.filter((apiRoute) => 'order' in apiRoute));
       }, 1000);
@@ -52,15 +72,13 @@ class TaskService {
   }
 
   public async getApiRoutes(): Promise<SchemaAPIRoute[]> {
-    if (this.apiRoutes.length === 0) {
-      await this.initializeAPIRoutes();
-    }
     return this.apiRoutes;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   public async getInfo(): Promise<ModelInfo> {
-    // return fetch(`http://${this.serverAddress}:${this.serverPort}${INFO_SLUG}`)
+    // return fetch(
+    //   `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${INFO_SLUG}`,
+    // )
     //   .then((res) => {
     //     if (res.status !== 200) {
     //       throw new Error('Failed to fetch info.');
@@ -75,28 +93,32 @@ class TaskService {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
+  public checkValidTaskId(taskId: string): boolean {
+    const task = this.apiRoutes.find((route) => String(route.order) === taskId);
+    return !!task;
+  }
+
+  public findRouteByTaskId(taskId: string): SchemaAPIRoute {
+    const task = this.apiRoutes.find((route) => String(route.order) === taskId);
+    if (!task) {
+      throw new Error('Task not found');
+    }
+    return task;
+  }
+
   public async runTask(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     taskId: string,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     requestBody: RequestBody,
   ): Promise<ResponseBody> {
-    // this.abortController = new AbortController();
-    // const { signal } = this.abortController;
-    // const task = this.apiRoutes.find((route) => String(route.order) === taskId);
-    // if (!task) {
-    //   throw new Error('Task not found');
-    // }
+    // const task = this.findRouteByTaskId(taskId);
     // return fetch(
-    //   `http://${this.serverAddress}:${this.serverPort}${task.run_task}`,
+    //   `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${task.run_task}`,
     //   {
     //     method: 'POST',
     //     headers: {
     //       'Content-Type': 'application/json',
     //     },
     //     body: JSON.stringify(requestBody),
-    //     signal,
     //   },
     // )
     //   .then((res) => {
@@ -113,24 +135,10 @@ class TaskService {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  public async cancelTask(): Promise<void> {
-    if (this.abortController) {
-      this.abortController.abort();
-    }
-  }
-
-  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
   public async getTaskSchema(taskId: string): Promise<TaskSchema> {
-    // const task = this.apiRoutes.find((route) => String(route.order) === taskId);
-    // if (!task) {
-    //   throw new Error('Task not found');
-    // }
-    // if ('task_schema' in task === false) {
-    //   throw new Error('This task does not have a schema.');
-    // }
+    // const task = this.findRouteByTaskId(taskId);
     // return fetch(
-    //   `http://${this.serverAddress}:${this.serverPort}${task.task_schema}`,
+    //   `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${task.task_schema}`,
     // )
     //   .then((res) => {
     //     if (res.status !== 200) {
@@ -147,14 +155,4 @@ class TaskService {
   }
 }
 
-const getTaskServiceByModelUid = async (
-  modelUid: string,
-): Promise<TaskService> => {
-  const server = await ModelServerDb.getServerByModelUid(modelUid);
-  if (!server) {
-    throw new Error(`Server not found for model ${modelUid}`);
-  }
-  return new TaskService(server);
-};
-
-export default getTaskServiceByModelUid;
+export default ModelAppService;
