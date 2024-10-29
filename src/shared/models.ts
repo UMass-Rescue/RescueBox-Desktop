@@ -2,7 +2,7 @@ import { InferAttributes } from 'sequelize/types/model';
 import JobDb from 'src/main/models/job';
 import MLModelDb from 'src/main/models/ml-model';
 import ModelServerDb from 'src/main/models/model-server';
-import { RequestBody } from './generated_models';
+import { RequestBody, TaskSchema } from './generated_models';
 
 export type MLModel = InferAttributes<MLModelDb>;
 
@@ -18,7 +18,8 @@ export enum ModelAppStatus {
 }
 
 export type RunJobArgs = {
+  taskSchemaAtTimeOfRun: TaskSchema;
   modelUid: string;
-  taskId: string;
+  taskUid: string;
   requestBody: RequestBody;
 };

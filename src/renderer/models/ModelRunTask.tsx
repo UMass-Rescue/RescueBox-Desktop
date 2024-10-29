@@ -60,8 +60,9 @@ export default function ModelRunTask() {
 
   const onSubmit = (data: any) => {
     const runJobArgs: RunJobArgs = {
+      taskSchemaAtTimeOfRun: taskSchema,
       modelUid,
-      taskId: order,
+      taskUid: order,
       requestBody: buildRequestBody(taskSchema, data),
     };
     window.job.runJob(runJobArgs);

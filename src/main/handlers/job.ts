@@ -4,7 +4,7 @@ import { ResponseBody } from 'src/shared/generated_models';
 import { RunJobArgs } from 'src/shared/models';
 import JobDb, { JobStatus } from '../models/job';
 import { getRaw } from '../util';
-import getTaskServiceByModelUid from '../flask-ml/task-service';
+import ModelAppService from '../flask-ml/model-app-service';
 
 export type JobByIdArgs = {
   uid: string;
@@ -39,12 +39,6 @@ const completeJob = async (args: CompleteJobArgs) => {
 
 const cancelJob = async (_event: any, args: JobByIdArgs) => {
   log.info('Canceling job', args.uid);
-  const modelUid = await JobDb.getJobByUid(args.uid).then((job) => {
-    if (!job) throw new Error(`Job not found with uid ${args.uid}`);
-    return job.modelUid;
-  });
-  const service = await getTaskServiceByModelUid(modelUid);
-  service.cancelTask();
 
   await JobDb.updateJobEndTime(args.uid, new Date());
   await JobDb.updateJobStatus(args.uid, JobStatus.Canceled);
@@ -53,18 +47,18 @@ const cancelJob = async (_event: any, args: JobByIdArgs) => {
 
 const runJob = async (_event: any, arg: RunJobArgs) => {
   log.info(`Creating a job for model ${arg.modelUid}`);
+
   // Setup job parameters
   const uid = uuidv4();
   log.info('Trying to create a job in the Job model');
 
-  const service = await getTaskServiceByModelUid(arg.modelUid);
-  const apiRoute = (await service.getApiRoutes()).find(
-    (route) => String(route.order) === arg.taskId,
-  );
-  if (!apiRoute) {
-    log.error('API route not found for task with order: ', arg.taskId);
+  // Get the model service
+  const service = await ModelAppService.init(arg.modelUid);
+  if (!service.checkValidTaskId(arg.taskUid)) {
+    log.error('API route not found for task with order: ', arg.taskUid);
     throw new Error('Error creating job');
   }
+
   // Create a job in the database
   try {
     await JobDb.createJob(
@@ -72,7 +66,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
       arg.modelUid,
       new Date(),
       arg.requestBody,
-      apiRoute.run_task,
+      arg.taskUid,
     );
   } catch (err) {
     log.error(
@@ -86,7 +80,7 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
   // and update the job status after a reply is received
   log.info('Calling task service for model', arg.modelUid);
   service
-    .runTask(arg.taskId, arg.requestBody)
+    .runTask(arg.taskUid, arg.requestBody)
     .then(async (response: ResponseBody) => {
       const job = await JobDb.getJobByUid(uid);
       if (job?.status === JobStatus.Canceled) {
