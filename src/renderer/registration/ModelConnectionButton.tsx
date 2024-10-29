@@ -43,7 +43,6 @@ function ModelConnectionButton({
     );
   }
   if (serverStatus === ModelAppStatus.Unregistered) {
-    // return <ConnectDialog defaultValue={`${serverAddress}:${serverPort}`} />;
     return (
       <TooltipProvider delayDuration={100}>
         <Tooltip>

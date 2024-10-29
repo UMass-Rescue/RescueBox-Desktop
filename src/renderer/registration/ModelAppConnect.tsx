@@ -16,7 +16,7 @@ type ConnectInputs = {
   port: string;
 };
 
-function ConnectDialog() {
+function ModelAppConnect() {
   // Params from URL
   const { modelUid } = useParams();
   if (!modelUid) throw new Error('modelUid is required');
@@ -135,4 +135,4 @@ function ConnectDialog() {
     </Modal>
   );
 }
-export default ConnectDialog;
+export default ModelAppConnect;
