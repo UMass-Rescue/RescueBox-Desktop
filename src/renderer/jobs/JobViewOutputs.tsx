@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import PreviewModal from '@shadcn/components/PreviewModal';
-import { FileResponse } from 'src/shared/generated_models';
+import videoResponse from 'src/shared/dummy_data/file_response_video';
 import { useJob } from '../lib/hooks';
 
 function JobViewOutputs() {
@@ -12,21 +12,13 @@ function JobViewOutputs() {
   if (jobError)
     return <div>failed to load job. Error: {jobError.toString()}</div>;
 
-  // const { response } = job;
-  // if (!response) return <div>No response available</div>;
-
-  const response: FileResponse = {
-    output_type: 'file',
-    path: 'C:\\Users\\LENOVO\\Videos\\Captures\\super-res-demo.mp4',
-    file_type: 'video',
-    title: 'Super Resolution Demo',
-    subtitle: 'Demo Video for ISR Model',
-  };
+  const { response } = job;
+  if (!response) return <div>No response available</div>;
 
   return (
     <div>
       <div>Job ID: {jobId}</div>
-      <PreviewModal response={response} />
+      <PreviewModal response={videoResponse} />
     </div>
   );
 }
