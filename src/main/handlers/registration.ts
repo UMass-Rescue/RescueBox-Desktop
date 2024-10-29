@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ModelAppStatus } from 'src/shared/models';
 import log from 'electron-log/main';
-import { ModelInfo } from 'src/shared/generated_models';
 import ModelServer from '../models/model-server';
 import { getRaw } from '../util';
 import ModelAppService from '../flask-ml/model-app-service';
-import MLModelDb from '../models/ml-model';
 import RegisterModelService from '../flask-ml/register-model-service';
 
 export type RegisterModelArgs = {
@@ -72,8 +70,8 @@ const getModelAppStatus = async (
   if (!server.isUserConnected) {
     return ModelAppStatus.Unregistered;
   }
-  const taskService = await ModelAppService.init(arg.modelUid);
-  const healthBool = await taskService.pingHealth();
+  const modelAppService = await ModelAppService.init(arg.modelUid);
+  const healthBool = await modelAppService.pingHealth();
   server.isUserConnected = healthBool;
   await server.save();
   return healthBool ? ModelAppStatus.Online : ModelAppStatus.Offline;
