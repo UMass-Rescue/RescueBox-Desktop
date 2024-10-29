@@ -193,6 +193,9 @@ export function useTaskSchema(modelUid?: string, taskId?: string) {
   const { data, error, isLoading, isValidating, mutate } = useSWR(
     modelUid && taskId ? `task:get-task-schema-${modelUid}-${taskId}` : null,
     fetcher,
+    {
+      revalidateOnFocus: false,
+    },
   );
   return {
     data,

@@ -1,13 +1,189 @@
 import { v4 as uuidv4 } from 'uuid';
+import { Job } from 'src/shared/models';
+import { TaskSchema } from 'src/shared/generated_models';
+import { imgObjModelId, isrModelId, sbfModelId } from './mlmodels';
 
-const jobs: Object[] = [
+const isrTaskSchema: TaskSchema = {
+  inputs: [
+    {
+      inputType: 'batchfile',
+      key: 'input_images',
+      label: 'Input Images',
+      subtitle: 'Images to be upscaled',
+    },
+    {
+      inputType: 'directory',
+      key: 'output_directory',
+      label: 'Output Directory',
+      subtitle: 'Directory to save the upscaled images',
+    },
+  ],
+  parameters: [
+    {
+      key: 'weights',
+      label: 'Model Weights',
+      subtitle: '',
+      value: {
+        default: 'gans',
+        enumVals: [
+          {
+            key: 'gans',
+            label: 'GANS',
+          },
+          {
+            key: 'psnr-large',
+            label: 'PSNR Large',
+          },
+          {
+            key: 'psnr-small',
+            label: 'PSNR Small',
+          },
+          {
+            key: 'noise-cancel',
+            label: 'Noise Cancel',
+          },
+        ],
+        parameterType: 'enum',
+      },
+    },
+    {
+      key: 'scale',
+      label: 'Scale Factor',
+      subtitle: '',
+      value: {
+        default: 4.0,
+        parameterType: 'ranged_float',
+        range: {
+          max: 4.0,
+          min: 1.0,
+        },
+      },
+    },
+  ],
+};
+
+const sbfTaskSchema: TaskSchema = {
+  inputs: [
+    {
+      inputType: 'directory',
+      key: 'target_directory',
+      label: 'Target Directory',
+      subtitle:
+        'The directory containing files/folders of the content to analyze',
+    },
+    {
+      inputType: 'directory',
+      key: 'known_content_directory',
+      label: 'Known Content Directory',
+      subtitle: 'The directory containing the files/folders of known content',
+    },
+    {
+      inputType: 'file',
+      key: 'output_sql_path',
+      label: 'Output SQL Path',
+      subtitle: 'The path to save the SQLite table for known_content',
+    },
+  ],
+  parameters: [
+    {
+      key: 'block_size',
+      label: 'Block Size',
+      subtitle: 'The block size in bytes to be used. Defaults to 4096.',
+      value: {
+        default: 4096,
+        parameterType: 'ranged_int',
+        range: {
+          max: 1024,
+          min: 1,
+        },
+      },
+    },
+    {
+      key: 'target_probability',
+      label: 'Target Probability',
+      subtitle:
+        'The target probability to achieve. Higher means more of the target drive will be scanned. Defaults to 0.95',
+      value: {
+        default: 0.95,
+        parameterType: 'ranged_float',
+        range: {
+          max: 1.0,
+          min: 0.0,
+        },
+      },
+    },
+  ],
+};
+
+const imgObjDetectTaskSchema: TaskSchema = {
+  inputs: [
+    {
+      inputType: 'file',
+      key: 'input_path',
+      label: 'Input Image',
+      subtitle: '',
+    },
+    {
+      inputType: 'file',
+      key: 'output_img',
+      label: 'Output Image',
+      subtitle: '',
+    },
+    {
+      inputType: 'file',
+      key: 'output_csv',
+      label: 'Output CSV',
+      subtitle: '',
+    },
+  ],
+  parameters: [
+    {
+      key: 'min_perc_prob',
+      label: 'Minimum Percentage Probability',
+      subtitle: '',
+      value: {
+        default: 30,
+        parameterType: 'ranged_int',
+        range: {
+          max: 100,
+          min: 0,
+        },
+      },
+    },
+    {
+      key: 'model_type',
+      label: 'Model Type',
+      subtitle: '',
+      value: {
+        default: 'retina-net',
+        enumVals: [
+          {
+            key: 'yolov3',
+            label: 'Yolov3',
+          },
+          {
+            key: 'tiny-yolov3',
+            label: 'Tiny Yolov3',
+          },
+          {
+            key: 'retina-net',
+            label: 'Retina Net',
+          },
+        ],
+        parameterType: 'enum',
+      },
+    },
+  ],
+};
+
+const jobs: Job[] = [
   {
     uid: uuidv4(),
-    modelUid: '6013c170572054321c36d3bc141ed7f7',
+    modelUid: isrModelId,
     startTime: new Date('2023-10-01T10:14:00Z'),
     endTime: new Date('2023-10-01T12:09:00Z'),
+    // @ts-ignore
     status: 'Completed',
-    statusText: null,
     request: {
       inputs: {
         LOW_RES_IMAGES: {
@@ -28,23 +204,25 @@ const jobs: Object[] = [
       title: 'High Resolution Images',
     },
     taskUid: '0',
+    taskSchema: isrTaskSchema,
   },
   {
     uid: uuidv4(),
-    modelUid: 'c7698391b3d6d45a8b0aa72813c4961f',
+    modelUid: sbfModelId,
     startTime: new Date('2023-10-02T14:19:08Z'),
     endTime: new Date('2023-10-02T14:19:49Z'),
+    // @ts-ignore
     status: 'Failed',
     statusText: '[{"message":"fetch failed"}]',
     request: {
       inputs: {
-        KNOWN_DATASET: {
+        known_content_directory: {
           path: 'F:/USB/Forensic/Input',
         },
-        OUTPUT_SQL_PATH: {
+        output_sql_path: {
           path: 'F:/USB/Forensic/Output.sqlite',
         },
-        TARGET_FOLDER: {
+        target_directory: {
           path: 'F:/USB/Forensic/Target',
         },
       },
@@ -54,23 +232,24 @@ const jobs: Object[] = [
       },
     },
     taskUid: '0',
+    taskSchema: sbfTaskSchema,
   },
   {
     uid: 'ddd43cfe-fa7e-4b80-a7c6-25ddd5e92dc7',
-    modelUid: 'c7698391b3d6d45a8b0aa72813c4961f',
+    modelUid: sbfModelId,
     startTime: new Date('2024-10-09T17:24:23.526Z'),
     endTime: new Date('2024-10-09T17:24:23.634Z'),
+    // @ts-ignore
     status: 'Completed',
-    statusText: null,
     request: {
       inputs: {
-        KNOWN_DATASET: {
+        known_content_directory: {
           path: '/Users/atharvakale/Downloads/known_dataset_images_input2',
         },
-        TARGET_DATASET: {
+        target_directory: {
           path: '/Users/atharvakale/Downloads/known_dataset_images_output',
         },
-        SQL_DATABASE: {
+        output_sql_path: {
           path: '/Users/atharvakale/Downloads/sqlite-hashes-2024-10-09T17:24:19.935Z.db',
         },
       },
@@ -85,12 +264,13 @@ const jobs: Object[] = [
       title: 'Model Output',
     },
     taskUid: '0',
+    taskSchema: sbfTaskSchema,
   },
   {
     uid: uuidv4(),
-    modelUid: '6d3aa67081b54b272b0946dfad476c52',
+    modelUid: imgObjModelId,
     startTime: new Date('2023-10-06T09:03:45Z'),
-    endTime: null,
+    // @ts-ignore
     status: 'Running',
     request: {
       inputs: {
@@ -109,8 +289,8 @@ const jobs: Object[] = [
         model_type: 'yolov3',
       },
     },
-    response: null,
     taskUid: '0',
+    taskSchema: imgObjDetectTaskSchema,
   },
 ];
 

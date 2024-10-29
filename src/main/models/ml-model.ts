@@ -10,7 +10,7 @@ import {
 } from 'sequelize';
 import { APIRoutes, ModelInfo } from 'src/shared/generated_models';
 
-function createModelId(modelInfo: ModelInfo, routes: APIRoutes): string {
+export function createModelId(modelInfo: ModelInfo, routes: APIRoutes): string {
   const routesString = JSON.stringify(routes) + JSON.stringify(modelInfo);
   return md5(routesString);
 }

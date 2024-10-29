@@ -7,7 +7,7 @@ import MLModelDb, { initMLModel } from '../models/ml-model';
 import jobData from './dummy_data/jobs';
 import serverData from './dummy_data/servers';
 import TaskDb, { initTask } from '../models/tasks';
-import dummyModels from './dummy_data/mlmodels';
+import { dummyModels } from './dummy_data/mlmodels';
 import dummyTaskData from './dummy_data/tasks';
 
 class SQLiteDB {
@@ -55,7 +55,6 @@ class SQLiteDB {
   async initDummyData(): Promise<void> {
     await MLModelDb.createModels(dummyModels);
     await ModelServerDb.bulkCreate(serverData);
-    // @ts-ignore
     await JobDb.bulkCreate(jobData);
     await TaskDb.createTasks(dummyTaskData);
 
