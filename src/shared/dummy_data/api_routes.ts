@@ -1,6 +1,6 @@
 import { APIRoutes } from '../generated_models';
 
-const apiRoutes: APIRoutes = [
+const dummyApiRoutes: APIRoutes = [
   {
     order: 1,
     payload_schema: '/transcription/payload_schema',
@@ -37,4 +37,4 @@ const apiRoutes: APIRoutes = [
   },
 ] satisfies APIRoutes;
 
-export default apiRoutes;
+export default dummyApiRoutes;

@@ -5,11 +5,8 @@ import {
 import Slider from '../ui/slider';
 
 export default function RangedFloatField({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   parameterSchema,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   value,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onChange,
 }: {
   parameterSchema: ParameterSchema;
@@ -30,7 +27,7 @@ export default function RangedFloatField({
           className="col-span-4"
         />
         <span className="col-span-1 ml-5 text-lg text-center bg-gray-200 rounded-full px-2 py-1">
-          {(value && value.toFixed(2)) || descriptor.default.toFixed(2)}
+          {value.toFixed(2)}
         </span>
       </div>
     </div>

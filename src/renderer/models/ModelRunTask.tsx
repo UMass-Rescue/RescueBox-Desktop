@@ -1,15 +1,23 @@
 import GreenRunIcon from '@shadcn/components/icons/GreenRunIcon';
+import LoadingIcon from '@shadcn/components/icons/LoadingIcon';
 import InputField from '@shadcn/components/InputField';
-import LoadingScreen from '@shadcn/components/LoadingScreen';
 import ParameterField from '@shadcn/components/ParameterField';
 import { Button } from '@shadcn/components/ui/button';
 import { useTaskSchema } from '@shadcn/lib/hooks';
+import { buildRequestBody } from '@shadcn/lib/utils';
 import { Controller, useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
-import { InputSchema, ParameterSchema } from 'src/shared/generated_models';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import {
+  InputSchema,
+  ParameterSchema,
+  SchemaAPIRoute,
+} from 'src/shared/generated_models';
+import { RunJobArgs } from 'src/shared/models';
 
 export default function ModelRunTask() {
   const { modelUid, order } = useParams();
+  const apiRoutes: SchemaAPIRoute[] = useOutletContext();
+  const thisApiRoute = apiRoutes.find((route) => String(route.order) === order);
 
   const {
     data: taskSchema,
@@ -17,10 +25,31 @@ export default function ModelRunTask() {
     isValidating: taskSchemaIsValidating,
   } = useTaskSchema(modelUid, order);
 
-  const { handleSubmit, control } = useForm({ mode: 'onChange' });
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+  });
+
+  const navigate = useNavigate();
+
+  if (!modelUid || !order) {
+    return <div>Invalid Model UID or Task ID.</div>;
+  }
+
+  if (!thisApiRoute) {
+    return <div>Task not found.</div>;
+  }
 
   if (taskSchemaIsValidating) {
-    return <LoadingScreen />;
+    return (
+      <div className="h-1/3 flex flex-col items-center justify-center gap-2">
+        <LoadingIcon className="text-blue-600 size-10" />
+        <h1 className="text-2xl font-bold">Loading...</h1>
+      </div>
+    );
   }
   if (taskSchemaError) {
     return <div>Error loading task schema</div>;
@@ -30,19 +59,27 @@ export default function ModelRunTask() {
   }
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    const runJobArgs: RunJobArgs = {
+      taskSchemaAtTimeOfRun: taskSchema,
+      modelUid,
+      taskUid: order,
+      requestBody: buildRequestBody(taskSchema, data),
+    };
+    window.job.runJob(runJobArgs);
+    navigate(`/jobs`);
   };
 
   return (
-    <div className="mt-6 m-2 flex items-center flex-col">
+    <div className="flex flex-col mb-10 justify-between min-h-full">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h1 className="text-2xl font-extrabold mb-4">Select Inputs</h1>
+        <h1 className="text-2xl font-bold mb-4">{thisApiRoute.short_title}</h1>
         <div className="grid grid-cols-1 gap-6">
           {taskSchema.inputs.map((inputSchema: InputSchema) => (
             <div key={inputSchema.key}>
               <Controller
                 name={inputSchema.key}
                 control={control}
+                rules={{ required: `Field is required.` }}
                 render={({ field }) => (
                   <InputField
                     inputSchema={inputSchema}
@@ -51,19 +88,37 @@ export default function ModelRunTask() {
                   />
                 )}
               />
+              {errors[inputSchema.key] && (
+                <span className="text-red-500 text-xs mt-1">
+                  {errors[inputSchema.key]?.message?.toString()}
+                </span>
+              )}
             </div>
           ))}
         </div>
-        <hr className="mt-8 mb-4" />
         {taskSchema.parameters.length > 0 && (
-          <>
-            <h1 className="text-2xl font-extrabold mb-4">Select Parameters</h1>
+          <div>
+            <hr className="mt-8 mb-4" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {taskSchema.parameters.map((parameterSchema: ParameterSchema) => (
                 <div key={parameterSchema.key}>
                   <Controller
                     name={parameterSchema.key}
                     control={control}
+                    rules={{
+                      required: `Field is required.`,
+                      validate: {
+                        validInt: (v) =>
+                          (parameterSchema.value.parameterType === 'int'
+                            ? !Number.isNaN(v) && Number.isInteger(v)
+                            : true) || `Value must be an integer.`,
+                        validFloat: (v) =>
+                          (parameterSchema.value.parameterType === 'float'
+                            ? !Number.isNaN(v)
+                            : true) || `Value must be a float.`,
+                      },
+                    }}
+                    defaultValue={parameterSchema.value.default || ''}
                     render={({ field }) => (
                       <ParameterField
                         parameterSchema={parameterSchema}
@@ -72,21 +127,24 @@ export default function ModelRunTask() {
                       />
                     )}
                   />
+                  {errors[parameterSchema.key] && (
+                    <span className="text-red-500 text-xs mt-1">
+                      {errors[parameterSchema.key]?.message?.toString()}
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
-          </>
+          </div>
         )}
-        <div className="bottom-5 left-0 w-full mt-5 py-4">
-          <Button
-            type="submit"
-            className="w-full flex flex-row gap-2 hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500"
-          >
-            Run Model
-            <GreenRunIcon />
-          </Button>
-        </div>
       </form>
+      <Button
+        type="submit"
+        className="w-full gap-2 hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500"
+      >
+        Run Model
+        <GreenRunIcon />
+      </Button>
     </div>
   );
 }

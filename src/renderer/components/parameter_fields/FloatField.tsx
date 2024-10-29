@@ -2,15 +2,10 @@ import { ParameterSchema } from 'src/shared/generated_models';
 import { Input } from '../ui/input';
 
 export default function FloatField({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   parameterSchema,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  value,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onChange,
 }: {
   parameterSchema: ParameterSchema;
-  value: number;
   onChange: (value: number) => void;
 }) {
   return (
@@ -19,8 +14,8 @@ export default function FloatField({
       <div className="flex items-center mt-2">
         <Input
           type="number"
-          value={value || Number(parameterSchema.value.default)}
           step={0.01}
+          defaultValue={Number(parameterSchema.value.default)}
           onChange={(e) => onChange(e.target.valueAsNumber)}
         />
       </div>

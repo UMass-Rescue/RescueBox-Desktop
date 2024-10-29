@@ -13,7 +13,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InfoPage'
+                $ref: '#/components/schemas/ModelInfo'
 
   /api/routes:
     get:
@@ -86,9 +86,9 @@ paths:
 components:
   schemas:
     # Info Page models
-    InfoPage:
+    ModelInfo:
       type: object
-      required: [info, author, version, lastUpdated]
+      required: [info, name, author, version]
       properties:
         info:
           type: string
@@ -97,9 +97,9 @@ components:
           type: string
         version:
           type: string
-        lastUpdated:
+        name:
           type: string
-          format: date-time
+          example: "Image Super Resolution"
       example:
         info: "# Welcome to the Face Match App\n\nThis app will help you to match faces in your images..."
 

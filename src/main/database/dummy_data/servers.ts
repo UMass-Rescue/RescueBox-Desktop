@@ -1,18 +1,20 @@
+import { imgObjModelId, isrModelId, sbfModelId } from './mlmodels';
+
 const servers = [
   {
-    modelUid: 'isr-model',
+    modelUid: isrModelId,
     serverAddress: '127.0.0.1',
     serverPort: 5000,
     isUserConnected: true,
   },
   {
-    modelUid: 'sbf-model',
+    modelUid: sbfModelId,
     serverAddress: '127.0.0.1',
     serverPort: 5001,
     isUserConnected: true,
   },
   {
-    modelUid: 'obj-detection-model',
+    modelUid: imgObjModelId,
     serverAddress: '127.0.0.1',
     serverPort: 5002,
     isUserConnected: true,

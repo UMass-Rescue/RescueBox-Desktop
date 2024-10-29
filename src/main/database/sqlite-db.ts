@@ -5,8 +5,10 @@ import JobDb, { initJob } from '../models/job';
 import ModelServerDb, { initModelServer } from '../models/model-server';
 import MLModelDb, { initMLModel } from '../models/ml-model';
 import jobData from './dummy_data/jobs';
-import mlmodelData from './dummy_data/mlmodels';
 import serverData from './dummy_data/servers';
+import TaskDb, { initTask } from '../models/tasks';
+import { dummyModels } from './dummy_data/mlmodels';
+import dummyTaskData from './dummy_data/tasks';
 
 class SQLiteDB {
   private connection: Sequelize;
@@ -44,16 +46,17 @@ class SQLiteDB {
     info('Initializing models');
     await initMLModel(this.connection);
     await initJob(this.connection);
+    await initTask(this.connection);
     await initModelServer(this.connection);
     info('Models initialized');
   }
 
   // eslint-disable-next-line class-methods-use-this
   async initDummyData(): Promise<void> {
-    await MLModelDb.bulkCreate(mlmodelData);
+    await MLModelDb.createModels(dummyModels);
     await ModelServerDb.bulkCreate(serverData);
-    // @ts-ignore
     await JobDb.bulkCreate(jobData);
+    await TaskDb.createTasks(dummyTaskData);
 
     info('Initialized dummy data in SQLite database');
   }
@@ -62,6 +65,7 @@ class SQLiteDB {
   async clearDummyData(): Promise<void> {
     await ModelServerDb.destroy({ where: {} });
     await JobDb.destroy({ where: {} });
+    await TaskDb.destroy({ where: {} });
     await MLModelDb.destroy({ where: {} });
 
     info('Cleared dummy data in SQLite database');
@@ -75,6 +79,7 @@ class SQLiteDB {
   async resetTables(): Promise<void> {
     await ModelServerDb.destroy({ where: {} });
     await JobDb.destroy({ where: {} });
+    await TaskDb.destroy({ where: {} });
     await this.initModels();
   }
 

@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ModelAppStatus } from 'src/shared/models';
 import log from 'electron-log/main';
-import { InfoPage } from 'src/shared/generated_models';
+import { ModelInfo } from 'src/shared/generated_models';
 import ModelServer from '../models/model-server';
 import { getRaw } from '../util';
-import getTaskServiceByModelUid from '../flask-ml/task-service';
+import ModelAppService from '../flask-ml/model-app-service';
 
 export type RegisterModelArgs = {
   modelUid: string;
@@ -47,15 +48,11 @@ const getModelAppStatus = async (
   if (!server || !server.isUserConnected) {
     return ModelAppStatus.Unregistered;
   }
-  const taskService = await getTaskServiceByModelUid(arg.modelUid);
-  return (
-    taskService
-      .getInfo()
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .then((res: InfoPage) => ModelAppStatus.Online)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .catch((_err) => ModelAppStatus.Offline)
-  );
+  const taskService = await ModelAppService.init(arg.modelUid);
+  return taskService
+    .getInfo()
+    .then((res: ModelInfo) => ModelAppStatus.Online)
+    .catch((_err) => ModelAppStatus.Offline);
 };
 
 export {

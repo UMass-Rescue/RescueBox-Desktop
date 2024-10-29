@@ -19,27 +19,13 @@ export default function ParameterField({
   switch (paramValue.parameterType) {
     case 'text':
       return (
-        <TextField
-          parameterSchema={parameterSchema}
-          value={value}
-          onChange={onChange}
-        />
+        <TextField parameterSchema={parameterSchema} onChange={onChange} />
       );
     case 'int':
-      return (
-        <IntField
-          parameterSchema={parameterSchema}
-          value={value}
-          onChange={onChange}
-        />
-      );
+      return <IntField parameterSchema={parameterSchema} onChange={onChange} />;
     case 'float':
       return (
-        <FloatField
-          parameterSchema={parameterSchema}
-          value={value}
-          onChange={onChange}
-        />
+        <FloatField parameterSchema={parameterSchema} onChange={onChange} />
       );
     case 'enum':
       return (
