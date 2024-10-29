@@ -55,7 +55,6 @@ class SQLiteDB {
   async initDummyData(): Promise<void> {
     await MLModelDb.createModels(dummyModels);
     await ModelServerDb.bulkCreate(serverData);
-    // @ts-ignore
     await JobDb.bulkCreate(jobData);
     await TaskDb.createTasks(dummyTaskData);
 

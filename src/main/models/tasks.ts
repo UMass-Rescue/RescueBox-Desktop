@@ -6,7 +6,7 @@ import {
   Model,
   Sequelize,
 } from 'sequelize';
-import { SchemaAPIRoute, TaskSchema } from 'src/shared/generated_models';
+import { SchemaAPIRoute } from 'src/shared/generated_models';
 import MLModelDb from './ml-model';
 
 /*
@@ -76,7 +76,6 @@ class TaskDb extends Model<
       uid: string;
       modelUid: string;
       schemaApiRoute: SchemaAPIRoute;
-      taskSchema: TaskSchema;
     }[],
   ) {
     return Promise.all(
