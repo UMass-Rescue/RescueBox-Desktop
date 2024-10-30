@@ -30,6 +30,7 @@ export default function InputField({
           disabled={disabled}
         />
       );
+    //TODO: Test the Implement within FileFiled and DirectoryField to open path
     case 'file':
       return (
         <FileField
@@ -49,7 +50,7 @@ export default function InputField({
         />
       );
       {/*
-    TODO: Implement disabled functionality for batch inputs as well
+    TODO: Tetst Implement disabled functionality for batch inputs
     */}
     case 'batchtext':
       return (
@@ -57,6 +58,7 @@ export default function InputField({
           inputSchema={inputSchema}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     case 'batchfile':
@@ -65,6 +67,7 @@ export default function InputField({
           inputSchema={inputSchema}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     case 'batchdirectory':
@@ -73,6 +76,7 @@ export default function InputField({
           inputSchema={inputSchema}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     default:

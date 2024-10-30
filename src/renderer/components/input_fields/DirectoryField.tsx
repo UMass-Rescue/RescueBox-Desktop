@@ -20,13 +20,14 @@ export default function DirectoryField({
     });
   };
 
-  const handleOpenDirectory = () => {
-    throw new Error("Not Implemented");
+  const handleOpenDirectory = async () => {
+    //TODO: test this implementation
+    await window.fileSystem.openPath({ path: value });
   }
 
   return (
     <div>
-      <h2 className="font-semibold text-lg">{inputSchema.label}</h2>
+      <h2 className="font-semibold text-sm xl:text-md">{inputSchema.label}</h2>
       <div className="flex items-center mt-2">
         <Input
           type="text"

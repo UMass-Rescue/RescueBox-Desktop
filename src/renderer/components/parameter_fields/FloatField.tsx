@@ -12,7 +12,7 @@ export default function FloatField({
 }) {
   return (
     <div>
-      <h2 className="font-semibold text-lg">{parameterSchema.label}</h2>
+      <h2 className="font-semibold text-sm xl:text-md">{parameterSchema.label}</h2>
       <div className="flex items-center mt-2">
         <Input
           type="number"

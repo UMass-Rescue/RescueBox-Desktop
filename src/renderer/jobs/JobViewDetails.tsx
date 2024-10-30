@@ -56,7 +56,7 @@ function JobViewDetails() {
           <StatusComponent status={job.status} />
           {job.status === 'Failed' && job.statusText && (
             <div className="flex flex-col gap-2">
-              <h1 className="font-bold">Status Text</h1>
+              <h1 className="font-bold text-sm xl:text-md">Status Text</h1>
               <div className="p-2 border border-slate-400 bg-slate-200 rounded-lg w-full">
                 {job.statusText}
               </div>
@@ -64,32 +64,31 @@ function JobViewDetails() {
           )}
           <div className="w-full flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <h1 className="font-bold">Start Time</h1>
+              <h1 className="font-bold text-sm xl:text-md">Start Time</h1>
               <div className="p-2 border border-slate-400 bg-slate-200 rounded-lg w-full">
                 {job.startTime.toLocaleString('en-US', { timeZone: 'EST' })}
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <h1 className="font-bold">End Time</h1>
+              <h1 className="font-bold text-sm xl:text-md">End Time</h1>
               <div className="p-2 border border-slate-400 bg-slate-200 rounded-lg w-full">
                 {job.endTime.toLocaleString('en-US', { timeZone: 'EST' })}
               </div>
             </div>
           </div>
         </div>
-        {/* Second Column in the grid for task metadata */}
-        <div title="Task metadata" className="flex flex-col gap-2">
-          <h1 className="font-bold">Model</h1>
-          <div className="flex flex-row items-center border border-slate-400 rounded-lg w-full justify-between py-1 px-3">
+        {/* Model + Task inputs & Params*/}
+        <div title="Task metadata" className="flex flex-col gap-2 mt-2">
+          <h1 className="font-bold text-sm xl:text-md">Model</h1>
+          <div className="flex flex-row items-center border border-slate-400 rounded-lg w-full justify-between px-3">
             <div className="">{model?.name}</div>
             <Link
               to={`/models/${job.modelUid}/details`}
-              className="text-black text-base font-normal hover:-translate-y-0.5 transition-all rounded-lg"
+              className="text-black text-base font-normal hover:-translate-y-0.5 transition-all rounded-lg m-1"
             >
               <Button>Inspect</Button>
             </Link>
           </div>
-          <h1 className="font-bold">Inputs</h1>
           <div className="flex flex-col gap-2">
             {
               job.taskSchema.inputs.map(inputSchema =>
@@ -113,10 +112,6 @@ function JobViewDetails() {
                 />
               )
             }
-          </div>
-          <h1 className="font-bold">Task Params</h1>
-          <div className="border border-slate-400 rounded-lg w-full py-2 px-3 bg-gray-800 text-blue-50">
-            {JSON.stringify(job.request.parameters)}
           </div>
 
           <Dialog>

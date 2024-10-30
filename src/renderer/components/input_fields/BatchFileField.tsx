@@ -6,10 +6,12 @@ export default function BatchFileField({
   onChange,
   value,
   inputSchema,
+  disabled = false,
 }: {
   onChange: (paths: string[]) => void;
   value: string;
   inputSchema: InputSchema;
+  disabled: boolean;
 }) {
   const handleSelectFiles = async () => {
     await window.fileSystem.selectFiles().then((paths) => {
@@ -18,9 +20,12 @@ export default function BatchFileField({
     });
   };
 
+  const handleOpenFile = async () => {
+    await window.fileSystem.openPath({ path: value });
+  }
   return (
     <div>
-      <h2 className="font-semibold text-lg">{inputSchema.label}</h2>
+      <h2 className="font-semibold text-sm xl:text-md">{inputSchema.label}</h2>
       <div className="flex items-center mt-2">
         <Input
           type="text"
@@ -28,7 +33,7 @@ export default function BatchFileField({
           value={value || 'No Files Selected'}
           readOnly
         />
-        <Button type="button" onClick={handleSelectFiles}>
+        <Button type="button" onClick={!disabled ? handleSelectFiles : handleSelectFiles}>
           Browse
         </Button>
       </div>

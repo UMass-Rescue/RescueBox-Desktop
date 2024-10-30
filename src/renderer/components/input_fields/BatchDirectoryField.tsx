@@ -6,10 +6,12 @@ export default function BatchDirectoryField({
   onChange,
   value,
   inputSchema,
+  disabled = false,
 }: {
   onChange: (paths: string[]) => void;
   value: string;
   inputSchema: InputSchema;
+  disabled: boolean;
 }) {
   const handleSelectDirectories = async () => {
     await window.fileSystem.selectDirectories().then((paths) => {
@@ -18,9 +20,13 @@ export default function BatchDirectoryField({
     });
   };
 
+  const handleOpenDirectories = async () => {
+    await window.fileSystem.openPath({ path: value });
+  }
+
   return (
     <div>
-      <h2 className="font-semibold text-lg">{inputSchema.label}</h2>
+      <h2 className="font-semibold text-sm xl:text-md">{inputSchema.label}</h2>
       <div className="flex items-center mt-2">
         <Input
           type="text"
@@ -28,7 +34,7 @@ export default function BatchDirectoryField({
           value={value || 'No Directories Selected'}
           readOnly
         />
-        <Button type="button" onClick={handleSelectDirectories}>
+        <Button type="button" onClick={!disabled ? handleSelectDirectories : handleOpenDirectories}>
           Browse
         </Button>
       </div>
