@@ -39,7 +39,6 @@ export default function InputField({
           disabled={disabled}
         />
       );
-    // TODO: Test the Implement within FileFiled and DirectoryField to open path
     case 'file':
       return (
         <FileField

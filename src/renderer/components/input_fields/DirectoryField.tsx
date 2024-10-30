@@ -21,7 +21,6 @@ export default function DirectoryField({
   };
 
   const handleOpenDirectory = async () => {
-    // TODO: test this implementation
     await window.fileSystem.openPath({ path: value });
   };
 
