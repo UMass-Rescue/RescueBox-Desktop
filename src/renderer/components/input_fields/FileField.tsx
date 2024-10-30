@@ -20,9 +20,8 @@ export default function FileField({
     });
   };
 
-  const handleOpenFile = async () => {
-    // TODO: test this implementation
-    await window.fileSystem.openPath({ path: value });
+  const handleShowFileInExplorer = async () => {
+    await window.fileSystem.showFileInExplorer({ path: value });
   };
 
   return (
@@ -37,7 +36,7 @@ export default function FileField({
         />
         <Button
           type="button"
-          onClick={disabled ? handleOpenFile : handleSelectFile}
+          onClick={disabled ? handleShowFileInExplorer : handleSelectFile}
         >
           Browse
         </Button>
