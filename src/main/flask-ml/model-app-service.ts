@@ -7,11 +7,9 @@ import {
   RequestBody,
   ResponseBody,
   SchemaAPIRoute,
-  APIRoutes,
 } from 'src/shared/generated_models';
 import dummyApiRoutes from 'src/shared/dummy_data/api_routes';
 import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
-import isrModelInfo from 'src/shared/dummy_data/info_page';
 import taskSchemas from 'src/shared/dummy_data/task_schemas';
 import isDummyMode from 'src/shared/dummy_data/set_dummy_mode';
 import ModelServerDb from '../models/model-server';
@@ -29,7 +27,11 @@ class ModelAppService {
   private constructor(modelDb: MLModel, server: ModelServer) {
     this.modelDb = modelDb;
     this.modelServer = server;
-    this.apiRoutes = modelDb.routes.filter((apiRoute) => 'order' in apiRoute);
+    if (isDummyMode) {
+      this.apiRoutes = dummyApiRoutes.filter((apiRoute) => 'order' in apiRoute);
+    } else {
+      this.apiRoutes = modelDb.routes.filter((apiRoute) => 'order' in apiRoute);
+    }
   }
 
   static async init(modelUid: string): Promise<ModelAppService> {

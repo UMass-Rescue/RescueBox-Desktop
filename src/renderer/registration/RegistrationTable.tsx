@@ -59,10 +59,12 @@ export default function RegistrationTable() {
 
   return (
     <div className="w-[calc(80%-1rem)] max-w-full">
-      <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
-        Registered Models
-      </h1>
-      <RegisterModelButton />
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="font-bold text-xl md:text-2xl lg:text-4xl">
+          Registered Models
+        </h1>
+        <RegisterModelButton />
+      </div>
       <div className="shadow-md mt-6">
         <Table className="text-md lg:text-lg">
           <TableHeader className="bg-slate-200">

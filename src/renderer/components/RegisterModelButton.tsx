@@ -10,7 +10,7 @@ export default function RegisterModelButton() {
         variant="default"
         size="lg"
       >
-        <p>Register a model </p>
+        <p>Register a Model</p>
         <div className="-mr-1">
           <ConnectIcon className="fill-white" />
         </div>
