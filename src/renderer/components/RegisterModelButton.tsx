@@ -4,7 +4,7 @@ import { ConnectIcon } from './icons/ConnectIcon';
 
 export default function RegisterModelButton() {
   return (
-    <Link to="/registration/new_model">
+    <Link to="/registration/new_model" className="inline-flex">
       <Button
         className="hover:-translate-y-0.5  flex flex-row gap-2  "
         variant="default"

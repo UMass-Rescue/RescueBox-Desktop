@@ -42,7 +42,7 @@ function ModelConnectionButton({
       </Button>
     );
   }
-  if (serverStatus === ModelAppStatus.Unregistered) {
+  if (serverStatus !== ModelAppStatus.Online) {
     return (
       <TooltipProvider delayDuration={100}>
         <Tooltip>
