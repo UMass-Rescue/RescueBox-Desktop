@@ -7,20 +7,29 @@ import BatchTextField from './input_fields/BatchTextField';
 import BatchDirectoryField from './input_fields/BatchDirectoryField';
 import BatchFileField from './input_fields/BatchFileField';
 
+type InputFieldProps = {
+  inputSchema: InputSchema;
+  value: any;
+  onChange: (value: any) => void;
+  // eslint-disable-next-line
+  disabled?: boolean;
+};
+
 export default function InputField({
   inputSchema,
   value,
   onChange,
   disabled = false,
-}: {
-  inputSchema: InputSchema;
-  value: any;
-  onChange: (value: any) => void;
-  disabled?: boolean;
-}) {
+}: InputFieldProps) {
   switch (inputSchema.inputType) {
     case 'text':
-      return <TextField inputSchema={inputSchema} onChange={onChange} disabled={disabled} />;
+      return (
+        <TextField
+          inputSchema={inputSchema}
+          onChange={onChange}
+          disabled={disabled}
+        />
+      );
     case 'textarea':
       return (
         <TextAreaField
@@ -30,7 +39,7 @@ export default function InputField({
           disabled={disabled}
         />
       );
-    //TODO: Test the Implement within FileFiled and DirectoryField to open path
+    // TODO: Test the Implement within FileFiled and DirectoryField to open path
     case 'file':
       return (
         <FileField
@@ -49,9 +58,6 @@ export default function InputField({
           disabled={disabled}
         />
       );
-      {/*
-    TODO: Tetst Implement disabled functionality for batch inputs
-    */}
     case 'batchtext':
       return (
         <BatchTextField

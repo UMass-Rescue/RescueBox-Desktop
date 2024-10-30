@@ -18,7 +18,9 @@ export default function RangedFloatField({
   const descriptor = parameterSchema.value as RangedFloatParameterDescriptor;
   return (
     <div>
-      <h2 className="font-semibold text-sm xl:text-md">{parameterSchema.label}</h2>
+      <h2 className="font-semibold text-sm xl:text-md">
+        {parameterSchema.label}
+      </h2>
       <div className="grid grid-cols-5 items-center mt-2">
         <Slider
           onValueChange={(vals) => onChange(vals[0])}

@@ -24,7 +24,9 @@ export default function EnumField({
   const descriptor = parameterSchema.value as EnumParameterDescriptor;
   return (
     <div>
-      <h2 className="font-semibold text-sm xl:text-md mb-2">{parameterSchema.label}</h2>
+      <h2 className="font-semibold text-sm xl:text-md mb-2">
+        {parameterSchema.label}
+      </h2>
       <Select value={value} onValueChange={onChange} disabled={disabled}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Select Value" />

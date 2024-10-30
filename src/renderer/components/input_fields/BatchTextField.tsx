@@ -81,41 +81,42 @@ export default function BatchTextField({
               className="flex-grow"
               disabled={disabled}
             />
-            {!disabled && (index === fields.length - 1 ? (
-              <TooltipProvider delayDuration={100}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      type="button"
-                      onClick={handleAddField}
-                      className="ml-2 self-start"
-                    >
-                      <PlusCircledIcon className="size-5" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    <p>Add</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ) : (
-              <TooltipProvider delayDuration={100}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      type="button"
-                      onClick={() => handleRemoveField(index)}
-                      className="ml-2 self-start"
-                    >
-                      <MinusCircledIcon className="size-5" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    <p>Remove</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ))}
+            {!disabled &&
+              (index === fields.length - 1 ? (
+                <TooltipProvider delayDuration={100}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        onClick={handleAddField}
+                        className="ml-2 self-start"
+                      >
+                        <PlusCircledIcon className="size-5" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom">
+                      <p>Add</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ) : (
+                <TooltipProvider delayDuration={100}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        onClick={() => handleRemoveField(index)}
+                        className="ml-2 self-start"
+                      >
+                        <MinusCircledIcon className="size-5" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom">
+                      <p>Remove</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ))}
           </div>
         ))}
       </div>

@@ -15,19 +15,34 @@ export default function ParameterField({
   parameterSchema: ParameterSchema;
   value: any;
   onChange: (value: any) => void;
+  // eslint-disable-next-line
   disabled?: boolean;
 }) {
   const { value: paramValue } = parameterSchema;
   switch (paramValue.parameterType) {
     case 'text':
       return (
-        <TextField parameterSchema={parameterSchema} onChange={onChange} disabled={disabled} />
+        <TextField
+          parameterSchema={parameterSchema}
+          onChange={onChange}
+          disabled={disabled}
+        />
       );
     case 'int':
-      return <IntField parameterSchema={parameterSchema} onChange={onChange} disabled={disabled} />;
+      return (
+        <IntField
+          parameterSchema={parameterSchema}
+          onChange={onChange}
+          disabled={disabled}
+        />
+      );
     case 'float':
       return (
-        <FloatField parameterSchema={parameterSchema} onChange={onChange} disabled={disabled} />
+        <FloatField
+          parameterSchema={parameterSchema}
+          onChange={onChange}
+          disabled={disabled}
+        />
       );
     case 'enum':
       return (

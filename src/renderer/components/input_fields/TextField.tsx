@@ -8,7 +8,7 @@ export default function TextField({
 }: {
   inputSchema: InputSchema;
   onChange: (value: string) => void;
-  disabled: boolean
+  disabled: boolean;
 }) {
   return (
     <div>

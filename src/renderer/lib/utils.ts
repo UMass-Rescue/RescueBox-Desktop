@@ -1,8 +1,12 @@
 import { clsx, type ClassValue } from 'clsx';
-import { Input, InputType, ParameterType, RequestBody, TaskSchema } from 'src/shared/generated_models';
+import {
+  Input,
+  InputType,
+  RequestBody,
+  TaskSchema,
+} from 'src/shared/generated_models';
 import { ModelServer } from 'src/shared/models';
 import { twMerge } from 'tailwind-merge';
-
 
 // eslint-disable-next-line import/prefer-default-export
 export function cn(...inputs: ClassValue[]) {
@@ -54,33 +58,42 @@ export function buildRequestBody(
   return requestBody;
 }
 
-export function extractValuesFromRequestBodyInput(inputType: InputType, reqInput: Input) {
+export function extractValuesFromRequestBodyInput(
+  inputType: InputType,
+  reqInput: Input,
+) {
   let value: string | string[];
   switch (inputType) {
     case 'file':
-      //@ts-ignore
-      value = reqInput["path"];
+      // @ts-ignore
+      value = reqInput.path;
       break;
     case 'directory':
-      //@ts-ignore
-      value = reqInput["path"];
+      // @ts-ignore
+      value = reqInput.path;
       break;
     case 'batchfile':
-      //@ts-ignore
-      value = reqInput["files"];
+      // @ts-ignore
+      value = reqInput.files;
       break;
     case 'batchdirectory':
-      //@ts-ignore
-      value = reqInput["directories"];
+      // @ts-ignore
+      value = reqInput.directories;
+      break;
     case 'text':
-      //@ts-ignore
-      value = reqInput["text"];
+      // @ts-ignore
+      value = reqInput.text;
+      break;
     case 'batchtext':
-      //@ts-ignore
-      value = reqInput["texts"];
+      // @ts-ignore
+      value = reqInput.texts;
+      break;
     case 'textarea':
-      //@ts-ignore
-      value = reqInput["text"];
+      // @ts-ignore
+      value = reqInput.text;
+      break;
+    default:
+      value = 'invalid';
   }
   return value;
 }
@@ -92,10 +105,3 @@ export function extractValuesFromRequestBodyInput(inputType: InputType, reqInput
 //       value = reqParams[]
 //   }
 // }
-
-
-
-
-
-
-

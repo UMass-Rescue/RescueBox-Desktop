@@ -22,7 +22,7 @@ export default function BatchDirectoryField({
 
   const handleOpenDirectories = async () => {
     await window.fileSystem.openPath({ path: value });
-  }
+  };
 
   return (
     <div>
@@ -34,7 +34,10 @@ export default function BatchDirectoryField({
           value={value || 'No Directories Selected'}
           readOnly
         />
-        <Button type="button" onClick={!disabled ? handleSelectDirectories : handleOpenDirectories}>
+        <Button
+          type="button"
+          onClick={!disabled ? handleSelectDirectories : handleOpenDirectories}
+        >
           Browse
         </Button>
       </div>

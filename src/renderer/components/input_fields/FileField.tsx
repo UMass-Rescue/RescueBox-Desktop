@@ -21,9 +21,9 @@ export default function FileField({
   };
 
   const handleOpenFile = async () => {
-    //TODO: test this implementation
+    // TODO: test this implementation
     await window.fileSystem.openPath({ path: value });
-  }
+  };
 
   return (
     <div>
@@ -35,7 +35,10 @@ export default function FileField({
           value={value || 'No File Selected'}
           readOnly
         />
-        <Button type="button" onClick={disabled ? handleOpenFile : handleSelectFile}>
+        <Button
+          type="button"
+          onClick={disabled ? handleOpenFile : handleSelectFile}
+        >
           Browse
         </Button>
       </div>

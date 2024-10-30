@@ -22,7 +22,7 @@ export default function BatchFileField({
 
   const handleOpenFile = async () => {
     await window.fileSystem.openPath({ path: value });
-  }
+  };
   return (
     <div>
       <h2 className="font-semibold text-sm xl:text-md">{inputSchema.label}</h2>
@@ -33,7 +33,10 @@ export default function BatchFileField({
           value={value || 'No Files Selected'}
           readOnly
         />
-        <Button type="button" onClick={!disabled ? handleSelectFiles : handleSelectFiles}>
+        <Button
+          type="button"
+          onClick={!disabled ? handleSelectFiles : handleOpenFile}
+        >
           Browse
         </Button>
       </div>

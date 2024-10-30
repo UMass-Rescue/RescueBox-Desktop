@@ -21,9 +21,9 @@ export default function DirectoryField({
   };
 
   const handleOpenDirectory = async () => {
-    //TODO: test this implementation
+    // TODO: test this implementation
     await window.fileSystem.openPath({ path: value });
-  }
+  };
 
   return (
     <div>
@@ -35,7 +35,10 @@ export default function DirectoryField({
           value={value || 'No Directory Selected'}
           readOnly
         />
-        <Button type="button" onClick={disabled ? handleOpenDirectory : handleSelectDirectory}>
+        <Button
+          type="button"
+          onClick={disabled ? handleOpenDirectory : handleSelectDirectory}
+        >
           Browse
         </Button>
       </div>

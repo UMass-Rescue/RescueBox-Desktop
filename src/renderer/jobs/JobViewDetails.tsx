@@ -7,13 +7,13 @@ import {
   DialogFooter,
   DialogHeader,
 } from '@shadcn/components/ui/dialog';
+import InputField from '@shadcn/components/InputField';
+import { extractValuesFromRequestBodyInput } from '@shadcn/lib/utils';
+import ParameterField from '@shadcn/components/ParameterField';
 import { Button } from '../components/ui/button';
 import { useJob, useMLModel, useTask } from '../lib/hooks';
 import LoadingScreen from '../components/LoadingScreen';
 import StatusComponent from './sub-components/StatusComponent';
-import InputField from '@shadcn/components/InputField';
-import { extractValuesFromRequestBodyInput } from '@shadcn/lib/utils';
-import ParameterField from '@shadcn/components/ParameterField';
 
 function JobViewDetails() {
   const { jobId } = useParams();
@@ -77,7 +77,7 @@ function JobViewDetails() {
             </div>
           </div>
         </div>
-        {/* Model + Task inputs & Params*/}
+        {/* Model + Task inputs & Params */}
         <div title="Task metadata" className="flex flex-col gap-2 mt-2">
           <h1 className="font-bold text-sm xl:text-md">Model</h1>
           <div className="flex flex-row items-center border border-slate-400 rounded-lg w-full justify-between px-3">
@@ -90,28 +90,27 @@ function JobViewDetails() {
             </Link>
           </div>
           <div className="flex flex-col gap-2">
-            {
-              job.taskSchema.inputs.map(inputSchema =>
-                <InputField
-                  value={extractValuesFromRequestBodyInput(inputSchema.inputType, job.request.inputs[inputSchema.key])}
-                  inputSchema={inputSchema}
-                  onChange={() => undefined}
-                  disabled={true}
-                />
-              )
-            }
+            {job.taskSchema.inputs.map((inputSchema) => (
+              <InputField
+                value={extractValuesFromRequestBodyInput(
+                  inputSchema.inputType,
+                  job.request.inputs[inputSchema.key],
+                )}
+                inputSchema={inputSchema}
+                onChange={() => undefined}
+                disabled
+              />
+            ))}
           </div>
-          <div className='flex flex-col gap-2'>
-            {
-              job.taskSchema.parameters.map(paramSchema =>
-                <ParameterField
-                  value={job.request.parameters[paramSchema.key]}
-                  parameterSchema={paramSchema}
-                  onChange={() => undefined}
-                  disabled={true}
-                />
-              )
-            }
+          <div className="flex flex-col gap-2">
+            {job.taskSchema.parameters.map((paramSchema) => (
+              <ParameterField
+                value={job.request.parameters[paramSchema.key]}
+                parameterSchema={paramSchema}
+                onChange={() => undefined}
+                disabled
+              />
+            ))}
           </div>
 
           <Dialog>

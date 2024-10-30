@@ -8,11 +8,13 @@ export default function TextField({
 }: {
   parameterSchema: ParameterSchema;
   onChange: (value: string) => void;
-  disabled: boolean
+  disabled: boolean;
 }) {
   return (
     <div>
-      <h2 className="font-semibold text-md md:text-lg">{parameterSchema.label}</h2>
+      <h2 className="font-semibold text-md md:text-lg">
+        {parameterSchema.label}
+      </h2>
       <div className="flex items-center mt-2">
         <Input
           type="text"

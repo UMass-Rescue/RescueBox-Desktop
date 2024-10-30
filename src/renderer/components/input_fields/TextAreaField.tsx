@@ -5,7 +5,7 @@ export default function TextAreaField({
   inputSchema,
   value,
   onChange,
-  disabled
+  disabled,
 }: {
   inputSchema: InputSchema;
   value: string;
