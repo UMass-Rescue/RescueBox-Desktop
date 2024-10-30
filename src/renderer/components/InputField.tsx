@@ -11,7 +11,7 @@ type InputFieldProps = {
   inputSchema: InputSchema;
   value: any;
   onChange: (value: any) => void;
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/require-default-props
   disabled?: boolean;
 };
 
