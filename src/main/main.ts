@@ -71,6 +71,10 @@ function setupIpcMain() {
 
   // File System: handles file system operations
   ipcMain.handle('fileSystem:open-path', fileSystem.openPath);
+  ipcMain.handle(
+    'fileSystem:show-file-in-explorer',
+    fileSystem.showFileInExplorer,
+  );
   ipcMain.handle('fileSystem:select-directory', fileSystem.selectDirectory);
   ipcMain.handle('fileSystem:select-directories', fileSystem.selectDirectories);
   ipcMain.handle('fileSystem:select-file', fileSystem.selectFile);

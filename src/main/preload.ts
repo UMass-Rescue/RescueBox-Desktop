@@ -69,6 +69,11 @@ const jobHandler = {
 const fileSystemHandler = {
   openPath: (args: PathArgs) =>
     ipcRenderer.invoke('fileSystem:open-path', args) as Promise<string>,
+  showFileInExplorer: (args: PathArgs) =>
+    ipcRenderer.invoke(
+      'fileSystem:show-file-in-explorer',
+      args,
+    ) as Promise<void>,
   selectDirectory: () =>
     ipcRenderer.invoke('fileSystem:select-directory') as Promise<string>,
   selectDirectories: () =>
