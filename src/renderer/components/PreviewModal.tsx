@@ -15,6 +15,8 @@ import {
 export default function PreviewModal({ response }: { response: FileResponse }) {
   const [open, setOpen] = useState(false);
 
+  const filePrefixedPath = `file://${response.path}`;
+
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -29,7 +31,9 @@ export default function PreviewModal({ response }: { response: FileResponse }) {
                 <Button
                   className="bg-transparent hover:bg-gray-200 shadow-none"
                   onClick={() =>
-                    window.fileSystem.openPath({ path: response.path })
+                    window.fileSystem.showFileInExplorer({
+                      path: response.path,
+                    })
                   }
                   title="Open File"
                 >
@@ -50,7 +54,7 @@ export default function PreviewModal({ response }: { response: FileResponse }) {
           </DialogHeader>
           <div className="overflow-auto h-full">
             {response.file_type === 'video' && (
-              <VideoPreview filePath={response.path} />
+              <VideoPreview filePath={filePrefixedPath} />
             )}
           </div>
         </DialogContent>
