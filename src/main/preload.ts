@@ -16,6 +16,7 @@ import {
 } from 'src/shared/generated_models';
 import {
   GetModelAppStatusArgs,
+  GetModelServerArgs,
   RegisterModelArgs,
   UnregisterModelArgs,
 } from './handlers/registration';
@@ -47,6 +48,11 @@ const registrationHandler = {
     ) as Promise<ModelAppStatus>,
   getModelServers: () =>
     ipcRenderer.invoke('register:get-model-servers') as Promise<ModelServer[]>,
+  getModelServer: (args: GetModelServerArgs) =>
+    ipcRenderer.invoke(
+      'register:get-model-server',
+      args,
+    ) as Promise<ModelServer>,
 };
 
 const modelsHandler = {
@@ -71,6 +77,11 @@ const jobHandler = {
 const fileSystemHandler = {
   openPath: (args: PathArgs) =>
     ipcRenderer.invoke('fileSystem:open-path', args) as Promise<string>,
+  showFileInExplorer: (args: PathArgs) =>
+    ipcRenderer.invoke(
+      'fileSystem:show-file-in-explorer',
+      args,
+    ) as Promise<void>,
   selectDirectory: () =>
     ipcRenderer.invoke('fileSystem:select-directory') as Promise<string>,
   selectDirectories: () =>

@@ -1,5 +1,5 @@
 import { ModelAppStatus, ModelServer } from 'src/shared/models';
-import useSWR from 'swr';
+import useSWR, { SWRConfiguration } from 'swr';
 
 const JOBS_REFRESH_INTERVAL = 200;
 
@@ -62,6 +62,24 @@ export function useServers() {
 
   return {
     servers: data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}
+
+export function useServer(modelUid?: string, options?: SWRConfiguration) {
+  const fetcher = () =>
+    window.registration.getModelServer({ modelUid: modelUid! });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    modelUid ? `register:get-model-app-ip-${modelUid}` : null,
+    fetcher,
+    options,
+  );
+
+  return {
+    data,
     error,
     isLoading,
     isValidating,

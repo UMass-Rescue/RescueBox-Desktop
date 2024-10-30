@@ -23,6 +23,20 @@ export async function openPath(_event: any, arg: PathArgs) {
   }
 }
 
+export async function showFileInExplorer(_event: any, arg: PathArgs) {
+  const filePath = path.resolve(arg.path);
+  if (!fs.existsSync(filePath)) {
+    log.error('File does not exist');
+    dialog.showErrorBox(
+      "We can't find this file.",
+      "Make sure it hasn't been moved or deleted.",
+    );
+  } else {
+    log.info('Showing file in explorer', filePath);
+    shell.showItemInFolder(filePath);
+  }
+}
+
 export async function deleteFile(_event: any, arg: PathArgs) {
   const filePath = path.resolve(arg.path);
   if (!fs.existsSync(filePath)) {
