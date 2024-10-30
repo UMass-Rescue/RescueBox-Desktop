@@ -15,6 +15,7 @@ import {
 } from 'src/shared/generated_models';
 import {
   GetModelAppStatusArgs,
+  GetModelServerArgs,
   RegisterModelArgs,
   UnregisterModelArgs,
 } from './handlers/registration';
@@ -45,6 +46,11 @@ const registrationHandler = {
     ) as Promise<ModelAppStatus>,
   getModelServers: () =>
     ipcRenderer.invoke('register:get-model-servers') as Promise<ModelServer[]>,
+  getModelServer: (args: GetModelServerArgs) =>
+    ipcRenderer.invoke(
+      'register:get-model-server',
+      args,
+    ) as Promise<ModelServer>,
 };
 
 const modelsHandler = {

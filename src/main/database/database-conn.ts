@@ -37,8 +37,8 @@ export default class DatabaseConn {
     if (!DatabaseConn.#instance) {
       DatabaseConn.#instance = new DatabaseConn(dbPath);
     }
-    log.info('Resetting database');
     await DatabaseConn.#instance.db.connect();
+    log.info('Resetting database');
     return DatabaseConn.#instance.db.resetTables();
   }
 

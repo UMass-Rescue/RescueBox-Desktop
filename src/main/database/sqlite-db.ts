@@ -80,6 +80,7 @@ class SQLiteDB {
     await ModelServerDb.destroy({ where: {} });
     await JobDb.destroy({ where: {} });
     await TaskDb.destroy({ where: {} });
+    await MLModelDb.destroy({ where: {} });
     await this.initModels();
   }
 
