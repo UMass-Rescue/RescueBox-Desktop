@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { MLModel, ModelServer } from 'src/shared/models';
 import {
-  ModelInfo,
+  AppMetadata,
   TaskSchema,
   RequestBody,
   ResponseBody,
@@ -50,7 +50,7 @@ class ModelAppService {
     return this.apiRoutes;
   }
 
-  public async getInfo(): Promise<ModelInfo> {
+  public async getAppMetadata(): Promise<AppMetadata> {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
@@ -58,7 +58,7 @@ class ModelAppService {
           version: this.modelDb.version,
           author: this.modelDb.author,
           info: this.modelDb.info,
-        } satisfies ModelInfo);
+        } satisfies AppMetadata);
       }, 1000);
     });
   }

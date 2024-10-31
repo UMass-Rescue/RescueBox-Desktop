@@ -10,7 +10,7 @@ import {
   Task,
 } from 'src/shared/models';
 import {
-  ModelInfo,
+  AppMetadata,
   SchemaAPIRoute,
   TaskSchema,
 } from 'src/shared/generated_models';
@@ -25,7 +25,7 @@ import { GetModelByIdArgs } from './handlers/models';
 import { PathArgs } from './handlers/file-system';
 import {
   GetApiRoutesArgs,
-  GetInfoArgs,
+  GetAppMetadataArgs,
   GetTaskByModelUidAndTaskIdArgs,
   GetTaskSchemaArgs,
 } from './handlers/task';
@@ -108,8 +108,8 @@ const taskHandler = {
     ipcRenderer.invoke('task:get-api-routes', args) as Promise<
       SchemaAPIRoute[]
     >,
-  getInfo: (args: GetInfoArgs) =>
-    ipcRenderer.invoke('task:get-info', args) as Promise<ModelInfo>,
+  getAppMetadata: (args: GetAppMetadataArgs) =>
+    ipcRenderer.invoke('task:get-app-metadata', args) as Promise<AppMetadata>,
   getTaskSchema: (args: GetTaskSchemaArgs) =>
     ipcRenderer.invoke('task:get-task-schema', args) as Promise<TaskSchema>,
   getTaskByModelUidAndTaskId: (args: GetTaskByModelUidAndTaskIdArgs) =>

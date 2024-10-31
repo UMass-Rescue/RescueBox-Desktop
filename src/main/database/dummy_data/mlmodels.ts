@@ -1,6 +1,6 @@
 import { createModelId } from 'src/main/models/ml-model';
-import isrModelInfo from 'src/shared/dummy_data/info_page';
-import { APIRoutes, ModelInfo } from 'src/shared/generated_models';
+import isrAppMetadata from 'src/shared/dummy_data/info_page';
+import { APIRoutes, AppMetadata } from 'src/shared/generated_models';
 
 export const isrModelRoutes: APIRoutes = [
   {
@@ -13,7 +13,7 @@ export const isrModelRoutes: APIRoutes = [
   },
 ];
 
-export const sbfModelInfo: ModelInfo = {
+export const sbfAppMetadata: AppMetadata = {
   name: 'Small Block Forensics',
   info: `
 # Small Block Forensics
@@ -62,7 +62,7 @@ export const sbfModelRoutes: APIRoutes = [
   },
 ];
 
-export const imgObjModelInfo: ModelInfo = {
+export const imgObjAppMetadata: AppMetadata = {
   name: 'Image Object Detection',
   info: `
 # Image Object Detection
@@ -97,21 +97,24 @@ export const imgObjModelRoutes: APIRoutes = [
   },
 ];
 
-export const dummyModels: { info: ModelInfo; routes: APIRoutes }[] = [
+export const dummyModels: { appMetadata: AppMetadata; routes: APIRoutes }[] = [
   {
-    info: isrModelInfo,
+    appMetadata: isrAppMetadata,
     routes: isrModelRoutes,
   },
   {
-    info: sbfModelInfo,
+    appMetadata: sbfAppMetadata,
     routes: sbfModelRoutes,
   },
   {
-    info: imgObjModelInfo,
+    appMetadata: imgObjAppMetadata,
     routes: imgObjModelRoutes,
   },
 ];
 
-export const isrModelId = createModelId(isrModelInfo, isrModelRoutes);
-export const sbfModelId = createModelId(sbfModelInfo, sbfModelRoutes);
-export const imgObjModelId = createModelId(imgObjModelInfo, imgObjModelRoutes);
+export const isrModelId = createModelId(isrAppMetadata, isrModelRoutes);
+export const sbfModelId = createModelId(sbfAppMetadata, sbfModelRoutes);
+export const imgObjModelId = createModelId(
+  imgObjAppMetadata,
+  imgObjModelRoutes,
+);

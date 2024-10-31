@@ -91,7 +91,7 @@ function setupIpcMain() {
 
   // Task: handles task service operations
   ipcMain.handle('task:get-api-routes', taskHandler.getApiRoutes);
-  ipcMain.handle('task:get-info', taskHandler.getInfo);
+  ipcMain.handle('task:get-app-metadata', taskHandler.getAppMetadata);
   ipcMain.handle('task:get-task-schema', taskHandler.getTaskSchema);
   ipcMain.handle(
     'task:get-task-by-model-uid-and-task-id',

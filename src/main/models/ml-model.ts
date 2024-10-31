@@ -8,10 +8,13 @@ import {
   Model,
   CreationOptional,
 } from 'sequelize';
-import { APIRoutes, ModelInfo } from 'src/shared/generated_models';
+import { APIRoutes, AppMetadata } from 'src/shared/generated_models';
 
-export function createModelId(modelInfo: ModelInfo, routes: APIRoutes): string {
-  const routesString = JSON.stringify(routes) + JSON.stringify(modelInfo);
+export function createModelId(
+  appMetadata: AppMetadata,
+  routes: APIRoutes,
+): string {
+  const routesString = JSON.stringify(routes) + JSON.stringify(appMetadata);
   return md5(routesString);
 }
 
@@ -46,10 +49,10 @@ class MLModelDb extends Model<
   }
 
   public static getModelByModelInfoAndRoutes(
-    modelInfo: ModelInfo,
+    appMetadata: AppMetadata,
     routes: APIRoutes,
   ) {
-    const uid = createModelId(modelInfo, routes);
+    const uid = createModelId(appMetadata, routes);
     return MLModelDb.findOne({
       where: {
         uid,
@@ -57,24 +60,24 @@ class MLModelDb extends Model<
     });
   }
 
-  public static createModel(modelInfo: ModelInfo, routes: APIRoutes) {
-    const uid = createModelId(modelInfo, routes);
-    const { name, version, author } = modelInfo;
+  public static createModel(appMetadata: AppMetadata, routes: APIRoutes) {
+    const uid = createModelId(appMetadata, routes);
+    const { name, version, author } = appMetadata;
     return MLModelDb.create({
       uid,
       name,
       version,
       author,
-      info: modelInfo.info,
+      info: appMetadata.info,
       routes,
     });
   }
 
   public static createModels(
-    modelData: { info: ModelInfo; routes: APIRoutes }[],
+    modelData: { appMetadata: AppMetadata; routes: APIRoutes }[],
   ) {
     return Promise.all(
-      modelData.map((m) => MLModelDb.createModel(m.info, m.routes)),
+      modelData.map((m) => MLModelDb.createModel(m.appMetadata, m.routes)),
     );
   }
 

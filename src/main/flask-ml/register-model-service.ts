@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { APIRoutes, ModelInfo } from 'src/shared/generated_models';
-import isrModelInfo from 'src/shared/dummy_data/info_page';
+import { APIRoutes, AppMetadata } from 'src/shared/generated_models';
 import {
   isrModelRoutes,
-  sbfModelInfo,
+  sbfAppMetadata,
 } from 'src/main/database/dummy_data/mlmodels';
 import log from 'electron-log/main';
 import isDummyMode from 'src/shared/dummy_data/set_dummy_mode';
@@ -11,7 +10,7 @@ import MLModelDb from '../models/ml-model';
 import ModelServerDb from '../models/model-server';
 
 const API_ROUTES_SLUG = '/api/routes';
-const INFO_SLUG = '/info';
+const INFO_SLUG = '/api/app_metadata';
 
 export default class RegisterModelService {
   static async registerModel(serverAddress: string, serverPort: number) {
@@ -51,7 +50,7 @@ export default class RegisterModelService {
   private static async getInfo(
     serverAddress: string,
     serverPort: number,
-  ): Promise<ModelInfo> {
+  ): Promise<AppMetadata> {
     log.info(
       `Fetching info from http://${serverAddress}:${serverPort}${INFO_SLUG}`,
     );
@@ -63,10 +62,10 @@ export default class RegisterModelService {
     //     }
     //     return res.json();
     //   })
-    //   .then((data: ModelInfo) => data);
+    //   .then((data: AppMetadata) => data);
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(sbfModelInfo);
+        resolve(sbfAppMetadata);
       }, 1000);
     });
   }
