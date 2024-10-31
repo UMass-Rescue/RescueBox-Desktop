@@ -40,10 +40,12 @@ let mainWindow: BrowserWindow | null = null;
 
 function setupIpcMain() {
   // Database: access to reset database
-  ipcMain.handle('database:reset-database', () =>
-    // DatabaseConn.resetDatabase(getDbPath(app)),
-    DatabaseConn.resetDummyData(getDbPath(app)),
-  );
+  ipcMain.handle('database:reset-database', () => {
+    if (isDummyMode) {
+      return DatabaseConn.resetDummyData(getDbPath(app));
+    }
+    return DatabaseConn.resetDatabase(getDbPath(app));
+  });
   // Registration: handles registering models
   ipcMain.handle(
     'register:register-model-app-ip',

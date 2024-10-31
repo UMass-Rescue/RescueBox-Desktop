@@ -53,7 +53,7 @@ export function buildRequestBody(
     }
   });
   taskSchema.parameters.forEach((parameter) => {
-    requestBody.inputs[parameter.key] = data[parameter.key];
+    requestBody.parameters[parameter.key] = data[parameter.key];
   });
   return requestBody;
 }
