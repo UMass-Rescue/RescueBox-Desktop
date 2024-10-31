@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   APIRoutes,
-  ModelInfo,
+  AppMetadata,
   SchemaAPIRoute,
 } from 'src/shared/generated_models';
 import {
   isrModelRoutes,
-  sbfModelInfo,
+  sbfAppMetadata,
 } from 'src/main/database/dummy_data/mlmodels';
 import log from 'electron-log/main';
 import isDummyMode from 'src/shared/dummy_data/set_dummy_mode';
@@ -15,7 +15,7 @@ import ModelServerDb from '../models/model-server';
 import TaskDb from '../models/tasks';
 
 const API_ROUTES_SLUG = '/api/routes';
-const INFO_SLUG = '/info';
+const INFO_SLUG = '/api/app_metadata';
 
 export default class RegisterModelService {
   static async registerModel(serverAddress: string, serverPort: number) {
@@ -75,24 +75,24 @@ export default class RegisterModelService {
   private static async getInfo(
     serverAddress: string,
     serverPort: number,
-  ): Promise<ModelInfo> {
+  ): Promise<AppMetadata> {
     log.info(
       `Fetching info from http://${serverAddress}:${serverPort}${INFO_SLUG}`,
     );
 
-    // return fetch(`http://${serverAddress}:${serverPort}${INFO_SLUG}`)
-    //   .then(async (res) => {
-    //     if (res.status !== 200) {
-    //       throw new Error('Failed to fetch info.');
-    //     }
-    //     return res.json();
-    //   })
-    //   .then((data: ModelInfo) => data);
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(sbfModelInfo);
-      }, 1000);
-    });
+    return fetch(`http://${serverAddress}:${serverPort}${INFO_SLUG}`)
+      .then(async (res) => {
+        if (res.status !== 200) {
+          throw new Error('Failed to fetch info.');
+        }
+        return res.json();
+      })
+      .then((data: AppMetadata) => data);
+    // return new Promise((resolve) => {
+    // setTimeout(() => {
+    // resolve(sbfAppMetadata);
+    // }, 1000);
+    // });
   }
 
   private static async initializeAPIRoutes(

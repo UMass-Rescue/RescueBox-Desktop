@@ -1,8 +1,26 @@
 /* eslint-disable no-use-before-define */
-
 declare namespace Components {
   namespace Schemas {
     export type APIRoutes = (SchemaAPIRoute | NoSchemaAPIRoute)[];
+    /**
+     * example:
+     * {
+     *   "info": "# Welcome to the Face Match App\n\nThis app will help you to match faces in your images..."
+     * }
+     */
+    export interface AppMetadata {
+      /**
+       * Markdown content to render on the info page
+       */
+      info: string;
+      author: string;
+      version: string;
+      /**
+       * example:
+       * Face Match App
+       */
+      name: string;
+    }
     export interface BatchDirectoryInput {
       directories: DirectoryInput[];
     }
@@ -101,25 +119,6 @@ declare namespace Components {
       value: string;
       title?: string;
       subtitle?: string;
-    }
-    /**
-     * example:
-     * {
-     *   "info": "# Welcome to the Face Match App\n\nThis app will help you to match faces in your images..."
-     * }
-     */
-    export interface ModelInfo {
-      /**
-       * Markdown content to render on the info page
-       */
-      info: string;
-      author: string;
-      version: string;
-      /**
-       * example:
-       * Image Super Resolution
-       */
-      name: string;
     }
     export interface NoSchemaAPIRoute {
       /**
@@ -242,8 +241,8 @@ declare namespace Components {
     }
   }
 }
-
 export type APIRoutes = Components.Schemas.APIRoutes;
+export type AppMetadata = Components.Schemas.AppMetadata;
 export type BatchDirectoryInput = Components.Schemas.BatchDirectoryInput;
 export type BatchDirectoryResponse = Components.Schemas.BatchDirectoryResponse;
 export type BatchFileInput = Components.Schemas.BatchFileInput;
@@ -265,7 +264,6 @@ export type InputType = Components.Schemas.InputType;
 export type IntParameterDescriptor = Components.Schemas.IntParameterDescriptor;
 export type IntRangeDescriptor = Components.Schemas.IntRangeDescriptor;
 export type MarkdownResponse = Components.Schemas.MarkdownResponse;
-export type ModelInfo = Components.Schemas.ModelInfo;
 export type NoSchemaAPIRoute = Components.Schemas.NoSchemaAPIRoute;
 export type ParameterSchema = Components.Schemas.ParameterSchema;
 export type ParameterType = Components.Schemas.ParameterType;

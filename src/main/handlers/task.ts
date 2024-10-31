@@ -7,7 +7,7 @@ export type GetApiRoutesArgs = {
   modelUid: string;
 };
 
-export type GetInfoArgs = {
+export type GetAppMetadataArgs = {
   modelUid: string;
 };
 
@@ -26,9 +26,9 @@ const getApiRoutes = async (
   return service.getApiRoutes();
 };
 
-const getInfo = async (_event: any, arg: GetInfoArgs) => {
+const getAppMetadata = async (_event: any, arg: GetAppMetadataArgs) => {
   const service = await ModelAppService.init(arg.modelUid);
-  return service.getInfo();
+  return service.getAppMetadata();
 };
 
 const getTaskSchema = async (_event: any, arg: GetTaskSchemaArgs) => {
@@ -45,4 +45,9 @@ const getTaskByModelUidAndTaskId = async (
   );
 };
 
-export { getApiRoutes, getInfo, getTaskSchema, getTaskByModelUidAndTaskId };
+export {
+  getApiRoutes,
+  getAppMetadata,
+  getTaskSchema,
+  getTaskByModelUidAndTaskId,
+};

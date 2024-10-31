@@ -1,6 +1,6 @@
-import { ModelInfo } from '../generated_models';
+import { AppMetadata } from '../generated_models';
 
-const isrModelInfo: ModelInfo = {
+const isrAppMetadata: AppMetadata = {
   name: 'Image Super Resolution',
   info: `
 # Image Super Resolution
@@ -29,4 +29,4 @@ This model upscales low-resolution images to higher resolutions, improving the c
   version: '1.0.0',
 };
 
-export default isrModelInfo;
+export default isrAppMetadata;
