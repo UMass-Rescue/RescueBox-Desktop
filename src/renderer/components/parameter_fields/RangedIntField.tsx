@@ -27,7 +27,7 @@ export default function RangedIntField({
           min={descriptor.range.min}
           max={descriptor.range.max}
           step={1}
-          defaultValue={[descriptor.default]}
+          defaultValue={[!disabled ? descriptor.default : value]}
           className="col-span-4"
           disabled={disabled}
         />
