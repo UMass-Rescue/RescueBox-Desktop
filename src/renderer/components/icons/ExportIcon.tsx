@@ -1,4 +1,4 @@
-import { cn } from '@shadcn/lib/utils';
+import { cn } from 'src/renderer/lib/utils';
 
 export default function ExportIcon({
   className = '',

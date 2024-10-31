@@ -1,4 +1,4 @@
-import RegisterModelButton from '@shadcn/components/RegisterModelButton';
+import RegisterModelButton from 'src/renderer/components/RegisterModelButton';
 import { useMLModels, useServers, useServerStatuses } from '../lib/hooks';
 import LoadingIcon from '../components/icons/LoadingIcon';
 import LoadingScreen from '../components/LoadingScreen';

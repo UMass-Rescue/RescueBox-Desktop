@@ -1,4 +1,4 @@
-import { cn } from '@shadcn/lib/utils';
+import { cn } from 'src/renderer/lib/utils';
 import LoadingIcon from './icons/LoadingIcon';
 
 // eslint-disable-next-line react/require-default-props

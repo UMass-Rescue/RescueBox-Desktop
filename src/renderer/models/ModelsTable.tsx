@@ -4,7 +4,7 @@ import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from '@shadcn/components/ui/tooltip';
+} from '@shadcn/tooltip';
 import { MLModel, ModelAppStatus } from 'src/shared/models';
 import {
   Table,

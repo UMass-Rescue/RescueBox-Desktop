@@ -6,10 +6,10 @@ import {
   DialogTrigger,
   DialogFooter,
   DialogHeader,
-} from '@shadcn/components/ui/dialog';
-import InputField from '@shadcn/components/InputField';
-import { extractValuesFromRequestBodyInput } from '@shadcn/lib/utils';
-import ParameterField from '@shadcn/components/ParameterField';
+} from '@shadcn/dialog';
+import InputField from 'src/renderer/components/InputField';
+import { extractValuesFromRequestBodyInput } from 'src/renderer/lib/utils';
+import ParameterField from 'src/renderer/components/ParameterField';
 import { Button } from '../components/ui/button';
 import { useJob, useMLModel, useTask } from '../lib/hooks';
 import LoadingScreen from '../components/LoadingScreen';

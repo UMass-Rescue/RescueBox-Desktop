@@ -1,4 +1,4 @@
-import { cn } from '@shadcn/lib/utils';
+import { cn } from 'src/renderer/lib/utils';
 
 // eslint-disable-next-line react/require-default-props
 function DeleteIcon({ className = '' }: { className?: string }) {

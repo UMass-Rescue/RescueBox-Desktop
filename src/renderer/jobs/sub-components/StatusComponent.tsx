@@ -1,7 +1,7 @@
-import { Button } from '@shadcn/components/ui/button';
+import { Button } from '@shadcn/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { useNavigate } from 'react-router-dom';
-import LoadingIcon from '@shadcn/components/icons/LoadingIcon';
+import LoadingIcon from 'src/renderer/components/icons/LoadingIcon';
 import CompletedIcon from '../../components/icons/CompletedIcon';
 import FailedIcon from '../../components/icons/FailedIcon';
 import CanceledIcon from '../../components/icons/CanceledIcon';

@@ -1,10 +1,8 @@
-import GreenRunIcon from '@shadcn/components/icons/GreenRunIcon';
-import LoadingIcon from '@shadcn/components/icons/LoadingIcon';
-import InputField from '@shadcn/components/InputField';
-import ParameterField from '@shadcn/components/ParameterField';
-import { Button } from '@shadcn/components/ui/button';
-import { useTaskSchema } from '@shadcn/lib/hooks';
-import { buildRequestBody } from '@shadcn/lib/utils';
+import GreenRunIcon from 'src/renderer/components/icons/GreenRunIcon';
+import LoadingIcon from 'src/renderer/components/icons/LoadingIcon';
+import InputField from 'src/renderer/components/InputField';
+import ParameterField from 'src/renderer/components/ParameterField';
+import { Button } from '@shadcn/button';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import {
@@ -13,6 +11,8 @@ import {
   SchemaAPIRoute,
 } from 'src/shared/generated_models';
 import { RunJobArgs } from 'src/shared/models';
+import { useTaskSchema } from '../lib/hooks';
+import { buildRequestBody } from '../lib/utils';
 
 export default function ModelRunTask() {
   const { modelUid, order } = useParams();

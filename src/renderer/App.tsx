@@ -21,13 +21,13 @@ import ModelRun from './models/ModelRun';
 import JobViewLayout from './jobs/JobViewLayout';
 import JobViewDetails from './jobs/JobViewDetails';
 import JobViewOutputs from './jobs/JobViewOutputs';
-import { ImageTitleNavBar, NavBarItem } from './NavBarItem';
 import FallbackError from './components/FallbackError';
 import RegistrationIcon from './components/icons/RegistrationIcon';
 import LogsIcon from './components/icons/LogsIcon';
 import AuditLogs from './audit_logs/AuditLogs';
 import ModelRunTask from './models/ModelRunTask';
 import ModelAppConnect from './registration/ModelAppConnect';
+import { NavBarItem, ImageTitleNavBar } from './navigation/NavBarItem';
 
 function RootLayout() {
   const navigate = useNavigate();

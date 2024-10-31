@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Tooltip, TooltipProvider } from '@radix-ui/react-tooltip';
-import LoadingScreen from '@shadcn/components/LoadingScreen';
+import LoadingScreen from 'src/renderer/components/LoadingScreen';
 import {
   Table,
   TableBody,

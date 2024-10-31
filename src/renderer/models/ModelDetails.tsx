@@ -1,11 +1,11 @@
 import { Link, useParams } from 'react-router-dom';
-import { useModelInfo, useServerStatus } from '@shadcn/lib/hooks';
-import LoadingScreen from '@shadcn/components/LoadingScreen';
+import LoadingScreen from 'src/renderer/components/LoadingScreen';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ModelAppStatus } from 'src/shared/models';
 import { Button } from '../components/ui/button';
 import GreenRunIcon from '../components/icons/GreenRunIcon';
+import { useModelInfo, useServerStatus } from '../lib/hooks';
 
 function ModelDetails() {
   const { modelUid } = useParams();
