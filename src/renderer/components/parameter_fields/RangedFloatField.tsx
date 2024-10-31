@@ -27,7 +27,7 @@ export default function RangedFloatField({
           min={descriptor.range.min}
           max={descriptor.range.max}
           step={0.01}
-          defaultValue={[descriptor.default]}
+          defaultValue={[!disabled ? descriptor.default : value]}
           className="col-span-4"
           disabled={disabled}
         />
