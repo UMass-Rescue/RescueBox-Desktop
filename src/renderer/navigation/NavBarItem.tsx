@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import React, { ReactNode } from 'react';
-import { cn } from './lib/utils';
+import { cn } from '@shadcn/lib/utils';
 
 export function RegularTitleNavBar({
   path,
