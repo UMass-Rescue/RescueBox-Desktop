@@ -21,11 +21,11 @@ function JobView() {
           className={({ isActive }) =>
             isActive
               ? cn(
-                  'text-sm md:text-lg lg:text-xl xl:text-2xl',
+                  'text-sm md:text-lg xl:text-xl',
                   'text-blue-500 underline underline-offset-8 font-semibold',
                 )
               : cn(
-                  'text-sm md:text-lg lg:text-xl xl:text-2xl',
+                  'text-sm md:text-lg  xl:text-xl',
                   'hover:text-blue-500 font-semibold',
                 )
           }
@@ -37,11 +37,11 @@ function JobView() {
           className={({ isActive }) =>
             isActive
               ? cn(
-                  'text-sm md:text-lg lg:text-xl xl:text-2xl',
+                  'text-sm md:text-lg xl:text-xl',
                   'text-blue-500 underline underline-offset-8 font-semibold',
                 )
               : cn(
-                  'text-sm md:text-lg lg:text-xl xl:text-2xl',
+                  'text-sm md:text-lg  xl:text-xl',
                   'hover:text-blue-500 font-semibold',
                 )
           }

@@ -6,10 +6,12 @@ export default function FileField({
   onChange,
   value,
   inputSchema,
+  disabled,
 }: {
   onChange: (filePath: string) => void;
   value: string;
   inputSchema: InputSchema;
+  disabled: boolean;
 }) {
   const handleSelectFile = async () => {
     await window.fileSystem.selectFile().then((path) => {
@@ -18,9 +20,13 @@ export default function FileField({
     });
   };
 
+  const handleShowFileInExplorer = async () => {
+    await window.fileSystem.showFileInExplorer({ path: value });
+  };
+
   return (
     <div>
-      <h2 className="font-semibold text-lg">{inputSchema.label}</h2>
+      <h2 className="font-semibold text-sm xl:text-md">{inputSchema.label}</h2>
       <div className="flex items-center mt-2">
         <Input
           type="text"
@@ -28,7 +34,10 @@ export default function FileField({
           value={value || 'No File Selected'}
           readOnly
         />
-        <Button type="button" onClick={handleSelectFile}>
+        <Button
+          type="button"
+          onClick={disabled ? handleShowFileInExplorer : handleSelectFile}
+        >
           Browse
         </Button>
       </div>

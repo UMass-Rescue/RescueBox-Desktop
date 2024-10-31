@@ -1,11 +1,19 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ReloadIcon } from '@radix-ui/react-icons';
+import { Link, useParams } from 'react-router-dom';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogHeader,
+} from '@shadcn/components/ui/dialog';
+import InputField from '@shadcn/components/InputField';
+import { extractValuesFromRequestBodyInput } from '@shadcn/lib/utils';
+import ParameterField from '@shadcn/components/ParameterField';
 import { Button } from '../components/ui/button';
-import { useJob, useMLModel } from '../lib/hooks';
+import { useJob, useMLModel, useTask } from '../lib/hooks';
 import LoadingScreen from '../components/LoadingScreen';
-import CompletedIcon from '../components/icons/CompletedIcon';
-import FailedIcon from '../components/icons/FailedIcon';
-import CanceledIcon from '../components/icons/CanceledIcon';
+import StatusComponent from './sub-components/StatusComponent';
 
 function JobViewDetails() {
   const { jobId } = useParams();
@@ -18,7 +26,11 @@ function JobViewDetails() {
     isLoading: modelIsLoading,
   } = useMLModel(job?.modelUid);
 
-  const navigate = useNavigate();
+  const {
+    data: task,
+    error: taskError,
+    isLoading: taskIsLoading,
+  } = useTask(job?.taskUid, model?.uid);
 
   if (jobIsLoading) return <div>loading job..</div>;
   if (jobError)
@@ -28,73 +40,98 @@ function JobViewDetails() {
   if (modelIsLoading) return <LoadingScreen />;
   if (modelError)
     return <div>failed to load model. Error: {modelError.toString()}</div>;
-  if (!job) return <div>no model</div>;
+  if (!model) return <div>no model</div>;
 
-  const handleRetry = async () => {
-    navigate('/jobs');
-  };
+  if (taskIsLoading) return <LoadingScreen />;
+  if (taskError)
+    return <div>failed to load task. Error: {taskError.toString()}</div>;
+  if (!task) return <div>no task</div>;
 
   return (
-    <div className="w-full my-6 flex flex-col gap-4">
-      <div className="flex flex-row justify-between">
-        <div className="flex flex-row items-center gap-4">
-          <h1 className="font-bold text-lg md:text-xl lg:text-3xl">
-            Job Details
-          </h1>
-        </div>
-        {job.status !== 'Completed' && (
-          <Button className="flex flex-row gap-2" onClick={handleRetry}>
-            <ReloadIcon className="text-white size-5" />
-            Retry
-          </Button>
-        )}
-      </div>
-      <div>
-        {job.status === 'Completed' && (
-          <div className="flex flex-row gap-2 text-lg font-semibold items-center">
-            <CompletedIcon />
-            Completed
-          </div>
-        )}
-        {job.status === 'Failed' && (
-          <div className="flex flex-row gap-2 text-lg font-semibold items-center">
-            <FailedIcon />
-            Failed
-          </div>
-        )}
-        {job.status === 'Canceled' && (
-          <div className="flex flex-row gap-2 text-lg font-semibold items-center">
-            <CanceledIcon />
-            Canceled
-          </div>
-        )}
-      </div>
-      <div className="text-md lg:text-lg w-full flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <h1 className="font-bold">Start</h1>
-          <div className="p-2 border border-slate-400 bg-slate-200 rounded-lg w-full">
-            {job.startTime.toLocaleString('en-US', { timeZone: 'EST' })}
-          </div>
-        </div>
-        {job.status === 'Failed' && job.statusText && (
-          <div className="flex flex-col gap-2">
-            <h1 className="font-bold">Status Text</h1>
-            <div className="p-2 border border-slate-400 bg-slate-200 rounded-lg w-full">
-              {job.statusText}
+    <div className="w-full h-full my-6">
+      <h1 className="text-3xl font-bold py-2">{task?.shortTitle}</h1>
+      <div className="flex flex-col">
+        {/* First Column in the grid for job metadata */}
+        <div title="Job metadata" className="flex flex-col gap-2">
+          <StatusComponent status={job.status} />
+          {job.status === 'Failed' && job.statusText && (
+            <div className="flex flex-col gap-2">
+              <h1 className="font-bold text-sm xl:text-md">Status Text</h1>
+              <div className="p-2 border border-slate-400 bg-slate-200 rounded-lg w-full">
+                {job.statusText}
+              </div>
+            </div>
+          )}
+          <div className="w-full flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <h1 className="font-bold text-sm xl:text-md">Start Time</h1>
+              <div className="p-2 border border-slate-400 bg-slate-200 rounded-lg w-full">
+                {job.startTime.toLocaleString('en-US', { timeZone: 'EST' })}
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <h1 className="font-bold text-sm xl:text-md">End Time</h1>
+              <div className="p-2 border border-slate-400 bg-slate-200 rounded-lg w-full">
+                {job.endTime.toLocaleString('en-US', { timeZone: 'EST' })}
+              </div>
             </div>
           </div>
-        )}
-        <div className="flex flex-col gap-2">
-          <h1 className="font-bold">Model</h1>
-          <div className="flex flex-row items-center border border-slate-400 rounded-lg w-full justify-between py-1 px-3">
+        </div>
+        {/* Model + Task inputs & Params */}
+        <div title="Task metadata" className="flex flex-col gap-2 mt-2">
+          <h1 className="font-bold text-sm xl:text-md">Model</h1>
+          <div className="flex flex-row items-center border border-slate-400 rounded-lg w-full justify-between px-3">
             <div className="">{model?.name}</div>
             <Link
               to={`/models/${job.modelUid}/details`}
-              className="text-black text-base font-normal hover:-translate-y-0.5 transition-all rounded-lg"
+              className="text-black text-base font-normal hover:-translate-y-0.5 transition-all rounded-lg m-1"
             >
               <Button>Inspect</Button>
             </Link>
           </div>
+          <div className="flex flex-col gap-2">
+            {job.taskSchema.inputs.map((inputSchema) => (
+              <InputField
+                value={extractValuesFromRequestBodyInput(
+                  inputSchema.inputType,
+                  job.request.inputs[inputSchema.key],
+                )}
+                inputSchema={inputSchema}
+                onChange={() => undefined}
+                disabled
+              />
+            ))}
+          </div>
+          <div className="flex flex-col gap-2">
+            {job.taskSchema.parameters.map((paramSchema) => (
+              <ParameterField
+                value={job.request.parameters[paramSchema.key]}
+                parameterSchema={paramSchema}
+                onChange={() => undefined}
+                disabled
+              />
+            ))}
+          </div>
+
+          <Dialog>
+            <DialogTrigger asChild className="py-1 rounded-lg text-base">
+              <Button
+                variant="outline"
+                className="hover:-translate-y-0.5 transition-all py-2 rounded-lg"
+              >
+                View Raw JSON Request
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Task Request Body</DialogTitle>
+              </DialogHeader>
+              <div className="border border-slate-400 overflow-x-scroll rounded-lg py-2 px-3 bg-gray-800 text-blue-50">
+                {JSON.stringify(job.request)}
+              </div>
+              <DialogFooter className="sm:justify-start" />
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </div>

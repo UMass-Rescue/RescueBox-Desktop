@@ -93,6 +93,10 @@ function setupIpcMain() {
   ipcMain.handle('task:get-api-routes', taskHandler.getApiRoutes);
   ipcMain.handle('task:get-info', taskHandler.getInfo);
   ipcMain.handle('task:get-task-schema', taskHandler.getTaskSchema);
+  ipcMain.handle(
+    'task:get-task-by-model-uid-and-task-id',
+    taskHandler.getTaskByModelUidAndTaskId,
+  );
 }
 
 if (process.env.NODE_ENV === 'production') {

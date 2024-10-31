@@ -10,22 +10,39 @@ export default function ParameterField({
   parameterSchema,
   value,
   onChange,
+  disabled = false,
 }: {
   parameterSchema: ParameterSchema;
   value: any;
   onChange: (value: any) => void;
+  // eslint-disable-next-line
+  disabled?: boolean;
 }) {
   const { value: paramValue } = parameterSchema;
   switch (paramValue.parameterType) {
     case 'text':
       return (
-        <TextField parameterSchema={parameterSchema} onChange={onChange} />
+        <TextField
+          parameterSchema={parameterSchema}
+          onChange={onChange}
+          disabled={disabled}
+        />
       );
     case 'int':
-      return <IntField parameterSchema={parameterSchema} onChange={onChange} />;
+      return (
+        <IntField
+          parameterSchema={parameterSchema}
+          onChange={onChange}
+          disabled={disabled}
+        />
+      );
     case 'float':
       return (
-        <FloatField parameterSchema={parameterSchema} onChange={onChange} />
+        <FloatField
+          parameterSchema={parameterSchema}
+          onChange={onChange}
+          disabled={disabled}
+        />
       );
     case 'enum':
       return (
@@ -33,6 +50,7 @@ export default function ParameterField({
           parameterSchema={parameterSchema}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     case 'ranged_int':
@@ -41,6 +59,7 @@ export default function ParameterField({
           parameterSchema={parameterSchema}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     case 'ranged_float':
@@ -49,6 +68,7 @@ export default function ParameterField({
           parameterSchema={parameterSchema}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     default:
