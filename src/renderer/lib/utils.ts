@@ -1,9 +1,15 @@
 import { clsx, type ClassValue } from 'clsx';
 import {
+  BatchDirectoryInput,
+  BatchFileInput,
+  BatchTextInput,
+  DirectoryInput,
+  FileInput,
   Input,
   InputType,
   RequestBody,
   TaskSchema,
+  TextInput,
 } from 'src/shared/generated_models';
 import { ModelServer } from 'src/shared/models';
 import { twMerge } from 'tailwind-merge';
@@ -23,30 +29,64 @@ export function createMLServerMap(servers: ModelServer[]) {
 
 export function buildRequestBody(
   taskSchema: TaskSchema,
-  data: { [key: string]: any },
+  data: { [key: string]: string | string[] },
 ): RequestBody {
   const requestBody: RequestBody = {
     inputs: {},
     parameters: {},
   };
   taskSchema.inputs.forEach((input) => {
+    const inputData = data[input.key];
     switch (input.inputType) {
       case 'text':
       case 'textarea':
-        requestBody.inputs[input.key] = { text: data[input.key] };
+        if (typeof inputData !== 'string') {
+          throw new Error(`Invalid data type for textarea input: ${inputData}`);
+        }
+        requestBody.inputs[input.key] = { text: inputData };
         break;
       case 'file':
       case 'directory':
-        requestBody.inputs[input.key] = { path: data[input.key] };
+        if (typeof inputData !== 'string') {
+          throw new Error(
+            `Invalid data type for directory input: ${inputData}`,
+          );
+        }
+        requestBody.inputs[input.key] = {
+          path: inputData,
+        } satisfies DirectoryInput;
         break;
       case 'batchtext':
-        requestBody.inputs[input.key] = { texts: data[input.key] };
+        if (!Array.isArray(inputData)) {
+          throw new Error(
+            `Invalid data type for batchtext input: ${inputData}`,
+          );
+        }
+        requestBody.inputs[input.key] = {
+          texts: inputData.map((text) => ({ text }) satisfies TextInput),
+        } satisfies BatchTextInput;
         break;
       case 'batchfile':
-        requestBody.inputs[input.key] = { files: data[input.key] };
+        if (!Array.isArray(inputData)) {
+          throw new Error(
+            `Invalid data type for batchfile input: ${inputData}`,
+          );
+        }
+        requestBody.inputs[input.key] = {
+          files: inputData.map((file) => ({ path: file }) satisfies FileInput),
+        } satisfies BatchFileInput;
         break;
       case 'batchdirectory':
-        requestBody.inputs[input.key] = { directories: data[input.key] };
+        if (!Array.isArray(inputData)) {
+          throw new Error(
+            `Invalid data type for batchdirectory input: ${inputData}`,
+          );
+        }
+        requestBody.inputs[input.key] = {
+          directories: inputData.map(
+            (dir) => ({ path: dir }) satisfies DirectoryInput,
+          ),
+        } satisfies BatchDirectoryInput;
         break;
       default:
         break;
@@ -74,11 +114,13 @@ export function extractValuesFromRequestBodyInput(
       break;
     case 'batchfile':
       // @ts-ignore
-      value = reqInput.files;
+      value = (reqInput as BatchFileInput).files.map((file) => file.path);
       break;
     case 'batchdirectory':
       // @ts-ignore
-      value = reqInput.directories;
+      value = (reqInput as BatchDirectoryInput).directories.map(
+        (dir) => dir.path,
+      );
       break;
     case 'text':
       // @ts-ignore
@@ -86,7 +128,7 @@ export function extractValuesFromRequestBodyInput(
       break;
     case 'batchtext':
       // @ts-ignore
-      value = reqInput.texts;
+      value = (reqInput as BatchTextInput).texts.map((text) => text.text);
       break;
     case 'textarea':
       // @ts-ignore
