@@ -1,7 +1,7 @@
-import LoadingScreen from '@shadcn/components/LoadingScreen';
-import { useApiRoutes, useMLModel } from '@shadcn/lib/hooks';
-import { cn } from '@shadcn/lib/utils';
+import LoadingScreen from 'src/renderer/components/LoadingScreen';
+import { cn } from 'src/renderer/lib/utils';
 import { NavLink, Outlet, useParams } from 'react-router-dom';
+import { useApiRoutes, useMLModel } from '../lib/hooks';
 
 function ModelRun() {
   const { modelUid } = useParams();

@@ -3,7 +3,7 @@
 
 'use client';
 
-import { cn } from '@shadcn/lib/utils';
+import { cn } from 'src/renderer/lib/utils';
 import * as React from 'react';
 
 export interface TextareaProps

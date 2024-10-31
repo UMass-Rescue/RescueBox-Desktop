@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import PreviewModal from '@shadcn/components/PreviewModal';
+import PreviewModal from 'src/renderer/components/PreviewModal';
 import videoResponse from 'src/shared/dummy_data/file_response_video';
 import { useJob } from '../lib/hooks';
 
