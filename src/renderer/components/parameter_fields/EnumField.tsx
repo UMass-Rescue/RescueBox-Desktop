@@ -27,7 +27,7 @@ export default function EnumField({
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Select Value" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="w-full">
           {descriptor.enumVals.map((enumVal) => {
             return (
               <SelectItem key={enumVal.key} value={enumVal.key!}>
