@@ -14,10 +14,12 @@ export default function BatchTextField({
   inputSchema,
   value,
   onChange,
+  disabled = false,
 }: {
   inputSchema: InputSchema;
   value: string[];
   onChange: (value: string[]) => void;
+  disabled: boolean;
 }) {
   const [fields, setFields] = useState<string[]>(value || []);
 
@@ -40,9 +42,9 @@ export default function BatchTextField({
 
   return (
     <div>
-      <h2 className="font-semibold text-lg">{inputSchema.label}</h2>
+      <h2 className="font-semibold text-sm xl:text-md">{inputSchema.label}</h2>
       <div className="mt-2">
-        {fields.length === 0 && (
+        {!disabled && fields.length === 0 && (
           <div className="flex items-center mb-2">
             <Textarea
               value=""
@@ -77,42 +79,44 @@ export default function BatchTextField({
               value={field}
               onChange={(e) => handleChange(index, e.target.value)}
               className="flex-grow"
+              disabled={disabled}
             />
-            {index === fields.length - 1 ? (
-              <TooltipProvider delayDuration={100}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      type="button"
-                      onClick={handleAddField}
-                      className="ml-2 self-start"
-                    >
-                      <PlusCircledIcon className="size-5" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    <p>Add</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ) : (
-              <TooltipProvider delayDuration={100}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      type="button"
-                      onClick={() => handleRemoveField(index)}
-                      className="ml-2 self-start"
-                    >
-                      <MinusCircledIcon className="size-5" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    <p>Remove</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            )}
+            {!disabled &&
+              (index === fields.length - 1 ? (
+                <TooltipProvider delayDuration={100}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        onClick={handleAddField}
+                        className="ml-2 self-start"
+                      >
+                        <PlusCircledIcon className="size-5" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom">
+                      <p>Add</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ) : (
+                <TooltipProvider delayDuration={100}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        onClick={() => handleRemoveField(index)}
+                        className="ml-2 self-start"
+                      >
+                        <MinusCircledIcon className="size-5" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom">
+                      <p>Remove</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ))}
           </div>
         ))}
       </div>

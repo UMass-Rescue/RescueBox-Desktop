@@ -7,15 +7,18 @@ const migration0008Tasks = {
   name: MIGRATION_NAME,
   async up({ context: queryInterface }: { context: QueryInterface }) {
     await queryInterface.createTable(TABLE_NAME, {
-      uid: {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      taskId: {
         type: DataTypes.STRING,
         allowNull: false,
-        primaryKey: true,
       },
       modelUid: {
         type: DataTypes.STRING,
         allowNull: false,
-        primaryKey: true,
       },
       shortTitle: {
         type: DataTypes.STRING,

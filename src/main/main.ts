@@ -12,6 +12,7 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log/main';
+import isDummyMode from 'src/shared/dummy_data/set_dummy_mode';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import * as registration from './handlers/registration';
@@ -57,6 +58,7 @@ function setupIpcMain() {
     registration.getModelAppStatus,
   );
   ipcMain.handle('register:get-model-servers', registration.getModelServers);
+  ipcMain.handle('register:get-model-server', registration.getModelServer);
 
   // Models: handles registering models
   ipcMain.handle('models:get-models', models.getModels);
@@ -71,6 +73,10 @@ function setupIpcMain() {
 
   // File System: handles file system operations
   ipcMain.handle('fileSystem:open-path', fileSystem.openPath);
+  ipcMain.handle(
+    'fileSystem:show-file-in-explorer',
+    fileSystem.showFileInExplorer,
+  );
   ipcMain.handle('fileSystem:select-directory', fileSystem.selectDirectory);
   ipcMain.handle('fileSystem:select-directories', fileSystem.selectDirectories);
   ipcMain.handle('fileSystem:select-file', fileSystem.selectFile);
@@ -87,6 +93,10 @@ function setupIpcMain() {
   ipcMain.handle('task:get-api-routes', taskHandler.getApiRoutes);
   ipcMain.handle('task:get-info', taskHandler.getInfo);
   ipcMain.handle('task:get-task-schema', taskHandler.getTaskSchema);
+  ipcMain.handle(
+    'task:get-task-by-model-uid-and-task-id',
+    taskHandler.getTaskByModelUidAndTaskId,
+  );
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -204,8 +214,14 @@ app
     createWindow();
     const dbPath = getDbPath(app);
     log.info('Database location is', dbPath);
-    // await DatabaseConn.initDatabase(dbPath);
-    await DatabaseConn.initDatabaseTest(dbPath);
+    if (isDummyMode) {
+      log.info('Initializing dummy data');
+      await DatabaseConn.initDatabaseTest(dbPath);
+    } else {
+      log.info('Initializing database');
+      await DatabaseConn.initDatabase(dbPath);
+      await DatabaseConn.resetDatabase(dbPath);
+    }
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.

@@ -7,6 +7,7 @@ import {
   Job,
   ModelAppStatus,
   RunJobArgs,
+  Task,
 } from 'src/shared/models';
 import {
   ModelInfo,
@@ -15,6 +16,7 @@ import {
 } from 'src/shared/generated_models';
 import {
   GetModelAppStatusArgs,
+  GetModelServerArgs,
   RegisterModelArgs,
   UnregisterModelArgs,
 } from './handlers/registration';
@@ -24,6 +26,7 @@ import { PathArgs } from './handlers/file-system';
 import {
   GetApiRoutesArgs,
   GetInfoArgs,
+  GetTaskByModelUidAndTaskIdArgs,
   GetTaskSchemaArgs,
 } from './handlers/task';
 
@@ -45,6 +48,11 @@ const registrationHandler = {
     ) as Promise<ModelAppStatus>,
   getModelServers: () =>
     ipcRenderer.invoke('register:get-model-servers') as Promise<ModelServer[]>,
+  getModelServer: (args: GetModelServerArgs) =>
+    ipcRenderer.invoke(
+      'register:get-model-server',
+      args,
+    ) as Promise<ModelServer>,
 };
 
 const modelsHandler = {
@@ -69,6 +77,11 @@ const jobHandler = {
 const fileSystemHandler = {
   openPath: (args: PathArgs) =>
     ipcRenderer.invoke('fileSystem:open-path', args) as Promise<string>,
+  showFileInExplorer: (args: PathArgs) =>
+    ipcRenderer.invoke(
+      'fileSystem:show-file-in-explorer',
+      args,
+    ) as Promise<void>,
   selectDirectory: () =>
     ipcRenderer.invoke('fileSystem:select-directory') as Promise<string>,
   selectDirectories: () =>
@@ -99,6 +112,11 @@ const taskHandler = {
     ipcRenderer.invoke('task:get-info', args) as Promise<ModelInfo>,
   getTaskSchema: (args: GetTaskSchemaArgs) =>
     ipcRenderer.invoke('task:get-task-schema', args) as Promise<TaskSchema>,
+  getTaskByModelUidAndTaskId: (args: GetTaskByModelUidAndTaskIdArgs) =>
+    ipcRenderer.invoke(
+      'task:get-task-by-model-uid-and-task-id',
+      args,
+    ) as Promise<Task>,
 };
 
 const loggingHandler = {

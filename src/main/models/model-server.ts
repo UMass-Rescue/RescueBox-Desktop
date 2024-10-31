@@ -81,6 +81,7 @@ class ModelServerDb extends Model<
       {
         serverAddress,
         serverPort,
+        isUserConnected: true,
       },
       {
         where: {

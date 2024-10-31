@@ -6,10 +6,12 @@ export default function DirectoryField({
   onChange,
   value,
   inputSchema,
+  disabled,
 }: {
   onChange: (filePath: string) => void;
   value: string;
   inputSchema: InputSchema;
+  disabled: boolean;
 }) {
   const handleSelectDirectory = async () => {
     await window.fileSystem.selectDirectory().then((newPath) => {
@@ -18,9 +20,13 @@ export default function DirectoryField({
     });
   };
 
+  const handleOpenDirectory = async () => {
+    await window.fileSystem.openPath({ path: value });
+  };
+
   return (
     <div>
-      <h2 className="font-semibold text-lg">{inputSchema.label}</h2>
+      <h2 className="font-semibold text-sm xl:text-md">{inputSchema.label}</h2>
       <div className="flex items-center mt-2">
         <Input
           type="text"
@@ -28,7 +34,10 @@ export default function DirectoryField({
           value={value || 'No Directory Selected'}
           readOnly
         />
-        <Button type="button" onClick={handleSelectDirectory}>
+        <Button
+          type="button"
+          onClick={disabled ? handleOpenDirectory : handleSelectDirectory}
+        >
           Browse
         </Button>
       </div>

@@ -45,6 +45,18 @@ class MLModelDb extends Model<
     });
   }
 
+  public static getModelByModelInfoAndRoutes(
+    modelInfo: ModelInfo,
+    routes: APIRoutes,
+  ) {
+    const uid = createModelId(modelInfo, routes);
+    return MLModelDb.findOne({
+      where: {
+        uid,
+      },
+    });
+  }
+
   public static createModel(modelInfo: ModelInfo, routes: APIRoutes) {
     const uid = createModelId(modelInfo, routes);
     const { name, version, author } = modelInfo;

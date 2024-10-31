@@ -1,5 +1,5 @@
 import { ModelAppStatus, ModelServer } from 'src/shared/models';
-import useSWR from 'swr';
+import useSWR, { SWRConfiguration } from 'swr';
 
 const JOBS_REFRESH_INTERVAL = 200;
 
@@ -62,6 +62,24 @@ export function useServers() {
 
   return {
     servers: data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}
+
+export function useServer(modelUid?: string, options?: SWRConfiguration) {
+  const fetcher = () =>
+    window.registration.getModelServer({ modelUid: modelUid! });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    modelUid ? `register:get-model-app-ip-${modelUid}` : null,
+    fetcher,
+    options,
+  );
+
+  return {
+    data,
     error,
     isLoading,
     isValidating,
@@ -192,6 +210,30 @@ export function useTaskSchema(modelUid?: string, taskId?: string) {
     });
   const { data, error, isLoading, isValidating, mutate } = useSWR(
     modelUid && taskId ? `task:get-task-schema-${modelUid}-${taskId}` : null,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    },
+  );
+  return {
+    data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}
+
+export function useTask(taskId?: string, modelUid?: string) {
+  const fetcher = async () =>
+    window.task.getTaskByModelUidAndTaskId({
+      modelUid: modelUid!,
+      taskId: taskId!,
+    });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    modelUid && taskId
+      ? `task:get-task-by-model-uid-and-task-id-${modelUid}-${taskId}`
+      : null,
     fetcher,
     {
       revalidateOnFocus: false,

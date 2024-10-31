@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ModelAppStatus } from 'src/shared/models';
 import log from 'electron-log/main';
-import { ModelInfo } from 'src/shared/generated_models';
 import ModelServer from '../models/model-server';
 import { getRaw } from '../util';
-import getTaskServiceByModelUid from '../flask-ml/task-service';
+import ModelAppService from '../flask-ml/model-app-service';
+import RegisterModelService from '../flask-ml/register-model-service';
 
 export type RegisterModelArgs = {
-  modelUid: string;
+  modelUid?: string;
   serverAddress: string;
   serverPort: number;
 };
@@ -19,15 +20,28 @@ export type GetModelAppStatusArgs = {
   modelUid: string;
 };
 
+export type GetModelServerArgs = GetModelAppStatusArgs;
+
 const registerModelAppIp = async (_event: any, arg: RegisterModelArgs) => {
+  if (!arg.modelUid) {
+    return RegisterModelService.registerModel(
+      arg.serverAddress,
+      arg.serverPort,
+    ).then(getRaw);
+  }
   log.info(
-    `Registering model ${arg.modelUid} at ${arg.serverAddress}:${arg.serverPort}`,
+    `Updating registration info for ${arg.modelUid} at ${arg.serverAddress}:${arg.serverPort}`,
   );
-  return ModelServer.registerServer(
+  await ModelServer.updateServer(
     arg.modelUid,
     arg.serverAddress,
     arg.serverPort,
-  ).then(getRaw);
+  );
+  const server = await ModelServer.getServerByModelUid(arg.modelUid);
+  if (!server) {
+    throw new Error(`FATAL: Server not found for model ${arg.modelUid}`);
+  }
+  return getRaw(server);
 };
 
 const unregisterModelAppIp = async (_event: any, arg: UnregisterModelArgs) => {
@@ -39,23 +53,28 @@ const getModelServers = async () => {
   return ModelServer.getAllServers().then((servers) => servers.map(getRaw));
 };
 
+const getModelServer = async (event: any, arg: GetModelServerArgs) => {
+  return ModelServer.getServerByModelUid(arg.modelUid).then(getRaw);
+};
+
 const getModelAppStatus = async (
   _event: any,
   arg: GetModelAppStatusArgs,
 ): Promise<ModelAppStatus> => {
   const server = await ModelServer.getServerByModelUid(arg.modelUid);
-  if (!server || !server.isUserConnected) {
+  if (!server) {
+    log.error(`Server not found for model ${arg.modelUid}`);
+    log.info("Returning 'Unregistered' status");
     return ModelAppStatus.Unregistered;
   }
-  const taskService = await getTaskServiceByModelUid(arg.modelUid);
-  return (
-    taskService
-      .getInfo()
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .then((res: ModelInfo) => ModelAppStatus.Online)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .catch((_err) => ModelAppStatus.Offline)
-  );
+  if (!server.isUserConnected) {
+    return ModelAppStatus.Unregistered;
+  }
+  const modelAppService = await ModelAppService.init(arg.modelUid);
+  const healthBool = await modelAppService.pingHealth();
+  server.isUserConnected = healthBool;
+  await server.save();
+  return healthBool ? ModelAppStatus.Online : ModelAppStatus.Offline;
 };
 
 export {
@@ -63,4 +82,5 @@ export {
   unregisterModelAppIp,
   getModelAppStatus,
   getModelServers,
+  getModelServer,
 };

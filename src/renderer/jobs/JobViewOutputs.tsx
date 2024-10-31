@@ -1,4 +1,6 @@
 import { useParams } from 'react-router-dom';
+import PreviewModal from '@shadcn/components/PreviewModal';
+import videoResponse from 'src/shared/dummy_data/file_response_video';
 import { useJob } from '../lib/hooks';
 
 function JobViewOutputs() {
@@ -10,7 +12,15 @@ function JobViewOutputs() {
   if (jobError)
     return <div>failed to load job. Error: {jobError.toString()}</div>;
 
-  return <div>Job ID: {jobId}</div>;
+  const { response } = job;
+  if (!response) return <div>No response available</div>;
+
+  return (
+    <div>
+      <div>Job ID: {jobId}</div>
+      <PreviewModal response={videoResponse} />
+    </div>
+  );
 }
 
 export default JobViewOutputs;

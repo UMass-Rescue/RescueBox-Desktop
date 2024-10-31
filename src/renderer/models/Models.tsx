@@ -1,6 +1,4 @@
-import { Link } from 'react-router-dom';
-import { Button } from '../components/ui/button';
-import { ConnectIcon } from '../components/icons/ConnectIcon';
+import RegisterModelButton from '@shadcn/components/RegisterModelButton';
 import { useMLModels, useServers, useServerStatuses } from '../lib/hooks';
 import LoadingIcon from '../components/icons/LoadingIcon';
 import LoadingScreen from '../components/LoadingScreen';
@@ -51,20 +49,7 @@ function Models() {
         Available Models
         {statusIsValidating && <LoadingIcon className="size-8 text-blue-600" />}
       </h1>
-      {onModels.length === 0 && (
-        <Link to="/registration">
-          <Button
-            className="hover:-translate-y-0.5  flex flex-row gap-2  "
-            variant="default"
-            size="lg"
-          >
-            <p>Register a model </p>
-            <div className="-mr-1">
-              <ConnectIcon className="fill-white" />
-            </div>
-          </Button>
-        </Link>
-      )}
+      {onModels.length === 0 && <RegisterModelButton />}
       {onModels.length > 0 && (
         <ModelsTable models={onModels} serverStatuses={serverStatuses} />
       )}

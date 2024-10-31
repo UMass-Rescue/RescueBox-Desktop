@@ -11,6 +11,7 @@ import migration0007JobsAddTaskUid from './0007_jobs_add_task_uid';
 import migration0008Tasks from './0008_tasks';
 import migration0006JobsAddRequest from './0006_jobs_add_request';
 import migration0009ModelsReviseSchema from './0009_models_revise_schema';
+import migration0010ShiftTaskSchemaFromTasksToJobs from './0010_shift_task_schema_from_tasks_to_jobs';
 
 export default function getMigrationsUmzug(sequelize: Sequelize) {
   return new Umzug({
@@ -27,6 +28,7 @@ export default function getMigrationsUmzug(sequelize: Sequelize) {
       migration0007JobsAddTaskUid,
       migration0008Tasks,
       migration0009ModelsReviseSchema,
+      migration0010ShiftTaskSchemaFromTasksToJobs,
     ],
     logger: log,
   });

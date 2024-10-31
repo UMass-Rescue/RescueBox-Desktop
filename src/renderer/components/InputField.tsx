@@ -7,24 +7,36 @@ import BatchTextField from './input_fields/BatchTextField';
 import BatchDirectoryField from './input_fields/BatchDirectoryField';
 import BatchFileField from './input_fields/BatchFileField';
 
+type InputFieldProps = {
+  inputSchema: InputSchema;
+  value: any;
+  onChange: (value: any) => void;
+  // eslint-disable-next-line react/require-default-props
+  disabled?: boolean;
+};
+
 export default function InputField({
   inputSchema,
   value,
   onChange,
-}: {
-  inputSchema: InputSchema;
-  value: any;
-  onChange: (value: any) => void;
-}) {
+  disabled = false,
+}: InputFieldProps) {
   switch (inputSchema.inputType) {
     case 'text':
-      return <TextField inputSchema={inputSchema} onChange={onChange} />;
+      return (
+        <TextField
+          inputSchema={inputSchema}
+          onChange={onChange}
+          disabled={disabled}
+        />
+      );
     case 'textarea':
       return (
         <TextAreaField
           inputSchema={inputSchema}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     case 'file':
@@ -33,6 +45,7 @@ export default function InputField({
           inputSchema={inputSchema}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     case 'directory':
@@ -41,6 +54,7 @@ export default function InputField({
           inputSchema={inputSchema}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     case 'batchtext':
@@ -49,6 +63,7 @@ export default function InputField({
           inputSchema={inputSchema}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     case 'batchfile':
@@ -57,6 +72,7 @@ export default function InputField({
           inputSchema={inputSchema}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     case 'batchdirectory':
@@ -65,6 +81,7 @@ export default function InputField({
           inputSchema={inputSchema}
           value={value}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     default:

@@ -1,12 +1,13 @@
 /* eslint-disable no-use-before-define */
 import {
+  CreationOptional,
   DataTypes,
   InferAttributes,
   InferCreationAttributes,
   Model,
   Sequelize,
 } from 'sequelize';
-import { SchemaAPIRoute, TaskSchema } from 'src/shared/generated_models';
+import { SchemaAPIRoute } from 'src/shared/generated_models';
 import MLModelDb from './ml-model';
 
 /*
@@ -21,7 +22,9 @@ class TaskDb extends Model<
   InferAttributes<TaskDb>,
   InferCreationAttributes<TaskDb>
 > {
-  declare uid: string;
+  declare id: CreationOptional<number>;
+
+  declare taskId: string;
 
   declare modelUid: string;
 
@@ -31,16 +34,15 @@ class TaskDb extends Model<
 
   declare taskOrder: number;
 
-  declare taskSchema: TaskSchema; // JSON String
-
   public static getAllTasks() {
     return TaskDb.findAll();
   }
 
-  public static async getTaskByUid(uid: string) {
+  public static async getTask(taskId: string, modelUid: string) {
     return TaskDb.findOne({
       where: {
-        uid,
+        taskId,
+        modelUid,
       },
     });
   }
@@ -53,11 +55,19 @@ class TaskDb extends Model<
     });
   }
 
+  public static getTaskByModelUidAndTaskId(taskId: string, modelUid: string) {
+    return TaskDb.findOne({
+      where: {
+        taskId,
+        modelUid,
+      },
+    });
+  }
+
   public static createTask(
-    uid: string,
+    taskId: string,
     modelUid: string,
     schemaApiRoute: SchemaAPIRoute,
-    taskSchema: TaskSchema,
   ) {
     const {
       short_title: shortTitle,
@@ -66,12 +76,11 @@ class TaskDb extends Model<
     } = schemaApiRoute;
 
     return TaskDb.create({
-      uid,
+      taskId,
       modelUid,
       shortTitle,
       taskRoute,
       taskOrder,
-      taskSchema,
     });
   }
 
@@ -80,25 +89,20 @@ class TaskDb extends Model<
       uid: string;
       modelUid: string;
       schemaApiRoute: SchemaAPIRoute;
-      taskSchema: TaskSchema;
     }[],
   ) {
     return Promise.all(
       taskParams.map((tP) =>
-        TaskDb.createTask(
-          tP.uid,
-          tP.modelUid,
-          tP.schemaApiRoute,
-          tP.taskSchema,
-        ),
+        TaskDb.createTask(tP.uid, tP.modelUid, tP.schemaApiRoute),
       ),
     );
   }
 
-  public static deleteTask(uid: string) {
+  public static deleteTask(taskId: string, modelUid: string) {
     return TaskDb.destroy({
       where: {
-        uid,
+        taskId,
+        modelUid,
       },
     });
   }
@@ -107,10 +111,14 @@ class TaskDb extends Model<
 export const initTask = async (connection: Sequelize) => {
   TaskDb.init(
     {
-      uid: {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      taskId: {
         type: DataTypes.STRING,
         allowNull: false,
-        primaryKey: true,
       },
       modelUid: {
         type: DataTypes.STRING,
@@ -119,7 +127,6 @@ export const initTask = async (connection: Sequelize) => {
           model: MLModelDb,
           key: 'uid',
         },
-        primaryKey: true,
       },
       shortTitle: {
         type: DataTypes.STRING,
@@ -132,17 +139,6 @@ export const initTask = async (connection: Sequelize) => {
       taskRoute: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      taskSchema: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-        get() {
-          // @ts-ignore
-          return JSON.parse(this.getDataValue('taskSchema') as TaskSchema);
-        },
-        set(value) {
-          this.setDataValue('taskSchema', JSON.stringify(value) as any);
-        },
       },
     },
     {

@@ -2,7 +2,7 @@ import { createModelId } from 'src/main/models/ml-model';
 import isrModelInfo from 'src/shared/dummy_data/info_page';
 import { APIRoutes, ModelInfo } from 'src/shared/generated_models';
 
-const isrModelRoutes: APIRoutes = [
+export const isrModelRoutes: APIRoutes = [
   {
     order: 0,
     payload_schema: '/super-resolution/payload_schema',
@@ -13,7 +13,7 @@ const isrModelRoutes: APIRoutes = [
   },
 ];
 
-const sbfModelInfo: ModelInfo = {
+export const sbfModelInfo: ModelInfo = {
   name: 'Small Block Forensics',
   info: `
 # Small Block Forensics
@@ -35,7 +35,7 @@ This model determines the existence of any subset of some small dataset in a lar
   version: '1.0.0',
 };
 
-const sbfModelRoutes: APIRoutes = [
+export const sbfModelRoutes: APIRoutes = [
   {
     order: 0,
     payload_schema: '/gen_hash_random/payload_schema',
@@ -62,7 +62,7 @@ const sbfModelRoutes: APIRoutes = [
   },
 ];
 
-const imgObjModelInfo: ModelInfo = {
+export const imgObjModelInfo: ModelInfo = {
   name: 'Image Object Detection',
   info: `
 # Image Object Detection
@@ -86,7 +86,7 @@ This model identifies and classifies objects in an image.
   version: '1.0.0',
 };
 
-const imgObjModelRoutes: APIRoutes = [
+export const imgObjModelRoutes: APIRoutes = [
   {
     order: 0,
     payload_schema: '/detect/payload_schema',

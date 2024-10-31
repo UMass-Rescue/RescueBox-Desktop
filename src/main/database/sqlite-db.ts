@@ -55,7 +55,6 @@ class SQLiteDB {
   async initDummyData(): Promise<void> {
     await MLModelDb.createModels(dummyModels);
     await ModelServerDb.bulkCreate(serverData);
-    // @ts-ignore
     await JobDb.bulkCreate(jobData);
     await TaskDb.createTasks(dummyTaskData);
 
@@ -81,6 +80,7 @@ class SQLiteDB {
     await ModelServerDb.destroy({ where: {} });
     await JobDb.destroy({ where: {} });
     await TaskDb.destroy({ where: {} });
+    await MLModelDb.destroy({ where: {} });
     await this.initModels();
   }
 
