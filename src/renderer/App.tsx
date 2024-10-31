@@ -14,7 +14,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
 import Jobs from './jobs/Jobs';
 import Models from './models/Models';
-import NavBar from './NavBar';
+import NavBar from './navigation/NavBar';
 import Registration from './registration/Registration';
 import ModelDetails from './models/ModelDetails';
 import ModelRun from './models/ModelRun';
@@ -25,7 +25,7 @@ import { ImageTitleNavBar, NavBarItem } from './NavBarItem';
 import FallbackError from './components/FallbackError';
 import RegistrationIcon from './components/icons/RegistrationIcon';
 import LogsIcon from './components/icons/LogsIcon';
-import AuditLogs from './AuditLogs';
+import AuditLogs from './audit_logs/AuditLogs';
 import ModelRunTask from './models/ModelRunTask';
 import ModelAppConnect from './registration/ModelAppConnect';
 
