@@ -12,6 +12,8 @@ import dummyApiRoutes from 'src/shared/dummy_data/api_routes';
 import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
 import taskSchemas from 'src/shared/dummy_data/task_schemas';
 import isDummyMode from 'src/shared/dummy_data/set_dummy_mode';
+import camelcaseKeys from 'camelcase-keys';
+import log from 'electron-log/main';
 import ModelServerDb from '../models/model-server';
 import MLModelDb from '../models/ml-model';
 
@@ -109,6 +111,7 @@ class ModelAppService {
 
   public async getTaskSchema(taskId: string): Promise<TaskSchema> {
     if (isDummyMode) {
+      log.info(`Fetching task schema for task ${taskId}`);
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(taskSchemas[Number(taskId)]);
@@ -116,16 +119,19 @@ class ModelAppService {
       });
     }
     const task = this.findRouteByTaskId(taskId);
-    return fetch(
-      `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${task.task_schema}`,
-    )
+    const url = `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${task.task_schema}`;
+    log.info(`Fetching task schema from ${url}`);
+    return fetch(url)
       .then((res) => {
         if (res.status !== 200) {
           throw new Error('Failed to fetch task schema.');
         }
         return res.json();
       })
-      .then((data: TaskSchema) => data);
+      .then(
+        (data: Record<string, unknown>) =>
+          camelcaseKeys(data, { deep: true }) as unknown as TaskSchema,
+      );
   }
 
   public async pingHealth(): Promise<boolean> {
