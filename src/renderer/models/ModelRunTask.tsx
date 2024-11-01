@@ -22,7 +22,7 @@ export default function ModelRunTask() {
   const {
     data: taskSchema,
     error: taskSchemaError,
-    isValidating: taskSchemaIsValidating,
+    isLoading: taskSchemaIsLoading,
   } = useTaskSchema(modelUid, order);
 
   const {
@@ -43,7 +43,7 @@ export default function ModelRunTask() {
     return <div>Task not found.</div>;
   }
 
-  if (taskSchemaIsValidating) {
+  if (taskSchemaIsLoading) {
     return (
       <div className="h-1/3 flex flex-col items-center justify-center gap-2">
         <LoadingIcon className="text-blue-600 size-10" />
