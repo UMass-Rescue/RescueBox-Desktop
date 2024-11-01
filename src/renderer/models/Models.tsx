@@ -45,7 +45,7 @@ function Models() {
 
   return (
     <div className="m-3">
-      <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4 flex flex-row gap-8 items-center">
+      <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-5 flex flex-row gap-8 items-center">
         Available Models
         {statusIsValidating && <LoadingIcon className="size-8 text-blue-600" />}
       </h1>
@@ -53,8 +53,7 @@ function Models() {
       {onModels.length > 0 && (
         <ModelsTable models={onModels} serverStatuses={serverStatuses} />
       )}
-      <br className="my-5" />
-      <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4 flex flex-row gap-8 items-center">
+      <h1 className="font-bold text-xl md:text-2xl lg:text-4xl my-5 flex flex-row gap-8 items-center">
         Unavailable Models
         {statusIsValidating && <LoadingIcon className="size-8 text-blue-600" />}
       </h1>
