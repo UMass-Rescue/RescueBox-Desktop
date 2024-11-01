@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { mutate } from 'swr';
 import { useState } from 'react';
+import { ModelAppStatus } from 'src/shared/models';
 import { Button } from '../components/ui/button';
 import { Label } from '../components/ui/label';
 import { Input } from '../components/ui/input';
@@ -25,6 +26,7 @@ function ModelAppConnect() {
   const navigate = useNavigate();
 
   const [isConnecting, setIsConnecting] = useState(false);
+  const [invalidServer, setInvalidServer] = useState(false);
 
   const {
     register,
@@ -53,21 +55,34 @@ function ModelAppConnect() {
 
   const onSubmit: SubmitHandler<ConnectInputs> = async (data) => {
     setIsConnecting(true);
-    if (modelUid === 'new_model') {
-      await window.registration.registerModelAppIp({
-        serverAddress: data.ip,
-        serverPort: Number(data.port),
-      });
-    } else {
-      await window.registration.registerModelAppIp({
-        modelUid,
-        serverAddress: data.ip,
-        serverPort: Number(data.port),
-      });
+    try {
+      if (modelUid === 'new_model') {
+        await window.registration.registerModelAppIp({
+          serverAddress: data.ip,
+          serverPort: Number(data.port),
+        });
+      } else {
+        await window.registration.registerModelAppIp({
+          modelUid,
+          serverAddress: data.ip,
+          serverPort: Number(data.port),
+        });
+        const status = await window.registration.getModelAppStatus({
+          modelUid,
+        });
+        if (
+          status === ModelAppStatus.Error ||
+          status === ModelAppStatus.Offline
+        ) {
+          throw new Error('Failed to connect to the model server');
+        }
+      }
+      await mutate(() => true, undefined);
+      navigate('/registration');
+    } catch (error) {
+      setInvalidServer(true);
     }
-    await mutate(() => true, undefined);
     setIsConnecting(false);
-    navigate('/registration');
   };
 
   if (modelIsLoading) return <LoadingIcon />;
@@ -100,6 +115,7 @@ function ModelAppConnect() {
             <Input
               {...register('ip', {
                 required: 'This field is required',
+                onChange: () => setInvalidServer(false),
                 pattern: {
                   value:
                     /^localhost|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
@@ -112,6 +128,7 @@ function ModelAppConnect() {
             <Input
               {...register('port', {
                 required: 'This field is required',
+                onChange: () => setInvalidServer(false),
                 pattern: {
                   value:
                     /^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/,
@@ -135,13 +152,19 @@ function ModelAppConnect() {
           </Button>
         </form>
         {errors.ip && (
-          <span className="text-red-500 text-xs -mt-3">
+          <span className="text-red-500 text-xs -mt-2">
             Please enter a valid server address.
           </span>
         )}
         {errors.port && (
-          <span className="text-red-500 text-xs -mt-3">
+          <span className="text-red-500 text-xs -mt-2">
             Please enter a valid port number.
+          </span>
+        )}
+        {invalidServer && (
+          <span className="text-red-500 text-xs -mt-2">
+            Failed to reach the server. Make sure it is running at the specified
+            IP address and port.
           </span>
         )}
       </div>

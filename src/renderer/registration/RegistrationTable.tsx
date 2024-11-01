@@ -12,6 +12,7 @@ import { useMLModels, useServers } from '../lib/hooks';
 import { createMLServerMap } from '../lib/utils';
 import ModelStatusIndicator from '../models/ModelStatusIndicator';
 import ModelConnectionButton from './ModelConnectionButton';
+import LoadingScreen from '../components/LoadingScreen';
 
 /**
  * Partitions an array into two arrays, one with elements that pass a test and one with elements that fail the test.
@@ -48,11 +49,11 @@ export default function RegistrationTable() {
 
   if (modelError)
     return <div>failed to load models. Error: {modelError.toString()}</div>;
-  if (modelIsLoading) return <div>loading models..</div>;
+  if (modelIsLoading) return <LoadingScreen />;
   if (!models) return <div>no models</div>;
 
   if (error) return <div>failed to load {error.toString()}</div>;
-  if (serverIsLoading) return <div>loading servers..</div>;
+  if (serverIsLoading) return <LoadingScreen />;
   if (!servers) return <div>no servers</div>;
 
   const serverMap = { ...createMLServerMap(servers) };

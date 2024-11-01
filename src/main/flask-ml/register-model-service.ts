@@ -15,11 +15,11 @@ import ModelServerDb from '../models/model-server';
 import TaskDb from '../models/tasks';
 
 const API_ROUTES_SLUG = '/api/routes';
-const INFO_SLUG = '/api/app_metadata';
+const APP_METADATA_SLUG = '/api/app_metadata';
 
 export default class RegisterModelService {
   static async registerModel(serverAddress: string, serverPort: number) {
-    const modelInfo = await RegisterModelService.getInfo(
+    const modelInfo = await RegisterModelService.getAppMetadata(
       serverAddress,
       serverPort,
     );
@@ -47,16 +47,18 @@ export default class RegisterModelService {
       }
       return server;
     }
-    log.info(`Registering new model info at ${serverAddress}:${serverPort}`);
+    log.info(
+      `Registering new model app metadata at ${serverAddress}:${serverPort}`,
+    );
     const modelDb = await MLModelDb.createModel(modelInfo, apiRoutes);
     await RegisterModelService.createTasks(
-      await RegisterModelService.getSchemaApiRoutes(apiRoutes),
+      RegisterModelService.getSchemaApiRoutes(apiRoutes),
       modelDb.uid,
     );
     return ModelServerDb.registerServer(modelDb.uid, serverAddress, serverPort);
   }
 
-  private static async getSchemaApiRoutes(apiRoutes: APIRoutes) {
+  private static getSchemaApiRoutes(apiRoutes: APIRoutes) {
     return apiRoutes.filter((apiRoute) => 'order' in apiRoute);
   }
 
@@ -72,27 +74,26 @@ export default class RegisterModelService {
     return TaskDb.createTasks(taskParams);
   }
 
-  private static async getInfo(
+  private static async getAppMetadata(
     serverAddress: string,
     serverPort: number,
   ): Promise<AppMetadata> {
     log.info(
-      `Fetching info from http://${serverAddress}:${serverPort}${INFO_SLUG}`,
+      `Fetching app metadata from http://${serverAddress}:${serverPort}${APP_METADATA_SLUG}`,
     );
 
-    return fetch(`http://${serverAddress}:${serverPort}${INFO_SLUG}`)
+    return fetch(`http://${serverAddress}:${serverPort}${APP_METADATA_SLUG}`)
       .then(async (res) => {
         if (res.status !== 200) {
-          throw new Error('Failed to fetch info.');
+          throw new Error('Failed to fetch app metadata.');
         }
         return res.json();
       })
-      .then((data: AppMetadata) => data);
-    // return new Promise((resolve) => {
-    // setTimeout(() => {
-    // resolve(sbfAppMetadata);
-    // }, 1000);
-    // });
+      .then((data: AppMetadata) => data)
+      .catch((error) => {
+        log.error('Failed to fetch app metadata', error);
+        throw new Error('Failed to fetch app metadata. Server may be offline.');
+      });
   }
 
   private static async initializeAPIRoutes(
@@ -101,23 +102,28 @@ export default class RegisterModelService {
   ): Promise<APIRoutes> {
     if (isDummyMode) {
       log.info(
-        'Fetching api routes for isr model from dummy data. This will take some time.',
+        'Fetching API routes for isr model from dummy data. This will take some time.',
       );
       const apiRoutes = isrModelRoutes;
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(apiRoutes.filter((apiRoute) => 'order' in apiRoute));
+          resolve(RegisterModelService.getSchemaApiRoutes(apiRoutes));
         }, 1000);
       });
     }
     const url = `http://${serverAddress}:${serverPort}${API_ROUTES_SLUG}`;
-    log.info(`Fetching api routes from ${url}`);
-    const apiRoutes: APIRoutes = await fetch(url).then((res) => {
-      if (res.status !== 200) {
-        throw new Error(`Failed to fetch api routes. Status: ${res.status}`);
-      }
-      return res.json();
-    });
+    log.info(`Fetching API routes from ${url}`);
+    const apiRoutes: APIRoutes = await fetch(url)
+      .then((res) => {
+        if (res.status !== 200) {
+          throw new Error(`Failed to fetch API routes. Status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .catch((error) => {
+        log.error('Failed to fetch API routes', error);
+        throw new Error('Failed to fetch API routes. Server may be offline.');
+      });
     return apiRoutes;
   }
 }
