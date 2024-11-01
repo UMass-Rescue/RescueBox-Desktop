@@ -3,6 +3,7 @@ import LoadingScreen from 'src/renderer/components/LoadingScreen';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ModelAppStatus } from 'src/shared/models';
+import rehypeExternalLinks from 'rehype-external-links';
 import { Button } from '../components/ui/button';
 import GreenRunIcon from '../components/icons/GreenRunIcon';
 import { useModelInfo, useServerStatus } from '../lib/hooks';
@@ -49,7 +50,11 @@ function ModelDetails() {
   return (
     <div className="flex flex-row justify-between m-3">
       <div className="w-2/3 m-2 mr-4 prose max-w-none markdown">
-        <Markdown className="text-black" remarkPlugins={[remarkGfm]}>
+        <Markdown
+          rehypePlugins={[[rehypeExternalLinks, { target: '_blank' }]]}
+          className="text-black"
+          remarkPlugins={[remarkGfm]}
+        >
           {modelInfo.info}
         </Markdown>
       </div>
