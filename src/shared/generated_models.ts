@@ -25,28 +25,28 @@ declare namespace Components {
       directories: DirectoryInput[];
     }
     export interface BatchDirectoryResponse {
-      output_type: ResponseType;
+      output_type: 'batchdirectory';
       directories: DirectoryResponse[];
     }
     export interface BatchFileInput {
       files: FileInput[];
     }
     export interface BatchFileResponse {
-      output_type: ResponseType;
+      output_type: 'batchfile';
       files: FileResponse[];
     }
     export interface BatchTextInput {
       texts: TextInput[];
     }
     export interface BatchTextResponse {
-      output_type: ResponseType;
+      output_type: 'batchtext';
       texts: TextResponse[];
     }
     export interface DirectoryInput {
       path: string;
     }
     export interface DirectoryResponse {
-      output_type: ResponseType;
+      output_type: 'directory';
       path: string;
       title: string;
       subtitle?: string | null;
@@ -64,7 +64,7 @@ declare namespace Components {
       path: string;
     }
     export interface FileResponse {
-      output_type: ResponseType;
+      output_type: 'file';
       file_type:
         | 'img'
         | 'csv'
@@ -115,7 +115,7 @@ declare namespace Components {
       max: number;
     }
     export interface MarkdownResponse {
-      output_type: ResponseType;
+      output_type: 'markdown';
       value: string;
       title?: string;
       subtitle?: string;
@@ -182,14 +182,6 @@ declare namespace Components {
       | BatchFileResponse
       | BatchTextResponse
       | BatchDirectoryResponse;
-    export type ResponseType =
-      | 'file'
-      | 'directory'
-      | 'markdown'
-      | 'text'
-      | 'batchfile'
-      | 'batchtext'
-      | 'batchdirectory';
     export interface SchemaAPIRoute {
       /**
        * example:
@@ -234,13 +226,14 @@ declare namespace Components {
       default: string | null;
     }
     export interface TextResponse {
-      output_type: ResponseType;
+      output_type: 'text';
       value: string;
       title?: string;
       subtitle?: string;
     }
   }
 }
+
 export type APIRoutes = Components.Schemas.APIRoutes;
 export type AppMetadata = Components.Schemas.AppMetadata;
 export type BatchDirectoryInput = Components.Schemas.BatchDirectoryInput;
@@ -273,7 +266,6 @@ export type RangedIntParameterDescriptor =
   Components.Schemas.RangedIntParameterDescriptor;
 export type RequestBody = Components.Schemas.RequestBody;
 export type ResponseBody = Components.Schemas.ResponseBody;
-export type ResponseType = Components.Schemas.ResponseType;
 export type SchemaAPIRoute = Components.Schemas.SchemaAPIRoute;
 export type TaskSchema = Components.Schemas.TaskSchema;
 export type TextInput = Components.Schemas.TextInput;
