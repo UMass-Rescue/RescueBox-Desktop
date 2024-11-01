@@ -83,7 +83,8 @@
       "\\.(css|less|sass|scss)$": "identity-obj-proxy",
       "^@shadcn/(.*)$": "<rootDir>/src/renderer/components/ui/$1",
       "react-markdown": "<rootDir>/src/__mocks__/ReactMarkdownMock.tsx",
-      "remark-gfm": "<rootDir>/src/__mocks__/RemarkGfmMock.ts"
+      "remark-gfm": "<rootDir>/src/__mocks__/RemarkGfmMock.ts",
+      "rehype-external-links": "<rootDir>/src/__mocks__/RehypeExternalLinksMock.ts"
     },
     "setupFiles": [
       "./.erb/scripts/check-build-exists.ts"
