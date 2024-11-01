@@ -23,25 +23,10 @@ export type GetModelAppStatusArgs = {
 export type GetModelServerArgs = GetModelAppStatusArgs;
 
 const registerModelAppIp = async (_event: any, arg: RegisterModelArgs) => {
-  if (!arg.modelUid) {
-    return RegisterModelService.registerModel(
-      arg.serverAddress,
-      arg.serverPort,
-    ).then(getRaw);
-  }
-  log.info(
-    `Updating registration info for ${arg.modelUid} at ${arg.serverAddress}:${arg.serverPort}`,
-  );
-  await ModelServer.updateServer(
-    arg.modelUid,
+  return RegisterModelService.registerModel(
     arg.serverAddress,
     arg.serverPort,
-  );
-  const server = await ModelServer.getServerByModelUid(arg.modelUid);
-  if (!server) {
-    throw new Error(`FATAL: Server not found for model ${arg.modelUid}`);
-  }
-  return getRaw(server);
+  ).then(getRaw);
 };
 
 const unregisterModelAppIp = async (_event: any, arg: UnregisterModelArgs) => {
