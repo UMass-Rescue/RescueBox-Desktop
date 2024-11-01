@@ -131,7 +131,11 @@ class ModelAppService {
       .then(
         (data: Record<string, unknown>) =>
           camelcaseKeys(data, { deep: true }) as unknown as TaskSchema,
-      );
+      )
+      .catch((error) => {
+        log.error('Failed to fetch task schema', error);
+        throw new Error('Failed to fetch task schema. Server may be offline.');
+      });
   }
 
   public async pingHealth(): Promise<boolean> {
@@ -147,7 +151,7 @@ class ModelAppService {
     )
       .then((res) => {
         if (res.status !== 200) {
-          throw new Error('Failed to fetch info.');
+          throw new Error('Failed to fetch app metadata.');
         }
         return res.json();
       })
