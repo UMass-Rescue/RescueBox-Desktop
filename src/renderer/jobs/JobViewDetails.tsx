@@ -99,6 +99,7 @@ function JobViewDetails() {
                   job.request.inputs[inputSchema.key],
                 )}
                 inputSchema={inputSchema}
+                key={inputSchema.key}
                 onChange={() => undefined}
                 disabled
               />
@@ -109,6 +110,7 @@ function JobViewDetails() {
               <ParameterField
                 value={job.request.parameters[paramSchema.key]}
                 parameterSchema={paramSchema}
+                key={paramSchema.key}
                 onChange={() => undefined}
                 disabled
               />

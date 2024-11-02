@@ -186,10 +186,20 @@ const jobs: Job[] = [
     status: 'Completed',
     request: {
       inputs: {
-        LOW_RES_IMAGES: {
-          path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\input',
+        input_images: {
+          files: [
+            {
+              path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\input\\baboon.png',
+            },
+            {
+              path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\input\\meerkat.png',
+            },
+            {
+              path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\input\\street.png',
+            },
+          ],
         },
-        HIGH_RES_IMAGES: {
+        output_directory: {
           path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\output',
         },
       },
