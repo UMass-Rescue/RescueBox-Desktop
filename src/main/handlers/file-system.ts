@@ -7,6 +7,18 @@ export type PathArgs = {
   path: string;
 };
 
+export async function readFile(_event: any, arg: PathArgs) {
+  if (!fs.existsSync(arg.path)) {
+    log.error('File does not exist');
+    dialog.showErrorBox(
+      "We can't find this file.",
+      "Make sure it hasn't been moved or deleted.",
+    );
+    return '';
+  }
+  return fs.readFileSync(arg.path).toString();
+}
+
 export async function openPath(_event: any, arg: PathArgs) {
   log.info('Opening directory', arg.path);
   if (!fs.existsSync(arg.path)) {
