@@ -14,8 +14,8 @@ function JobViewOutputs() {
   if (jobError)
     return <div>failed to load job. Error: {jobError.toString()}</div>;
 
-  // const { response } = job;
-  // if (!response) return <div>No response available</div>;
+  const { response } = job;
+  if (!response) return <div>No response available</div>;
 
   return (
     <div className="border border-gray-300 rounded-lg mt-5 p-4 shadow-md bg-white">
