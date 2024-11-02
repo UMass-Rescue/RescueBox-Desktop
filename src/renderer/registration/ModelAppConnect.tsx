@@ -32,6 +32,7 @@ function ModelAppConnect() {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    setValue,
   } = useForm<ConnectInputs>({ mode: 'onChange' });
 
   const {
@@ -138,6 +139,24 @@ function ModelAppConnect() {
               defaultValue={server?.serverPort || ''}
               className="col-span-1"
             />
+            <Button
+              type="button"
+              variant="outline"
+              className="col-span-2 w-fit"
+              onClick={() =>
+                setValue('ip', '127.0.0.1', { shouldValidate: true })
+              }
+            >
+              127.0.0.1
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="col-span-1 w-fit"
+              onClick={() => setValue('port', '5000', { shouldValidate: true })}
+            >
+              5000
+            </Button>
           </div>
           <Button
             size="default"
