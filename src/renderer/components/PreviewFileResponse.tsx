@@ -15,6 +15,7 @@ import AudioPreview from './response_body/previews/AudioPreview';
 import ImagePreview from './response_body/previews/ImagePreview';
 import JSONPreview from './response_body/previews/JSONPreview';
 import CSVPreview from './response_body/previews/CSVPreview';
+import TextPreview from './response_body/previews/TextPreview';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function PreviewFileResponse({
@@ -65,7 +66,7 @@ export default function PreviewFileResponse({
             {(() => {
               switch (response.file_type) {
                 case 'text':
-                  return <div>Text Preview</div>;
+                  return <TextPreview filePath={response.path} />;
                 case 'markdown':
                   return <MarkdownPreview filePath={response.path} />;
                 case 'json':

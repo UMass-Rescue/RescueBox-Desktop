@@ -1,5 +1,13 @@
 import { FileResponse } from '../generated_models';
 
+const textResponse: FileResponse = {
+  output_type: 'file',
+  path: 'C:\\Users\\LENOVO\\Downloads\\sample-markdown.txt',
+  file_type: 'text',
+  title: 'Sample Text',
+  subtitle: 'Some info about sample text',
+};
+
 const markdownResponse: FileResponse = {
   output_type: 'file',
   path: 'C:\\Users\\LENOVO\\Downloads\\sample-markdown.txt',
@@ -49,6 +57,7 @@ const videoResponse: FileResponse = {
 };
 
 export {
+  textResponse,
   markdownResponse,
   imageResponse,
   jsonResponse,
