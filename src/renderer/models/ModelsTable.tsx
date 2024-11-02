@@ -31,7 +31,7 @@ function ModelsTable({
 }) {
   return (
     <div className="">
-      <div className="shadow-md mt-6 max-w-[900px]">
+      <div className="shadow-md mt-6">
         <Table className="text-md lg:text-lg">
           <TableHeader className="bg-slate-200">
             <TableRow className="justify-between">

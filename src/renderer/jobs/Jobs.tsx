@@ -100,14 +100,15 @@ function Jobs() {
 
   jobs.sort((a, b) => b.startTime.getTime() - a.startTime.getTime());
   return (
-    <div>
-      <div className="mx-3 my-3">
+    <div className="flex flex-col items-center m-3 gap-8">
+      <div className="w-[calc(70%-1rem)] max-w-full">
         <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
           Running Jobs
           {jobsIsLoading && modelsIsLoading && (
             <LoadingIcon className="size-8 text-blue-600" />
           )}
         </h1>
+
         <div className="shadow-md mt-6">
           <Table className="text-md lg:text-lg">
             <TableHeader className="bg-slate-200">
@@ -169,8 +170,7 @@ function Jobs() {
           </Table>
         </div>
       </div>
-
-      <div className="mx-3 my-6">
+      <div className="w-[calc(70%-1rem)] max-w-full">
         <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
           Completed Jobs
           {jobsIsLoading && modelsIsLoading && (
