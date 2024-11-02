@@ -99,148 +99,90 @@ function Jobs() {
   if (!models) return <div>no models</div>;
 
   jobs.sort((a, b) => b.startTime.getTime() - a.startTime.getTime());
-  return (
-    <div>
-      <div className="mx-3 my-3">
-        <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
-          Running Jobs
-          {jobsIsLoading && modelsIsLoading && (
-            <LoadingIcon className="size-8 text-blue-600" />
-          )}
-        </h1>
-        <div className="shadow-md mt-6">
-          <Table className="text-md lg:text-lg">
-            <TableHeader className="bg-slate-200">
-              <TableRow className="justify-between">
-                <TableHead className="pl-4 w-1/3 text-gray-900">
-                  Model
-                </TableHead>
-                <TableHead className="w-1/6 text-gray-900">
-                  Start Time
-                </TableHead>
-                <TableHead className="w-1/6 text-gray-900 pl-4">
-                  Status
-                </TableHead>
-                <TableHead className="w-1/12" />
-                <TableHead className="w-1/12" />
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {jobs
-                .filter((job) => job.status === 'Running')
-                .map((job) => (
-                  <TableRow key={job.uid}>
-                    <TableCell className="pl-4 w-1/3">
-                      {getModelName(job.modelUid)}
-                    </TableCell>
-                    <TableCell className="w-1/6">
-                      <div className="flex flex-col">
-                        <span>{job.startTime.toLocaleDateString()}</span>
-                        <span>{job.startTime.toLocaleTimeString()}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="w-1/6 pl-7">
-                      <TooltipProvider delayDuration={100}>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <div className="flex items-center">
-                              <LoadingIcon className="size-6" />
-                            </div>
-                          </TooltipTrigger>
-                          <TooltipContent side="bottom">
-                            <p>Running</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </TableCell>
-                    <TableCell className="text-center py-4 px-4">
-                      <ViewButton job={job} />
-                    </TableCell>
-                    <TableCell className="text-center py-4 px-4">
-                      <RedButton
-                        job={job}
-                        variant="cancel"
-                        handleClick={() => handleCancelJob(job)}
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </div>
-      </div>
 
-      <div className="mx-3 my-6">
-        <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
-          Completed Jobs
-          {jobsIsLoading && modelsIsLoading && (
-            <LoadingIcon className="size-8 text-blue-600" />
-          )}
-        </h1>
-        <div className="shadow-md mt-6">
-          <Table className="text-md lg:text-lg">
-            <TableHeader className="bg-slate-200">
-              <TableRow className="justify-between">
-                <TableHead className="pl-4 w-1/3 text-gray-900">
-                  Model
-                </TableHead>
-                <TableHead className="w-1/6 text-gray-900">End Time</TableHead>
-                <TableHead className="w-1/6 text-gray-900 pl-4">
-                  Status
-                </TableHead>
-                <TableHead className="w-1/12" />
-                <TableHead className="w-1/12" />
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {jobs
-                .filter((job) => job.status !== 'Running')
-                .map((job) => (
-                  <TableRow key={job.uid}>
-                    <TableCell className="pl-4 w-1/3">
-                      {getModelName(job.modelUid)}
-                    </TableCell>
-                    <TableCell className="w-1/6">
-                      {job.endTime ? (
-                        <div className="flex flex-col">
-                          <span>{job.endTime.toLocaleDateString()}</span>
-                          <span>{job.endTime.toLocaleTimeString()}</span>
+  return (
+    <div className="mx-3 my-3">
+      <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-4">
+        Running Jobs
+        {jobsIsLoading && modelsIsLoading && (
+          <LoadingIcon className="size-8 text-blue-600" />
+        )}
+      </h1>
+      <div className="shadow-md mt-6">
+        <Table className="text-md lg:text-lg">
+          <TableHeader className="bg-slate-200">
+            <TableRow className="justify-between">
+              <TableHead className="pl-4 w-1/3 text-gray-900">Model</TableHead>
+              <TableHead className="w-1/6 text-gray-900">Start Time</TableHead>
+              <TableHead className="w-1/6 text-gray-900">End Time</TableHead>
+              <TableHead className="w-1/6 text-gray-900 pl-4">Status</TableHead>
+              <TableHead className="w-1/12" />
+              <TableHead className="w-1/12" />
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {jobs.map((job) => (
+              <TableRow key={job.uid}>
+                <TableCell className="pl-4 w-1/3">
+                  {getModelName(job.modelUid)}
+                </TableCell>
+                <TableCell className="w-1/6">
+                  <div className="flex flex-col">
+                    <span>{job.startTime.toLocaleDateString()}</span>
+                    <span>{job.startTime.toLocaleTimeString()}</span>
+                  </div>
+                </TableCell>
+                <TableCell className="w-1/6">
+                  {job.endTime !== undefined ? (
+                    <div className="flex flex-col">
+                      <span>{job.startTime.toLocaleDateString()}</span>
+                      <span>{job.startTime.toLocaleTimeString()}</span>
+                    </div>
+                  ) : (
+                    <span>Running</span>
+                  )}
+                </TableCell>
+                <TableCell className="w-1/6 pl-7">
+                  <TooltipProvider delayDuration={100}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="flex items-center">
+                          {job.status === 'Running' && (
+                            <LoadingIcon className="size-6" />
+                          )}
+                          {job.status === 'Completed' && <CompletedIcon />}
+                          {job.status === 'Failed' && <FailedIcon />}
+                          {job.status === 'Canceled' && <CanceledIcon />}
                         </div>
-                      ) : (
-                        'N/A'
-                      )}
-                    </TableCell>
-                    <TableCell className="w-1/6 pl-7">
-                      <TooltipProvider delayDuration={100}>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <div className="flex items-center">
-                              {job.status === 'Completed' && <CompletedIcon />}
-                              {job.status === 'Failed' && <FailedIcon />}
-                              {job.status === 'Canceled' && <CanceledIcon />}
-                            </div>
-                          </TooltipTrigger>
-                          <TooltipContent side="bottom">
-                            <p>{job.status}</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </TableCell>
-                    <TableCell className="text-center w-1/12 py-4 px-4">
-                      <ViewButton job={job} />
-                    </TableCell>
-                    <TableCell className="text-center w-1/12 py-4 px-4">
-                      <RedButton
-                        job={job}
-                        variant="delete"
-                        handleClick={() => handleDeleteJob(job)}
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </div>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">
+                        <p>{job.status}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </TableCell>
+                <TableCell className="text-center py-4 px-4">
+                  <ViewButton job={job} />
+                </TableCell>
+                <TableCell className="text-center py-4 px-4">
+                  {job.status === 'Running' ? (
+                    <RedButton
+                      job={job}
+                      variant="cancel"
+                      handleClick={() => handleCancelJob(job)}
+                    />
+                  ) : (
+                    <RedButton
+                      job={job}
+                      variant="delete"
+                      handleClick={() => handleDeleteJob(job)}
+                    />
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     </div>
   );
