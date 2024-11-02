@@ -37,7 +37,7 @@ export default function PreviewModal({ response }: { response: FileResponse }) {
                       path: response.path,
                     })
                   }
-                  title="Open File"
+                  title="Show file in explorer"
                 >
                   <OpenInNewWindowIcon className="size-6 text-gray-800" />
                 </Button>
