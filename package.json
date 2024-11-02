@@ -86,6 +86,9 @@
       "remark-gfm": "<rootDir>/src/__mocks__/RemarkGfmMock.ts",
       "rehype-external-links": "<rootDir>/src/__mocks__/RehypeExternalLinksMock.ts"
     },
+    "transformIgnorePatterns": [
+      "node_modules/(?!react-syntax-highlighter/dist/esm/styles)"
+    ],
     "setupFiles": [
       "./.erb/scripts/check-build-exists.ts"
     ],
