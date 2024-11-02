@@ -19,6 +19,7 @@ export default function TextField({
         <Input
           type="text"
           placeholder={parameterSchema.subtitle || ''}
+          defaultValue={String(parameterSchema.value.default)}
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
         />
