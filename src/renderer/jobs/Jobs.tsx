@@ -133,13 +133,11 @@ function Jobs() {
                   </div>
                 </TableCell>
                 <TableCell className="w-1/6">
-                  {job.endTime ? (
+                  {job.endTime && (
                     <div className="flex flex-col">
                       <span>{job.endTime.toLocaleDateString()}</span>
                       <span>{job.endTime.toLocaleTimeString()}</span>
                     </div>
-                  ) : (
-                    <span>Running</span>
                   )}
                 </TableCell>
                 <TableCell className="w-1/6 pl-7">
