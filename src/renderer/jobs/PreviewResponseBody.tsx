@@ -2,6 +2,7 @@
 import { ResponseBody } from 'src/shared/generated_models';
 import { match } from 'ts-pattern';
 import MarkdownView from '../components/response_body/MarkdownView';
+import BatchFileResponseView from '../components/response_body/BatchFileResponse';
 
 export default function PreviewResponseBody({
   response,
@@ -22,7 +23,7 @@ export default function PreviewResponseBody({
       return <div>Text Response</div>;
     })
     .with({ output_type: 'batchfile' }, (batchFileResponse) => {
-      return <div>Batch File Response</div>;
+      return <BatchFileResponseView batchFileResponse={batchFileResponse} />;
     })
     .with({ output_type: 'batchtext' }, (batchTextResponse) => {
       return <div>Batch Text Response</div>;
