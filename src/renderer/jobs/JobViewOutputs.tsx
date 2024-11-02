@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import PreviewFileResponse from 'src/renderer/components/PreviewFileResponse';
 import {
+  batchDirectoryResponse,
   directoryResponse,
   markdownResponse,
 } from 'src/shared/dummy_data/file_response';
@@ -25,6 +26,7 @@ function JobViewOutputs() {
       <PreviewResponseBody response={markdownResponseBody} />
       <PreviewResponseBody response={directoryResponse} />
       <PreviewFileResponse response={markdownResponse} />
+      <PreviewResponseBody response={batchDirectoryResponse} />
     </div>
   );
 }
