@@ -6,6 +6,8 @@ import TextAreaField from './input_fields/TextAreaField';
 import BatchTextField from './input_fields/BatchTextField';
 import BatchDirectoryField from './input_fields/BatchDirectoryField';
 import BatchFileField from './input_fields/BatchFileField';
+import NewFileField from './input_fields/NewFileField';
+import { isNewFileInputType } from '../lib/utils';
 
 type InputFieldProps = {
   inputSchema: InputSchema;
@@ -21,70 +23,86 @@ export default function InputField({
   onChange,
   disabled = false,
 }: InputFieldProps) {
-  switch (inputSchema.inputType) {
-    case 'text':
-      return (
-        <TextField
-          inputSchema={inputSchema}
-          onChange={onChange}
-          disabled={disabled}
-        />
-      );
-    case 'textarea':
-      return (
-        <TextAreaField
-          inputSchema={inputSchema}
-          value={value}
-          onChange={onChange}
-          disabled={disabled}
-        />
-      );
-    case 'file':
-      return (
-        <FileField
-          inputSchema={inputSchema}
-          value={value}
-          onChange={onChange}
-          disabled={disabled}
-        />
-      );
-    case 'directory':
-      return (
-        <DirectoryField
-          inputSchema={inputSchema}
-          value={value}
-          onChange={onChange}
-          disabled={disabled}
-        />
-      );
-    case 'batchtext':
-      return (
-        <BatchTextField
-          inputSchema={inputSchema}
-          value={value}
-          onChange={onChange}
-          disabled={disabled}
-        />
-      );
-    case 'batchfile':
-      return (
-        <BatchFileField
-          inputSchema={inputSchema}
-          value={value}
-          onChange={onChange}
-          disabled={disabled}
-        />
-      );
-    case 'batchdirectory':
-      return (
-        <BatchDirectoryField
-          inputSchema={inputSchema}
-          value={value}
-          onChange={onChange}
-          disabled={disabled}
-        />
-      );
-    default:
-      return <div>Unsupported input type.</div>;
+  if (isNewFileInputType(inputSchema.inputType)) {
+    switch (inputSchema.inputType.inputType) {
+      case 'newfile':
+        return (
+          <NewFileField
+            inputSchema={inputSchema}
+            value={value}
+            onChange={onChange}
+            disabled={disabled}
+          />
+        );
+      default:
+        return <div>Unsupported input type.</div>;
+    }
+  } else {
+    switch (inputSchema.inputType) {
+      case 'text':
+        return (
+          <TextField
+            inputSchema={inputSchema}
+            onChange={onChange}
+            disabled={disabled}
+          />
+        );
+      case 'textarea':
+        return (
+          <TextAreaField
+            inputSchema={inputSchema}
+            value={value}
+            onChange={onChange}
+            disabled={disabled}
+          />
+        );
+      case 'file':
+        return (
+          <FileField
+            inputSchema={inputSchema}
+            value={value}
+            onChange={onChange}
+            disabled={disabled}
+          />
+        );
+      case 'directory':
+        return (
+          <DirectoryField
+            inputSchema={inputSchema}
+            value={value}
+            onChange={onChange}
+            disabled={disabled}
+          />
+        );
+      case 'batchtext':
+        return (
+          <BatchTextField
+            inputSchema={inputSchema}
+            value={value}
+            onChange={onChange}
+            disabled={disabled}
+          />
+        );
+      case 'batchfile':
+        return (
+          <BatchFileField
+            inputSchema={inputSchema}
+            value={value}
+            onChange={onChange}
+            disabled={disabled}
+          />
+        );
+      case 'batchdirectory':
+        return (
+          <BatchDirectoryField
+            inputSchema={inputSchema}
+            value={value}
+            onChange={onChange}
+            disabled={disabled}
+          />
+        );
+      default:
+        return <div>Unsupported input type.</div>;
+    }
   }
 }
