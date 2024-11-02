@@ -10,9 +10,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog';
+import MarkdownPreview from './response_body/previews/MarkdownPreview';
+import AudioPreview from './response_body/previews/AudioPreview';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function PreviewModal({ response }: { response: FileResponse }) {
+export default function PreviewFileResponse({
+  response,
+}: {
+  response: FileResponse;
+}) {
   const [open, setOpen] = useState(false);
 
   const filePrefixedPath = `file://${response.path}`;
@@ -23,24 +29,24 @@ export default function PreviewModal({ response }: { response: FileResponse }) {
         <DialogTrigger asChild>
           <Button>Preview</Button>
         </DialogTrigger>
-        <DialogContent className="[&>button]:hidden max-w-fit xs:max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-4xl max-h-screen">
+        <DialogContent className="[&>button]:hidden max-w-fit xs:max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-4xl max-h-[80vh]">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-4">
               <span className="font-bold text-xl">{`Preview: ${response.title}`}</span>
               <div className="ml-auto flex">
                 <Button
-                  className="bg-transparent hover:bg-gray-200 shadow-none"
+                  className="bg-transparent hover:bg-gray-200 shadow-none p-1 mr-3"
                   onClick={() =>
                     window.fileSystem.showFileInExplorer({
                       path: response.path,
                     })
                   }
-                  title="Open File"
+                  title="Show file in explorer"
                 >
                   <OpenInNewWindowIcon className="size-6 text-gray-800" />
                 </Button>
                 <Button
-                  className="bg-transparent hover:bg-gray-200 shadow-none"
+                  className="bg-transparent hover:bg-gray-200 shadow-none p-1"
                   onClick={() => setOpen(false)}
                   title="Close"
                 >
@@ -53,9 +59,28 @@ export default function PreviewModal({ response }: { response: FileResponse }) {
             )}
           </DialogHeader>
           <div className="overflow-auto h-full">
-            {response.file_type === 'video' && (
-              <VideoPreview filePath={filePrefixedPath} />
-            )}
+            {(() => {
+              switch (response.file_type) {
+                case 'text':
+                  return <div>Text Preview</div>;
+                case 'markdown':
+                  return <MarkdownPreview filePath={response.path} />;
+                case 'json':
+                  return <div>JSON Preview</div>;
+                case 'csv':
+                  return <div>CSV Preview</div>;
+                case 'audio':
+                  return <AudioPreview filePath={filePrefixedPath} />;
+                case 'img':
+                  return <div>Image Preview</div>;
+                case 'video':
+                  return <VideoPreview filePath={filePrefixedPath} />;
+                default:
+                  return (
+                    <div>Unsupported Response Type: {response.file_type}</div>
+                  );
+              }
+            })()}
           </div>
         </DialogContent>
       </Dialog>

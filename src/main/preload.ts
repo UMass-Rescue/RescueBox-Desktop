@@ -75,6 +75,8 @@ const jobHandler = {
 };
 
 const fileSystemHandler = {
+  readFile: (args: PathArgs) =>
+    ipcRenderer.invoke('fileSystem:read-file', args) as Promise<string>,
   openPath: (args: PathArgs) =>
     ipcRenderer.invoke('fileSystem:open-path', args) as Promise<string>,
   showFileInExplorer: (args: PathArgs) =>

@@ -74,6 +74,7 @@ function setupIpcMain() {
   ipcMain.handle('job:delete-job-by-id', job.deleteJobById);
 
   // File System: handles file system operations
+  ipcMain.handle('fileSystem:read-file', fileSystem.readFile);
   ipcMain.handle('fileSystem:open-path', fileSystem.openPath);
   ipcMain.handle(
     'fileSystem:show-file-in-explorer',
