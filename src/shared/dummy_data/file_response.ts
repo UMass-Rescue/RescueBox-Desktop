@@ -1,4 +1,4 @@
-import { FileResponse } from '../generated_models';
+import { DirectoryResponse, FileResponse } from '../generated_models';
 
 const markdownResponse: FileResponse = {
   output_type: 'file',
@@ -24,4 +24,11 @@ const videoResponse: FileResponse = {
   subtitle: 'Some info about sample video',
 };
 
-export { markdownResponse, audioResponse, videoResponse };
+const directoryResponse: DirectoryResponse = {
+  output_type: 'directory',
+  path: '/Users/atharvakale/Downloads',
+  title: 'Sample Directory',
+  subtitle: 'Some info about sample directory',
+};
+
+export { markdownResponse, audioResponse, videoResponse, directoryResponse };

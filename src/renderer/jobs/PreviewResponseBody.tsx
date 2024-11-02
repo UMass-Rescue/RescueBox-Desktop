@@ -2,6 +2,7 @@
 import { ResponseBody } from 'src/shared/generated_models';
 import { match } from 'ts-pattern';
 import MarkdownView from '../components/response_body/MarkdownView';
+import DirectoryView from '../components/response_body/DirectoryView';
 
 export default function PreviewResponseBody({
   response,
@@ -13,7 +14,7 @@ export default function PreviewResponseBody({
       return <div>File Response</div>;
     })
     .with({ output_type: 'directory' }, (directoryResponse) => {
-      return <div>Directory Response</div>;
+      return <DirectoryView response={directoryResponse} />;
     })
     .with({ output_type: 'markdown' }, (markdownResponse) => {
       return <MarkdownView response={markdownResponse} />;

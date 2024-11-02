@@ -9,7 +9,7 @@ export default function MarkdownView({
   response: MarkdownResponse;
 }) {
   return (
-    <div className="m-2 mr-4 prose max-w-full markdown">
+    <div className="prose max-w-full markdown">
       <Markdown
         rehypePlugins={[[rehypeExternalLinks, { target: '_blank' }]]}
         className="text-black"
