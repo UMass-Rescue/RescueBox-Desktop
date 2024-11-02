@@ -14,7 +14,11 @@ import MarkdownPreview from './response_body/previews/MarkdownPreview';
 import AudioPreview from './response_body/previews/AudioPreview';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function PreviewModal({ response }: { response: FileResponse }) {
+export default function PreviewFileResponse({
+  response,
+}: {
+  response: FileResponse;
+}) {
   const [open, setOpen] = useState(false);
 
   const filePrefixedPath = `file://${response.path}`;
