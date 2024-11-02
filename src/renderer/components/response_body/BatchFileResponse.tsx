@@ -109,7 +109,7 @@ function BatchFileResponseView({
           {filePartition.map((file) => (
             <div className="border border-slate-400 rounded-md p-2 h-52 hover:bg-slate-200 flex flex-col">
               <div className="font-bold text-3xl h-5/6 flex items-center justify-center align-middle">
-                <h1>FILE</h1>
+                <h1>{file.title}</h1>
               </div>
               <div className="border-t-2 mt-2 border-slate-400 flex flex-row justify-between">
                 <button
