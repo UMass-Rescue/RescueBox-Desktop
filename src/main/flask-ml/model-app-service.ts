@@ -120,7 +120,6 @@ class ModelAppService {
     }
     const task = this.findRouteByTaskId(taskId);
     const url = `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${task.task_schema}`;
-    log.info(`Fetching task schema from ${url}`);
     return fetch(url)
       .then((res) => {
         if (res.status !== 200) {
