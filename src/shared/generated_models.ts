@@ -96,7 +96,7 @@ declare namespace Components {
       key: string;
       label: string;
       subtitle: string | null;
-      inputType: InputType;
+      inputType: InputType | NewFileInputType;
     }
     export type InputType =
       | 'file'
@@ -119,6 +119,20 @@ declare namespace Components {
       value: string;
       title?: string;
       subtitle?: string;
+    }
+    export interface NewFileInputType {
+      /**
+       * example:
+       * my_file
+       */
+      defaultName?: string;
+      /**
+       * example:
+       * .db
+       */
+      defaultExtension: string;
+      allowedExtensions: '*' | string[];
+      inputType: 'newfile';
     }
     export interface NoSchemaAPIRoute {
       /**
@@ -257,6 +271,7 @@ export type InputType = Components.Schemas.InputType;
 export type IntParameterDescriptor = Components.Schemas.IntParameterDescriptor;
 export type IntRangeDescriptor = Components.Schemas.IntRangeDescriptor;
 export type MarkdownResponse = Components.Schemas.MarkdownResponse;
+export type NewFileInputType = Components.Schemas.NewFileInputType;
 export type NoSchemaAPIRoute = Components.Schemas.NoSchemaAPIRoute;
 export type ParameterSchema = Components.Schemas.ParameterSchema;
 export type ParameterType = Components.Schemas.ParameterType;
