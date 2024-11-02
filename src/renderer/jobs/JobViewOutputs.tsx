@@ -1,6 +1,13 @@
 import { useParams } from 'react-router-dom';
 import PreviewFileResponse from 'src/renderer/components/PreviewFileResponse';
-import { markdownResponse } from 'src/shared/dummy_data/file_response';
+import {
+  audioResponse,
+  csvResponse,
+  imageResponse,
+  jsonResponse,
+  markdownResponse,
+  videoResponse,
+} from 'src/shared/dummy_data/file_response';
 import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
 import { useJob } from '../lib/hooks';
 import PreviewResponseBody from './PreviewResponseBody';
@@ -14,13 +21,18 @@ function JobViewOutputs() {
   if (jobError)
     return <div>failed to load job. Error: {jobError.toString()}</div>;
 
-  const { response } = job;
-  if (!response) return <div>No response available</div>;
+  // const { response } = job;
+  // if (!response) return <div>No response available</div>;
 
   return (
     <div className="border border-gray-300 rounded-lg mt-5 p-4 shadow-md bg-white">
       <PreviewResponseBody response={markdownResponseBody} />
+      <PreviewFileResponse response={imageResponse} />
+      <PreviewFileResponse response={csvResponse} />
+      <PreviewFileResponse response={videoResponse} />
       <PreviewFileResponse response={markdownResponse} />
+      <PreviewFileResponse response={jsonResponse} />
+      <PreviewFileResponse response={audioResponse} />
     </div>
   );
 }
