@@ -3,7 +3,7 @@ import PreviewModal from 'src/renderer/components/PreviewModal';
 import videoResponse from 'src/shared/dummy_data/file_response_video';
 import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
 import { useJob } from '../lib/hooks';
-import MarkdownView from '../components/response_body/MarkdownView';
+import PreviewResponseBody from './PreviewResponseBody';
 
 function JobViewOutputs() {
   const { jobId } = useParams();
@@ -19,7 +19,7 @@ function JobViewOutputs() {
 
   return (
     <div className="border border-gray-300 rounded-lg mt-5 p-4 shadow-md bg-white">
-      <MarkdownView response={markdownResponseBody} />
+      <PreviewResponseBody response={markdownResponseBody} />
       <PreviewModal response={videoResponse} />
     </div>
   );

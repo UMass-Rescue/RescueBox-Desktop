@@ -130,6 +130,7 @@
     "rehype-external-links": "^3.0.0",
     "remark-gfm": "^4.0.0",
     "swr": "^2.2.5",
+    "ts-pattern": "^5.5.0",
     "umzug": "^3.8.2",
     "uuid": "^10.0.0",
     "yup": "^1.4.0"

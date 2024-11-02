@@ -401,10 +401,6 @@ components:
         - $ref: '#/components/schemas/BatchTextResponse'
         - $ref: '#/components/schemas/BatchDirectoryResponse'
 
-    ResponseType:
-      type: string
-      enum: ["file", "directory", "markdown", "text", "batchfile", "batchtext", "batchdirectory"]
-
     FileResponse:
       type: object
       required: [output_type, file_type, path]
@@ -413,7 +409,8 @@ components:
       properties:
         output_type:
           type: string
-          $ref: "#/components/schemas/ResponseType"
+          enum:
+            - file
           default: "file"
         file_type:
           type: string
@@ -433,7 +430,8 @@ components:
       properties:
         output_type:
           type: string
-          $ref: "#/components/schemas/ResponseType"
+          enum:
+            - directory
           default: "directory"
         path:
           type: string
@@ -451,7 +449,8 @@ components:
       properties:
         output_type:
           type: string
-          $ref: "#/components/schemas/ResponseType"
+          enum:
+            - markdown
           default: "markdown"
         value:
           type: string
@@ -468,7 +467,8 @@ components:
       properties:
         output_type:
           type: string
-          $ref: "#/components/schemas/ResponseType"
+          enum:
+            - text
           default: "text"
         value:
           type: string
@@ -486,7 +486,8 @@ components:
       properties:
         output_type:
           type: string
-          $ref: "#/components/schemas/ResponseType"
+          enum:
+            - batchfile
           default: "batchfile"
         files:
           type: array
@@ -501,7 +502,8 @@ components:
       properties:
         output_type:
           type: string
-          $ref: "#/components/schemas/ResponseType"
+          enum:
+            - batchtext
           default: "batchtext"
         texts:
           type: array
@@ -516,7 +518,8 @@ components:
       properties:
         output_type:
           type: string
-          $ref: "#/components/schemas/ResponseType"
+          enum:
+            - batchdirectory
           default: "batchdirectory"
         directories:
           type: array
