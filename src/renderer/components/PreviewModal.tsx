@@ -1,7 +1,7 @@
 import { FileResponse } from 'src/shared/generated_models';
 import { Cross1Icon, OpenInNewWindowIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
-import VideoPreview from './response_body/VideoPreview';
+import VideoPreview from './response_body/previews/VideoPreview';
 import { Button } from './ui/button';
 import {
   Dialog,
