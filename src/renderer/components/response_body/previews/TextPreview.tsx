@@ -20,8 +20,10 @@ export default function TextPreview({ filePath }: { filePath: string }) {
 
   return (
     <div className="px-1">
-      <div className="prose max-w-full markdown border border-gray-300 rounded-lg p-4 bg-white">
-        <div className="overflow-auto max-h-96 px-2">{fileContents}</div>
+      <div className="max-w-full border border-gray-300 rounded-lg p-4 bg-white">
+        <div className="overflow-auto max-h-96 px-2 whitespace-pre-wrap">
+          {fileContents}
+        </div>
       </div>
     </div>
   );
