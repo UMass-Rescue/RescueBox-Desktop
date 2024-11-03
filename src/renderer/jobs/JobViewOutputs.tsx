@@ -8,6 +8,7 @@ import {
   imageResponse,
   jsonResponse,
   markdownResponse,
+  textResponse,
   videoResponse,
 } from 'src/shared/dummy_data/file_response';
 import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
@@ -39,6 +40,7 @@ function JobViewOutputs() {
       <PreviewResponseBody response={batchDirectoryResponse} />
       <PreviewFileResponse response={jsonResponse} />
       <PreviewFileResponse response={audioResponse} />
+      <PreviewFileResponse response={textResponse} />
     </div>
   );
 }
