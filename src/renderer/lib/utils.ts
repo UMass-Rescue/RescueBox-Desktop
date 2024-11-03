@@ -14,14 +14,12 @@ import {
 } from 'src/shared/generated_models';
 import { ModelServer } from 'src/shared/models';
 import { twMerge } from 'tailwind-merge';
+import { match } from 'ts-pattern';
 
 // eslint-disable-next-line import/prefer-default-export
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-
-export const isNewFileInputType = (t: any): t is NewFileInputType =>
-  !!t.inputType;
 
 export function createMLServerMap(servers: ModelServer[]) {
   const serverMap: Record<string, ModelServer> = {};
@@ -41,9 +39,76 @@ export function buildRequestBody(
   };
   taskSchema.inputs.forEach((input) => {
     const inputData = data[input.key];
-    if (isNewFileInputType(input.inputType)) {
-      switch (input.inputType.inputType) {
-        case 'newfile':
+    match(input)
+      .with({ inputType: 'text' }, () => {
+        if (typeof inputData !== 'string') {
+          throw new Error(`Invalid data type for text input: ${inputData}`);
+        }
+        requestBody.inputs[input.key] = { text: inputData };
+      })
+      .with({ inputType: 'textarea' }, () => {
+        if (typeof inputData !== 'string') {
+          throw new Error(`Invalid data type for textarea input: ${inputData}`);
+        }
+        requestBody.inputs[input.key] = { text: inputData };
+      })
+      .with({ inputType: 'file' }, () => {
+        if (typeof inputData !== 'string') {
+          throw new Error(`Invalid data type for file input: ${inputData}`);
+        }
+        requestBody.inputs[input.key] = {
+          path: inputData,
+        } satisfies FileInput;
+      })
+      .with({ inputType: 'directory' }, () => {
+        if (typeof inputData !== 'string') {
+          throw new Error(
+            `Invalid data type for directory input: ${inputData}`,
+          );
+        }
+        requestBody.inputs[input.key] = {
+          path: inputData,
+        } satisfies DirectoryInput;
+      })
+      .with({ inputType: 'batchtext' }, () => {
+        if (!Array.isArray(inputData)) {
+          throw new Error(
+            `Invalid data type for batchtext input: ${inputData}`,
+          );
+        }
+        requestBody.inputs[input.key] = {
+          texts: inputData.map((text) => ({ text }) satisfies TextInput),
+        } satisfies BatchTextInput;
+      })
+      .with({ inputType: 'batchfile' }, () => {
+        if (!Array.isArray(inputData)) {
+          throw new Error(
+            `Invalid data type for batchfile input: ${inputData}`,
+          );
+        }
+        requestBody.inputs[input.key] = {
+          files: inputData.map((file) => ({ path: file }) satisfies FileInput),
+        } satisfies BatchFileInput;
+      })
+      .with({ inputType: 'batchdirectory' }, () => {
+        if (!Array.isArray(inputData)) {
+          throw new Error(
+            `Invalid data type for batchdirectory input: ${inputData}`,
+          );
+        }
+        requestBody.inputs[input.key] = {
+          directories: inputData.map(
+            (dir) => ({ path: dir }) satisfies DirectoryInput,
+          ),
+        } satisfies BatchDirectoryInput;
+      })
+      .with(
+        {
+          inputType: {
+            inputType: 'newfile',
+          },
+        },
+        () => {
           if (typeof inputData !== 'string') {
             throw new Error(
               `Invalid data type for newfile input: ${inputData}`,
@@ -52,70 +117,9 @@ export function buildRequestBody(
           requestBody.inputs[input.key] = {
             path: inputData,
           } satisfies FileInput;
-          break;
-        default:
-          break;
-      }
-    } else {
-      switch (input.inputType) {
-        case 'text':
-        case 'textarea':
-          if (typeof inputData !== 'string') {
-            throw new Error(
-              `Invalid data type for textarea input: ${inputData}`,
-            );
-          }
-          requestBody.inputs[input.key] = { text: inputData };
-          break;
-        case 'file':
-        case 'directory':
-          if (typeof inputData !== 'string') {
-            throw new Error(
-              `Invalid data type for directory input: ${inputData}`,
-            );
-          }
-          requestBody.inputs[input.key] = {
-            path: inputData,
-          } satisfies DirectoryInput;
-          break;
-        case 'batchtext':
-          if (!Array.isArray(inputData)) {
-            throw new Error(
-              `Invalid data type for batchtext input: ${inputData}`,
-            );
-          }
-          requestBody.inputs[input.key] = {
-            texts: inputData.map((text) => ({ text }) satisfies TextInput),
-          } satisfies BatchTextInput;
-          break;
-        case 'batchfile':
-          if (!Array.isArray(inputData)) {
-            throw new Error(
-              `Invalid data type for batchfile input: ${inputData}`,
-            );
-          }
-          requestBody.inputs[input.key] = {
-            files: inputData.map(
-              (file) => ({ path: file }) satisfies FileInput,
-            ),
-          } satisfies BatchFileInput;
-          break;
-        case 'batchdirectory':
-          if (!Array.isArray(inputData)) {
-            throw new Error(
-              `Invalid data type for batchdirectory input: ${inputData}`,
-            );
-          }
-          requestBody.inputs[input.key] = {
-            directories: inputData.map(
-              (dir) => ({ path: dir }) satisfies DirectoryInput,
-            ),
-          } satisfies BatchDirectoryInput;
-          break;
-        default:
-          break;
-      }
-    }
+        },
+      )
+      .exhaustive();
   });
   taskSchema.parameters.forEach((parameter) => {
     requestBody.parameters[parameter.key] = data[parameter.key];
@@ -126,62 +130,78 @@ export function buildRequestBody(
 export function extractValuesFromRequestBodyInput(
   inputType: InputType | NewFileInputType,
   reqInput: Input,
-) {
-  let value: string | string[];
-  if (isNewFileInputType(inputType)) {
-    switch (inputType.inputType) {
-      case 'newfile':
-        // @ts-ignore
-        value = reqInput.path;
-        break;
-      default:
-        value = 'invalid';
-    }
-    return value;
-  }
-
-  switch (inputType) {
-    case 'file':
-      // @ts-ignore
-      value = reqInput.path;
-      break;
-    case 'directory':
-      // @ts-ignore
-      value = reqInput.path;
-      break;
-    case 'batchfile':
-      // @ts-ignore
-      value = (reqInput as BatchFileInput).files.map((file) => file.path);
-      break;
-    case 'batchdirectory':
-      // @ts-ignore
-      value = (reqInput as BatchDirectoryInput).directories.map(
+): string | string[] {
+  return match(inputType)
+    .with(
+      {
+        inputType: 'newfile',
+      },
+      () => {
+        if (!('path' in reqInput)) {
+          throw new Error(
+            `Invalid request body: 'path' was not in reqInput: ${reqInput}`,
+          );
+        }
+        return reqInput.path;
+      },
+    )
+    .with('text', () => {
+      if (!('text' in reqInput)) {
+        throw new Error(
+          `Invalid request body: 'text' was not in reqInput: ${reqInput}`,
+        );
+      }
+      return reqInput.text;
+    })
+    .with('textarea', () => {
+      if (!('text' in reqInput)) {
+        throw new Error(
+          `Invalid request body: 'text' was not in reqInput: ${reqInput}`,
+        );
+      }
+      return reqInput.text;
+    })
+    .with('file', () => {
+      if (!('path' in reqInput)) {
+        throw new Error(
+          `Invalid request body: 'path' was not in reqInput: ${reqInput}`,
+        );
+      }
+      return reqInput.path;
+    })
+    .with('directory', () => {
+      if (!('path' in reqInput)) {
+        throw new Error(
+          `Invalid request body: 'path' was not in reqInput: ${reqInput}`,
+        );
+      }
+      return reqInput.path;
+    })
+    .with('batchtext', () => {
+      if (!('texts' in reqInput)) {
+        throw new Error(
+          `Invalid request body: 'texts' was not in reqInput: ${reqInput}`,
+        );
+      }
+      return (reqInput as BatchTextInput).texts.map((text) => text.text);
+    })
+    .with('batchfile', () => {
+      if (!('files' in reqInput)) {
+        throw new Error(
+          `Invalid request body: 'files' was not in reqInput: ${reqInput}`,
+        );
+      }
+      return (reqInput as BatchFileInput).files.map((file) => file.path);
+    })
+    .with('batchdirectory', () => {
+      if (!('directories' in reqInput)) {
+        throw new Error(
+          `Invalid request body: 'directories' was not in reqInput: ${reqInput}`,
+        );
+      }
+      return (reqInput as BatchDirectoryInput).directories.map(
         (dir) => dir.path,
       );
-      break;
-    case 'text':
-      // @ts-ignore
-      value = reqInput.text;
-      break;
-    case 'batchtext':
-      // @ts-ignore
-      value = (reqInput as BatchTextInput).texts.map((text) => text.text);
-      break;
-    case 'textarea':
-      // @ts-ignore
-      value = reqInput.text;
-      break;
-    default:
-      value = 'invalid';
-  }
-
-  return value;
+    })
+    .exhaustive();
 }
-
-// export function extractValauesFromRequestBodyParameters(parameterType: ParameterType, reqParams: any): string | number {
-//   let value: string | number;
-//   switch(parameterType) {
-//     case 'text':
-//       value = reqParams[]
-//   }
-// }

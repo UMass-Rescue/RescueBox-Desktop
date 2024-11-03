@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
 import PreviewFileResponse from 'src/renderer/components/PreviewFileResponse';
 import {
+  batchDirectoryResponse,
+  directoryResponse,
   audioResponse,
   csvResponse,
   imageResponse,
@@ -26,12 +28,16 @@ function JobViewOutputs() {
   if (!response) return <div>No response available</div>;
 
   return (
-    <div className="border border-gray-300 rounded-lg mt-5 p-4 shadow-md bg-white">
+    <div className="border border-gray-300 rounded-lg my-5 p-6 mx-8 flex flex-col gap-4 shadow-md bg-white">
       <PreviewResponseBody response={markdownResponseBody} />
+      <PreviewResponseBody response={directoryResponse} />
+      <PreviewFileResponse response={markdownResponse} />
+      <PreviewResponseBody response={batchDirectoryResponse} />
       <PreviewFileResponse response={imageResponse} />
       <PreviewFileResponse response={csvResponse} />
       <PreviewFileResponse response={videoResponse} />
       <PreviewFileResponse response={markdownResponse} />
+      <PreviewResponseBody response={batchDirectoryResponse} />
       <PreviewFileResponse response={jsonResponse} />
       <PreviewFileResponse response={audioResponse} />
       <PreviewFileResponse response={textResponse} />
