@@ -1,5 +1,4 @@
 import GreenRunIcon from 'src/renderer/components/icons/GreenRunIcon';
-import LoadingIcon from 'src/renderer/components/icons/LoadingIcon';
 import InputField from 'src/renderer/components/InputField';
 import ParameterField from 'src/renderer/components/ParameterField';
 import { Button } from '@shadcn/button';
@@ -13,6 +12,7 @@ import {
 import { RunJobArgs } from 'src/shared/models';
 import { useTaskSchema } from '../lib/hooks';
 import { buildRequestBody } from '../lib/utils';
+import LoadingScreen from '../components/LoadingScreen';
 
 export default function ModelRunTask() {
   const { modelUid, order } = useParams();
@@ -44,12 +44,7 @@ export default function ModelRunTask() {
   }
 
   if (taskSchemaIsLoading) {
-    return (
-      <div className="h-1/3 flex flex-col items-center justify-center gap-2">
-        <LoadingIcon className="text-blue-600 size-10" />
-        <h1 className="text-2xl font-bold">Loading...</h1>
-      </div>
-    );
+    return <LoadingScreen />;
   }
   if (taskSchemaError) {
     return <div>Error loading task schema</div>;

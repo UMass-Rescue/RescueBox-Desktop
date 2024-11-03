@@ -119,6 +119,21 @@ export function useMLModel(modelUid?: string) {
   };
 }
 
+export function useReadFile(path?: string) {
+  const fetcher = () => window.fileSystem.readFile({ path: path! });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    path ? `fileSystem:read-file-${path}` : null,
+    fetcher,
+  );
+  return {
+    data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}
+
 export function useDirFiles(path?: string) {
   const fetcher = () => window.fileSystem.getFilesFromDir({ path: path! });
   const { data, error, isLoading, isValidating, mutate } = useSWR(

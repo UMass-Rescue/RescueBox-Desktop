@@ -44,6 +44,17 @@ const taskSchema4: TaskSchema = {
       label: 'Directories with Audio Files',
       subtitle: 'Select multiple directories of audio files to transcribe',
     },
+    {
+      inputType: {
+        defaultName: 'untitled',
+        defaultExtension: 'txt',
+        allowedExtensions: ['txt', 'md'],
+        inputType: 'newfile',
+      },
+      key: 'newfile_input',
+      label: 'New File',
+      subtitle: 'Select a location to save a new file',
+    },
   ],
   parameters: [
     {

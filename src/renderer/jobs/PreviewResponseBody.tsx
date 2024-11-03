@@ -2,6 +2,8 @@
 import { ResponseBody } from 'src/shared/generated_models';
 import { match } from 'ts-pattern';
 import MarkdownView from '../components/response_body/MarkdownView';
+import DirectoryView from '../components/response_body/directory_views/DirectoryView';
+import BatchDirectoryView from '../components/response_body/directory_views/BatchDirectoryView';
 
 export default function PreviewResponseBody({
   response,
@@ -13,7 +15,7 @@ export default function PreviewResponseBody({
       return <div>File Response</div>;
     })
     .with({ output_type: 'directory' }, (directoryResponse) => {
-      return <div>Directory Response</div>;
+      return <DirectoryView response={directoryResponse} />;
     })
     .with({ output_type: 'markdown' }, (markdownResponse) => {
       return <MarkdownView response={markdownResponse} />;
@@ -28,7 +30,11 @@ export default function PreviewResponseBody({
       return <div>Batch Text Response</div>;
     })
     .with({ output_type: 'batchdirectory' }, (batchDirectoryResponse) => {
-      return <div>Batch Directory Response</div>;
+      return (
+        <BatchDirectoryView
+          directoryResponses={batchDirectoryResponse.directories}
+        />
+      );
     })
     .otherwise(() => {
       return <div>Unknown Response</div>;

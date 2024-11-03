@@ -74,6 +74,7 @@ function setupIpcMain() {
   ipcMain.handle('job:delete-job-by-id', job.deleteJobById);
 
   // File System: handles file system operations
+  ipcMain.handle('fileSystem:read-file', fileSystem.readFile);
   ipcMain.handle('fileSystem:open-path', fileSystem.openPath);
   ipcMain.handle(
     'fileSystem:show-file-in-explorer',
@@ -83,9 +84,11 @@ function setupIpcMain() {
   ipcMain.handle('fileSystem:select-directories', fileSystem.selectDirectories);
   ipcMain.handle('fileSystem:select-file', fileSystem.selectFile);
   ipcMain.handle('fileSystem:select-files', fileSystem.selectFiles);
+  ipcMain.handle('fileSystem:select-file-save', fileSystem.selectFileSave);
   ipcMain.handle('fileSystem:save-logs', fileSystem.saveLogs);
   ipcMain.handle('fileSystem:get-files-from-dir', fileSystem.getFilesFromDir);
   ipcMain.handle('fileSystem:delete-file', fileSystem.deleteFile);
+  ipcMain.handle('fileSystem:join-path', fileSystem.joinPath);
 
   // Logging: handles logging operations
   ipcMain.handle('logging:get-logs', loggingHandler.getLogs);
