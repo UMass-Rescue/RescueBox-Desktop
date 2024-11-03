@@ -66,13 +66,13 @@ function BatchFileResponseView({
         .filter(([type, files]) => files.length > 0)
         .map(([type, files]) => (
           <Collapsible>
-            <CollapsibleTrigger className="font-semibold text-md flex justify-between w-full border rounded-lg hover:bg-slate-100 p-3">
+            <CollapsibleTrigger className="font-semibold mb-2 text-md flex justify-between w-full border rounded-lg hover:bg-slate-100 p-3">
               <span>{typeToTitle[type]}</span>
               <ChevronDownIcon className="size-4 xl:size-5" />
             </CollapsibleTrigger>
-            <CollapsibleContent className="grid grid-cols-4 gap-2 my-2">
+            <CollapsibleContent className="grid grid-cols-4 gap-2 mt-2">
               {files.map((file) => (
-                <div className="border rounded-md p-2 h-52 hover:bg-slate-200 flex flex-col">
+                <div className="border rounded-md p-2 h-52 hover:bg-slate-200 mb-1 flex flex-col">
                   <div className="flex flex-col items-center justify-center h-full">
                     <div className="h-24 w-24 flex items-center justify-center">
                       <img
