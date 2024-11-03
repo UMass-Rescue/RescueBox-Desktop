@@ -12,7 +12,7 @@ export default function TextField({
 }) {
   return (
     <div>
-      <h2 className="font-semibold text-sm xl:text-md">
+      <h2 className="font-semibold text-sm xl:text-base">
         {parameterSchema.label}
       </h2>
       <div className="flex items-center mt-2">

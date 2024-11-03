@@ -34,7 +34,9 @@ export default function NewFileField({
 
   return (
     <div>
-      <h2 className="font-semibold text-sm xl:text-md">{inputSchema.label}</h2>
+      <h2 className="font-semibold text-sm xl:text-base">
+        {inputSchema.label}
+      </h2>
       <div className="flex items-center mt-2">
         <Input
           type="text"
