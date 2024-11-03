@@ -8,8 +8,8 @@ export default function BatchDirectoryView({
   directoryResponses: DirectoryResponse[];
 }) {
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2 text-md rounded-md">
+    <div className="flex flex-col">
+      <div className="flex flex-col  text-md rounded-md">
         <div>
           <h1 className="font-bold my-4 text-lg lg:text-xl">
             Directory Collection

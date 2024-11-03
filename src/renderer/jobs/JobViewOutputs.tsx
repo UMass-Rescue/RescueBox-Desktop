@@ -23,9 +23,9 @@ function JobViewOutputs() {
 
   return (
     <div className="border border-gray-300 rounded-lg mt-5 p-6 mx-8 pr-4 flex flex-col gap-4 shadow-md bg-white">
-      <PreviewResponseBody response={markdownResponseBody} />
+      {/* <PreviewResponseBody response={markdownResponseBody} /> */}
       <PreviewResponseBody response={directoryResponse} />
-      <PreviewFileResponse response={markdownResponse} />
+      {/* <PreviewFileResponse response={markdownResponse} /> */}
       <PreviewResponseBody response={batchDirectoryResponse} />
     </div>
   );

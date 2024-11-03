@@ -1,5 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -20,8 +20,18 @@ export type PathRow = {
 export const fileColumns: ColumnDef<PathRow>[] = [
   {
     accessorKey: 'fileName',
-    header: () => (
-      <div className="font-bold text-black text-sm">File / Directory</div>
+    id: 'File / Directory',
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="p-0 w-full -ml-2"
+        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      >
+        <div className="flex items-center p-2 w-full">
+          <div className="font-bold text-black">File / Directory</div>
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </div>
+      </Button>
     ),
   },
   {
@@ -65,11 +75,35 @@ export const fileColumns: ColumnDef<PathRow>[] = [
 export const directoryColumns: ColumnDef<DirectoryResponse>[] = [
   {
     accessorKey: 'title',
-    header: () => <div className="font-bold text-black">Title</div>,
+    id: 'Title',
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="p-0 w-full -ml-2"
+        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      >
+        <div className="flex items-center p-2 w-full">
+          <div className="font-bold text-black">Title</div>
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </div>
+      </Button>
+    ),
   },
   {
     accessorKey: 'path',
-    header: () => <div className="font-bold text-black">Directory</div>,
+    id: 'Directory',
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="p-0 w-full -ml-2"
+        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      >
+        <div className="flex items-center p-2 w-full">
+          <div className="font-bold text-black">Directory</div>
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </div>
+      </Button>
+    ),
   },
   {
     id: 'actions',

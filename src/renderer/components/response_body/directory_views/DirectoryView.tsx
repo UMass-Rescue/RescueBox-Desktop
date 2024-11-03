@@ -22,7 +22,10 @@ export default function DirectoryView({
   if (!files) return <div>no files</div>;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col">
+      <div>
+        <h1 className="font-bold my-4 text-lg lg:text-xl">Directory</h1>
+      </div>
       <div className="flex flex-col gap-2 text-md rounded-md">
         <DirectoryField
           disabled

@@ -1,8 +1,12 @@
 import {
   ColumnDef,
+  SortingState,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  ColumnFiltersState,
+  getFilteredRowModel,
+  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 
@@ -15,7 +19,17 @@ import {
   TableRow,
 } from '@shadcn/table';
 
+import * as React from 'react';
+
 import { Button } from '@shadcn/button';
+import { Input } from '@shadcn/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@shadcn/select';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -26,11 +40,26 @@ function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [globalFilter, setGlobalFilter] = React.useState<any>([]);
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      sorting,
+      columnFilters,
+      globalFilter,
+    },
     initialState: {
       pagination: {
         pageSize: 5,
@@ -38,8 +67,81 @@ function DataTable<TData, TValue>({
     },
   });
 
+  const headers = table
+    .getHeaderGroups()
+    .flatMap((headerGroup) => headerGroup.headers)
+    .filter((header) => header.id !== 'actions');
+
+  const [searchColumn, setSearchColumn] = React.useState(
+    headers.length > 1 ? 'All Columns' : headers[0].id,
+  );
+
   return (
     <div>
+      <div className="flex items-center pb-4 max-w-sm gap-2">
+        {headers.length > 1 && (
+          <Select onValueChange={(e) => setSearchColumn(e)}>
+            <SelectTrigger className="w-1/3">
+              <SelectValue placeholder="All Columns" />
+            </SelectTrigger>
+            <SelectContent className="w-full">
+              <SelectItem value="All Columns">All Columns</SelectItem>
+              {headers.map((header) => {
+                return (
+                  <SelectItem key={header.id} value={header.id}>
+                    {header.id}
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
+        )}
+        {(() => {
+          if (headers.length > 1) {
+            if (searchColumn === 'All Columns') {
+              return (
+                <Input
+                  placeholder="Search..."
+                  onChange={(event) =>
+                    table.setGlobalFilter(String(event.target.value))
+                  }
+                  className="max-w-sm"
+                />
+              );
+            }
+            return (
+              <Input
+                placeholder={`Filter by ${searchColumn}`}
+                value={
+                  (table.getColumn(searchColumn)?.getFilterValue() as string) ??
+                  ''
+                }
+                onChange={(event) =>
+                  table
+                    .getColumn(searchColumn)
+                    ?.setFilterValue(event.target.value)
+                }
+                className="max-w-sm"
+              />
+            );
+          }
+          return (
+            <Input
+              placeholder={`Filter by ${searchColumn}`}
+              value={
+                (table.getColumn(searchColumn)?.getFilterValue() as string) ??
+                ''
+              }
+              onChange={(event) =>
+                table
+                  .getColumn(searchColumn)
+                  ?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+          );
+        })()}
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -90,24 +192,26 @@ function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
-      </div>
+      {table.getPageCount() > 1 && (
+        <div className="flex items-center justify-end space-x-2 py-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
