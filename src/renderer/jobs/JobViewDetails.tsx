@@ -48,7 +48,7 @@ function JobViewDetails() {
   if (!task) return <div>no task</div>;
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full border border-gray-300 rounded-lg m-1 p-6 flex flex-col gap-4 shadow-md bg-white">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">{task?.shortTitle}</h1>
         <StatusComponent status={job.status} />
@@ -58,7 +58,7 @@ function JobViewDetails() {
         <div title="Job metadata" className="flex flex-col gap-2">
           {job.status === 'Failed' && job.statusText && (
             <div className="flex flex-col gap-2">
-              <h1 className="font-bold text-sm xl:text-md">Status Text</h1>
+              <h1 className="font-bold text-sm xl:text-base">Status Text</h1>
               <div className="p-2 border border-slate-400 bg-slate-200 rounded-lg w-full">
                 {job.statusText}
               </div>
@@ -66,13 +66,13 @@ function JobViewDetails() {
           )}
           <div className="w-full flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <h1 className="font-bold text-sm xl:text-md">Start Time</h1>
+              <h1 className="font-bold text-sm xl:text-base">Start Time</h1>
               <div className="p-2 border border-slate-400 bg-slate-200 rounded-lg w-full">
                 {job.startTime.toLocaleString('en-US', { timeZone: 'EST' })}
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <h1 className="font-bold text-sm xl:text-md">End Time</h1>
+              <h1 className="font-bold text-sm xl:text-base">End Time</h1>
               <div className="p-2 border border-slate-400 bg-slate-200 rounded-lg w-full">
                 {job.endTime
                   ? job.endTime.toLocaleString('en-US', { timeZone: 'EST' })
@@ -83,7 +83,7 @@ function JobViewDetails() {
         </div>
         {/* Model + Task inputs & Params */}
         <div title="Task metadata" className="flex flex-col gap-2 mt-2">
-          <h1 className="font-bold text-sm xl:text-md">Model</h1>
+          <h1 className="font-bold text-sm xl:text-base">Model</h1>
           <div className="flex flex-row items-center border border-slate-400 rounded-lg w-full justify-between px-3">
             <div className="">{model?.name}</div>
             <Link

@@ -47,7 +47,7 @@ function JobView() {
                   )
             }
           >
-            View Job Details
+            Details
           </NavLink>
           <NavLink
             to={`/jobs/${jobId}/outputs`}
@@ -65,7 +65,7 @@ function JobView() {
                   )
             }
           >
-            View Job Outputs
+            Results
           </NavLink>
         </div>
       </div>
