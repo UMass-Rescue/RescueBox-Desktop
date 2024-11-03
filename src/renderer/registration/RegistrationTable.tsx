@@ -59,7 +59,7 @@ export default function RegistrationTable() {
   const serverMap = { ...createMLServerMap(servers) };
 
   return (
-    <div className="w-[calc(70%-1rem)] max-w-full">
+    <div className="w-[calc(80%-1rem)] max-w-full">
       <div className="flex justify-between items-center mb-4">
         <h1 className="font-bold text-xl md:text-2xl lg:text-4xl">
           Registered Models
