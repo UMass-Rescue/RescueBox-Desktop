@@ -22,7 +22,7 @@ import {
 } from './handlers/registration';
 import { JobByIdArgs } from './handlers/job';
 import { GetModelByIdArgs } from './handlers/models';
-import { NewFileArgs, PathArgs } from './handlers/file-system';
+import { NewFileArgs, FileInfo, JoinPathArgs, PathArgs } from './handlers/file-system';
 import {
   GetApiRoutesArgs,
   GetAppMetadataArgs,
@@ -97,10 +97,12 @@ const fileSystemHandler = {
   saveLogs: () => ipcRenderer.invoke('fileSystem:save-logs'),
   getFilesFromDir: (args: PathArgs) =>
     ipcRenderer.invoke('fileSystem:get-files-from-dir', args) as Promise<
-      string[]
+      FileInfo[]
     >,
   deleteFile: (args: PathArgs) =>
     ipcRenderer.invoke('fileSystem:delete-file', args) as Promise<void>,
+  joinPath: (args: JoinPathArgs) =>
+    ipcRenderer.invoke('fileSystem:join-path', args) as Promise<string>,
 };
 
 const databaseHandler = {
