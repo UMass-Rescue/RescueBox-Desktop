@@ -48,12 +48,14 @@ function JobViewDetails() {
   if (!task) return <div>no task</div>;
 
   return (
-    <div className="w-full h-full my-6">
-      <h1 className="text-3xl font-bold py-2">{task?.shortTitle}</h1>
+    <div className="w-full h-full">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">{task?.shortTitle}</h1>
+        <StatusComponent status={job.status} />
+      </div>
       <div className="flex flex-col">
         {/* First Column in the grid for job metadata */}
         <div title="Job metadata" className="flex flex-col gap-2">
-          <StatusComponent status={job.status} />
           {job.status === 'Failed' && job.statusText && (
             <div className="flex flex-col gap-2">
               <h1 className="font-bold text-sm xl:text-md">Status Text</h1>

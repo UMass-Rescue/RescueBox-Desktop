@@ -45,7 +45,7 @@ function Models() {
 
   return (
     <div className="flex flex-col items-center m-3">
-      <div className="w-[calc(80%-1rem)] max-w-full">
+      <div className="w-4/5 max-w-full">
         <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-5 flex flex-row gap-8 items-center">
           Available Models
           {statusIsValidating && (
