@@ -1,3 +1,4 @@
+import { FileResponse } from 'src/shared/generated_models';
 import { ModelAppStatus, ModelServer } from 'src/shared/models';
 import useSWR, { SWRConfiguration } from 'swr';
 
@@ -270,6 +271,36 @@ export function useApiRoutes(modelUid?: string) {
     fetcher,
   );
 
+  return {
+    data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}
+export function useFilePathIcon(filePath: string) {
+  const fetcher = () => window.fileSystem.getFileIcon({ path: filePath });
+  const { data, error, isLoading } = useSWR(
+    filePath ? `fileSystem:get-file-icon` : null,
+    fetcher,
+  );
+  return {
+    data,
+    error,
+    isLoading,
+  };
+}
+
+export function useFileIcons(files: FileResponse[]) {
+  const fetcher = () =>
+    Promise.all(
+      files.map((file) => window.fileSystem.getFileIcon({ path: file.path })),
+    );
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    files ? `fileSystem:get-file-icon` : null,
+    fetcher,
+  );
   return {
     data,
     error,

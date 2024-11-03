@@ -5,7 +5,9 @@ import {
 } from '@radix-ui/react-collapsible';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 import { BatchFileResponse, FileResponse } from 'src/shared/generated_models';
+// import { useFileIcons, useFilePathIcon } from 'src/renderer/lib/hooks';
 import PreviewFileResponse from '../PreviewFileResponse';
+// import LoadingIcon from '../icons/LoadingIcon';
 
 function BatchFileResponseView({
   batchFileResponse,
@@ -14,11 +16,14 @@ function BatchFileResponseView({
 }) {
   const { files } = batchFileResponse;
 
-  const filePathIcons: Record<string, any> = files.reduce(async (acc, file) => {
-    // @ts-ignore
-    acc[file.path] = await window.fileSystem.getFileIcon({ path: file.path });
-    return acc;
-  }, {});
+  // const filePathIcons: Record<string, any>;
+  // TODO: Fix this
+  /*
+  files.forEach((file) => {
+    { data: iconURL, error, isLoading } = useFilePathIcon(file.path);
+    if (iconURL) filePathIcons[file.path] = iconURL;
+  });
+  */
 
   const imageFiles: FileResponse[] = [];
   const csvFiles: FileResponse[] = [];
@@ -116,7 +121,7 @@ function BatchFileResponseView({
           {filePartition.map((file) => (
             <div className="border border-slate-400 rounded-md p-2 h-52 hover:bg-slate-200 flex flex-col">
               <div className="font-bold text-3xl h-5/6 flex items-center justify-center align-middle">
-                <img src={filePathIcons[file.path]} alt="FILE" />
+                <img src={'/*TODO: Add correct src*/'} alt="FILE" />
               </div>
               <div className="border-t-2 mt-2 border-slate-400 flex flex-row justify-between">
                 <button
