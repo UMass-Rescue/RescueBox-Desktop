@@ -123,7 +123,7 @@ export async function selectFileSave(_event: any, arg: NewFileArgs) {
 
   if (
     arg.allowedExtensions !== '*' &&
-    arg.defaultExtension in arg.allowedExtensions
+    !arg.allowedExtensions.includes(arg.defaultExtension)
   ) {
     filters.push({
       name: arg.defaultExtension,

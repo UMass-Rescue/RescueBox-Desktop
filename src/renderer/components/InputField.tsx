@@ -1,4 +1,5 @@
 import { InputSchema } from 'src/shared/generated_models';
+import { match } from 'ts-pattern';
 import DirectoryField from './input_fields/DirectoryField';
 import FileField from './input_fields/FileField';
 import TextField from './input_fields/TextField';
@@ -7,7 +8,6 @@ import BatchTextField from './input_fields/BatchTextField';
 import BatchDirectoryField from './input_fields/BatchDirectoryField';
 import BatchFileField from './input_fields/BatchFileField';
 import NewFileField from './input_fields/NewFileField';
-import { isNewFileInputType } from '../lib/utils';
 
 type InputFieldProps = {
   inputSchema: InputSchema;
@@ -23,86 +23,76 @@ export default function InputField({
   onChange,
   disabled = false,
 }: InputFieldProps) {
-  if (isNewFileInputType(inputSchema.inputType)) {
-    switch (inputSchema.inputType.inputType) {
-      case 'newfile':
-        return (
-          <NewFileField
-            inputSchema={inputSchema}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
-        );
-      default:
-        return <div>Unsupported input type.</div>;
-    }
-  } else {
-    switch (inputSchema.inputType) {
-      case 'text':
-        return (
-          <TextField
-            inputSchema={inputSchema}
-            onChange={onChange}
-            disabled={disabled}
-          />
-        );
-      case 'textarea':
-        return (
-          <TextAreaField
-            inputSchema={inputSchema}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
-        );
-      case 'file':
-        return (
-          <FileField
-            inputSchema={inputSchema}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
-        );
-      case 'directory':
-        return (
-          <DirectoryField
-            inputSchema={inputSchema}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
-        );
-      case 'batchtext':
-        return (
-          <BatchTextField
-            inputSchema={inputSchema}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
-        );
-      case 'batchfile':
-        return (
-          <BatchFileField
-            inputSchema={inputSchema}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
-        );
-      case 'batchdirectory':
-        return (
-          <BatchDirectoryField
-            inputSchema={inputSchema}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
-        );
-      default:
-        return <div>Unsupported input type.</div>;
-    }
-  }
+  return match(inputSchema)
+    .with({ inputType: 'text' }, () => (
+      <TextField
+        inputSchema={inputSchema}
+        onChange={onChange}
+        disabled={disabled}
+      />
+    ))
+    .with({ inputType: 'textarea' }, () => (
+      <TextAreaField
+        inputSchema={inputSchema}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      />
+    ))
+    .with({ inputType: 'file' }, () => (
+      <FileField
+        inputSchema={inputSchema}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      />
+    ))
+    .with({ inputType: 'directory' }, () => (
+      <DirectoryField
+        inputSchema={inputSchema}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      />
+    ))
+    .with({ inputType: 'batchtext' }, () => (
+      <BatchTextField
+        inputSchema={inputSchema}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      />
+    ))
+    .with({ inputType: 'batchfile' }, () => (
+      <BatchFileField
+        inputSchema={inputSchema}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      />
+    ))
+    .with({ inputType: 'batchdirectory' }, () => (
+      <BatchDirectoryField
+        inputSchema={inputSchema}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      />
+    ))
+    .with(
+      {
+        inputType: {
+          inputType: 'newfile',
+        },
+      },
+      () => (
+        <NewFileField
+          inputSchema={inputSchema}
+          value={value}
+          onChange={onChange}
+          disabled={disabled}
+        />
+      ),
+    )
+    .otherwise(() => <div>Unsupported input type.</div>);
 }
