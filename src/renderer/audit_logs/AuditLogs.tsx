@@ -48,7 +48,7 @@ export default function AuditLogs() {
 
   return (
     <div className="flex flex-col items-center m-3 gap-8">
-      <div className="flex flex-col p-4 gap-2 bg-gray-950 rounded-md drop-shadow-lg text-blue-50 w-[calc(80%-1rem)] max-w-full">
+      <div className="flex flex-col p-4 gap-2 bg-gray-950 rounded-md drop-shadow-lg text-blue-50 w-4/5 max-w-full">
         <div className="flex flex-row justify-between gap-2 items-center text-xl bg-gray-800 px-3 py-2 rounded-md">
           <div className="flex flex-row items-center gap-3 font-bold">
             <LogsIcon className="fill-white" />
