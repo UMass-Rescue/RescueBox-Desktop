@@ -1,4 +1,3 @@
-import { FileResponse } from 'src/shared/generated_models';
 import { ModelAppStatus, ModelServer } from 'src/shared/models';
 import useSWR, { SWRConfiguration } from 'swr';
 
@@ -292,13 +291,19 @@ export function useFilePathIcon(filePath: string) {
   };
 }
 
-export function useFileIcons(files: FileResponse[]) {
+export function useFileIcons(paths: string[]) {
   const fetcher = () =>
     Promise.all(
-      files.map((file) => window.fileSystem.getFileIcon({ path: file.path })),
-    );
+      paths.map((path) => window.fileSystem.getFileIcon({ path })),
+    ).then((icons) => {
+      const fileIcons: Record<string, string> = {};
+      icons.forEach((icon, idx) => {
+        fileIcons[paths[idx]] = icon;
+      });
+      return fileIcons;
+    });
   const { data, error, isLoading, isValidating, mutate } = useSWR(
-    files ? `fileSystem:get-file-icon` : null,
+    paths ? `fileSystem:get-file-icon` : null,
     fetcher,
   );
   return {

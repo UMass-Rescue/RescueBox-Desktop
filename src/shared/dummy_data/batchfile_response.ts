@@ -13,23 +13,23 @@ const sampleBatchFileResponse: BatchFileResponse = {
     {
       output_type: 'file',
       file_type: 'text',
-      path: 'some/path/ok.txt',
+      path: 'C:\\Users\\LENOVO\\Downloads\\sample-markdown.txt',
       title: 'sample2',
       subtitle: 'first sample text',
     },
     {
       output_type: 'file',
       file_type: 'img',
-      path: 'some/path/ok2.img',
+      path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\input\\baboon.png',
       title: 'sample3',
       subtitle: 'second sample image',
     },
     {
       output_type: 'file',
-      file_type: 'img',
-      path: 'some/path/ok2.img',
+      file_type: 'csv',
+      path: 'C:\\Users\\LENOVO\\Downloads\\addresses.csv',
       title: 'sample',
-      subtitle: 'sample image',
+      subtitle: 'sample CSV',
     },
     {
       output_type: 'file',
