@@ -5,10 +5,30 @@ import path from 'path';
 
 export type PathArgs = {
   path: string;
+  enclosingDirectory?: string;
+};
+
+export type JoinPathArgs = {
+  paths: string[];
+};
+
+function getPathString(arg: PathArgs) {
+  let pathString = arg.path;
+  if (arg.enclosingDirectory) {
+    pathString = path.join(arg.enclosingDirectory, arg.path);
+  }
+  return pathString;
+}
+
+export type NewFileArgs = {
+  defaultName: string;
+  defaultExtension: string;
+  allowedExtensions: '*' | string[];
 };
 
 export async function readFile(_event: any, arg: PathArgs) {
-  if (!fs.existsSync(arg.path)) {
+  const pathString = getPathString(arg);
+  if (!fs.existsSync(pathString)) {
     log.error('File does not exist');
     dialog.showErrorBox(
       "We can't find this file.",
@@ -16,19 +36,20 @@ export async function readFile(_event: any, arg: PathArgs) {
     );
     return '';
   }
-  return fs.readFileSync(arg.path).toString();
+  return fs.readFileSync(pathString).toString();
 }
 
 export async function openPath(_event: any, arg: PathArgs) {
-  log.info('Opening directory', arg.path);
-  if (!fs.existsSync(arg.path)) {
+  const pathString = getPathString(arg);
+  log.info('Opening file/directory', pathString);
+  if (!fs.existsSync(pathString)) {
     log.error('Directory does not exist');
     dialog.showErrorBox(
       "We can't find this folder.",
       "Make sure it hasn't been moved or deleted.",
     );
   } else {
-    shell.openPath(arg.path).catch((err) => {
+    shell.openPath(pathString).catch((err) => {
       log.error('Error opening directory', err);
       dialog.showErrorBox('Error opening directory', err.message);
     });
@@ -36,7 +57,8 @@ export async function openPath(_event: any, arg: PathArgs) {
 }
 
 export async function showFileInExplorer(_event: any, arg: PathArgs) {
-  const filePath = path.resolve(arg.path);
+  const pathString = getPathString(arg);
+  const filePath = path.resolve(pathString);
   if (!fs.existsSync(filePath)) {
     log.error('File does not exist');
     dialog.showErrorBox(
@@ -50,7 +72,8 @@ export async function showFileInExplorer(_event: any, arg: PathArgs) {
 }
 
 export async function deleteFile(_event: any, arg: PathArgs) {
-  const filePath = path.resolve(arg.path);
+  const pathString = getPathString(arg);
+  const filePath = path.resolve(pathString);
   if (!fs.existsSync(filePath)) {
     log.error('File does not exist');
     dialog.showErrorBox(
@@ -64,6 +87,10 @@ export async function deleteFile(_event: any, arg: PathArgs) {
       dialog.showErrorBox('Error deleting file', err.message);
     });
   }
+}
+
+export async function joinPath(_event: any, arg: JoinPathArgs) {
+  return path.join(...arg.paths);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -102,6 +129,50 @@ export async function selectFiles(_event: any, _arg: any) {
   return result.filePaths;
 }
 
+export async function selectFileSave(_event: any, arg: NewFileArgs) {
+  const filters = [];
+  if (arg.allowedExtensions !== '*') {
+    filters.push(
+      ...arg.allowedExtensions.map((ext) => ({
+        name: ext,
+        extensions: [ext],
+      })),
+    );
+  } else {
+    filters.push({ name: 'All Files', extensions: ['*'] });
+  }
+
+  if (
+    arg.allowedExtensions !== '*' &&
+    !arg.allowedExtensions.includes(arg.defaultExtension)
+  ) {
+    filters.push({
+      name: arg.defaultExtension,
+      extensions: [arg.defaultExtension],
+    });
+  }
+  return dialog
+    .showSaveDialog({
+      title: 'Select New File Path',
+      defaultPath: arg.defaultName,
+      buttonLabel: 'Confirm',
+      filters,
+      properties: [],
+    })
+    .then((file) => {
+      log.info(
+        file.canceled ? 'Dialog was canceled' : 'Dialog was not canceled',
+      );
+      if (!file.canceled) {
+        log.info('File path selected to save: ', file.filePath);
+      }
+      return file.filePath;
+    })
+    .catch((err) => {
+      log.error('Error in obtaining file path: ', err);
+    });
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function saveLogs(_event: any, _arg: any) {
   return dialog
@@ -121,7 +192,7 @@ export async function saveLogs(_event: any, _arg: any) {
     .then((file) => {
       // Stating whether dialog operation was cancelled or not.
       log.info(
-        file.canceled ? 'Dialog was cancelled' : 'Dialog was not cancelled',
+        file.canceled ? 'Dialog was canceled' : 'Dialog was not canceled',
       );
       if (!file.canceled) {
         log.info('File path selected to save logs: ', file.filePath);
@@ -136,8 +207,19 @@ export async function saveLogs(_event: any, _arg: any) {
     });
 }
 
+export type FileInfo = {
+  fullPath: string;
+  fileName: string;
+  parent: string;
+};
+
 export async function getFilesFromDir(_event: any, arg: PathArgs) {
-  return fs.readdirSync(arg.path);
+  const files = fs.readdirSync(arg.path);
+  return files.map((file) => ({
+    fullPath: path.join(arg.path, file),
+    fileName: file,
+    parent: arg.path,
+  }));
 }
 
 export async function getFileIcon(_event: any, arg: PathArgs) {

@@ -12,13 +12,14 @@ export default function TextField({
 }) {
   return (
     <div>
-      <h2 className="font-semibold text-sm xl:text-md">
+      <h2 className="font-semibold text-sm xl:text-base">
         {parameterSchema.label}
       </h2>
       <div className="flex items-center mt-2">
         <Input
           type="text"
           placeholder={parameterSchema.subtitle || ''}
+          defaultValue={String(parameterSchema.value.default)}
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
         />

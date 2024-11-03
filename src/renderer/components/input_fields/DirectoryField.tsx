@@ -26,7 +26,12 @@ export default function DirectoryField({
 
   return (
     <div>
-      <h2 className="font-semibold text-sm xl:text-md">{inputSchema.label}</h2>
+      <h2 className="font-semibold text-sm xl:text-base">
+        {inputSchema.label}
+      </h2>
+      {inputSchema.subtitle && (
+        <p className="text-xs mt-1">{inputSchema.subtitle}</p>
+      )}
       <div className="flex items-center mt-2">
         <Input
           type="text"

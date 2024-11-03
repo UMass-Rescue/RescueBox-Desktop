@@ -84,10 +84,13 @@ function setupIpcMain() {
   ipcMain.handle('fileSystem:select-directories', fileSystem.selectDirectories);
   ipcMain.handle('fileSystem:select-file', fileSystem.selectFile);
   ipcMain.handle('fileSystem:select-files', fileSystem.selectFiles);
+  ipcMain.handle('fileSystem:select-file-save', fileSystem.selectFileSave);
   ipcMain.handle('fileSystem:save-logs', fileSystem.saveLogs);
   ipcMain.handle('fileSystem:get-files-from-dir', fileSystem.getFilesFromDir);
   ipcMain.handle('fileSystem:delete-file', fileSystem.deleteFile);
   ipcMain.handle('fileSystem:get-file-icon', fileSystem.getFileIcon);
+  ipcMain.handle('fileSystem:join-path', fileSystem.joinPath);
+
   // Logging: handles logging operations
   ipcMain.handle('logging:get-logs', loggingHandler.getLogs);
   ipcMain.handle('logging:clear-logs', loggingHandler.clearLogs);

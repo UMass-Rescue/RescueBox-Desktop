@@ -48,43 +48,45 @@ function ModelDetails() {
   }
 
   return (
-    <div className="flex flex-row justify-between m-3">
-      <div className="w-2/3 m-2 mr-4 prose max-w-none markdown">
-        <Markdown
-          rehypePlugins={[[rehypeExternalLinks, { target: '_blank' }]]}
-          className="text-black"
-          remarkPlugins={[remarkGfm]}
-        >
-          {modelInfo.info}
-        </Markdown>
-      </div>
-      <div className="sticky top-32 drop-shadow-md m-4 py-4 px-6 rounded-md w-1/3 bg-sky-200 h-full">
-        <h1 className="font-bold text-lg md:text-xl lg:text-2xl m-2">
-          Model Version
-        </h1>
-        <p className="m-2">{modelInfo.version}</p>
-        <h1 className="font-bold text-lg md:text-xl lg:text-2xl m-2">
-          Developed By
-        </h1>
-        <p className="m-2">{modelInfo.author}</p>
-        <h1 className="font-bold text-lg md:text-xl lg:text-2xl m-2">
-          Last Updated
-        </h1>
-        <p className="m-2">{new Date(modelInfo.updatedAt).toUTCString()}</p>
-        <div className="mt-10">
-          <Link
-            to={`/models/${modelUid}/run`}
-            className={
-              serverStatus !== ModelAppStatus.Online
-                ? 'pointer-events-none opacity-50'
-                : ''
-            }
+    <div className="w-4/5 max-w-full mx-auto">
+      <div className="flex flex-row justify-between m-3">
+        <div className="w-2/3 m-2 mr-4 prose max-w-none markdown">
+          <Markdown
+            rehypePlugins={[[rehypeExternalLinks, { target: '_blank' }]]}
+            className="text-black"
+            remarkPlugins={[remarkGfm]}
           >
-            <Button className="w-full flex flex-row gap-2 hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500">
-              Run
-              <GreenRunIcon />
-            </Button>
-          </Link>
+            {modelInfo.info}
+          </Markdown>
+        </div>
+        <div className="sticky top-32 drop-shadow-md m-4 py-4 px-6 rounded-md w-1/3 bg-sky-200 h-full">
+          <h1 className="font-bold text-lg md:text-xl lg:text-2xl m-2">
+            Model Version
+          </h1>
+          <p className="m-2">{modelInfo.version}</p>
+          <h1 className="font-bold text-lg md:text-xl lg:text-2xl m-2">
+            Developed By
+          </h1>
+          <p className="m-2">{modelInfo.author}</p>
+          <h1 className="font-bold text-lg md:text-xl lg:text-2xl m-2">
+            Last Updated
+          </h1>
+          <p className="m-2">{new Date(modelInfo.updatedAt).toUTCString()}</p>
+          <div className="mt-10">
+            <Link
+              to={`/models/${modelUid}/run`}
+              className={
+                serverStatus !== ModelAppStatus.Online
+                  ? 'pointer-events-none opacity-50'
+                  : ''
+              }
+            >
+              <Button className="w-full flex flex-row gap-2 hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500">
+                Run
+                <GreenRunIcon />
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

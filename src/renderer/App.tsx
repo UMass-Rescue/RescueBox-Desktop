@@ -66,7 +66,7 @@ function RootLayout() {
         <hr className="h-[0.75px] border-t-0 bg-gray-300 dark:bg-white/10" />
       </div>
       <div className="flex-1 flex flex-col bg-gray-100 pt-2">
-        <div className="flex-1 mx-4 flex flex-col">
+        <div className="flex-1 ml-4 flex flex-col">
           <ErrorBoundary FallbackComponent={FallbackError}>
             <Outlet />
           </ErrorBoundary>

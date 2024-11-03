@@ -44,22 +44,28 @@ function Models() {
   );
 
   return (
-    <div className="m-3">
-      <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-5 flex flex-row gap-8 items-center">
-        Available Models
-        {statusIsValidating && <LoadingIcon className="size-8 text-blue-600" />}
-      </h1>
-      {onModels.length === 0 && <RegisterModelButton />}
-      {onModels.length > 0 && (
-        <ModelsTable models={onModels} serverStatuses={serverStatuses} />
-      )}
-      <h1 className="font-bold text-xl md:text-2xl lg:text-4xl my-5 flex flex-row gap-8 items-center">
-        Unavailable Models
-        {statusIsValidating && <LoadingIcon className="size-8 text-blue-600" />}
-      </h1>
-      {offModels.length > 0 && (
-        <ModelsTable models={offModels} serverStatuses={serverStatuses} />
-      )}
+    <div className="flex flex-col items-center m-3">
+      <div className="w-4/5 max-w-full">
+        <h1 className="font-bold text-xl md:text-2xl lg:text-4xl mb-5 flex flex-row gap-8 items-center">
+          Available Models
+          {statusIsValidating && (
+            <LoadingIcon className="size-8 text-blue-600" />
+          )}
+        </h1>
+        {onModels.length === 0 && <RegisterModelButton />}
+        {onModels.length > 0 && (
+          <ModelsTable models={onModels} serverStatuses={serverStatuses} />
+        )}
+        <h1 className="font-bold text-xl md:text-2xl lg:text-4xl my-5 flex flex-row gap-8 items-center">
+          Unavailable Models
+          {statusIsValidating && (
+            <LoadingIcon className="size-8 text-blue-600" />
+          )}
+        </h1>
+        {offModels.length > 0 && (
+          <ModelsTable models={offModels} serverStatuses={serverStatuses} />
+        )}
+      </div>
     </div>
   );
 }
