@@ -70,7 +70,7 @@ function BatchFileResponseView({
               <span>{typeToTitle[type]}</span>
               <ChevronDownIcon className="size-4 xl:size-5" />
             </CollapsibleTrigger>
-            <CollapsibleContent className="grid grid-cols-5 gap-2 my-2">
+            <CollapsibleContent className="grid grid-cols-4 gap-2 my-2">
               {files.map((file) => (
                 <div className="border rounded-md p-2 h-52 hover:bg-slate-200 flex flex-col">
                   <div className="flex flex-col items-center justify-center h-full">
@@ -85,7 +85,7 @@ function BatchFileResponseView({
                         className={type === 'img' ? 'h-24 w-24' : 'h-12 w-12'}
                       />
                     </div>
-                    <span className="mt-2">
+                    <span className="mt-2 text-center break-words">
                       {file.path.split(/[/\\]/).pop()}
                     </span>
                   </div>

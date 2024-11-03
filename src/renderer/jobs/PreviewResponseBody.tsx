@@ -4,7 +4,7 @@ import { match } from 'ts-pattern';
 import MarkdownView from '../components/response_body/MarkdownView';
 import DirectoryView from '../components/response_body/directory_views/DirectoryView';
 import BatchDirectoryView from '../components/response_body/directory_views/BatchDirectoryView';
-import BatchFileResponseView from '../components/response_body/BatchFileResponse';
+import BatchFileResponseView from '../components/response_body/BatchFileResponseView';
 
 export default function PreviewResponseBody({
   response,
