@@ -22,7 +22,12 @@ import {
 } from './handlers/registration';
 import { JobByIdArgs } from './handlers/job';
 import { GetModelByIdArgs } from './handlers/models';
-import { NewFileArgs, FileInfo, JoinPathArgs, PathArgs } from './handlers/file-system';
+import {
+  NewFileArgs,
+  FileInfo,
+  JoinPathArgs,
+  PathArgs,
+} from './handlers/file-system';
 import {
   GetApiRoutesArgs,
   GetAppMetadataArgs,
