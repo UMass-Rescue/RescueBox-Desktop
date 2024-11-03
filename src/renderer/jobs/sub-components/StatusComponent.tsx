@@ -1,17 +1,20 @@
+/* TODO: add back when try works
 import { Button } from '@shadcn/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { useNavigate } from 'react-router-dom';
+*/
 import LoadingIcon from 'src/renderer/components/icons/LoadingIcon';
 import CompletedIcon from '../../components/icons/CompletedIcon';
 import FailedIcon from '../../components/icons/FailedIcon';
 import CanceledIcon from '../../components/icons/CanceledIcon';
 
 export default function StatusComponent({ status }: { status: String }) {
+  /* TODO: add back when retry works
   const navigate = useNavigate();
-
   const handleRetry = async () => {
     navigate('/jobs');
   };
+  */
 
   return (
     <div className="flex flex-row justify-between ">
@@ -38,6 +41,7 @@ export default function StatusComponent({ status }: { status: String }) {
           <LoadingIcon />
         </div>
       )}
+      {/* TODO: add back when retry works
       <div className="flex flex-row gap-2 text-lg font-semibold items-center">
         {status !== 'Completed' && (
           <Button className="flex flex-row gap-2" onClick={handleRetry}>
@@ -46,6 +50,7 @@ export default function StatusComponent({ status }: { status: String }) {
           </Button>
         )}
       </div>
+      */}
     </div>
   );
 }
