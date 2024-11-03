@@ -36,6 +36,9 @@ export const fileColumns: ColumnDef<PathRow>[] = [
   },
   {
     id: 'actions',
+    header: () => (
+      <div className="flex items-center justify-end pr-2">Actions</div>
+    ),
     cell: ({ row }) => {
       const { fullPath } = row.original;
 
@@ -107,6 +110,9 @@ export const directoryColumns: ColumnDef<DirectoryResponse>[] = [
   },
   {
     id: 'actions',
+    header: () => (
+      <div className="flex items-center justify-end pr-2">Actions</div>
+    ),
     cell: ({ row }) => {
       const { path } = row.original;
 
