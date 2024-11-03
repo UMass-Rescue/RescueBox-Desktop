@@ -22,7 +22,12 @@ import {
 } from './handlers/registration';
 import { JobByIdArgs } from './handlers/job';
 import { GetModelByIdArgs } from './handlers/models';
-import { FileInfo, JoinPathArgs, PathArgs } from './handlers/file-system';
+import {
+  NewFileArgs,
+  FileInfo,
+  JoinPathArgs,
+  PathArgs,
+} from './handlers/file-system';
 import {
   GetApiRoutesArgs,
   GetAppMetadataArgs,
@@ -92,6 +97,8 @@ const fileSystemHandler = {
     ipcRenderer.invoke('fileSystem:select-file') as Promise<string>,
   selectFiles: () =>
     ipcRenderer.invoke('fileSystem:select-files') as Promise<string[]>,
+  selectFileSave: (args: NewFileArgs) =>
+    ipcRenderer.invoke('fileSystem:select-file-save', args) as Promise<string>,
   saveLogs: () => ipcRenderer.invoke('fileSystem:save-logs'),
   getFilesFromDir: (args: PathArgs) =>
     ipcRenderer.invoke('fileSystem:get-files-from-dir', args) as Promise<

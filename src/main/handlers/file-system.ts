@@ -20,6 +20,12 @@ function getPathString(arg: PathArgs) {
   return pathString;
 }
 
+export type NewFileArgs = {
+  defaultName: string;
+  defaultExtension: string;
+  allowedExtensions: '*' | string[];
+};
+
 export async function readFile(_event: any, arg: PathArgs) {
   const pathString = getPathString(arg);
   if (!fs.existsSync(pathString)) {
@@ -123,6 +129,50 @@ export async function selectFiles(_event: any, _arg: any) {
   return result.filePaths;
 }
 
+export async function selectFileSave(_event: any, arg: NewFileArgs) {
+  const filters = [];
+  if (arg.allowedExtensions !== '*') {
+    filters.push(
+      ...arg.allowedExtensions.map((ext) => ({
+        name: ext,
+        extensions: [ext],
+      })),
+    );
+  } else {
+    filters.push({ name: 'All Files', extensions: ['*'] });
+  }
+
+  if (
+    arg.allowedExtensions !== '*' &&
+    !arg.allowedExtensions.includes(arg.defaultExtension)
+  ) {
+    filters.push({
+      name: arg.defaultExtension,
+      extensions: [arg.defaultExtension],
+    });
+  }
+  return dialog
+    .showSaveDialog({
+      title: 'Select New File Path',
+      defaultPath: arg.defaultName,
+      buttonLabel: 'Confirm',
+      filters,
+      properties: [],
+    })
+    .then((file) => {
+      log.info(
+        file.canceled ? 'Dialog was canceled' : 'Dialog was not canceled',
+      );
+      if (!file.canceled) {
+        log.info('File path selected to save: ', file.filePath);
+      }
+      return file.filePath;
+    })
+    .catch((err) => {
+      log.error('Error in obtaining file path: ', err);
+    });
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function saveLogs(_event: any, _arg: any) {
   return dialog
@@ -142,7 +192,7 @@ export async function saveLogs(_event: any, _arg: any) {
     .then((file) => {
       // Stating whether dialog operation was cancelled or not.
       log.info(
-        file.canceled ? 'Dialog was cancelled' : 'Dialog was not cancelled',
+        file.canceled ? 'Dialog was canceled' : 'Dialog was not canceled',
       );
       if (!file.canceled) {
         log.info('File path selected to save logs: ', file.filePath);
