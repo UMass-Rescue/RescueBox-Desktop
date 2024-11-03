@@ -12,6 +12,9 @@ import {
 } from './ui/dialog';
 import MarkdownPreview from './response_body/previews/MarkdownPreview';
 import AudioPreview from './response_body/previews/AudioPreview';
+import ImagePreview from './response_body/previews/ImagePreview';
+import JSONPreview from './response_body/previews/JSONPreview';
+import CSVPreview from './response_body/previews/CSVPreview';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function PreviewFileResponse({
@@ -27,11 +30,11 @@ export default function PreviewFileResponse({
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button>Preview</Button>
+          <Button>Preview {response.file_type.toUpperCase()}</Button>
         </DialogTrigger>
         <DialogContent className="[&>button]:hidden max-w-fit xs:max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-4xl max-h-[80vh]">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-4">
+            <DialogTitle className="flex items-center gap-4 px-1">
               <span className="font-bold text-xl">{`Preview: ${response.title}`}</span>
               <div className="ml-auto flex">
                 <Button
@@ -55,7 +58,7 @@ export default function PreviewFileResponse({
               </div>
             </DialogTitle>
             {response.subtitle && (
-              <span className="block max-h-10 overflow-y-auto text-sm">{`${response.subtitle}`}</span>
+              <span className="block px-1 max-h-10 overflow-y-auto text-sm">{`${response.subtitle}`}</span>
             )}
           </DialogHeader>
           <div className="overflow-auto h-full">
@@ -66,13 +69,13 @@ export default function PreviewFileResponse({
                 case 'markdown':
                   return <MarkdownPreview filePath={response.path} />;
                 case 'json':
-                  return <div>JSON Preview</div>;
+                  return <JSONPreview filePath={response.path} />;
                 case 'csv':
-                  return <div>CSV Preview</div>;
+                  return <CSVPreview filePath={response.path} />;
                 case 'audio':
                   return <AudioPreview filePath={filePrefixedPath} />;
                 case 'img':
-                  return <div>Image Preview</div>;
+                  return <ImagePreview filePath={filePrefixedPath} />;
                 case 'video':
                   return <VideoPreview filePath={filePrefixedPath} />;
                 default:

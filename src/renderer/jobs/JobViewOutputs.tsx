@@ -3,7 +3,12 @@ import PreviewFileResponse from 'src/renderer/components/PreviewFileResponse';
 import {
   batchDirectoryResponse,
   directoryResponse,
+  audioResponse,
+  csvResponse,
+  imageResponse,
+  jsonResponse,
   markdownResponse,
+  videoResponse,
 } from 'src/shared/dummy_data/file_response';
 import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
 import { useJob } from '../lib/hooks';
@@ -27,6 +32,13 @@ function JobViewOutputs() {
       <PreviewResponseBody response={directoryResponse} />
       <PreviewFileResponse response={markdownResponse} />
       <PreviewResponseBody response={batchDirectoryResponse} />
+      <PreviewFileResponse response={imageResponse} />
+      <PreviewFileResponse response={csvResponse} />
+      <PreviewFileResponse response={videoResponse} />
+      <PreviewFileResponse response={markdownResponse} />
+      <PreviewResponseBody response={batchDirectoryResponse} />
+      <PreviewFileResponse response={jsonResponse} />
+      <PreviewFileResponse response={audioResponse} />
     </div>
   );
 }
