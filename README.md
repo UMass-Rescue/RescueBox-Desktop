@@ -35,7 +35,10 @@ RescueBox Desktop is built using [Electron](https://www.electronjs.org/), [React
 
 RescueBox implments the "Flask-ML" protocol, which is a simple interface for running ML models. See [Flask-ML Protocol](./docs/FlaskML-Protocol-Sequence-Diagram.png).
 
-<img align="center" src="./docs/FlaskML-Protocol-Sequence-Diagram.png" width="450" />
+<p align="center">
+  <img src="./docs/FlaskML-Protocol-Sequence-Diagram.png" width="450" />
+</p>
+
 
 # Development
 
