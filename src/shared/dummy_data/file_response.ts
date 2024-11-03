@@ -1,4 +1,8 @@
-import { FileResponse } from '../generated_models';
+import {
+  BatchDirectoryResponse,
+  DirectoryResponse,
+  FileResponse,
+} from '../generated_models';
 
 const markdownResponse: FileResponse = {
   output_type: 'file',
@@ -48,7 +52,28 @@ const videoResponse: FileResponse = {
   subtitle: 'Some info about sample video',
 };
 
+const directoryResponse: DirectoryResponse = {
+  output_type: 'directory',
+  path: '/Users/atharvakale/Downloads',
+  title: 'Sample Directory Outputs',
+  // subtitle: 'Subtitle: Some info about sample directory',
+};
+
+const directoryResponse2: DirectoryResponse = {
+  output_type: 'directory',
+  path: '/Users/atharvakale/Downloads/rooting-5g',
+  title: 'Sample Markdown',
+  subtitle: 'Some info about sample markdown',
+};
+
+const batchDirectoryResponse: BatchDirectoryResponse = {
+  directories: [directoryResponse, directoryResponse2],
+  output_type: 'batchdirectory',
+};
+
 export {
+  directoryResponse,
+  batchDirectoryResponse,
   markdownResponse,
   imageResponse,
   jsonResponse,
