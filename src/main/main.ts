@@ -87,7 +87,7 @@ function setupIpcMain() {
   ipcMain.handle('fileSystem:save-logs', fileSystem.saveLogs);
   ipcMain.handle('fileSystem:get-files-from-dir', fileSystem.getFilesFromDir);
   ipcMain.handle('fileSystem:delete-file', fileSystem.deleteFile);
-
+  ipcMain.handle('fileSystem:get-file-icon', fileSystem.getFileIcon);
   // Logging: handles logging operations
   ipcMain.handle('logging:get-logs', loggingHandler.getLogs);
   ipcMain.handle('logging:clear-logs', loggingHandler.clearLogs);

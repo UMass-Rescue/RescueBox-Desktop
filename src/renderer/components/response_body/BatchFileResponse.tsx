@@ -13,6 +13,13 @@ function BatchFileResponseView({
   batchFileResponse: BatchFileResponse;
 }) {
   const { files } = batchFileResponse;
+
+  const filePathIcons: Record<string, any> = files.reduce(async (acc, file) => {
+    // @ts-ignore
+    acc[file.path] = await window.fileSystem.getFileIcon({ path: file.path });
+    return acc;
+  }, {});
+
   const imageFiles: FileResponse[] = [];
   const csvFiles: FileResponse[] = [];
   const jsonFiles: FileResponse[] = [];
@@ -109,7 +116,7 @@ function BatchFileResponseView({
           {filePartition.map((file) => (
             <div className="border border-slate-400 rounded-md p-2 h-52 hover:bg-slate-200 flex flex-col">
               <div className="font-bold text-3xl h-5/6 flex items-center justify-center align-middle">
-                <h1>{file.title}</h1>
+                <img src={filePathIcons[file.path]} alt="FILE" />
               </div>
               <div className="border-t-2 mt-2 border-slate-400 flex flex-row justify-between">
                 <button

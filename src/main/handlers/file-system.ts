@@ -1,4 +1,4 @@
-import { dialog, shell } from 'electron';
+import { dialog, shell, app } from 'electron';
 import fs from 'fs';
 import log from 'electron-log/main';
 import path from 'path';
@@ -138,4 +138,9 @@ export async function saveLogs(_event: any, _arg: any) {
 
 export async function getFilesFromDir(_event: any, arg: PathArgs) {
   return fs.readdirSync(arg.path);
+}
+
+export async function getFileIcon(_event: any, arg: PathArgs) {
+  const iconImg = await app.getFileIcon(arg.path);
+  return iconImg.toDataURL();
 }

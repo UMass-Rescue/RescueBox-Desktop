@@ -6,7 +6,7 @@ const sampleBatchFileResponse: BatchFileResponse = {
     {
       output_type: 'file',
       file_type: 'img',
-      path: 'some/path/ok.img',
+      path: '/home/shreneken/Pictures/cat_walp.jpg',
       title: 'sample1',
       subtitle: 'first sample image',
     },
