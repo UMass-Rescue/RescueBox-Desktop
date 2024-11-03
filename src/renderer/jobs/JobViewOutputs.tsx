@@ -16,7 +16,7 @@ function JobViewOutputs() {
   if (!response) return <div>No response available</div>;
 
   return (
-    <div className="border border-gray-300 rounded-lg mt-5 p-4 shadow-md bg-white">
+    <div className="border border-gray-300 rounded-lg p-4 m-1 shadow-md bg-white">
       <PreviewResponseBody response={sampleBatchFileResponse} />
     </div>
   );
