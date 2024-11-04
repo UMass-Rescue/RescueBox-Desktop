@@ -1,11 +1,12 @@
 import { useParams } from 'react-router-dom';
 import {
-  batchDirectoryResponse,
   directoryResponse,
+  batchDirectoryResponse,
 } from 'src/shared/dummy_data/file_response';
 import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
 import sampleBatchFileResponse from 'src/shared/dummy_data/batchfile_response';
 import isDummyMode from 'src/shared/dummy_data/set_dummy_mode';
+import batchTextResponse from 'src/shared/dummy_data/batchtext_response';
 import { useJob } from '../lib/hooks';
 import PreviewResponseBody from './PreviewResponseBody';
 
@@ -28,6 +29,7 @@ function JobViewOutputs() {
         <PreviewResponseBody response={sampleBatchFileResponse} />
         <PreviewResponseBody response={directoryResponse} />
         <PreviewResponseBody response={batchDirectoryResponse} />
+        <PreviewResponseBody response={batchTextResponse} />
       </div>
     );
   }

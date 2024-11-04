@@ -8,6 +8,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
+  getExpandedRowModel,
 } from '@tanstack/react-table';
 
 import {
@@ -55,6 +56,7 @@ function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
     getFilteredRowModel: getFilteredRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
     state: {
       sorting,
       columnFilters,
@@ -170,11 +172,24 @@ function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
+                    <TableCell
+                      key={cell.id}
+                      className={
+                        cell.column.id === 'actions' ? 'align-top' : ''
+                      }
+                    >
+                      <div
+                        className={
+                          row.getIsExpanded()
+                            ? ''
+                            : 'overflow-hidden text-ellipsis line-clamp-1'
+                        }
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </div>
                     </TableCell>
                   ))}
                 </TableRow>
