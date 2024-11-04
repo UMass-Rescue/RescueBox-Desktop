@@ -20,7 +20,7 @@ type ConnectInputs = {
 
 type InvalidServer = {
   isInvalid: boolean;
-  cause: 'failed' | 'flask-ml-version' | null;
+  cause: 'failed' | 'flask-ml-version' | 'app-metadata-not-set' | null;
 };
 
 function ModelAppConnect() {
@@ -91,11 +91,19 @@ function ModelAppConnect() {
     } catch (error) {
       if (
         error instanceof Error &&
-        error.message.includes('404 App metadata route not found')
+        error.message.includes('404 APP_METADATA_SLUG not found on server')
       ) {
         setInvalidServer({
           isInvalid: true,
           cause: 'flask-ml-version',
+        });
+      } else if (
+        error instanceof Error &&
+        error.message.includes('App metadata not set')
+      ) {
+        setInvalidServer({
+          isInvalid: true,
+          cause: 'app-metadata-not-set',
         });
       } else {
         setInvalidServer({
@@ -213,8 +221,14 @@ function ModelAppConnect() {
           invalidServer.cause === 'flask-ml-version' && (
             <span className="text-red-500 text-xs">
               Failed to connect to the server. Make sure the Flask-ML version
-              installed on the server is &ge; 0.2.5 and that your server has app
-              metadata added to it.
+              installed on the server is &ge; 0.2.5
+            </span>
+          )}
+        {invalidServer.isInvalid &&
+          invalidServer.cause === 'app-metadata-not-set' && (
+            <span className="text-red-500 text-xs">
+              Failed to connect to the server. Make sure that your server has
+              app metadata added to it.
             </span>
           )}
       </div>
