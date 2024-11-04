@@ -123,7 +123,7 @@ function BatchFileResponseView({
                           className={type === 'img' ? 'h-24 w-24' : 'h-12 w-12'}
                         />
                       </div>
-                      <span className="mt-2 text-center break-words line-clamp-4">
+                      <span className="mt-2 text-sm text-center break-words line-clamp-4">
                         {file.path.split(/[/\\]/).pop()}
                       </span>
                       <div className="absolute flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -157,7 +157,9 @@ function BatchFileResponseView({
                             </Tooltip>
                             <Tooltip>
                               <TooltipTrigger asChild>
-                                <PreviewFileResponse response={file} />
+                                <div>
+                                  <PreviewFileResponse response={file} />
+                                </div>
                               </TooltipTrigger>
                               <TooltipContent side="bottom">
                                 <p>Preview</p>
