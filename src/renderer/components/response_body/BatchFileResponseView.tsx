@@ -15,6 +15,12 @@ import { Button } from '@shadcn/button';
 import { Input } from '@shadcn/input';
 import { useState } from 'react';
 import { partitionFilesByType } from 'src/renderer/lib/utils';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@shadcn/tooltip';
 import PreviewFileResponse from '../PreviewFileResponse';
 import LoadingScreen from '../LoadingScreen';
 
@@ -104,7 +110,7 @@ function BatchFileResponseView({
             <CollapsibleContent className="grid grid-cols-4 gap-2 mt-2">
               {files.length > 0 ? (
                 files.map((file) => (
-                  <div className="border rounded-md p-2 h-52 hover:bg-slate-200 mb-1 flex flex-col">
+                  <div className="border rounded-md p-2 h-40 hover:bg-slate-200 mb-1 flex flex-col relative group">
                     <div className="flex flex-col items-center justify-center h-full">
                       <div className="h-24 w-24 flex items-center justify-center">
                         <img
@@ -117,31 +123,54 @@ function BatchFileResponseView({
                           className={type === 'img' ? 'h-24 w-24' : 'h-12 w-12'}
                         />
                       </div>
-                      <span className="mt-2 text-center break-words">
+                      <span className="mt-2 text-center break-words line-clamp-4">
                         {file.path.split(/[/\\]/).pop()}
                       </span>
-                    </div>
-                    <div className="border-t px-2 pt-2 mx-3 flex justify-between">
-                      <Button
-                        type="button"
-                        className="bg-transparent hover:bg-gray-300 shadow-none p-1"
-                        onClick={() => handleOpen(file.path)}
-                      >
-                        <OpenInNewWindowIcon className="size-6 text-gray-800" />
-                      </Button>
-                      <Button
-                        type="button"
-                        className="bg-transparent hover:bg-gray-300 shadow-none p-1"
-                        onClick={() => handleCopy(file.path)}
-                      >
-                        <CopyIcon className="size-6 text-gray-800" />
-                      </Button>
-                      <PreviewFileResponse response={file} />
+                      <div className="absolute flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex gap-2">
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  className="px-2"
+                                  onClick={() => handleOpen(file.path)}
+                                >
+                                  <OpenInNewWindowIcon className="text-white size-5" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent side="bottom">
+                                <p>Open File</p>
+                              </TooltipContent>
+                            </Tooltip>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  className="px-2"
+                                  onClick={() => handleCopy(file.path)}
+                                >
+                                  <CopyIcon className="text-white size-5" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent side="bottom">
+                                <p>Copy Path</p>
+                              </TooltipContent>
+                            </Tooltip>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <PreviewFileResponse response={file} />
+                              </TooltipTrigger>
+                              <TooltipContent side="bottom">
+                                <p>Preview</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="col-span-4 flex items-center justify-center h-52 mb-1">
+                <div className="col-span-4 flex items-center justify-center h-40 mb-1">
                   <span>No Matches.</span>
                 </div>
               )}

@@ -5,6 +5,12 @@ import {
   OpenInNewWindowIcon,
 } from '@radix-ui/react-icons';
 import { useState } from 'react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@shadcn/tooltip';
 import VideoPreview from './response_body/previews/VideoPreview';
 import { Button } from './ui/button';
 import {
@@ -35,9 +41,18 @@ export default function PreviewFileResponse({
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="bg-transparent hover:bg-gray-300 shadow-none p-1">
-            <EyeOpenIcon className="size-6 text-gray-800" />
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button className="px-2">
+                  <EyeOpenIcon className="size-5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Preview</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </DialogTrigger>
         <DialogContent className="[&>button]:hidden max-w-fit xs:max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-4xl max-h-[80vh]">
           <DialogHeader>
