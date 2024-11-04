@@ -1,3 +1,3 @@
-const isDummyMode = false;
+const isDummyMode = true;
 
 export default isDummyMode;
