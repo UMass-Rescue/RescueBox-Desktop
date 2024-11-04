@@ -5,6 +5,7 @@ import {
   BatchTextInput,
   DirectoryInput,
   FileInput,
+  FileResponse,
   Input,
   InputType,
   NewFileInputType,
@@ -204,4 +205,45 @@ export function extractValuesFromRequestBodyInput(
       );
     })
     .exhaustive();
+}
+
+export function partitionFilesByType(
+  files: FileResponse[],
+  searchTerms: Record<string, string>,
+): Record<string, FileResponse[]> {
+  const searchFilter = (file: FileResponse, searchTerm: string): boolean => {
+    const fileName = file.path.split(/[/\\]/).pop();
+    if (!fileName) return false;
+    return fileName.toLowerCase().includes(searchTerm.toLowerCase());
+  };
+
+  return {
+    img: files.filter(
+      (file) => file.file_type === 'img' && searchFilter(file, searchTerms.img),
+    ),
+    csv: files.filter(
+      (file) => file.file_type === 'csv' && searchFilter(file, searchTerms.csv),
+    ),
+    json: files.filter(
+      (file) =>
+        file.file_type === 'json' && searchFilter(file, searchTerms.json),
+    ),
+    text: files.filter(
+      (file) =>
+        file.file_type === 'text' && searchFilter(file, searchTerms.text),
+    ),
+    audio: files.filter(
+      (file) =>
+        file.file_type === 'audio' && searchFilter(file, searchTerms.audio),
+    ),
+    video: files.filter(
+      (file) =>
+        file.file_type === 'video' && searchFilter(file, searchTerms.video),
+    ),
+    markdown: files.filter(
+      (file) =>
+        file.file_type === 'markdown' &&
+        searchFilter(file, searchTerms.markdown),
+    ),
+  };
 }
