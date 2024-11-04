@@ -27,6 +27,7 @@ export default function InputField({
     .with({ inputType: 'text' }, () => (
       <TextField
         inputSchema={inputSchema}
+        value={value}
         onChange={onChange}
         disabled={disabled}
       />

@@ -51,7 +51,7 @@ export default function EnumField({
         {parameterSchema.label}
       </h2>
       <Select value={value} onValueChange={onChange} disabled={disabled}>
-        <SelectTrigger className="w-full border border-gray-300">
+        <SelectTrigger className="w-full border border-gray-300 disabled:opacity-100 disabled:cursor-text">
           <SelectValue placeholder="Select Value" />
         </SelectTrigger>
         <SelectContent className="w-full">

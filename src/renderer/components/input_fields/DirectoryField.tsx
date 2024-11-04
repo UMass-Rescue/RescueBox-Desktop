@@ -35,7 +35,7 @@ export default function DirectoryField({
       <div className="flex items-center mt-2">
         <Input
           type="text"
-          className="flex-1 mr-2 border border-gray-300"
+          className="flex-1 mr-2 border border-gray-300 disabled:opacity-100 disabled:cursor-text"
           value={value || 'No Directory Selected'}
           readOnly
         />
