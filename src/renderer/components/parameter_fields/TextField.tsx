@@ -3,10 +3,12 @@ import { Input } from '../ui/input';
 
 export default function TextField({
   parameterSchema,
+  value,
   onChange,
   disabled,
 }: {
   parameterSchema: ParameterSchema;
+  value: string;
   onChange: (value: string) => void;
   disabled: boolean;
 }) {
@@ -19,7 +21,9 @@ export default function TextField({
         <Input
           type="text"
           placeholder={parameterSchema.subtitle || ''}
-          defaultValue={String(parameterSchema.value.default)}
+          defaultValue={
+            disabled ? value : String(parameterSchema.value.default)
+          }
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
           className="border border-gray-300"
