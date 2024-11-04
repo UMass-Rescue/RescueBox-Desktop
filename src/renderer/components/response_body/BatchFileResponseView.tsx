@@ -126,7 +126,7 @@ function BatchFileResponseView({
                           className={type === 'img' ? 'h-24 w-24' : 'h-12 w-12'}
                         />
                       </div>
-                      <span className="mt-2 text-sm text-center break-words line-clamp-4">
+                      <span className="mt-2 text-sm text-center break-all line-clamp-4">
                         {file.path.split(/[/\\]/).pop()}
                       </span>
                       <div className="absolute flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity">
