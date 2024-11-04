@@ -42,6 +42,11 @@ function ModelsTable({
             </TableRow>
           </TableHeader>
           <TableBody>
+            {models.length === 0 && (
+              <TableRow className="hover:bg-gray-50">
+                <TableCell className="pl-4">No models available</TableCell>
+              </TableRow>
+            )}
             {models.map((model: MLModel) => (
               <TableRow key={model.uid} className="hover:bg-gray-50">
                 <TableCell className="pl-4">{model.name}</TableCell>
