@@ -1,5 +1,11 @@
 import { useParams } from 'react-router-dom';
+import {
+  batchDirectoryResponse,
+  directoryResponse,
+} from 'src/shared/dummy_data/file_response';
+import markdownResponseBody from 'src/shared/dummy_data/markdown_response';
 import sampleBatchFileResponse from 'src/shared/dummy_data/batchfile_response';
+import isDummyMode from 'src/shared/dummy_data/set_dummy_mode';
 import { useJob } from '../lib/hooks';
 import PreviewResponseBody from './PreviewResponseBody';
 
@@ -15,9 +21,19 @@ function JobViewOutputs() {
   const { response } = job;
   if (!response) return <div>No response available</div>;
 
+  if (isDummyMode) {
+    return (
+      <div className="border border-gray-300 rounded-lg m-1 p-6 flex flex-col gap-4 shadow-md bg-white">
+        <PreviewResponseBody response={markdownResponseBody} />
+        <PreviewResponseBody response={sampleBatchFileResponse} />
+        <PreviewResponseBody response={directoryResponse} />
+        <PreviewResponseBody response={batchDirectoryResponse} />
+      </div>
+    );
+  }
   return (
-    <div className="border border-gray-300 rounded-lg p-4 m-1 shadow-md bg-white">
-      <PreviewResponseBody response={sampleBatchFileResponse} />
+    <div className="border border-gray-300 rounded-lg m-1 p-6 flex flex-col gap-4 shadow-md bg-white">
+      <PreviewResponseBody response={response} />
     </div>
   );
 }
