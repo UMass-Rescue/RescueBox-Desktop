@@ -17,6 +17,8 @@ import TaskDb from '../models/tasks';
 const API_ROUTES_SLUG = '/api/routes';
 const APP_METADATA_SLUG = '/api/app_metadata';
 
+type ModelMetadataError = { error: 'App metadata not set' };
+
 export default class RegisterModelService {
   static async registerModel(serverAddress: string, serverPort: number) {
     const modelInfo = await RegisterModelService.getAppMetadata(
@@ -85,7 +87,7 @@ export default class RegisterModelService {
     return fetch(`http://${serverAddress}:${serverPort}${APP_METADATA_SLUG}`)
       .then(async (res) => {
         if (res.status === 404) {
-          throw new Error('404 App metadata route not found', {
+          throw new Error('404 APP_METADATA_SLUG not found on server', {
             cause: res.statusText,
           });
         }
@@ -94,7 +96,12 @@ export default class RegisterModelService {
         }
         return res.json();
       })
-      .then((data: AppMetadata) => data)
+      .then((data: AppMetadata | ModelMetadataError) => {
+        if ('error' in data) {
+          throw new Error('App metadata not set');
+        }
+        return data;
+      })
       .catch((error) => {
         log.error('Failed to fetch app metadata', error);
         throw error;
