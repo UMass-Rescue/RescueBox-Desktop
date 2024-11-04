@@ -14,7 +14,6 @@
     "link-modules": "node -r ts-node/register ../../.erb/scripts/link-modules.ts"
   },
   "dependencies": {
-    "RescueBox-Desktop": "file:",
     "sequelize": "^6.37.3",
     "sqlite3": "^5.1.7"
   }
