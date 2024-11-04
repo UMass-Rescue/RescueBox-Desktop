@@ -1,4 +1,11 @@
-import { BatchTextResponse } from '../generated_models';
+import { BatchTextResponse, TextResponse } from '../generated_models';
+
+const textResponse: TextResponse = {
+  output_type: 'text',
+  value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+  title: 'Sample Text',
+  subtitle: 'first sample text',
+};
 
 const batchTextResponse: BatchTextResponse = {
   output_type: 'batchtext',
@@ -47,4 +54,4 @@ const batchTextResponse: BatchTextResponse = {
   ],
 };
 
-export default batchTextResponse;
+export { textResponse, batchTextResponse };
