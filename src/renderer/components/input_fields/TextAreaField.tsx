@@ -23,7 +23,7 @@ export default function TextAreaField({
           placeholder={inputSchema.subtitle || ''}
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
-          className="border border-gray-300"
+          className="border border-gray-300 disabled:opacity-100 disabled:cursor-text"
         />
       </div>
     </div>

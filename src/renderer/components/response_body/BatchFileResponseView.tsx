@@ -70,6 +70,9 @@ function BatchFileResponseView({
     await window.fileSystem.openPath({ path: filePath });
   };
 
+  if (allFiles.length === 0)
+    return <div className="font-bold text-lg">No files in the response</div>;
+
   return (
     <div className="flex flex-col gap-1">
       {Object.entries(filesByType)

@@ -26,7 +26,7 @@ export default function FloatField({
           }
           onChange={(e) => onChange(e.target.valueAsNumber)}
           disabled={disabled}
-          className="border border-gray-300"
+          className="border border-gray-300 disabled:opacity-100 disabled:cursor-text"
         />
       </div>
     </div>
