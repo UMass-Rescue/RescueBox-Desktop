@@ -50,10 +50,10 @@ export default function CSVPreview({ filePath }: { filePath: string }) {
   });
 
   return (
-    <div className="px-1">
-      <div className="flex justify-end w-full mt-1 mb-3">
+    <div className="">
+      <div className="flex justify-start w-2/3 mt-1 mb-3">
         <Select onValueChange={(e) => setSearchColumn(e)}>
-          <SelectTrigger className="w-1/3">
+          <SelectTrigger className="w-1/3 rounded-lg focus:ring-0">
             <SelectValue placeholder="All Columns" />
           </SelectTrigger>
           <SelectContent className="w-full">

@@ -22,17 +22,15 @@ export default function MarkdownPreview({ filePath }: { filePath: string }) {
   }
 
   return (
-    <div className="px-1">
-      <div className="prose max-w-full markdown border border-gray-300 rounded-lg p-4 bg-white">
-        <div className="overflow-auto max-h-96 px-2">
-          <Markdown
-            rehypePlugins={[[rehypeExternalLinks, { target: '_blank' }]]}
-            className="text-black"
-            remarkPlugins={[remarkGfm]}
-          >
-            {fileContents}
-          </Markdown>
-        </div>
+    <div className="prose max-w-full markdown border border-gray-300 rounded-lg p-4 bg-white">
+      <div className="overflow-auto max-h-96 px-2">
+        <Markdown
+          rehypePlugins={[[rehypeExternalLinks, { target: '_blank' }]]}
+          className="text-black"
+          remarkPlugins={[remarkGfm]}
+        >
+          {fileContents}
+        </Markdown>
       </div>
     </div>
   );
