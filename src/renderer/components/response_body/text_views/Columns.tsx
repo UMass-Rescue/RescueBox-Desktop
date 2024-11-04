@@ -14,13 +14,7 @@ import {
 } from '@shadcn/tooltip';
 import { Tooltip } from '@radix-ui/react-tooltip';
 
-export type PathRow = {
-  fullPath: string;
-  fileName: string;
-  parent: string;
-};
-
-export const textColumns: ColumnDef<TextResponse>[] = [
+const textColumns: ColumnDef<TextResponse>[] = [
   {
     accessorKey: 'title',
     id: 'title',
@@ -103,3 +97,5 @@ export const textColumns: ColumnDef<TextResponse>[] = [
     },
   },
 ];
+
+export default textColumns;
