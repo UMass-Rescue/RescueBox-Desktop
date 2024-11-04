@@ -1,6 +1,6 @@
 import { BatchTextResponse } from 'src/shared/generated_models';
 import DataTable from '../DataTable';
-import { textColumns } from './Columns';
+import textColumns from './Columns';
 
 export default function BatchTextView({
   response,
