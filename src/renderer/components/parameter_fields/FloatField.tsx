@@ -3,10 +3,12 @@ import { Input } from '../ui/input';
 
 export default function FloatField({
   parameterSchema,
+  value,
   onChange,
   disabled,
 }: {
   parameterSchema: ParameterSchema;
+  value: number;
   onChange: (value: number) => void;
   disabled: boolean;
 }) {
@@ -19,7 +21,9 @@ export default function FloatField({
         <Input
           type="number"
           step={0.01}
-          defaultValue={Number(parameterSchema.value.default)}
+          defaultValue={
+            disabled ? value : Number(parameterSchema.value.default)
+          }
           onChange={(e) => onChange(e.target.valueAsNumber)}
           disabled={disabled}
           className="border border-gray-300"

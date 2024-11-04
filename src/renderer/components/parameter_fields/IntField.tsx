@@ -3,10 +3,12 @@ import { Input } from '../ui/input';
 
 export default function IntField({
   parameterSchema,
+  value,
   onChange,
   disabled,
 }: {
   parameterSchema: ParameterSchema;
+  value: number;
   onChange: (value: number) => void;
   disabled: boolean;
 }) {
@@ -18,7 +20,9 @@ export default function IntField({
       <div className="flex items-center mt-2">
         <Input
           type="number"
-          defaultValue={Number(parameterSchema.value.default)}
+          defaultValue={
+            disabled ? value : Number(parameterSchema.value.default)
+          }
           onChange={(e) => onChange(e.target.valueAsNumber)}
           disabled={disabled}
           className="border border-gray-300"

@@ -24,6 +24,7 @@ export default function ParameterField({
       return (
         <TextField
           parameterSchema={parameterSchema}
+          value={value}
           onChange={onChange}
           disabled={disabled}
         />
@@ -32,6 +33,7 @@ export default function ParameterField({
       return (
         <IntField
           parameterSchema={parameterSchema}
+          value={value}
           onChange={onChange}
           disabled={disabled}
         />
@@ -40,6 +42,7 @@ export default function ParameterField({
       return (
         <FloatField
           parameterSchema={parameterSchema}
+          value={value}
           onChange={onChange}
           disabled={disabled}
         />
