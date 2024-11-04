@@ -278,3 +278,39 @@ export function useApiRoutes(modelUid?: string) {
     mutate,
   };
 }
+export function useFilePathIcon(filePath: string) {
+  const fetcher = () => window.fileSystem.getFileIcon({ path: filePath });
+  const { data, error, isLoading } = useSWR(
+    filePath ? `fileSystem:get-file-icon` : null,
+    fetcher,
+  );
+  return {
+    data,
+    error,
+    isLoading,
+  };
+}
+
+export function useFileIcons(paths: string[]) {
+  const fetcher = () =>
+    Promise.all(
+      paths.map((path) => window.fileSystem.getFileIcon({ path })),
+    ).then((icons) => {
+      const fileIcons: Record<string, string> = {};
+      icons.forEach((icon, idx) => {
+        fileIcons[paths[idx]] = icon;
+      });
+      return fileIcons;
+    });
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    paths ? `fileSystem:get-file-icon` : null,
+    fetcher,
+  );
+  return {
+    data,
+    error,
+    isLoading,
+    isValidating,
+    mutate,
+  };
+}

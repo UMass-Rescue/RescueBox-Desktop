@@ -106,6 +106,8 @@ const fileSystemHandler = {
     >,
   deleteFile: (args: PathArgs) =>
     ipcRenderer.invoke('fileSystem:delete-file', args) as Promise<void>,
+  getFileIcon: (args: PathArgs) =>
+    ipcRenderer.invoke('fileSystem:get-file-icon', args) as Promise<string>,
   joinPath: (args: JoinPathArgs) =>
     ipcRenderer.invoke('fileSystem:join-path', args) as Promise<string>,
 };
