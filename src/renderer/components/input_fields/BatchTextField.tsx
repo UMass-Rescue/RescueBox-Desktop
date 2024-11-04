@@ -80,7 +80,7 @@ export default function BatchTextField({
             <Textarea
               value={field}
               onChange={(e) => handleChange(index, e.target.value)}
-              className="flex-grow"
+              className="flex-grow border border-gray-300"
               disabled={disabled}
             />
             {!disabled &&

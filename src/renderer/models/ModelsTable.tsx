@@ -86,7 +86,7 @@ function ModelsTable({
                     {serverStatuses[model.uid] !== ModelAppStatus.Online && (
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Link to="/registration">
+                          <Link to={`/registration/${model.uid}`}>
                             <Button
                               variant="outline"
                               className=" text-black text-base w-full font-normal hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg"
