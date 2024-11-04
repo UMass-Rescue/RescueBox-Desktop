@@ -1,6 +1,6 @@
-import { Tooltip } from '@radix-ui/react-tooltip';
 import { Button } from '@shadcn/button';
 import {
+  Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
