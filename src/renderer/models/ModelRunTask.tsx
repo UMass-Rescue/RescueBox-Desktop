@@ -53,14 +53,14 @@ export default function ModelRunTask() {
     return <div>No task schemas found</div>;
   }
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     const runJobArgs: RunJobArgs = {
       taskSchemaAtTimeOfRun: taskSchema,
       modelUid,
       taskUid: order,
       requestBody: buildRequestBody(taskSchema, data),
     };
-    window.job.runJob(runJobArgs);
+    await window.job.runJob(runJobArgs);
     navigate(`/jobs`);
   };
 
