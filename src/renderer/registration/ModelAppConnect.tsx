@@ -18,6 +18,11 @@ type ConnectInputs = {
   port: string;
 };
 
+type InvalidServer = {
+  isInvalid: boolean;
+  cause: 'failed' | 'flask-ml-version' | null;
+};
+
 function ModelAppConnect() {
   // Params from URL
   const { modelUid } = useParams();
@@ -26,7 +31,10 @@ function ModelAppConnect() {
   const navigate = useNavigate();
 
   const [isConnecting, setIsConnecting] = useState(false);
-  const [invalidServer, setInvalidServer] = useState(false);
+  const [invalidServer, setInvalidServer] = useState<InvalidServer>({
+    isInvalid: false,
+    cause: null,
+  } satisfies InvalidServer);
 
   const {
     register,
@@ -81,7 +89,20 @@ function ModelAppConnect() {
       await mutate(() => true, undefined);
       navigate('/registration');
     } catch (error) {
-      setInvalidServer(true);
+      if (
+        error instanceof Error &&
+        error.message.includes('404 App metadata route not found')
+      ) {
+        setInvalidServer({
+          isInvalid: true,
+          cause: 'flask-ml-version',
+        });
+      } else {
+        setInvalidServer({
+          isInvalid: true,
+          cause: 'failed',
+        });
+      }
     }
     setIsConnecting(false);
   };
@@ -116,7 +137,8 @@ function ModelAppConnect() {
             <Input
               {...register('ip', {
                 required: 'This field is required',
-                onChange: () => setInvalidServer(false),
+                onChange: () =>
+                  setInvalidServer({ isInvalid: false, cause: null }),
                 pattern: {
                   value:
                     /^localhost|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
@@ -129,7 +151,8 @@ function ModelAppConnect() {
             <Input
               {...register('port', {
                 required: 'This field is required',
-                onChange: () => setInvalidServer(false),
+                onChange: () =>
+                  setInvalidServer({ isInvalid: false, cause: null }),
                 pattern: {
                   value:
                     /^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/,
@@ -180,12 +203,20 @@ function ModelAppConnect() {
             Please enter a valid port number.
           </span>
         )}
-        {invalidServer && (
+        {invalidServer.isInvalid && invalidServer.cause === 'failed' && (
           <span className="text-red-500 text-xs -mt-2">
             Failed to reach the server. Make sure it is running at the specified
             IP address and port.
           </span>
         )}
+        {invalidServer.isInvalid &&
+          invalidServer.cause === 'flask-ml-version' && (
+            <span className="text-red-500 text-xs">
+              Failed to connect to the server. Make sure the Flask-ML version
+              installed on the server is &ge; 0.2.5 and that your server has app
+              metadata added to it.
+            </span>
+          )}
       </div>
     </Modal>
   );
