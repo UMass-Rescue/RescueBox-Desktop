@@ -84,6 +84,11 @@ export default class RegisterModelService {
 
     return fetch(`http://${serverAddress}:${serverPort}${APP_METADATA_SLUG}`)
       .then(async (res) => {
+        if (res.status === 404) {
+          throw new Error('404 App metadata route not found', {
+            cause: res.statusText,
+          });
+        }
         if (res.status !== 200) {
           throw new Error('Failed to fetch app metadata.');
         }
@@ -92,7 +97,7 @@ export default class RegisterModelService {
       .then((data: AppMetadata) => data)
       .catch((error) => {
         log.error('Failed to fetch app metadata', error);
-        throw new Error('Failed to fetch app metadata. Server may be offline.');
+        throw error;
       });
   }
 
