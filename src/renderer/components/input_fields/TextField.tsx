@@ -21,6 +21,7 @@ export default function TextField({
           placeholder={inputSchema.subtitle || ''}
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
+          className="border border-gray-300"
         />
       </div>
     </div>

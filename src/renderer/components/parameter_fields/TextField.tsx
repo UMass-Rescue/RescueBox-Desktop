@@ -22,6 +22,7 @@ export default function TextField({
           defaultValue={String(parameterSchema.value.default)}
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
+          className="border border-gray-300"
         />
       </div>
     </div>

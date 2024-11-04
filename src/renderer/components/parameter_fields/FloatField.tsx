@@ -22,6 +22,7 @@ export default function FloatField({
           defaultValue={Number(parameterSchema.value.default)}
           onChange={(e) => onChange(e.target.valueAsNumber)}
           disabled={disabled}
+          className="border border-gray-300"
         />
       </div>
     </div>
