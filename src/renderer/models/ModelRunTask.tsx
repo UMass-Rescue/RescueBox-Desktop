@@ -11,7 +11,7 @@ import {
 } from 'src/shared/generated_models';
 import { RunJobArgs } from 'src/shared/models';
 import { useTaskSchema } from '../lib/hooks';
-import { buildRequestBody } from '../lib/utils';
+import { buildRequestBody, isRunnableTaskSchema } from '../lib/utils';
 import LoadingScreen from '../components/LoadingScreen';
 
 export default function ModelRunTask() {
@@ -63,6 +63,9 @@ export default function ModelRunTask() {
     await window.job.runJob(runJobArgs);
     navigate(`/jobs`);
   };
+
+  const { runnable, reasons: notRunnableReasons } =
+    isRunnableTaskSchema(taskSchema);
 
   return (
     <form
@@ -136,9 +139,31 @@ export default function ModelRunTask() {
           </div>
         )}
       </div>
+      {notRunnableReasons && (
+        <div
+          className="bg-orange-100 border-l-4 flex flex-col gap-2 border-orange-500 text-orange-700 p-4"
+          role="alert"
+        >
+          <p className="font-bold">Task Unavailable</p>
+          <div>
+            <p className="font-semibold text-sm">Reasons:</p>
+            {notRunnableReasons.map((reason) => (
+              <li className="text-sm" key={reason}>
+                {reason}
+              </li>
+            ))}
+          </div>
+        </div>
+        // <div className="p-2 rounded-md bg-yellow-200">
+        //   <h2 className="text-xl font-bold mb-4">Not Runnable</h2>
+        //   <ul className="list-disc list-inside">
+        //   </ul>
+        // </div>
+      )}
       <Button
         type="submit"
         className="w-full gap-2 hover:-translate-y-0.5 transition-all py-2 px-6 rounded-lg bg-green-600 hover:bg-green-500"
+        disabled={!runnable}
       >
         Run Model
         <GreenRunIcon />
