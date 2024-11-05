@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ResponseBody } from 'src/shared/generated_models';
 import { match } from 'ts-pattern';
-import MarkdownView from '../components/response_body/MarkdownView';
+import MarkdownView from '../components/response_body/text_views/MarkdownView';
 import DirectoryView from '../components/response_body/directory_views/DirectoryView';
 import BatchDirectoryView from '../components/response_body/directory_views/BatchDirectoryView';
-import BatchFileResponseView from '../components/response_body/BatchFileResponseView';
+import BatchFileView from '../components/response_body/file_views/BatchFileView';
+import BatchTextView from '../components/response_body/text_views/BatchTextView';
+import TextView from '../components/response_body/text_views/TextView';
+import FileView from '../components/response_body/file_views/FileView';
 
 export default function PreviewResponseBody({
   response,
@@ -13,7 +16,7 @@ export default function PreviewResponseBody({
 }) {
   return match(response)
     .with({ output_type: 'file' }, (fileResponse) => {
-      return <div>File Response</div>;
+      return <FileView response={fileResponse} />;
     })
     .with({ output_type: 'directory' }, (directoryResponse) => {
       return <DirectoryView response={directoryResponse} />;
@@ -22,20 +25,16 @@ export default function PreviewResponseBody({
       return <MarkdownView response={markdownResponse} />;
     })
     .with({ output_type: 'text' }, (textResponse) => {
-      return <div>Text Response</div>;
+      return <TextView response={textResponse} />;
     })
     .with({ output_type: 'batchfile' }, (batchFileResponse) => {
-      return <BatchFileResponseView batchFileResponse={batchFileResponse} />;
+      return <BatchFileView response={batchFileResponse} />;
     })
     .with({ output_type: 'batchtext' }, (batchTextResponse) => {
-      return <div>Batch Text Response</div>;
+      return <BatchTextView response={batchTextResponse} />;
     })
     .with({ output_type: 'batchdirectory' }, (batchDirectoryResponse) => {
-      return (
-        <BatchDirectoryView
-          directoryResponses={batchDirectoryResponse.directories}
-        />
-      );
+      return <BatchDirectoryView response={batchDirectoryResponse} />;
     })
     .otherwise(() => {
       return <div>Unknown Response</div>;

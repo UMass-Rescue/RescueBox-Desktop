@@ -21,15 +21,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@shadcn/tooltip';
-import PreviewFileResponse from '../PreviewFileResponse';
-import LoadingScreen from '../LoadingScreen';
+import PreviewFileResponse from '../../PreviewFileResponse';
+import LoadingScreen from '../../LoadingScreen';
 
-function BatchFileResponseView({
-  batchFileResponse,
-}: {
-  batchFileResponse: BatchFileResponse;
-}) {
-  const { files: allFiles } = batchFileResponse;
+function BatchFileView({ response }: { response: BatchFileResponse }) {
+  const { files: allFiles } = response;
   const [searchTerms, setSearchTerms] = useState<Record<string, string>>({
     img: '',
     csv: '',
@@ -186,4 +182,4 @@ function BatchFileResponseView({
   );
 }
 
-export default BatchFileResponseView;
+export default BatchFileView;

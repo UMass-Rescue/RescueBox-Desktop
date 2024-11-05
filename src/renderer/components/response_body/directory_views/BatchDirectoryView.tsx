@@ -1,11 +1,11 @@
-import { DirectoryResponse } from 'src/shared/generated_models';
-import DataTable from './DataTable';
+import { BatchDirectoryResponse } from 'src/shared/generated_models';
+import DataTable from '../DataTable';
 import { directoryColumns } from './Columns';
 
 export default function BatchDirectoryView({
-  directoryResponses,
+  response,
 }: {
-  directoryResponses: DirectoryResponse[];
+  response: BatchDirectoryResponse;
 }) {
   return (
     <div className="flex flex-col">
@@ -15,7 +15,7 @@ export default function BatchDirectoryView({
             Directory Collection
           </h1>
         </div>
-        <DataTable columns={directoryColumns} data={directoryResponses} />
+        <DataTable columns={directoryColumns} data={response.directories} />
       </div>
     </div>
   );

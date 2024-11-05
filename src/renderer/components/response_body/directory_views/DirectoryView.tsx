@@ -1,6 +1,6 @@
 import { useDirFiles } from 'src/renderer/lib/hooks';
 import { DirectoryResponse, InputSchema } from 'src/shared/generated_models';
-import DataTable from './DataTable';
+import DataTable from '../DataTable';
 import { fileColumns } from './Columns';
 import DirectoryField from '../../input_fields/DirectoryField';
 
