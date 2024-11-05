@@ -18,13 +18,11 @@ export default function JSONPreview({ filePath }: { filePath: string }) {
   if (!fileContents) return <div>File contents not found</div>;
 
   return (
-    <div className="px-1">
-      <div className="border border-gray-300 rounded-lg p-4 bg-[#f8f8f8]">
-        <div className="overflow-auto max-h-96 px-2">
-          <SyntaxHighlighter style={github} language="json">
-            {fileContents}
-          </SyntaxHighlighter>
-        </div>
+    <div className="border border-gray-300 rounded-lg p-4 bg-[#f8f8f8]">
+      <div className="overflow-auto max-h-96 px-2">
+        <SyntaxHighlighter style={github} language="json">
+          {fileContents}
+        </SyntaxHighlighter>
       </div>
     </div>
   );

@@ -1,6 +1,14 @@
-import { BatchFileResponse } from '../generated_models';
+import { BatchFileResponse, FileResponse } from '../generated_models';
 
-const sampleBatchFileResponse: BatchFileResponse = {
+const fileResponse: FileResponse = {
+  output_type: 'file',
+  file_type: 'img',
+  path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\input\\baboon.png',
+  title: 'sample3',
+  subtitle: 'second sample image',
+};
+
+const batchFileResponse: BatchFileResponse = {
   output_type: 'batchfile',
   files: [
     {
@@ -13,7 +21,7 @@ const sampleBatchFileResponse: BatchFileResponse = {
     {
       output_type: 'file',
       file_type: 'text',
-      path: 'C:\\Users\\LENOVO\\Downloads\\sample-markdown.txt',
+      path: 'C:\\Users\\LENOVO\\Downloads\\markdown.txt',
       title: 'sample2',
       subtitle: 'first sample text',
     },
@@ -41,4 +49,4 @@ const sampleBatchFileResponse: BatchFileResponse = {
   ],
 };
 
-export default sampleBatchFileResponse;
+export { fileResponse, batchFileResponse };
