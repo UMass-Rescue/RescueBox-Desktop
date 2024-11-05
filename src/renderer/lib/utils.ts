@@ -15,7 +15,7 @@ import {
 } from 'src/shared/generated_models';
 import { ModelServer } from 'src/shared/models';
 import { twMerge } from 'tailwind-merge';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 // eslint-disable-next-line import/prefer-default-export
 export function cn(...inputs: ClassValue[]) {
@@ -246,4 +246,29 @@ export function partitionFilesByType(
         searchFilter(file, searchTerms.markdown),
     ),
   };
+}
+
+export function isRunnableTaskSchema(taskSchema: TaskSchema): {
+  runnable: boolean;
+  reasons?: string[];
+} {
+  const reasons: string[] = [];
+  const isRunnable = !taskSchema.parameters.some((paramSchema) =>
+    match(paramSchema)
+      .with(
+        {
+          value: {
+            enumVals: P.array(),
+          },
+        },
+        (enumParamSchema) => {
+          reasons.push(
+            `Parameter "${enumParamSchema.label}" has no available values to select from.`,
+          );
+          return enumParamSchema.value.enumVals.length === 0;
+        },
+      )
+      .otherwise(() => false),
+  );
+  return isRunnable ? { runnable: true } : { runnable: false, reasons };
 }
