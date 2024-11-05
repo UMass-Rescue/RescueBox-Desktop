@@ -6,6 +6,7 @@ import DirectoryView from '../components/response_body/directory_views/Directory
 import BatchDirectoryView from '../components/response_body/directory_views/BatchDirectoryView';
 import BatchFileView from '../components/response_body/file_views/BatchFileView';
 import BatchTextView from '../components/response_body/text_views/BatchTextView';
+import TextView from '../components/response_body/text_views/TextView';
 
 export default function PreviewResponseBody({
   response,
@@ -23,7 +24,7 @@ export default function PreviewResponseBody({
       return <MarkdownView response={markdownResponse} />;
     })
     .with({ output_type: 'text' }, (textResponse) => {
-      return <div>Text Response</div>;
+      return <TextView response={textResponse} />;
     })
     .with({ output_type: 'batchfile' }, (batchFileResponse) => {
       return <BatchFileView response={batchFileResponse} />;
