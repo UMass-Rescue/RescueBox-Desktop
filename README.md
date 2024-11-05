@@ -31,7 +31,7 @@ You should now be able to see the model application in the app, and be able to r
 
 # Development
 
-RescueBox Desktop is built using [Electron](https://www.electronjs.org/), [React](https://reactjs.org/), TypeScript, TailwindCSS, and SQlite (with Sequelize). The app is built using [Electron-React](https://electron-react-boilerplate.js.org/) boilerplate.
+RescueBox Desktop is built using [Electron](https://www.electronjs.org/), [React](https://reactjs.org/), TypeScript, TailwindCSS, and SQlite (with Sequelize).
 
 RescueBox implments the "Flask-ML" protocol, which is a simple interface for running ML models. See [Flask-ML Protocol](./docs/FlaskML-Protocol-Sequence-Diagram.png).
 
