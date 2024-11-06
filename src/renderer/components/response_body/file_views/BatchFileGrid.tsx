@@ -103,7 +103,9 @@ function GridItems({
                       : 'w-12 h-12 mt-6 mb-2'
                   }
                 />
-                <span className="font-semibold mb-2">{file.title}</span>
+                <span className="px-2 font-semibold mb-2 overflow-hidden text-ellipsis whitespace-nowrap max-w-full">
+                  {file.title}
+                </span>
               </div>
             </div>
           </div>
