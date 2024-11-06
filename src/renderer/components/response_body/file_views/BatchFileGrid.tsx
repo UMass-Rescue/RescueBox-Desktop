@@ -3,6 +3,8 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from '@shadcn/dropdown-menu';
 import { Button } from '@shadcn/button';
 import { MoreHorizontal } from 'lucide-react';
@@ -60,6 +62,10 @@ function GridItems({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
+                    <DropdownMenuLabel className="text-xs py-0.5 text-gray-400">
+                      Actions
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={() =>
                         window.fileSystem.showFileInExplorer({
