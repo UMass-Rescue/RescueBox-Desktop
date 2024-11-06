@@ -13,22 +13,15 @@ export default function TextField({
   disabled: boolean;
 }) {
   return (
-    <div>
-      <h2 className="font-semibold text-sm xl:text-base">
-        {parameterSchema.label}
-      </h2>
-      <div className="flex items-center mt-2">
-        <Input
-          type="text"
-          placeholder={parameterSchema.subtitle || ''}
-          defaultValue={
-            disabled ? value : String(parameterSchema.value.default)
-          }
-          onChange={(e) => onChange(e.target.value)}
-          disabled={disabled}
-          className="border border-gray-300 disabled:opacity-100 disabled:cursor-text"
-        />
-      </div>
+    <div className="flex items-center mt-2">
+      <Input
+        type="text"
+        placeholder={parameterSchema.subtitle || ''}
+        defaultValue={disabled ? value : String(parameterSchema.value.default)}
+        onChange={(e) => onChange(e.target.value)}
+        disabled={disabled}
+        className="border border-gray-300 disabled:opacity-100 disabled:cursor-text"
+      />
     </div>
   );
 }

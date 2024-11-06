@@ -26,30 +26,22 @@ export default function EnumField({
   const descriptor = parameterSchema.value as EnumParameterDescriptor;
   if (descriptor.enumVals.length === 0) {
     return (
-      <div>
-        <h2 className="font-semibold text-sm xl:text-base">
-          {parameterSchema.label}
-        </h2>
-        <div className="flex items-center mt-2">
-          <Input
-            type="text"
-            placeholder={parameterSchema.subtitle || ''}
-            defaultValue={String(
-              descriptor.messageWhenEmpty || 'No values available',
-            )}
-            onChange={(e) => onChange(e.target.value)}
-            disabled
-            className="border border-gray-300"
-          />
-        </div>
+      <div className="flex items-center mt-2">
+        <Input
+          type="text"
+          placeholder={parameterSchema.subtitle || ''}
+          defaultValue={String(
+            descriptor.messageWhenEmpty || 'No values available',
+          )}
+          onChange={(e) => onChange(e.target.value)}
+          disabled
+          className="border border-gray-300"
+        />
       </div>
     );
   }
   return (
-    <div>
-      <h2 className="font-semibold text-sm xl:text-base mb-2">
-        {parameterSchema.label}
-      </h2>
+    <div className="flex items-center mt-2">
       <Select value={value} onValueChange={onChange} disabled={disabled}>
         <SelectTrigger className="w-full border border-gray-300 disabled:opacity-100 disabled:cursor-text">
           <SelectValue placeholder="Select Value" />
