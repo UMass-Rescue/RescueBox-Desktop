@@ -31,10 +31,12 @@ function GridItems({
   const [showPreview, setShowPreview] = useState(false);
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+    <div
+      className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 ${type === 'img' ? 'h-80' : 'h-60'}`}
+    >
       {currentFiles &&
         currentFiles.map((file) => (
-          <div>
+          <div key={file.title}>
             {showPreview && selectedFile && (
               <PreviewFileResponse
                 response={selectedFile}
@@ -113,11 +115,14 @@ function GridItems({
 export default function BatchFileGrid({
   data,
   searchTerm,
+  startOffset,
+  setStartOffset,
 }: {
   data: FilesByType;
   searchTerm: string;
+  startOffset: number;
+  setStartOffset: (offset: number) => void;
 }) {
-  const [startOffset, setStartOffset] = useState(0);
   const [filesPerPage, setFilesPerPage] = useState(12);
 
   const filteredFiles = data.files.filter((f) =>

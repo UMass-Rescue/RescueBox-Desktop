@@ -44,6 +44,7 @@ export default function BatchFileView({
     video: '',
     markdown: '',
   });
+  const [gridStartOffset, setGridStartOffset] = useState(0);
 
   if (fileIconsIsLoading) return <LoadingScreen />;
   if (fileIconsError) return <div>Error loading file icons</div>;
@@ -111,7 +112,16 @@ export default function BatchFileView({
       </div>
       <Accordion type="multiple" className="w-full">
         {filesByType.map((fileGroup) => (
-          <AccordionItem value={fileGroup.title} key={fileGroup.title}>
+          <AccordionItem
+            value={fileGroup.title}
+            key={fileGroup.title}
+            onAnimationEnd={() => {
+              setSearchTerms((prevTerms) => ({
+                ...prevTerms,
+                [fileGroup.type]: '',
+              }));
+            }}
+          >
             <AccordionTrigger className="text-xl flex items-left">
               <span className="py-2 w-4/5 text-left">{fileGroup.title}</span>
               <AccordionContent className="p-1 mr-5 float-right">
@@ -121,12 +131,13 @@ export default function BatchFileView({
                       className="w-full h-9"
                       onClick={(e) => e.stopPropagation()}
                       placeholder="Search..."
-                      onChange={(e) =>
+                      onChange={(e) => {
                         setSearchTerms({
                           ...searchTerms,
                           [fileGroup.type]: e.target.value,
-                        })
-                      }
+                        });
+                        setGridStartOffset(0);
+                      }}
                     />
                   </div>
                 ) : null}
@@ -148,6 +159,8 @@ export default function BatchFileView({
                 <BatchFileGrid
                   data={fileGroup}
                   searchTerm={searchTerms[fileGroup.type]}
+                  startOffset={gridStartOffset}
+                  setStartOffset={setGridStartOffset}
                 />
               )}
             </AccordionContent>
