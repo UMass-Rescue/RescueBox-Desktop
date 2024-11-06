@@ -1,6 +1,6 @@
 import { BatchDirectoryResponse } from 'src/shared/generated_models';
 import DataTable from '../DataTable';
-import { directoryColumns } from './Columns';
+import { directoryColumns } from './DirectoryColumns';
 
 export default function BatchDirectoryView({
   response,

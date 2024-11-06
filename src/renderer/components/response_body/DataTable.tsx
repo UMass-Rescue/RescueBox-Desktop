@@ -20,8 +20,6 @@ import {
   TableRow,
 } from '@shadcn/table';
 
-import * as React from 'react';
-
 import { Button } from '@shadcn/button';
 import { Input } from '@shadcn/input';
 import {
@@ -31,6 +29,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@shadcn/select';
+import { FileResponse } from 'src/shared/generated_models';
+import { useState } from 'react';
+import PreviewFileResponse from '../PreviewFileResponse';
+import { FileRow } from './file_views/FileColumns';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -41,11 +43,13 @@ function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [globalFilter, setGlobalFilter] = React.useState<any>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [globalFilter, setGlobalFilter] = useState<any>([]);
+
+  const [showPreview, setShowPreview] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<FileResponse | null>(null);
+
   const table = useReactTable({
     data,
     columns,
@@ -72,18 +76,25 @@ function DataTable<TData, TValue>({
   const headers = table
     .getHeaderGroups()
     .flatMap((headerGroup) => headerGroup.headers)
-    .filter((header) => header.id !== 'actions');
+    .filter((header) => header.id !== 'actions' && header.id !== 'icon');
 
-  const [searchColumn, setSearchColumn] = React.useState(
+  const [searchColumn, setSearchColumn] = useState(
     headers.length > 1 ? 'All Columns' : headers[0].id,
   );
 
   return (
     <div>
+      {showPreview && selectedFile && (
+        <PreviewFileResponse
+          response={selectedFile}
+          open={showPreview}
+          setOpen={setShowPreview}
+        />
+      )}
       <div className="flex items-center pb-4 max-w-sm gap-2">
         {headers.length > 1 && (
           <Select onValueChange={(e) => setSearchColumn(e)}>
-            <SelectTrigger className="w-1/3">
+            <SelectTrigger className="w-1/2 focus:ring-0">
               <SelectValue placeholder="All Columns" />
             </SelectTrigger>
             <SelectContent className="w-full">
@@ -175,8 +186,16 @@ function DataTable<TData, TValue>({
                     <TableCell
                       key={cell.id}
                       className={
-                        cell.column.id === 'actions' ? 'align-top' : ''
+                        cell.column.id === 'actions'
+                          ? 'align-top'
+                          : 'cursor-default'
                       }
+                      onClick={() => {
+                        if (cell.column.id !== 'actions') {
+                          setSelectedFile((row.original as FileRow).file);
+                          setShowPreview(true);
+                        }
+                      }}
                     >
                       <div
                         className={

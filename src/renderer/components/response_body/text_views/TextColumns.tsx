@@ -17,7 +17,7 @@ import { Tooltip } from '@radix-ui/react-tooltip';
 const textColumns: ColumnDef<TextResponse>[] = [
   {
     accessorKey: 'title',
-    id: 'title',
+    id: 'Title',
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -33,7 +33,7 @@ const textColumns: ColumnDef<TextResponse>[] = [
   },
   {
     accessorKey: 'value',
-    id: 'result',
+    id: 'Result',
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -81,7 +81,7 @@ const textColumns: ColumnDef<TextResponse>[] = [
                   variant="ghost"
                   size="sm"
                   onClick={async () => {
-                    await navigator.clipboard.writeText(response.title || '');
+                    await navigator.clipboard.writeText(response.value);
                   }}
                 >
                   <CopyIcon className="h-4 w-4" />

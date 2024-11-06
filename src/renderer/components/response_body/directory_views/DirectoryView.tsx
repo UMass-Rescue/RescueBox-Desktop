@@ -1,7 +1,7 @@
 import { useDirFiles } from 'src/renderer/lib/hooks';
 import { DirectoryResponse, InputSchema } from 'src/shared/generated_models';
 import DataTable from '../DataTable';
-import { fileColumns } from './Columns';
+import { fileColumns } from './DirectoryColumns';
 import DirectoryField from '../../input_fields/DirectoryField';
 
 export default function DirectoryView({
