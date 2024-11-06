@@ -3,8 +3,8 @@ import { ModelAppStatus } from 'src/shared/models';
 import log from 'electron-log/main';
 import ModelServer from '../models/model-server';
 import { getRaw } from '../util';
-import ModelAppService from '../flask-ml/model-app-service';
-import RegisterModelService from '../flask-ml/register-model-service';
+import ModelAppService from '../services/model-app-service';
+import RegisterModelService from '../services/register-model-service';
 
 export type RegisterModelArgs = {
   modelUid?: string;

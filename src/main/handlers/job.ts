@@ -4,7 +4,7 @@ import { ResponseBody } from 'src/shared/generated_models';
 import { RunJobArgs } from 'src/shared/models';
 import JobDb, { JobStatus } from '../models/job';
 import { getRaw } from '../util';
-import ModelAppService from '../flask-ml/model-app-service';
+import ModelAppService from '../services/model-app-service';
 
 export type JobByIdArgs = {
   uid: string;

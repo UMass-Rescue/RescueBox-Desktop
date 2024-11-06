@@ -1,5 +1,5 @@
 import { SchemaAPIRoute } from 'src/shared/generated_models';
-import ModelAppService from '../flask-ml/model-app-service';
+import ModelAppService from '../services/model-app-service';
 import TaskDb from '../models/tasks';
 import { getRaw } from '../util';
 
