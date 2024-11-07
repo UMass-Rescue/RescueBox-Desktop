@@ -3,7 +3,7 @@ import { URL } from 'url';
 import path from 'path';
 import { Model } from 'sequelize';
 import { InferAttributes } from 'sequelize/types/model';
-import { Notification, BrowserWindow } from 'electron';
+import { app, Notification, BrowserWindow } from 'electron';
 
 export function resolveHtmlPath(htmlFileName: string) {
   if (process.env.NODE_ENV === 'development') {
@@ -29,10 +29,13 @@ export function showNotification(
   body: string,
   navigateTo: string,
 ) {
+  const icon = app.isPackaged
+    ? path.join(process.resourcesPath, 'assets')
+    : path.join(__dirname, '../../assets');
   new Notification({
     title,
     body,
-    icon: path.join(__dirname, '../../assets/icon.png'),
+    icon,
   })
     .on('click', () => {
       const window = BrowserWindow.getAllWindows()[0];
