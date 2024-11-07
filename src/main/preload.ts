@@ -150,6 +150,11 @@ contextBridge.exposeInMainWorld('fileSystem', fileSystemHandler);
 contextBridge.exposeInMainWorld('database', databaseHandler);
 contextBridge.exposeInMainWorld('logging', loggingHandler);
 contextBridge.exposeInMainWorld('task', taskHandler);
+contextBridge.exposeInMainWorld('electronAPI', {
+  onNavigate: (callback: (arg: any) => void) =>
+    ipcRenderer.on('navigate-to', (event, page) => callback(page)),
+  offNavigate: () => ipcRenderer.removeAllListeners('navigate-to'),
+});
 
 export type RegistrationHandler = typeof registrationHandler;
 export type ModelsHandler = typeof modelsHandler;

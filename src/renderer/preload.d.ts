@@ -18,6 +18,10 @@ declare global {
     fileSystem: FileSystemHandler;
     database: DatabaseHandler;
     logging: LoggingHandler;
+    electronAPI: {
+      onNavigate: (callback: (arg: any) => void) => void;
+      offNavigate: () => void;
+    };
   }
 }
 
