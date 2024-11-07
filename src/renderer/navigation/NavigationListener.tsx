@@ -5,12 +5,12 @@ export default function NavigationListener() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    window.electronAPI.onNavigate((page) => {
+    window.electronAPI?.onNavigate((page) => {
       navigate(page);
     });
 
     return () => {
-      window.electronAPI.offNavigate();
+      window.electronAPI?.offNavigate();
     };
   }, [navigate]);
 
