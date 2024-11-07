@@ -143,6 +143,12 @@ const loggingHandler = {
   clearLogs: () => ipcRenderer.invoke('logging:clear-logs') as Promise<boolean>,
 };
 
+const electronAPIHandler = {
+  onNavigate: (callback: (arg: any) => void) =>
+    ipcRenderer.on('navigate-to', (event, page) => callback(page)),
+  offNavigate: () => ipcRenderer.removeAllListeners('navigate-to'),
+};
+
 contextBridge.exposeInMainWorld('registration', registrationHandler);
 contextBridge.exposeInMainWorld('models', modelsHandler);
 contextBridge.exposeInMainWorld('job', jobHandler);
@@ -150,11 +156,7 @@ contextBridge.exposeInMainWorld('fileSystem', fileSystemHandler);
 contextBridge.exposeInMainWorld('database', databaseHandler);
 contextBridge.exposeInMainWorld('logging', loggingHandler);
 contextBridge.exposeInMainWorld('task', taskHandler);
-contextBridge.exposeInMainWorld('electronAPI', {
-  onNavigate: (callback: (arg: any) => void) =>
-    ipcRenderer.on('navigate-to', (event, page) => callback(page)),
-  offNavigate: () => ipcRenderer.removeAllListeners('navigate-to'),
-});
+contextBridge.exposeInMainWorld('electronAPI', electronAPIHandler);
 
 export type RegistrationHandler = typeof registrationHandler;
 export type ModelsHandler = typeof modelsHandler;
@@ -163,3 +165,4 @@ export type FileSystemHandler = typeof fileSystemHandler;
 export type DatabaseHandler = typeof databaseHandler;
 export type LoggingHandler = typeof loggingHandler;
 export type TaskHandler = typeof taskHandler;
+export type ElectronAPIHandler = typeof electronAPIHandler;
