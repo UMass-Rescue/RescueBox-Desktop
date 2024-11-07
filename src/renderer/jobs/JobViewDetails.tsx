@@ -10,6 +10,7 @@ import {
 import InputField from 'src/renderer/components/InputField';
 import { extractValuesFromRequestBodyInput } from 'src/renderer/lib/utils';
 import ParameterField from 'src/renderer/components/ParameterField';
+import { Input } from '@shadcn/input';
 import { Button } from '../components/ui/button';
 import { useJob, useMLModel, useTask } from '../lib/hooks';
 import LoadingScreen from '../components/LoadingScreen';
@@ -83,15 +84,22 @@ function JobViewDetails() {
         </div>
         {/* Model + Task inputs & Params */}
         <div title="Task metadata" className="flex flex-col gap-2 mt-2">
-          <h1 className="font-bold text-sm xl:text-base">Model</h1>
-          <div className="flex flex-row items-center border border-slate-400 rounded-lg w-full justify-between px-3">
-            <div className="">{model?.name}</div>
-            <Link
-              to={`/models/${job.modelUid}/details`}
-              className="text-black text-base font-normal hover:-translate-y-0.5 transition-all rounded-lg m-1"
-            >
-              <Button>Inspect</Button>
-            </Link>
+          <div>
+            <h2 className="font-semibold text-sm xl:text-base">Model</h2>
+            <div className="flex items-center mt-2">
+              <Input
+                type="text"
+                className="flex-1 mr-2 border border-gray-300 disabled:opacity-100 disabled:cursor-text"
+                value={model?.name}
+                readOnly
+              />
+              <Link
+                to={`/models/${job.modelUid}/details`}
+                className="text-black text-base font-normal hover:-translate-y-0.5 transition-all rounded-lg"
+              >
+                <Button>Inspect</Button>
+              </Link>
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             {job.taskSchema.inputs.map((inputSchema) => (

@@ -3,6 +3,8 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from '@shadcn/dropdown-menu';
 import { Button } from '@shadcn/button';
 import { MoreHorizontal } from 'lucide-react';
@@ -34,16 +36,16 @@ function GridItems({
     <div
       className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 ${type === 'img' ? 'h-80' : 'h-60'}`}
     >
+      {showPreview && selectedFile && (
+        <PreviewFileResponse
+          response={selectedFile}
+          open={showPreview}
+          setOpen={setShowPreview}
+        />
+      )}
       {currentFiles &&
         currentFiles.map((file) => (
           <div key={file.title}>
-            {showPreview && selectedFile && (
-              <PreviewFileResponse
-                response={selectedFile}
-                open={showPreview}
-                setOpen={setShowPreview}
-              />
-            )}
             <div
               key={file.path}
               className="relative group border border-gray-400 rounded-lg"
@@ -60,6 +62,10 @@ function GridItems({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
+                    <DropdownMenuLabel className="text-xs py-0.5 text-gray-400">
+                      Actions
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={() =>
                         window.fileSystem.showFileInExplorer({
@@ -103,7 +109,9 @@ function GridItems({
                       : 'w-12 h-12 mt-6 mb-2'
                   }
                 />
-                <span className="font-semibold mb-2">{file.title}</span>
+                <span className="px-2 font-semibold mb-2 overflow-hidden text-ellipsis whitespace-nowrap max-w-full">
+                  {file.title}
+                </span>
               </div>
             </div>
           </div>

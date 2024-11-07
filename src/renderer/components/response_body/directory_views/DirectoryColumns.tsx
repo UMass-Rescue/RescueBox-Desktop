@@ -6,6 +6,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@shadcn/dropdown-menu';
 import { Button } from '@shadcn/button';
@@ -36,9 +37,6 @@ export const fileColumns: ColumnDef<PathRow>[] = [
   },
   {
     id: 'actions',
-    header: () => (
-      <div className="flex items-center justify-end pr-2">Actions</div>
-    ),
     cell: ({ row }) => {
       const { fullPath } = row.original;
 
@@ -52,7 +50,10 @@ export const fileColumns: ColumnDef<PathRow>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel className="text-xs py-0.5 text-gray-400">
+                Actions
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() =>
                   window.fileSystem.showFileInExplorer({
@@ -60,7 +61,7 @@ export const fileColumns: ColumnDef<PathRow>[] = [
                   })
                 }
               >
-                Reveal in Explorer
+                View in Explorer
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={async () => navigator.clipboard.writeText(fullPath)}
@@ -110,9 +111,6 @@ export const directoryColumns: ColumnDef<DirectoryResponse>[] = [
   },
   {
     id: 'actions',
-    header: () => (
-      <div className="flex items-center justify-end pr-2">Actions</div>
-    ),
     cell: ({ row }) => {
       const { path } = row.original;
 
@@ -121,12 +119,15 @@ export const directoryColumns: ColumnDef<DirectoryResponse>[] = [
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
+                <span className="sr-only">Open Menu</span>
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel className="text-xs py-0.5 text-gray-400">
+                Actions
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() =>
                   window.fileSystem.showFileInExplorer({
@@ -134,7 +135,7 @@ export const directoryColumns: ColumnDef<DirectoryResponse>[] = [
                   })
                 }
               >
-                Reveal in Explorer
+                View in Explorer
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={async () => navigator.clipboard.writeText(path)}

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { InputSchema } from 'src/shared/generated_models';
 import { MinusCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
@@ -11,12 +10,10 @@ import {
 } from '../ui/tooltip';
 
 export default function BatchTextField({
-  inputSchema,
   value,
   onChange,
   disabled = false,
 }: {
-  inputSchema: InputSchema;
   value: string[];
   onChange: (value: string[]) => void;
   disabled: boolean;
@@ -41,87 +38,82 @@ export default function BatchTextField({
   };
 
   return (
-    <div>
-      <h2 className="font-semibold text-sm xl:text-base">
-        {inputSchema.label}
-      </h2>
-      <div className="mt-2">
-        {!disabled && fields.length === 0 && (
-          <div className="flex items-center mb-2">
-            <Textarea
-              value=""
-              onChange={(e) => handleChange(0, e.target.value)}
-              className="flex-grow"
-            />
-            <TooltipProvider delayDuration={100}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    type="button"
-                    onClick={handleAddField}
-                    className="ml-2 self-start"
-                  >
-                    <PlusCircledIcon className="size-5" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  <p>Add</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-        )}
-        {fields.map((field, index) => (
-          <div
-            // eslint-disable-next-line react/no-array-index-key
-            key={`${index}`}
-            className="flex items-center mb-2"
-          >
-            <Textarea
-              value={field}
-              onChange={(e) => handleChange(index, e.target.value)}
-              className="flex-grow border border-gray-300 disabled:opacity-100 disabled:cursor-text"
-              disabled={disabled}
-            />
-            {!disabled &&
-              (index === fields.length - 1 ? (
-                <TooltipProvider delayDuration={100}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        type="button"
-                        onClick={handleAddField}
-                        className="ml-2 self-start"
-                      >
-                        <PlusCircledIcon className="size-5" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="bottom">
-                      <p>Add</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              ) : (
-                <TooltipProvider delayDuration={100}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        type="button"
-                        onClick={() => handleRemoveField(index)}
-                        className="ml-2 self-start"
-                      >
-                        <MinusCircledIcon className="size-5" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="bottom">
-                      <p>Remove</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              ))}
-          </div>
-        ))}
-      </div>
+    <div className="mt-2">
+      {!disabled && fields.length === 0 && (
+        <div className="flex items-center mb-2">
+          <Textarea
+            value=""
+            onChange={(e) => handleChange(0, e.target.value)}
+            className="flex-grow"
+          />
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  type="button"
+                  onClick={handleAddField}
+                  className="ml-2 self-start"
+                >
+                  <PlusCircledIcon className="size-5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Add</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      )}
+      {fields.map((field, index) => (
+        <div
+          // eslint-disable-next-line react/no-array-index-key
+          key={`${index}`}
+          className="flex items-center mb-2"
+        >
+          <Textarea
+            value={field}
+            onChange={(e) => handleChange(index, e.target.value)}
+            className="flex-grow border border-gray-300 disabled:opacity-100 disabled:cursor-text"
+            disabled={disabled}
+          />
+          {!disabled &&
+            (index === fields.length - 1 ? (
+              <TooltipProvider delayDuration={100}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      type="button"
+                      onClick={handleAddField}
+                      className="ml-2 self-start"
+                    >
+                      <PlusCircledIcon className="size-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">
+                    <p>Add</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ) : (
+              <TooltipProvider delayDuration={100}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      type="button"
+                      onClick={() => handleRemoveField(index)}
+                      className="ml-2 self-start"
+                    >
+                      <MinusCircledIcon className="size-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">
+                    <p>Remove</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ))}
+        </div>
+      ))}
     </div>
   );
 }
