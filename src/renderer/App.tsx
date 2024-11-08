@@ -28,6 +28,7 @@ import AuditLogs from './audit_logs/AuditLogs';
 import ModelRunTask from './models/ModelRunTask';
 import ModelAppConnect from './registration/ModelAppConnect';
 import { NavBarItem, ImageTitleNavBar } from './navigation/NavBarItem';
+import NavigationListener from './navigation/NavigationListener';
 
 function RootLayout() {
   const navigate = useNavigate();
@@ -102,6 +103,7 @@ export default function App() {
           </Route>
         </Route>
       </Routes>
+      <NavigationListener />
     </Router>
   );
 }

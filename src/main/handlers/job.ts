@@ -3,8 +3,9 @@ import log from 'electron-log/main';
 import { ResponseBody } from 'src/shared/generated_models';
 import { RunJobArgs } from 'src/shared/models';
 import JobDb, { JobStatus } from '../models/job';
-import { getRaw } from '../util';
+import { getRaw, showNotification } from '../util';
 import ModelAppService from '../services/model-app-service';
+import TaskDb from '../models/tasks';
 
 export type JobByIdArgs = {
   uid: string;
@@ -94,6 +95,14 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
           status: JobStatus.Completed,
           response,
         });
+        const task = await TaskDb.getTask(arg.taskUid, arg.modelUid);
+        if (task) {
+          showNotification(
+            'Job Completed',
+            `Job '${task.shortTitle}' has completed. Click to view results.`,
+            `/jobs/${uid}/outputs`,
+          );
+        }
       }
       return null;
     })
@@ -105,6 +114,14 @@ const runJob = async (_event: any, arg: RunJobArgs) => {
         endTime: new Date(),
         statusText: err.message,
       });
+      const task = await TaskDb.getTask(arg.taskUid, arg.modelUid);
+      if (task) {
+        showNotification(
+          'Job Failed',
+          `Job '${task.shortTitle}' has failed. Click to view details.`,
+          `/jobs/${uid}/details`,
+        );
+      }
       return null;
     });
   log.info('Job model created successfully, fetching job from database.');

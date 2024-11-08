@@ -6,6 +6,7 @@ import {
   DatabaseHandler,
   LoggingHandler,
   TaskHandler,
+  ElectronAPIHandler,
 } from '../main/preload';
 
 declare global {
@@ -18,6 +19,7 @@ declare global {
     fileSystem: FileSystemHandler;
     database: DatabaseHandler;
     logging: LoggingHandler;
+    electronAPI: ElectronAPIHandler;
   }
 }
 

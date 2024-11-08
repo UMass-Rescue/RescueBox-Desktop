@@ -213,6 +213,10 @@ app.on('window-all-closed', () => {
   }
 });
 
+if (process.env.NODE_ENV === 'development') {
+  app.setAppUserModelId(process.execPath);
+}
+
 app
   .whenReady()
   .then(async () => {
