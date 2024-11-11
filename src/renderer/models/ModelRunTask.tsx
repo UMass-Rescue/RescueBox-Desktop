@@ -40,17 +40,32 @@ export default function ModelRunTask() {
   }
 
   if (!thisApiRoute) {
-    return <div>Task not found.</div>;
+    return (
+      <div
+        className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
+        role="alert"
+      >
+        <p className="font-bold">Task Unavailable</p>
+        <p>No such task route found</p>
+      </div>
+    );
   }
-
+  if (!taskSchema) {
+    return (
+      <div
+        className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
+        role="alert"
+      >
+        <p className="font-bold">Task Unavailable</p>
+        <p>No associated task schema found</p>
+      </div>
+    );
+  }
   if (taskSchemaIsLoading) {
     return <LoadingScreen />;
   }
   if (taskSchemaError) {
     return <div>Error loading task schema</div>;
-  }
-  if (!taskSchema) {
-    return <div>No task schemas found</div>;
   }
 
   const onSubmit = async (data: any) => {
