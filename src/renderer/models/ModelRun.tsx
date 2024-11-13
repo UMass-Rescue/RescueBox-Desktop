@@ -68,7 +68,7 @@ function ModelRun() {
                       )
                 }
               >
-                {apiRoute.short_title}
+                {apiRoute.short_title || `Untitled Task ${apiRoute.order}`}
               </NavLink>
             ))}
         </div>

@@ -39,18 +39,32 @@ export default function ModelRunTask() {
     return <div>Invalid Model UID or Task ID.</div>;
   }
 
-  if (!thisApiRoute) {
-    return <div>Task not found.</div>;
+  if (!thisApiRoute || !taskSchema) {
+    return (
+      <div
+        className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
+        role="alert"
+      >
+        <p className="font-bold">No Tasks Available</p>
+        <p>
+          This model application has no tasks available to use. If you are a
+          model application developer, see the section on{' '}
+          <a
+            className="underline text-blue-600"
+            href="https://umass-rescue.github.io/Flask-ML/materials/guides/getting-started/#adding-a-ui-schema"
+          >
+            UI schema in the Flask-ML docs{' '}
+          </a>
+          for more information.
+        </p>
+      </div>
+    );
   }
-
   if (taskSchemaIsLoading) {
     return <LoadingScreen />;
   }
   if (taskSchemaError) {
     return <div>Error loading task schema</div>;
-  }
-  if (!taskSchema) {
-    return <div>No task schemas found</div>;
   }
 
   const onSubmit = async (data: any) => {
