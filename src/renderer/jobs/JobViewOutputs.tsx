@@ -25,8 +25,8 @@ function JobViewOutputs() {
   if (jobError)
     return <div>failed to load job. Error: {jobError.toString()}</div>;
 
-  const { response } = job;
-  if (!response) return <div>No response available</div>;
+  const { response, statusText } = job;
+  if (!response) return <div>No response available: {statusText}</div>;
 
   if (isDummyMode) {
     return (

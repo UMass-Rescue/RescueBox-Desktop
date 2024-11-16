@@ -103,7 +103,7 @@ class ModelAppService {
     )
       .then((res) => {
         if (res.status !== 200) {
-          throw new Error('Failed to run task.');
+          throw new Error(`Failed to run task. ${res.statusText}`);
         }
         return res.json();
       })
