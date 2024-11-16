@@ -14,6 +14,7 @@ import taskSchemas from 'src/shared/dummy_data/task_schemas';
 import isDummyMode from 'src/shared/dummy_data/set_dummy_mode';
 import camelcaseKeys from 'camelcase-keys';
 import log from 'electron-log/main';
+import http from 'http';
 import ModelServerDb from '../models/model-server';
 import MLModelDb from '../models/ml-model';
 
@@ -90,24 +91,67 @@ class ModelAppService {
       });
     }
     const task = this.findRouteByTaskId(taskId);
-    return fetch(
-      `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${task.run_task}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+    const postData = JSON.stringify(requestBody);
+    return new Promise((resolve, reject) => {
+      const req = http.request(
+        {
+          host: this.modelServer.serverAddress,
+          port: this.modelServer.serverPort,
+          path: task.run_task,
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(postData),
+          },
+          timeout: 1800000,
         },
-        body: JSON.stringify(requestBody),
-        signal: AbortSignal.timeout(1_800_000),
-      },
-    )
-      .then((res) => {
-        if (res.status !== 200) {
-          throw new Error(`Failed to run task. ${res.statusText}`);
-        }
-        return res.json();
-      })
-      .then((data: ResponseBody) => data);
+        (res) => {
+          let responseData = '';
+
+          // Collect response data
+          res.on('data', (chunk) => {
+            responseData += chunk;
+          });
+
+          // Handle the end of the response
+          res.on('end', () => {
+            if (!res || !res.statusCode) {
+              log.error(`No response received ${res}`);
+              reject(new Error(`No response received ${res}`));
+              return;
+            }
+            if (res.statusCode !== 200) {
+              // Handle non-200 status codes
+              log.error(`Request failed with status code: ${res.statusCode}`);
+              try {
+                const errorResponse = JSON.parse(responseData);
+                log.error('Error details:', errorResponse);
+                reject(new Error(errorResponse.error));
+              } catch (parseError) {
+                log.error('Error parsing response body:', responseData);
+                reject(
+                  new Error(`Failed to parse response body ${responseData}`),
+                );
+              }
+              return;
+            }
+            try {
+              const jsonResponse = JSON.parse(responseData);
+              resolve(jsonResponse);
+            } catch (error) {
+              reject(new Error(`Error parsing JSON: ${error}`));
+            }
+          });
+        },
+      );
+      req.on('error', (error) => {
+        reject(new Error('Request error:', error));
+      });
+
+      // Write data to request body
+      req.write(postData);
+      req.end();
+    }).then((data) => data as unknown as ResponseBody);
   }
 
   public async getTaskSchema(taskId: string): Promise<TaskSchema> {
