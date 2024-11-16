@@ -98,6 +98,7 @@ class ModelAppService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(requestBody),
+        signal: AbortSignal.timeout(1_800_000),
       },
     )
       .then((res) => {
