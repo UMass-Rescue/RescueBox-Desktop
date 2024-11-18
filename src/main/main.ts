@@ -229,7 +229,7 @@ app
     } else {
       log.info('Initializing database');
       await DatabaseConn.initDatabase(dbPath);
-      await DatabaseConn.resetDatabase(dbPath);
+      // await DatabaseConn.resetDatabase(dbPath); // For testing purposes only
     }
     createWindow();
     app.on('activate', () => {
