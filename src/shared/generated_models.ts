@@ -57,7 +57,7 @@ declare namespace Components {
         label?: string;
         key?: string;
       }[];
-      messageWhenEmpty?: string;
+      messageWhenEmpty?: string | null;
       default: string;
     }
     export interface FileInput {
@@ -74,8 +74,8 @@ declare namespace Components {
         | 'video'
         | 'markdown';
       path: string;
-      title?: string;
-      subtitle?: string;
+      title?: string | null;
+      subtitle?: string | null;
     }
     export interface FloatParameterDescriptor {
       parameterType: ParameterType;
@@ -117,7 +117,7 @@ declare namespace Components {
     export interface MarkdownResponse {
       output_type: 'markdown';
       value: string;
-      title?: string;
+      title?: string | null;
       subtitle?: string;
     }
     export interface NewFileInputType {
@@ -125,7 +125,7 @@ declare namespace Components {
        * example:
        * my_file
        */
-      defaultName?: string;
+      defaultName?: string | null;
       /**
        * example:
        * .db
@@ -216,7 +216,7 @@ declare namespace Components {
        * example:
        * /tasks/{name_of_task}/sample_payload
        */
-      sample_payload?: string;
+      sample_payload: string;
       /**
        * example:
        * {A short title for the task}
@@ -242,7 +242,7 @@ declare namespace Components {
     export interface TextResponse {
       output_type: 'text';
       value: string;
-      title?: string;
+      title?: string | null;
       subtitle?: string;
     }
   }

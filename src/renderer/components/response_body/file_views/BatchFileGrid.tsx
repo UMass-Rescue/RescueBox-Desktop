@@ -134,7 +134,7 @@ export default function BatchFileGrid({
   const [filesPerPage, setFilesPerPage] = useState(12);
 
   const filteredFiles = data.files.filter((f) =>
-    f.title !== undefined
+    f.title
       ? f.title.toLowerCase().includes(searchTerm.toLowerCase())
       : f.path.toLowerCase().includes(searchTerm.toLowerCase()),
   );
