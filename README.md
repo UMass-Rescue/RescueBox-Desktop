@@ -42,6 +42,10 @@ RescueBox implments the "Flask-ML" protocol, which is a simple interface for run
 
 # Development
 
+## Prerequisites
+
+- Node v18 (newer versions may work)
+
 ## Install
 
 Clone the repo and install dependencies:
