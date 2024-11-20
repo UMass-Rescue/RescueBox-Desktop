@@ -64,7 +64,7 @@ export default function RegistrationTable() {
         <h1 className="font-bold text-xl md:text-2xl lg:text-4xl">
           Registered Models
         </h1>
-        <RegisterModelButton />
+        <RegisterModelButton replace />
       </div>
       <div className="shadow-md mt-6">
         <Table className="text-md lg:text-lg">

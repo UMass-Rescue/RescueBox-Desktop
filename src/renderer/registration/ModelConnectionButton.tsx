@@ -47,7 +47,7 @@ function ModelConnectionButton({
       <TooltipProvider delayDuration={100}>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Link to={`/registration/${modelUid}`}>
+            <Link to={`/registration/${modelUid}`} replace>
               <Button
                 variant="outline"
                 className="hover:-translate-y-0.5 transition-all py-2 rounded-lg"

@@ -2,9 +2,17 @@ import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import { ConnectIcon } from './icons/ConnectIcon';
 
-export default function RegisterModelButton() {
+export default function RegisterModelButton({
+  replace = false,
+}: {
+  replace: boolean;
+}) {
   return (
-    <Link to="/registration/new_model" className="inline-flex">
+    <Link
+      to="/registration/new_model"
+      replace={replace}
+      className="inline-flex"
+    >
       <Button
         className="hover:-translate-y-0.5  flex flex-row gap-2  "
         variant="default"

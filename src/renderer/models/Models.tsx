@@ -49,7 +49,7 @@ function Models() {
         <div className="font-bold text-xl md:text-2xl lg:text-4xl mb-5 flex flex-row gap-8 items-center">
           <div className="flex flex-row justify-between w-full">
             Available Models
-            {onModels.length === 0 && <RegisterModelButton />}
+            {onModels.length === 0 && <RegisterModelButton replace={false} />}
           </div>
           {statusIsValidating && (
             <LoadingIcon className="size-8 text-blue-600" />
