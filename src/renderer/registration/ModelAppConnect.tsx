@@ -87,7 +87,9 @@ function ModelAppConnect() {
         }
       }
       await mutate(() => true, undefined);
-      navigate('/registration');
+      navigate('/registration', {
+        replace: true,
+      });
     } catch (error) {
       if (
         error instanceof Error &&
@@ -119,7 +121,7 @@ function ModelAppConnect() {
   if (modelError) return <p>Error: {modelError.message}</p>;
 
   const onClose = () => {
-    navigate('/registration');
+    navigate('/registration', { replace: true });
   };
 
   return (
