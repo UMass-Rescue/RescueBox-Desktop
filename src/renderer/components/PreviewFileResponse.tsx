@@ -58,7 +58,7 @@ export default function PreviewFileResponse({
             )}
           </DialogHeader>
           <div className="overflow-auto h-full">
-            <FilePreview response={response} />
+            <FilePreview response={response} modal />
           </div>
         </DialogContent>
       </Dialog>

@@ -19,7 +19,13 @@ import {
 } from '@shadcn/select';
 import LoadingScreen from '../../LoadingScreen';
 
-export default function CSVPreview({ filePath }: { filePath: string }) {
+export default function CSVPreview({
+  filePath,
+  modal,
+}: {
+  filePath: string;
+  modal: boolean;
+}) {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchColumn, setSearchColumn] = useState('All Columns');
 
@@ -76,7 +82,9 @@ export default function CSVPreview({ filePath }: { filePath: string }) {
         />
       </div>
       <div className="border border-gray-300 rounded-lg p-4 bg-white">
-        <div className="overflow-auto h-80 pr-2">
+        <div
+          className={`overflow-auto ${modal ? 'max-h-80' : 'max-h-full'} pr-2`}
+        >
           <Table className="min-w-full divide-y divide-gray-200">
             <TableHeader className="bg-gray-50">
               <TableRow>
