@@ -59,7 +59,7 @@ export default function FileView({ response }: { response: FileResponse }) {
         </div>
       </div>
       <div className="flex flex-col gap-2 text-md rounded-md">
-        <FilePreview response={response} />
+        <FilePreview response={response} modal={false} />
       </div>
     </div>
   );

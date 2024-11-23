@@ -8,13 +8,25 @@ import MarkdownPreview from './MarkdownPreview';
 import TextPreview from './TextPreview';
 import VideoPreview from './VideoPreview';
 
-export default function FilePreview({ response }: { response: FileResponse }) {
+export default function FilePreview({
+  response,
+  modal,
+}: {
+  response: FileResponse;
+  modal: boolean;
+}) {
   const filePrefixedPath = `file://${response.path}`;
 
   return match(response)
-    .with({ file_type: 'text' }, () => <TextPreview filePath={response.path} />)
-    .with({ file_type: 'json' }, () => <JSONPreview filePath={response.path} />)
-    .with({ file_type: 'csv' }, () => <CSVPreview filePath={response.path} />)
+    .with({ file_type: 'text' }, () => (
+      <TextPreview filePath={response.path} modal={modal} />
+    ))
+    .with({ file_type: 'json' }, () => (
+      <JSONPreview filePath={response.path} modal={modal} />
+    ))
+    .with({ file_type: 'csv' }, () => (
+      <CSVPreview filePath={response.path} modal={modal} />
+    ))
     .with({ file_type: 'img' }, () => (
       <ImagePreview filePath={filePrefixedPath} />
     ))
@@ -25,7 +37,7 @@ export default function FilePreview({ response }: { response: FileResponse }) {
       <VideoPreview filePath={filePrefixedPath} />
     ))
     .with({ file_type: 'markdown' }, () => (
-      <MarkdownPreview filePath={response.path} />
+      <MarkdownPreview filePath={response.path} modal={modal} />
     ))
     .exhaustive();
 }

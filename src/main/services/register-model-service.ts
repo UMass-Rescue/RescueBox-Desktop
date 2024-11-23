@@ -4,10 +4,7 @@ import {
   AppMetadata,
   SchemaAPIRoute,
 } from 'src/shared/generated_models';
-import {
-  isrModelRoutes,
-  sbfAppMetadata,
-} from 'src/main/database/dummy_data/mlmodels';
+import { isrModelRoutes } from 'src/main/database/dummy_data/mlmodels';
 import log from 'electron-log/main';
 import isDummyMode from 'src/shared/dummy_data/set_dummy_mode';
 import MLModelDb from '../models/ml-model';
