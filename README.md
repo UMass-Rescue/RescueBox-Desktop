@@ -13,7 +13,7 @@ For a review of the project's goals, read [What is RescueBox Desktop?](./docs/wh
 
 ## Step 1: Download the Latest Release
 
-Get the latest release of the binary for your operating system (Windows, macOS and Linux) from the [release page](https://github.com/UMass-Rescue/RescueBox-Desktop/releases)
+Get the latest release of the binary for your operating system (Windows, macOS and Linux) from the [release page](https://github.com/UMass-Rescue/RescueBox-Desktop/releases). For Linux, see [Additional Instructions for Linux](#additional-instructions-for-linux).
 
 ## Step 2: Start a Flask-ML Compliant Model
 
@@ -29,6 +29,36 @@ You should now be able to see the model application in the app, and be able to r
 
 ![](./docs/ui-screenshot.png)
 
+## Additional Instructions for Linux
+
+To run the AppImage on Linux, we first need to add execution permission on the AppImage file.
+
+```bash
+chmod a+x RescueBox-Desktop-<version_number>.AppImage
+```
+
+Then, some Additional steps may be required for Linux, depending on your distro. For Ubuntu, you will need to install the FUSE library.
+
+### Ubuntu >= 24.04
+
+```bash
+sudo add-apt-repository universe
+sudo apt install libfuse2t64
+```
+
+### Ubuntu <= 22.04
+
+```bash
+sudo add-apt-repository universe
+sudo apt install libfuse2
+```
+
+At last, Run the AppImage with the "no-sandbox" option
+
+```bash
+ ./RescueBox-Desktop-<version-number>.AppImage --no-sandbox
+```
+
 # Development
 
 RescueBox Desktop is built using [Electron](https://www.electronjs.org/), [React](https://reactjs.org/), TypeScript, TailwindCSS, and SQlite (with Sequelize).
@@ -38,9 +68,6 @@ RescueBox implments the "Flask-ML" protocol, which is a simple interface for run
 <p align="center">
   <img src="./docs/FlaskML-Protocol-Sequence-Diagram.png" width="450" />
 </p>
-
-
-# Development
 
 ## Prerequisites
 
