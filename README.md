@@ -13,7 +13,23 @@ For a review of the project's goals, read [What is RescueBox Desktop?](./docs/wh
 
 ## Step 1: Download the Latest Release
 
-Get the latest release of the binary for your operating system (Windows, macOS and Linux) from the [release page](https://github.com/UMass-Rescue/RescueBox-Desktop/releases).
+Get the latest release of the binary for your operating system (Windows, macOS and Linux) from the [release page](https://github.com/UMass-Rescue/RescueBox-Desktop/releases). For Linux, see [Additional Instructions for Linux](#additional-instructions-for-linux).
+
+## Step 2: Start a Flask-ML Compliant Model
+
+Download and install one of the [Flask-ML compliant models](https://umass-rescue.github.io/Flask-ML/materials/guides/examples), or [write your own!](https://umass-rescue.github.io/Flask-ML/materials/guides/getting-started)
+
+Run the model application, which should provide you with a URL to register with RBox.
+
+## Step 3: Using the App
+
+Launch the binary you downloaded in [step 1](#step-1-download-the-latest-release), and register the model application using the IP address and port.
+
+You should now be able to see the model application in the app, and be able to run inference tasks on it!
+
+![](./docs/ui-screenshot.png)
+
+## Additional Instructions for Linux
 
 To run the AppImage on Linux, we first need to add execution permission on the AppImage file.
 
@@ -43,20 +59,6 @@ At last, Run the AppImage with the "no-sandbox" option
  ./RescueBox-Desktop-<version-number>.AppImage --no-sandbox
 ```
 
-## Step 2: Start a Flask-ML Compliant Model
-
-Download and install one of the [Flask-ML compliant models](https://umass-rescue.github.io/Flask-ML/materials/guides/examples), or [write your own!](https://umass-rescue.github.io/Flask-ML/materials/guides/getting-started)
-
-Run the model application, which should provide you with a URL to register with RBox.
-
-## Step 3: Using the App
-
-Launch the binary you downloaded in [step 1](#step-1-download-the-latest-release), and register the model application using the IP address and port.
-
-You should now be able to see the model application in the app, and be able to run inference tasks on it!
-
-![](./docs/ui-screenshot.png)
-
 # Development
 
 RescueBox Desktop is built using [Electron](https://www.electronjs.org/), [React](https://reactjs.org/), TypeScript, TailwindCSS, and SQlite (with Sequelize).
@@ -66,8 +68,6 @@ RescueBox implments the "Flask-ML" protocol, which is a simple interface for run
 <p align="center">
   <img src="./docs/FlaskML-Protocol-Sequence-Diagram.png" width="450" />
 </p>
-
-# Development
 
 ## Prerequisites
 
