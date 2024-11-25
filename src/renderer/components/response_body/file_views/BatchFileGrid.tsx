@@ -101,7 +101,7 @@ function GridItems({
                 }}
               >
                 <img
-                  src={type === 'img' ? file.path : icon}
+                  src={type === 'img' ? `file://${file.path}` : icon}
                   alt="icon"
                   className={
                     type === 'img'
