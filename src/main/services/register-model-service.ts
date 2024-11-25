@@ -22,7 +22,7 @@ export default class RegisterModelService {
       serverAddress,
       serverPort,
     );
-    const apiRoutes = await RegisterModelService.initializeAPIRoutes(
+    const apiRoutes = await RegisterModelService.getAPIRoutes(
       serverAddress,
       serverPort,
     );
@@ -73,7 +73,7 @@ export default class RegisterModelService {
     return TaskDb.createTasks(taskParams);
   }
 
-  private static async getAppMetadata(
+  static async getAppMetadata(
     serverAddress: string,
     serverPort: number,
   ): Promise<AppMetadata> {
@@ -105,7 +105,7 @@ export default class RegisterModelService {
       });
   }
 
-  private static async initializeAPIRoutes(
+  static async getAPIRoutes(
     serverAddress: string,
     serverPort: number,
   ): Promise<APIRoutes> {

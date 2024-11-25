@@ -16,7 +16,8 @@ import camelcaseKeys from 'camelcase-keys';
 import log from 'electron-log/main';
 import http from 'http';
 import ModelServerDb from '../models/model-server';
-import MLModelDb from '../models/ml-model';
+import MLModelDb, { createModelId } from '../models/ml-model';
+import RegisterModelService from './register-model-service';
 
 const API_ROUTES_SLUG = '/api/routes';
 
@@ -190,17 +191,24 @@ class ModelAppService {
         }, 1000);
       });
     }
-    return fetch(
-      `http://${this.modelServer.serverAddress}:${this.modelServer.serverPort}${API_ROUTES_SLUG}`,
-    )
-      .then((res) => {
-        if (res.status !== 200) {
-          throw new Error('Failed to fetch app metadata.');
-        }
-        return res.json();
-      })
-      .then(() => true)
-      .catch(() => false);
+    try {
+      // Get the model data
+      const modelInfo = await RegisterModelService.getAppMetadata(
+        this.modelServer.serverAddress,
+        this.modelServer.serverPort,
+      );
+      const apiRoutes = await RegisterModelService.getAPIRoutes(
+        this.modelServer.serverAddress,
+        this.modelServer.serverPort,
+      );
+      // Recreate the UID
+      const uid = createModelId(modelInfo, apiRoutes);
+
+      // Check if UID matches the current model
+      return this.modelDb.uid === uid;
+    } catch {
+      return false;
+    }
   }
 }
 
