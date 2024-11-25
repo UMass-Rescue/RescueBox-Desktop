@@ -13,7 +13,8 @@ For a review of the project's goals, read [What is RescueBox Desktop?](./docs/wh
 
 ## Step 1: Download the Latest Release
 
-Get the latest release of the binary for your operating system (Windows, macOS and Linux) from the [release page](https://github.com/UMass-Rescue/RescueBox-Desktop/releases)
+Get the latest release of the binary for your operating system (Windows, macOS and Linux) from the [release page](https://github.com/UMass-Rescue/RescueBox-Desktop/releases).
+
 To run the AppImage on Linux, we first need to add execution permission on the AppImage file.
 
 ```bash
