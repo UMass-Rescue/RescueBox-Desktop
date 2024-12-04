@@ -15,7 +15,9 @@ export default function FileView({ response }: { response: FileResponse }) {
     <div className="flex flex-col">
       <div className="flex justify-between items-center mb-4">
         <h1 className="font-bold text-lg lg:text-xl flex items-center">
-          {response.title}
+          {response.title
+            ?.replaceAll('/', '/\u200B')
+            .replaceAll('\\', '\\\u200B')}
         </h1>
         <div className="flex items-center space-x-1">
           <TooltipProvider>
