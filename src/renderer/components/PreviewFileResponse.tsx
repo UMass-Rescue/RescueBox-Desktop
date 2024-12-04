@@ -24,12 +24,21 @@ export default function PreviewFileResponse({
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogDescription />
-        <DialogContent className="[&>button]:hidden max-w-fit xs:max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-4xl max-h-[80vh]">
+        <DialogContent className="[&>button]:hidden xs:max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-4xl max-h-[80vh]">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-4">
-              <span className="font-bold text-xl">
-                {response.title ? `Preview: ${response.title}` : 'Preview'}
-              </span>
+            <div className="grid grid-cols-6 gap-4">
+              <DialogTitle
+                className="flex items-center gap-4 col-span-5 text-ellipsis"
+                asChild
+              >
+                <h1 className="font-bold text-xl break-words">
+                  {response.title
+                    ? `Preview: ${response.title
+                        .replaceAll('/', '/\u200B')
+                        .replaceAll('\\', '\\\u200B')}`
+                    : 'Preview'}
+                </h1>
+              </DialogTitle>
               <div className="ml-auto flex">
                 <Button
                   className="bg-transparent hover:bg-gray-200 shadow-none p-1 mr-3"
@@ -50,7 +59,7 @@ export default function PreviewFileResponse({
                   <Cross1Icon className="size-6 text-gray-800" />
                 </Button>
               </div>
-            </DialogTitle>
+            </div>
             {response.subtitle && (
               <span className="block max-h-10 overflow-y-auto text-sm">
                 {response.subtitle}
