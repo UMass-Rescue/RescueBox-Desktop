@@ -1,0 +1,11 @@
+Image,Label,Probability
+image1.jpg,Car,0.92
+image2.jpg,Car,0.88
+image3.jpg,Truck,0.67
+image4.jpg,Bicycle,0.95
+image5.jpg,Truck,0.80
+image6.jpg,Ship,0.85
+image7.jpg,Ship,0.75
+image8.jpg,Bicycle,0.90
+image9.jpg,Ship,0.78
+image10.jpg,Bicycle,0.60

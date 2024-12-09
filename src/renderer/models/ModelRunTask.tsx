@@ -39,6 +39,12 @@ export default function ModelRunTask() {
     return <div>Invalid Model UID or Task ID.</div>;
   }
 
+  if (taskSchemaIsLoading) {
+    return <LoadingScreen />;
+  }
+  if (taskSchemaError) {
+    return <div>Error loading task schema</div>;
+  }
   if (!thisApiRoute || !taskSchema) {
     return (
       <div
@@ -59,12 +65,6 @@ export default function ModelRunTask() {
         </p>
       </div>
     );
-  }
-  if (taskSchemaIsLoading) {
-    return <LoadingScreen />;
-  }
-  if (taskSchemaError) {
-    return <div>Error loading task schema</div>;
   }
 
   const onSubmit = async (data: any) => {

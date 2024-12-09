@@ -4,7 +4,6 @@ import {
   AppMetadata,
   SchemaAPIRoute,
 } from 'src/shared/generated_models';
-import { isrModelRoutes } from 'src/main/database/dummy_data/mlmodels';
 import log from 'electron-log/main';
 import isDummyMode from 'src/shared/dummy_data/set_dummy_mode';
 import MLModelDb from '../models/ml-model';
@@ -109,17 +108,17 @@ export default class RegisterModelService {
     serverAddress: string,
     serverPort: number,
   ): Promise<APIRoutes> {
-    if (isDummyMode) {
-      log.info(
-        'Fetching API routes for isr model from dummy data. This will take some time.',
-      );
-      const apiRoutes = isrModelRoutes;
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(RegisterModelService.getSchemaApiRoutes(apiRoutes));
-        }, 1000);
-      });
-    }
+    // if (isDummyMode) {
+    //   log.info(
+    //     'Fetching API routes for isr model from dummy data. This will take some time.',
+    //   );
+    //   const apiRoutes = isrModelRoutes;
+    //   return new Promise((resolve) => {
+    //     setTimeout(() => {
+    //       resolve(RegisterModelService.getSchemaApiRoutes(apiRoutes));
+    //     }, 1000);
+    //   });
+    // }
     const url = `http://${serverAddress}:${serverPort}${API_ROUTES_SLUG}`;
     log.info(`Fetching API routes from ${url}`);
     const apiRoutes: APIRoutes = await fetch(url)

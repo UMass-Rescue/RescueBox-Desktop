@@ -1,0 +1,21 @@
+Inference ID: 7645d34f-112e-4b4e-b8f7-9f07d45cce11
+Timestamp: 2024-11-29 14:53:12 UTC
+Model: resnet50_v2
+Input: Image ID=IMG_20241129_125734, Size=224x224x3
+Output:
+  - Class Predictions:
+      * cat: 87.63%
+      * dog: 9.25%
+      * rabbit: 3.12%
+  - Bounding Boxes:
+      * Label: cat, Coordinates: (30, 40, 200, 220), Confidence: 86.31%
+  - Segmentation Mask:
+      * Format: RLE
+      * Mask ID: mask_20241129_125734_1
+      * Compression Rate: 45%
+
+Inference Time: 142.7 ms
+System Details:
+  - Device: NVIDIA A100
+  - Batch Size: 1
+  - Framework: TensorFlow 2.12

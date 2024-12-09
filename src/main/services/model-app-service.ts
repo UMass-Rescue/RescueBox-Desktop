@@ -18,6 +18,7 @@ import http from 'http';
 import ModelServerDb from '../models/model-server';
 import MLModelDb, { createModelId } from '../models/ml-model';
 import RegisterModelService from './register-model-service';
+import dummyTaskData from '../database/dummy_data/tasks';
 
 const API_ROUTES_SLUG = '/api/routes';
 
@@ -31,11 +32,13 @@ class ModelAppService {
   private constructor(modelDb: MLModel, server: ModelServer) {
     this.modelDb = modelDb;
     this.modelServer = server;
-    if (isDummyMode) {
-      this.apiRoutes = dummyApiRoutes.filter((apiRoute) => 'order' in apiRoute);
-    } else {
-      this.apiRoutes = modelDb.routes.filter((apiRoute) => 'order' in apiRoute);
-    }
+    // if (isDummyMode) {
+    //   this.apiRoutes = dummyTaskData
+    //     .filter((apiRoute) => apiRoute.modelUid === modelDb.uid)
+    //     .map((apiRoute) => apiRoute.schemaApiRoute);
+    // } else {
+    this.apiRoutes = modelDb.routes.filter((apiRoute) => 'order' in apiRoute);
+    // }
   }
 
   static async init(modelUid: string): Promise<ModelAppService> {
@@ -84,13 +87,13 @@ class ModelAppService {
     taskId: string,
     requestBody: RequestBody,
   ): Promise<ResponseBody> {
-    if (isDummyMode) {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(markdownResponseBody);
-        }, 1000);
-      });
-    }
+    // if (isDummyMode) {
+    //   return new Promise((resolve) => {
+    //     setTimeout(() => {
+    //       resolve(markdownResponseBody);
+    //     }, 1000);
+    //   });
+    // }
     const task = this.findRouteByTaskId(taskId);
     const postData = JSON.stringify(requestBody);
     return new Promise((resolve, reject) => {
@@ -156,11 +159,17 @@ class ModelAppService {
   }
 
   public async getTaskSchema(taskId: string): Promise<TaskSchema> {
-    if (isDummyMode) {
+    if (isDummyMode && this.modelServer.serverPort !== 5000) {
       log.info(`Fetching task schema for task ${taskId}`);
+      const taskSchemaObj = taskSchemas.find(
+        (obj) => obj.modelUid === this.modelDb.uid,
+      );
+      if (!taskSchemaObj) {
+        throw new Error(`Task schema not found for model ${this.modelDb.uid}`);
+      }
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(taskSchemas[Number(taskId)]);
+          resolve(taskSchemaObj.taskSchemas[Number(taskId)]);
         }, 1000);
       });
     }

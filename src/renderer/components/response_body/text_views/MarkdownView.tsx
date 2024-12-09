@@ -15,7 +15,7 @@ export default function MarkdownView({
         className="text-black"
         remarkPlugins={[remarkGfm]}
       >
-        {`# ${response.title}\n${response.subtitle || ''}\n${response.value}`}
+        {`## ${response.title}\n${response.subtitle || ''}\n${response.value}`}
       </Markdown>
     </div>
   );

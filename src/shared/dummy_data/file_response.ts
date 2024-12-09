@@ -6,76 +6,73 @@ import {
 
 const textResponse: FileResponse = {
   output_type: 'file',
-  path: 'C:\\Users\\LENOVO\\Downloads\\sample-markdown.txt',
+  path: 'C:\\Users\\LENOVO\\data\\outputs\\files\\texts\\response_9edi21.txt',
   file_type: 'text',
-  title: 'Sample Text',
-  subtitle: 'Some info about sample text',
+  title: 'Inference Results',
 };
 
 const markdownResponse: FileResponse = {
   output_type: 'file',
-  path: 'C:\\Users\\LENOVO\\Downloads\\sample-markdown.txt',
+  path: 'C:\\Users\\LENOVO\\data\\outputs\\files\\markdown\\results.md',
   file_type: 'markdown',
-  title: 'Sample Markdown',
-  subtitle: 'Some info about sample markdown',
+  title: 'Predictions',
 };
 
 const imageResponse: FileResponse = {
   output_type: 'file',
-  path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\input\\meerkat.png',
+  path: 'C:\\Users\\LENOVO\\data\\inputs\\starry_stanford_bigger.jpg',
   file_type: 'img',
-  title: 'Sample Image',
-  subtitle: 'Some info about sample image',
+  title: 'Stanford + Starry Night',
 };
 
 const jsonResponse: FileResponse = {
   output_type: 'file',
-  path: 'C:\\Users\\LENOVO\\Downloads\\example_2.json',
+  path: 'C:\\Users\\LENOVO\\data\\outputs\\files\\json\\results.json',
   file_type: 'json',
-  title: 'Sample JSON',
-  subtitle: 'Some info about sample JSON',
+  title: 'Classification Results',
 };
 
 const csvResponse: FileResponse = {
   output_type: 'file',
-  path: 'C:\\Users\\LENOVO\\Downloads\\addresses.csv',
+  path: 'C:\\Users\\LENOVO\\data\\outputs\\files\\csv\\results.csv',
   file_type: 'csv',
-  title: 'Sample CSV',
-  subtitle: 'Some info about sample CSV',
+  title: 'Vehicle Classification Results',
 };
 
 const audioResponse: FileResponse = {
   output_type: 'file',
-  path: 'C:\\Users\\LENOVO\\Downloads\\file_example_MP3_700KB.mp3',
+  path: 'C:\\Users\\LENOVO\\data\\outputs\\files\\audio\\Arthur.mp3',
   file_type: 'audio',
-  title: 'Sample Audio',
-  subtitle: 'Some info about sample audio',
+  title: 'Text to Speech -- Arthur.mp3',
 };
 
 const videoResponse: FileResponse = {
   output_type: 'file',
-  path: 'C:\\Users\\LENOVO\\Videos\\Captures\\super-res-demo.mp4',
+  path: 'C:\\Users\\LENOVO\\data\\outputs\\files\\video\\5532774-uhd_4096_2160_25fps.mp4',
   file_type: 'video',
-  title: 'Sample Video',
-  subtitle: 'Some info about sample video',
+  title: 'AI Generated Video',
 };
 
 const directoryResponse: DirectoryResponse = {
   output_type: 'directory',
-  path: '/Users/atharvakale/Downloads',
-  title: 'Sample Directory Outputs',
-  // subtitle: 'Subtitle: Some info about sample directory',
+  path: 'C:\\Users\\LENOVO\\data\\outputs\\directories\\results_labels',
+  title: 'Labels for Detection Results',
 };
 
 const directoryResponse2: DirectoryResponse = {
   output_type: 'directory',
-  path: '/Users/atharvakale/Downloads/rooting-5g',
-  title: 'Sample Markdown',
-  subtitle: 'Some info about sample markdown',
+  path: 'C:\\Users\\LENOVO\\data\\outputs\\directories\\results_images',
+  title: 'Images with Bounding Boxes',
+};
+
+const directoryResponse3: DirectoryResponse = {
+  output_type: 'directory',
+  path: 'C:\\Users\\LENOVO\\data\\outputs\\directories\\results_original',
+  title: 'Original Images',
 };
 
 const batchDirectoryResponse: BatchDirectoryResponse = {
-  directories: [directoryResponse, directoryResponse2],
+  directories: [directoryResponse, directoryResponse2, directoryResponse3],
   output_type: 'batchdirectory',
 };
 

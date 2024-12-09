@@ -19,6 +19,7 @@ export default function FileView({ response }: { response: FileResponse }) {
             ?.replaceAll('/', '/\u200B')
             .replaceAll('\\', '\\\u200B')}
         </h1>
+        <span className="text-sm text-gray-500">{response.subtitle}</span>
         <div className="flex items-center space-x-1">
           <TooltipProvider>
             <Tooltip>

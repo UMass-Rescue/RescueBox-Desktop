@@ -1,0 +1,14 @@
+{
+  "model": "ImageNet-ResNet50",
+  "inference_time": "2024-12-07T14:30:00Z",
+  "results": [
+    {
+      "image": "image1.jpg",
+      "predictions": [
+        {"label": "cat", "probability": 0.92},
+        {"label": "dog", "probability": 0.05},
+        {"label": "rabbit", "probability": 0.03}
+      ]
+    }
+  ]
+}

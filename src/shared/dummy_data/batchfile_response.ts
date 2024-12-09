@@ -14,37 +14,64 @@ const batchFileResponse: BatchFileResponse = {
     {
       output_type: 'file',
       file_type: 'img',
-      path: '/home/shreneken/Pictures/cat_walp.jpg',
-      title: 'sample1',
-      subtitle: 'first sample image',
-    },
-    {
-      output_type: 'file',
-      file_type: 'text',
-      path: 'C:\\Users\\LENOVO\\Downloads\\markdown.txt',
-      title: 'sample2',
-      subtitle: 'first sample text',
+      path: 'C:\\Users\\LENOVO\\data\\outputs\\files\\images\\david-villasana-Pf9KhOIylaM-unsplash.jpg',
+      title: 'Car Outside a House',
+      subtitle:
+        'C:\\Users\\LENOVO\\data\\outputs\\files\\images\\david-villasana-Pf9KhOIylaM-unsplash.jpg',
     },
     {
       output_type: 'file',
       file_type: 'img',
-      path: 'C:\\Users\\LENOVO\\UMass\\IMG-Super-Resolution\\input\\baboon.png',
-      title: 'sample3',
-      subtitle: 'second sample image',
+      path: 'C:\\Users\\LENOVO\\data\\outputs\\files\\images\\karsten-winegeart-dN8vU0QiuRQ-unsplash.jpg',
+      title: 'Girl under Waterfall',
+      subtitle:
+        'C:\\Users\\LENOVO\\data\\outputs\\files\\images\\karsten-winegeart-dN8vU0QiuRQ-unsplash.jpg',
+    },
+    {
+      output_type: 'file',
+      file_type: 'img',
+      path: 'C:\\Users\\LENOVO\\data\\outputs\\files\\images\\karsten-winegeart-yOwrFVY6JBE-unsplash.jpg',
+      title: 'Range Rover Defender',
+      subtitle:
+        'C:\\Users\\LENOVO\\data\\outputs\\files\\images\\karsten-winegeart-yOwrFVY6JBE-unsplash.jpg',
+    },
+    {
+      output_type: 'file',
+      file_type: 'img',
+      path: 'C:\\Users\\LENOVO\\data\\outputs\\files\\images\\victor-rosario-c5KYD-x0EYM-unsplash.jpg',
+      title: 'Girl Kayaking in River',
+      subtitle:
+        'C:\\Users\\LENOVO\\data\\outputs\\files\\images\\victor-rosario-c5KYD-x0EYM-unsplash.jpg',
+    },
+    {
+      output_type: 'file',
+      file_type: 'img',
+      path: 'C:\\Users\\LENOVO\\data\\outputs\\files\\images\\wes-tindel-Bj1HXYdsD-A-unsplash.jpg',
+      title: 'Ferrari in Garage',
+      subtitle:
+        'C:\\Users\\LENOVO\\data\\outputs\\files\\images\\wes-tindel-Bj1HXYdsD-A-unsplash.jpg',
+    },
+    {
+      output_type: 'file',
+      file_type: 'img',
+      path: 'C:\\Users\\LENOVO\\data\\outputs\\files\\images\\zhen-yao-hOF-J1kEqno-unsplash.jpg',
+      title: 'Fenced House',
+      subtitle:
+        'C:\\Users\\LENOVO\\data\\outputs\\files\\images\\zhen-yao-hOF-J1kEqno-unsplash.jpg',
     },
     {
       output_type: 'file',
       file_type: 'csv',
-      path: 'C:\\Users\\LENOVO\\Downloads\\addresses.csv',
-      title: 'sample',
-      subtitle: 'sample CSV',
+      path: 'C:\\Users\\LENOVO\\data\\outputs\\files\\csv\\image_results.csv',
+      title: 'Captioning Results',
+      subtitle: 'Captioning Results in CSV format',
     },
     {
       output_type: 'file',
-      file_type: 'img',
-      path: 'some/path/ok2.img',
-      title: 'sample',
-      subtitle: 'sample image',
+      file_type: 'markdown',
+      path: 'C:\\Users\\LENOVO\\data\\outputs\\files\\markdown\\image_results.md',
+      title: 'Captioning Results',
+      subtitle: 'Captioning Results in Markdown format',
     },
   ],
 };
