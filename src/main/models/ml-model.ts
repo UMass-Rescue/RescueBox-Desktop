@@ -36,6 +36,8 @@ class MLModelDb extends Model<
 
   declare updatedAt: CreationOptional<Date>;
 
+  declare isRemoved: boolean;
+
   public static getAllModels() {
     return MLModelDb.findAll();
   }
@@ -70,6 +72,7 @@ class MLModelDb extends Model<
       author,
       info: appMetadata.info,
       routes,
+      isRemoved: false,
     });
   }
 
@@ -86,8 +89,16 @@ class MLModelDb extends Model<
       where: {},
     });
   }
-}
 
+  public static async removeModel(modelUid: string) {
+    const model = await MLModelDb.findByPk(modelUid);
+    if (!model) {
+      throw new Error(`Model with uid ${modelUid} not found`);
+    }
+    model.isRemoved = true;
+    return model.save();
+  }
+}
 export const initMLModel = async (connection: Sequelize) => {
   MLModelDb.init(
     {
@@ -129,6 +140,10 @@ export const initMLModel = async (connection: Sequelize) => {
       updatedAt: {
         type: DataTypes.DATE,
         allowNull: true,
+      },
+      isRemoved: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
       },
     },
     {

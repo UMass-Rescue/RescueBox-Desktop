@@ -1,4 +1,4 @@
-import RegisterModelButton from 'src/renderer/components/RegisterModelButton';
+import RegisterModelButton from 'src/renderer/components/custom_ui/RegisterModelButton';
 import { useMLModels, useServers, useServerStatuses } from '../lib/hooks';
 import LoadingIcon from '../components/icons/LoadingIcon';
 import LoadingScreen from '../components/LoadingScreen';
@@ -10,6 +10,7 @@ function Models() {
     models,
     error: modelsError,
     isValidating: modelsIsValidating,
+    mutate: mutateModels,
   } = useMLModels();
 
   // Servers Hook
@@ -35,11 +36,13 @@ function Models() {
     return <div>failed to load status. Error: {statusError.toString()}</div>;
   if (!serverStatuses) return <LoadingScreen />;
 
-  const onModels = models.filter(
+  const existingModels = models.filter((model) => !model.isRemoved);
+
+  const onModels = existingModels.filter(
     (model) => serverStatuses[model.uid] === 'Online',
   );
 
-  const offModels = models.filter(
+  const offModels = existingModels.filter(
     (model) => serverStatuses[model.uid] !== 'Online',
   );
 
@@ -55,7 +58,11 @@ function Models() {
             <LoadingIcon className="size-8 text-blue-600" />
           )}
         </div>
-        <ModelsTable models={onModels} serverStatuses={serverStatuses} />
+        <ModelsTable
+          models={onModels}
+          serverStatuses={serverStatuses}
+          mutateModels={mutateModels}
+        />
         {offModels.length > 0 && (
           <h1 className="font-bold text-xl md:text-2xl lg:text-4xl my-5 flex flex-row gap-8 items-center">
             Unavailable Models
@@ -65,7 +72,11 @@ function Models() {
           </h1>
         )}
         {offModels.length > 0 && (
-          <ModelsTable models={offModels} serverStatuses={serverStatuses} />
+          <ModelsTable
+            models={offModels}
+            serverStatuses={serverStatuses}
+            mutateModels={mutateModels}
+          />
         )}
       </div>
     </div>

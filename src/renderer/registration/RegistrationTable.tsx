@@ -7,7 +7,7 @@ import {
   TableRow,
 } from '@shadcn/table';
 import { MLModel } from 'src/shared/models';
-import RegisterModelButton from 'src/renderer/components/RegisterModelButton';
+import RegisterModelButton from 'src/renderer/components/custom_ui/RegisterModelButton';
 import { useMLModels, useServers } from '../lib/hooks';
 import { createMLServerMap } from '../lib/utils';
 import ModelStatusIndicator from '../models/ModelStatusIndicator';

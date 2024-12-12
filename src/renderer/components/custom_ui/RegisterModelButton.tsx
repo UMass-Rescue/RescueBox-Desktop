@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Button } from './ui/button';
-import { ConnectIcon } from './icons/ConnectIcon';
+import { Button } from '../ui/button';
+import { ConnectIcon } from '../icons/ConnectIcon';
 
 export default function RegisterModelButton({
   replace = false,
