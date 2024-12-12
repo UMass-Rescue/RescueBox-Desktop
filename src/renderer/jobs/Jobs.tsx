@@ -15,7 +15,10 @@ import { TooltipContent, TooltipTrigger } from '../components/ui/tooltip';
 import CompletedIcon from '../components/icons/CompletedIcon';
 import FailedIcon from '../components/icons/FailedIcon';
 import CanceledIcon from '../components/icons/CanceledIcon';
-import { ViewButton, JobRedButton } from '../components/custom_ui/customButtons';
+import {
+  ViewButton,
+  JobRedButton,
+} from '../components/custom_ui/customButtons';
 
 function Jobs() {
   const {
