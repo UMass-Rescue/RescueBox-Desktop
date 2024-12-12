@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { Tooltip, TooltipProvider } from '@radix-ui/react-tooltip';
 import LoadingScreen from 'src/renderer/components/LoadingScreen';
 import {
@@ -9,57 +8,17 @@ import {
   TableHead,
   TableHeader,
 } from '../components/ui/table';
-import { Button } from '../components/ui/button';
 import { Job } from '../../shared/models';
 import { useJobs, useMLModels } from '../lib/hooks';
 import LoadingIcon from '../components/icons/LoadingIcon';
 import { TooltipContent, TooltipTrigger } from '../components/ui/tooltip';
-import DeleteIcon from '../components/icons/DeleteIcon';
-import CancelIcon from '../components/icons/CancelIcon';
 import CompletedIcon from '../components/icons/CompletedIcon';
 import FailedIcon from '../components/icons/FailedIcon';
 import CanceledIcon from '../components/icons/CanceledIcon';
-
-function ViewButton({ job }: { job: Job }) {
-  return (
-    <Link to={`/jobs/${job.uid}/details`} className="">
-      <Button
-        variant="outline"
-        className="px-8 hover:-translate-y-0.5 transition-all rounded-lg"
-      >
-        View
-      </Button>
-    </Link>
-  );
-}
-
-function RedButton({
-  job,
-  variant,
-  handleClick,
-}: {
-  job: Job;
-  variant: 'cancel' | 'delete';
-  handleClick: (job: Job) => void;
-}) {
-  return (
-    <TooltipProvider delayDuration={100}>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            className="px-4 bg-red-600 mr-2 hover:-translate-y-0.5 transition-all"
-            onClick={() => handleClick(job)}
-          >
-            {variant === 'cancel' ? <CancelIcon /> : <DeleteIcon />}
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent side="bottom">
-          <p>{variant === 'cancel' ? 'Cancel' : 'Delete'}</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  );
-}
+import {
+  ViewButton,
+  JobRedButton,
+} from '../components/custom_ui/customButtons';
 
 function Jobs() {
   const {
@@ -171,13 +130,13 @@ function Jobs() {
                   </TableCell>
                   <TableCell className="text-center py-4 px-4">
                     {job.status === 'Running' ? (
-                      <RedButton
+                      <JobRedButton
                         job={job}
                         variant="cancel"
                         handleClick={() => handleCancelJob(job)}
                       />
                     ) : (
-                      <RedButton
+                      <JobRedButton
                         job={job}
                         variant="delete"
                         handleClick={() => handleDeleteJob(job)}

@@ -65,6 +65,7 @@ function setupIpcMain() {
   // Models: handles registering models
   ipcMain.handle('models:get-models', models.getModels);
   ipcMain.handle('models:get-model-by-uid', models.getModelByUid);
+  ipcMain.handle('models:remove-model-by-uid', models.removeModelByUid);
 
   // Job: handles creating jobs
   ipcMain.handle('job:get-jobs', job.getJobs);

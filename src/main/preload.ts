@@ -21,7 +21,7 @@ import {
   UnregisterModelArgs,
 } from './handlers/registration';
 import { JobByIdArgs } from './handlers/job';
-import { GetModelByIdArgs } from './handlers/models';
+import { GetModelByUidArgs, RemoveModelByUidArgs } from './handlers/models';
 import {
   NewFileArgs,
   FileInfo,
@@ -63,8 +63,10 @@ const registrationHandler = {
 const modelsHandler = {
   getModels: () =>
     ipcRenderer.invoke('models:get-models') as Promise<MLModel[]>,
-  getModelByUid: (args: GetModelByIdArgs) =>
+  getModelByUid: (args: GetModelByUidArgs) =>
     ipcRenderer.invoke('models:get-model-by-uid', args) as Promise<MLModel>,
+  removeModelByUid: (args: RemoveModelByUidArgs) =>
+    ipcRenderer.invoke('models:remove-model-by-uid', args) as Promise<void>,
 };
 
 const jobHandler = {

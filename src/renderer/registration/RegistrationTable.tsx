@@ -7,7 +7,7 @@ import {
   TableRow,
 } from '@shadcn/table';
 import { MLModel } from 'src/shared/models';
-import RegisterModelButton from 'src/renderer/components/RegisterModelButton';
+import RegisterModelButton from 'src/renderer/components/custom_ui/RegisterModelButton';
 import { useMLModels, useServers } from '../lib/hooks';
 import { createMLServerMap } from '../lib/utils';
 import ModelStatusIndicator from '../models/ModelStatusIndicator';
@@ -80,30 +80,34 @@ export default function RegistrationTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {models.map((model: MLModel) => (
-              <TableRow key={model.uid} className="py-2 hover:bg-gray-50">
-                <TableCell className="pl-4">{model.name}</TableCell>
-                <TableCell className="">
-                  {serverMap[model.uid]
-                    ? serverMap[model.uid].serverAddress
-                    : ''}
-                </TableCell>
-                <TableCell className="">
-                  {serverMap[model.uid] ? serverMap[model.uid].serverPort : ''}
-                </TableCell>
-                <TableCell className="">
-                  <div className="pl-4">
-                    <ModelStatusIndicator modelUid={model.uid} />
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <ModelConnectionButton
-                    mutate={mutateServers}
-                    modelUid={model.uid}
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
+            {models
+              .filter((model) => !model.isRemoved)
+              .map((model: MLModel) => (
+                <TableRow key={model.uid} className="py-2 hover:bg-gray-50">
+                  <TableCell className="pl-4">{model.name}</TableCell>
+                  <TableCell className="">
+                    {serverMap[model.uid]
+                      ? serverMap[model.uid].serverAddress
+                      : ''}
+                  </TableCell>
+                  <TableCell className="">
+                    {serverMap[model.uid]
+                      ? serverMap[model.uid].serverPort
+                      : ''}
+                  </TableCell>
+                  <TableCell className="">
+                    <div className="pl-4">
+                      <ModelStatusIndicator modelUid={model.uid} />
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <ModelConnectionButton
+                      mutate={mutateServers}
+                      modelUid={model.uid}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </div>

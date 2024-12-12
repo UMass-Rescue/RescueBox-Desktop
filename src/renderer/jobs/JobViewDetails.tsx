@@ -93,12 +93,16 @@ function JobViewDetails() {
                 value={model?.name}
                 readOnly
               />
-              <Link
-                to={`/models/${job.modelUid}/details`}
-                className="text-black text-base font-normal hover:-translate-y-0.5 transition-all rounded-lg"
-              >
-                <Button>Inspect</Button>
-              </Link>
+              {!model.isRemoved ? (
+                <Link
+                  to={`/models/${job.modelUid}/details`}
+                  className="text-black text-base font-normal hover:-translate-y-0.5 transition-all rounded-lg"
+                >
+                  <Button>Inspect</Button>
+                </Link>
+              ) : (
+                <Button disabled>Inspect</Button>
+              )}
             </div>
           </div>
           <div className="flex flex-col gap-2">
