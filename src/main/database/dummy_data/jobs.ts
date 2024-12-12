@@ -41,7 +41,7 @@ const jobs: Job[] = [
     request: {
       inputs: {
         audio_file: {
-          path: 'C:\\Users\\LENOVO\\data\\inputs\\audio\\sustainability-talk.mp3',
+          path: '/Users/atharvakale/workspace/programming/RescueBox-Desktop/data/inputs/audio/sustainability-talk.mp3',
         },
       },
       parameters: {},
@@ -82,7 +82,7 @@ const jobs: Job[] = [
     request: {
       inputs: {
         image_file: {
-          path: 'C:\\Users\\LENOVO\\data\\inputs\\images\\image1.jpg',
+          path: '/Users/atharvakale/workspace/programming/RescueBox-Desktop/data/inputs/images/image1.jpg',
         },
       },
       parameters: {
@@ -104,10 +104,10 @@ const jobs: Job[] = [
     request: {
       inputs: {
         content_image: {
-          path: 'C:\\Users\\LENOVO\\data\\inputs\\hoovertowernight.jpg',
+          path: '/Users/atharvakale/workspace/programming/RescueBox-Desktop/data/inputs/hoovertowernight.jpg',
         },
         style_image: {
-          path: 'C:\\Users\\LENOVO\\data\\inputs\\starry_night.jpg',
+          path: '/Users/atharvakale/workspace/programming/RescueBox-Desktop/data/inputs/starry_night.jpg',
         },
       },
       parameters: {
@@ -130,13 +130,13 @@ const jobs: Job[] = [
         image_files: {
           files: [
             {
-              path: 'C:\\Users\\LENOVO\\data\\inputs\\images\\image1.jpg',
+              path: '/Users/atharvakale/workspace/programming/RescueBox-Desktop/data/inputs/images/image1.jpg',
             },
             {
-              path: 'C:\\Users\\LENOVO\\data\\inputs\\images\\image2.jpg',
+              path: '/Users/atharvakale/workspace/programming/RescueBox-Desktop/data/inputs/images/image2.jpg',
             },
             {
-              path: 'C:\\Users\\LENOVO\\data\\inputs\\images\\image3.jpg',
+              path: '/Users/atharvakale/workspace/programming/RescueBox-Desktop/data/inputs/images/image3.jpg',
             },
           ],
         },
@@ -159,7 +159,7 @@ const jobs: Job[] = [
     request: {
       inputs: {
         image_directory: {
-          path: 'C:\\Users\\LENOVO\\data\\inputs\\images\\',
+          path: '/Users/atharvakale/workspace/programming/RescueBox-Desktop/data/inputs/images/',
         },
       },
       parameters: {
@@ -181,10 +181,10 @@ const jobs: Job[] = [
     request: {
       inputs: {
         content_image: {
-          path: 'C:\\Users\\LENOVO\\data\\inputs\\hoovertowernight.jpg',
+          path: '/Users/atharvakale/workspace/programming/RescueBox-Desktop/data/inputs/hoovertowernight.jpg',
         },
         style_image: {
-          path: 'C:\\Users\\LENOVO\\data\\inputs\\starry_night.jpg',
+          path: '/Users/atharvakale/workspace/programming/RescueBox-Desktop/data/inputs/starry_night.jpg',
         },
       },
       parameters: {
@@ -250,13 +250,13 @@ const jobs: Job[] = [
     request: {
       inputs: {
         input_path: {
-          path: 'C:\\Users\\LENOVO\\data\\inputs\\images\\image1.jpg',
+          path: '/Users/atharvakale/workspace/programming/RescueBox-Desktop/data/inputs/images/image1.jpg',
         },
         output_img: {
-          path: 'C:\\Users\\LENOVO\\data\\outputs\\images\\image1.jpg',
+          path: '/Users/atharvakale/workspace/programming/RescueBox-Desktop/data/outputs/images/image1.jpg',
         },
         output_csv: {
-          path: 'C:\\Users\\LENOVO\\data\\outputs\\csv\\image1.csv',
+          path: '/Users/atharvakale/workspace/programming/RescueBox-Desktop/data/outputs/csv/image1.csv',
         },
       },
       parameters: {
