@@ -45,6 +45,9 @@ function ModelsTable({
           <TableHeader className="bg-slate-200">
             <TableRow className="justify-between">
               <TableHead className="pl-4 w-3/6 text-gray-900">Model</TableHead>
+              <TableHead className="pr-6 w-1/12 text-gray-900">
+                Version{' '}
+              </TableHead>
               <TableHead className="w-1/6 text-gray-900">Status</TableHead>
               <TableHead className="w-1/12" />
               <TableHead className="w-1/12" />
@@ -60,6 +63,9 @@ function ModelsTable({
             {models.map((model: MLModel) => (
               <TableRow key={model.uid} className="hover:bg-gray-50">
                 <TableCell className="pl-4">{model.name}</TableCell>
+                <TableCell className="pr-6 text-gray-900 text-center">
+                  {model.version}
+                </TableCell>
                 <TableCell className="">
                   <div className="pl-4">
                     {serverStatuses[model.uid] === 'Online' ? (

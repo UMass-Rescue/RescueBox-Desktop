@@ -35,6 +35,7 @@ export default class RegisterModelService {
       log.info(
         `Updating registration info for ${prevModel.uid} at ${serverAddress}:${serverPort}`,
       );
+      await MLModelDb.restoreModel(prevModel.uid);
       await ModelServerDb.updateServer(
         prevModel.uid,
         serverAddress,

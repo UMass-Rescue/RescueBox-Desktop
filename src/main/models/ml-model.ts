@@ -98,6 +98,15 @@ class MLModelDb extends Model<
     model.isRemoved = true;
     return model.save();
   }
+
+  public static async restoreModel(modelUid: string) {
+    const model = await MLModelDb.findByPk(modelUid);
+    if (!model) {
+      throw new Error(`Model with uid ${modelUid} not found`);
+    }
+    model.isRemoved = false;
+    return model.save();
+  }
 }
 export const initMLModel = async (connection: Sequelize) => {
   MLModelDb.init(
