@@ -9,6 +9,7 @@ const migration0011ModelsAddIsRemoved = {
     await queryInterface.addColumn(TABLE_NAME, 'isRemoved', {
       type: DataTypes.BOOLEAN,
       allowNull: false,
+      defaultValue: false,
     });
   },
 
