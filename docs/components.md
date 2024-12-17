@@ -5,13 +5,13 @@
 - [Electron](https://electronjs.org/)
 - [Electron-React](https://github.com/electron-react-boilerplate/electron-react-boilerplate)
 
-![](docs/Architecture-Deep-Dive-Technical.drawio.png)
+![](Architecture-Deep-Dive-Technical.drawio.png)
 
 ## SQLite3 Database
 
 - The database path for development is printed in the logs
 
-![](./docs/database-path.png)
+![](./database-path.png)
 
 ### Migrations
 
