@@ -15,10 +15,11 @@
 
 ### Migrations
 
-- What are migrations? Migrations help transition database schemas from their current state to a new desired state, whether that involves adding tables and columns, removing elements, splitting fields, or changing types and constraints. (see [prisma.io](https://www.prisma.io/dataguide/types/relational/what-are-database-migrations) for an example explanation)
+- What are migrations? Migrations help transition database schemas from their current state to a new desired state, whether that involves adding tables and columns, removing elements, splitting fields, or changing types and constraints. (see [sequelize.org](https://sequelize.org/docs/v6/other-topics/migrations/) for a definition)
 - They are used so that the database schema can evolve over time and be easily updated when a user upgrades the application
 - The migrations are stored in the `src/main/database/migrations` folder
 - The migrations are executed in the order they are listed in the `src/main/database/migrations/umzug.ts` file
+- https://sequelize.org/docs/v6/
 
 ## Openapi 
 
