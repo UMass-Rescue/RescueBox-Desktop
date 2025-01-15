@@ -134,6 +134,15 @@ const taskSchema4: TaskSchema = {
         },
       },
     },
+    {
+      key: 'sample_checkbox',
+      label: 'Sample Checkbox',
+      subtitle: 'This is a sample checkbox',
+      value: {
+        parameterType: 'boolean',
+        default: false,
+      },
+    },
   ],
 };
 
