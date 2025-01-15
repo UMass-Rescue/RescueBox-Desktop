@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ResponseBody } from 'src/shared/generated_models';
-import { match } from 'ts-pattern';
+import { match, NonExhaustiveError } from 'ts-pattern';
 import MarkdownView from '../components/response_body/text_views/MarkdownView';
 import DirectoryView from '../components/response_body/directory_views/DirectoryView';
 import BatchDirectoryView from '../components/response_body/directory_views/BatchDirectoryView';
@@ -14,29 +14,34 @@ export default function PreviewResponseBody({
 }: {
   response: ResponseBody;
 }) {
-  return match(response)
-    .with({ output_type: 'file' }, (fileResponse) => {
-      return <FileView response={fileResponse} />;
-    })
-    .with({ output_type: 'directory' }, (directoryResponse) => {
-      return <DirectoryView response={directoryResponse} />;
-    })
-    .with({ output_type: 'markdown' }, (markdownResponse) => {
-      return <MarkdownView response={markdownResponse} />;
-    })
-    .with({ output_type: 'text' }, (textResponse) => {
-      return <TextView response={textResponse} />;
-    })
-    .with({ output_type: 'batchfile' }, (batchFileResponse) => {
-      return <BatchFileView response={batchFileResponse} />;
-    })
-    .with({ output_type: 'batchtext' }, (batchTextResponse) => {
-      return <BatchTextView response={batchTextResponse} />;
-    })
-    .with({ output_type: 'batchdirectory' }, (batchDirectoryResponse) => {
-      return <BatchDirectoryView response={batchDirectoryResponse} />;
-    })
-    .otherwise(() => {
+  try {
+    return match(response)
+      .with({ output_type: 'file' }, (fileResponse) => {
+        return <FileView response={fileResponse} />;
+      })
+      .with({ output_type: 'directory' }, (directoryResponse) => {
+        return <DirectoryView response={directoryResponse} />;
+      })
+      .with({ output_type: 'markdown' }, (markdownResponse) => {
+        return <MarkdownView response={markdownResponse} />;
+      })
+      .with({ output_type: 'text' }, (textResponse) => {
+        return <TextView response={textResponse} />;
+      })
+      .with({ output_type: 'batchfile' }, (batchFileResponse) => {
+        return <BatchFileView response={batchFileResponse} />;
+      })
+      .with({ output_type: 'batchtext' }, (batchTextResponse) => {
+        return <BatchTextView response={batchTextResponse} />;
+      })
+      .with({ output_type: 'batchdirectory' }, (batchDirectoryResponse) => {
+        return <BatchDirectoryView response={batchDirectoryResponse} />;
+      })
+      .exhaustive();
+  } catch (e) {
+    if (e instanceof NonExhaustiveError) {
       return <div>Unknown Response</div>;
-    });
+    }
+    throw e;
+  }
 }
