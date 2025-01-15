@@ -63,7 +63,7 @@ At last, Run the AppImage with the "no-sandbox" option
 
 RescueBox Desktop is built using [Electron](https://www.electronjs.org/), [React](https://reactjs.org/), TypeScript, TailwindCSS, and SQlite (with Sequelize).
 
-See [Technical Components](./docs/components.md) for a high-level overview of the application.
+See [Technical Components](./docs/components.md) for a high-level overview of the application. Check out <https://github.com/UMass-Rescue/RescueBox-Desktop/pull/338> to see how Flask-ML and this project integrate.
 
 RescueBox implments the "Flask-ML" protocol, which is a simple interface for running ML models. See [Flask-ML Protocol](./docs/FlaskML-Protocol-Sequence-Diagram.png).
 
