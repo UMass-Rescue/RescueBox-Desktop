@@ -39,6 +39,14 @@ export default function ModelRunTask() {
     return <div>Invalid Model UID or Task ID.</div>;
   }
 
+  if (taskSchemaIsLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (taskSchemaError) {
+    return <div>Error loading task schema</div>;
+  }
+
   if (!thisApiRoute || !taskSchema) {
     return (
       <div
@@ -59,12 +67,6 @@ export default function ModelRunTask() {
         </p>
       </div>
     );
-  }
-  if (taskSchemaIsLoading) {
-    return <LoadingScreen />;
-  }
-  if (taskSchemaError) {
-    return <div>Error loading task schema</div>;
   }
 
   const onSubmit = async (data: any) => {
@@ -168,11 +170,6 @@ export default function ModelRunTask() {
             ))}
           </div>
         </div>
-        // <div className="p-2 rounded-md bg-yellow-200">
-        //   <h2 className="text-xl font-bold mb-4">Not Runnable</h2>
-        //   <ul className="list-disc list-inside">
-        //   </ul>
-        // </div>
       )}
       <Button
         type="submit"

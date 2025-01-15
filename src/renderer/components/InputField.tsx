@@ -1,5 +1,6 @@
 import { InputSchema } from 'src/shared/generated_models';
-import { match } from 'ts-pattern';
+import { match, NonExhaustiveError } from 'ts-pattern';
+import log from 'electron-log/renderer';
 import DirectoryField from './input_fields/DirectoryField';
 import FileField from './input_fields/FileField';
 import TextField from './input_fields/TextField';
@@ -17,6 +18,64 @@ type InputFieldProps = {
   disabled?: boolean;
 };
 
+function getFieldByInputSchema(
+  inputSchema: InputSchema,
+  value: any,
+  onChange: (value: any) => void,
+  disabled: boolean,
+) {
+  try {
+    return match(inputSchema)
+      .with({ inputType: 'text' }, () => (
+        <TextField value={value} onChange={onChange} disabled={disabled} />
+      ))
+      .with({ inputType: 'textarea' }, () => (
+        <TextAreaField value={value} onChange={onChange} disabled={disabled} />
+      ))
+      .with({ inputType: 'file' }, () => (
+        <FileField value={value} onChange={onChange} disabled={disabled} />
+      ))
+      .with({ inputType: 'directory' }, () => (
+        <DirectoryField value={value} onChange={onChange} disabled={disabled} />
+      ))
+      .with({ inputType: 'batchtext' }, () => (
+        <BatchTextField value={value} onChange={onChange} disabled={disabled} />
+      ))
+      .with({ inputType: 'batchfile' }, () => (
+        <BatchFileField value={value} onChange={onChange} disabled={disabled} />
+      ))
+      .with({ inputType: 'batchdirectory' }, () => (
+        <BatchDirectoryField
+          value={value}
+          onChange={onChange}
+          disabled={disabled}
+        />
+      ))
+      .with(
+        {
+          inputType: {
+            inputType: 'newfile',
+          },
+        },
+        () => (
+          <NewFileField
+            inputSchema={inputSchema}
+            value={value}
+            onChange={onChange}
+            disabled={disabled}
+          />
+        ),
+      )
+      .exhaustive();
+  } catch (e) {
+    if (e instanceof NonExhaustiveError) {
+      log.error('Received an unexpected input schema.', inputSchema);
+      return <div>Unsupported input type.</div>;
+    }
+    throw e;
+  }
+}
+
 export default function InputField({
   inputSchema,
   value,
@@ -31,66 +90,7 @@ export default function InputField({
       {inputSchema.subtitle && (
         <p className="text-xs mt-1">{inputSchema.subtitle}</p>
       )}
-      {match(inputSchema)
-        .with({ inputType: 'text' }, () => (
-          <TextField value={value} onChange={onChange} disabled={disabled} />
-        ))
-        .with({ inputType: 'textarea' }, () => (
-          <TextAreaField
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
-        ))
-        .with({ inputType: 'file' }, () => (
-          <FileField value={value} onChange={onChange} disabled={disabled} />
-        ))
-        .with({ inputType: 'directory' }, () => (
-          <DirectoryField
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
-        ))
-        .with({ inputType: 'batchtext' }, () => (
-          <BatchTextField
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
-        ))
-        .with({ inputType: 'batchfile' }, () => (
-          <BatchFileField
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
-        ))
-        .with({ inputType: 'batchdirectory' }, () => (
-          <BatchDirectoryField
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
-        ))
-        .with(
-          {
-            inputType: {
-              inputType: 'newfile',
-            },
-          },
-          () => (
-            <NewFileField
-              inputSchema={inputSchema}
-              value={value}
-              onChange={onChange}
-              disabled={disabled}
-            />
-          ),
-        )
-        .otherwise(() => (
-          <div>Unsupported input type.</div>
-        ))}
+      {getFieldByInputSchema(inputSchema, value, onChange, disabled)}
     </div>
   );
 }
