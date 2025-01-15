@@ -1,12 +1,31 @@
 import { ParameterSchema } from 'src/shared/generated_models';
 import { match, NonExhaustiveError } from 'ts-pattern';
 import log from 'electron-log/renderer';
+import { ReactNode } from 'react';
 import TextField from './parameter_fields/TextField';
 import IntField from './parameter_fields/IntField';
 import FloatField from './parameter_fields/FloatField';
 import EnumField from './parameter_fields/EnumField';
 import RangedIntField from './parameter_fields/RangedIntField';
 import RangedFloatField from './parameter_fields/RangedFloatField';
+
+function LabelAndSubtitle({
+  children,
+  label,
+  subtitle,
+}: {
+  children: ReactNode;
+  label: string;
+  subtitle: string | null;
+}) {
+  return (
+    <div>
+      <h2 className="font-semibold text-sm xl:text-base mb-2">{label}</h2>
+      {subtitle && <p className="text-xs mt-1">{subtitle}</p>}
+      {children}
+    </div>
+  );
+}
 
 function getFieldByParameterSchema(
   parameterSchema: ParameterSchema,
@@ -18,62 +37,92 @@ function getFieldByParameterSchema(
     return match(parameterSchema.value)
       .with({ parameterType: 'text' }, () => {
         return (
-          <TextField
-            parameterSchema={parameterSchema}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
+          <LabelAndSubtitle
+            label={parameterSchema.label}
+            subtitle={parameterSchema.subtitle}
+          >
+            <TextField
+              parameterSchema={parameterSchema}
+              value={value}
+              onChange={onChange}
+              disabled={disabled}
+            />
+          </LabelAndSubtitle>
         );
       })
       .with({ parameterType: 'int' }, () => {
         return (
-          <IntField
-            parameterSchema={parameterSchema}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
+          <LabelAndSubtitle
+            label={parameterSchema.label}
+            subtitle={parameterSchema.subtitle}
+          >
+            <IntField
+              parameterSchema={parameterSchema}
+              value={value}
+              onChange={onChange}
+              disabled={disabled}
+            />
+          </LabelAndSubtitle>
         );
       })
       .with({ parameterType: 'float' }, () => {
         return (
-          <FloatField
-            parameterSchema={parameterSchema}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
+          <LabelAndSubtitle
+            label={parameterSchema.label}
+            subtitle={parameterSchema.subtitle}
+          >
+            <FloatField
+              parameterSchema={parameterSchema}
+              value={value}
+              onChange={onChange}
+              disabled={disabled}
+            />
+          </LabelAndSubtitle>
         );
       })
       .with({ parameterType: 'enum' }, () => {
         return (
-          <EnumField
-            parameterSchema={parameterSchema}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
+          <LabelAndSubtitle
+            label={parameterSchema.label}
+            subtitle={parameterSchema.subtitle}
+          >
+            <EnumField
+              parameterSchema={parameterSchema}
+              value={value}
+              onChange={onChange}
+              disabled={disabled}
+            />
+          </LabelAndSubtitle>
         );
       })
       .with({ parameterType: 'ranged_int' }, () => {
         return (
-          <RangedIntField
-            parameterSchema={parameterSchema}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
+          <LabelAndSubtitle
+            label={parameterSchema.label}
+            subtitle={parameterSchema.subtitle}
+          >
+            <RangedIntField
+              parameterSchema={parameterSchema}
+              value={value}
+              onChange={onChange}
+              disabled={disabled}
+            />
+          </LabelAndSubtitle>
         );
       })
       .with({ parameterType: 'ranged_float' }, () => {
         return (
-          <RangedFloatField
-            parameterSchema={parameterSchema}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
+          <LabelAndSubtitle
+            label={parameterSchema.label}
+            subtitle={parameterSchema.subtitle}
+          >
+            <RangedFloatField
+              parameterSchema={parameterSchema}
+              value={value}
+              onChange={onChange}
+              disabled={disabled}
+            />
+          </LabelAndSubtitle>
         );
       })
       .exhaustive();
@@ -102,15 +151,5 @@ export default function ParameterField({
   // eslint-disable-next-line
   disabled?: boolean;
 }) {
-  return (
-    <div>
-      <h2 className="font-semibold text-sm xl:text-base mb-2">
-        {parameterSchema.label}
-      </h2>
-      {parameterSchema.subtitle && (
-        <p className="text-xs mt-1">{parameterSchema.subtitle}</p>
-      )}
-      {getFieldByParameterSchema(parameterSchema, value, onChange, disabled)}
-    </div>
-  );
+  return getFieldByParameterSchema(parameterSchema, value, onChange, disabled);
 }
