@@ -85,6 +85,8 @@ cd RescueBox-Desktop
 npm install
 ```
 
+If you get an error about disutils or gym on macOS, see <https://stackoverflow.com/questions/77251296/distutils-not-found-when-running-npm-install>
+
 **Having issues installing? See this [debugging guide](https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/400)**
 
 ## Starting Development
