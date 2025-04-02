@@ -123,7 +123,10 @@ export default function ModelRunTask() {
                     name={parameterSchema.key}
                     control={control}
                     rules={{
-                      required: `Field is required.`,
+                      required:
+                        parameterSchema.value.parameterType !== 'boolean'
+                          ? `Field is required.`
+                          : undefined,
                       validate: {
                         validInt: (v) =>
                           (parameterSchema.value.parameterType === 'int'
@@ -135,7 +138,7 @@ export default function ModelRunTask() {
                             : true) || `Value must be a float.`,
                       },
                     }}
-                    defaultValue={parameterSchema.value.default || ''}
+                    defaultValue={parameterSchema.value.default ?? ''}
                     render={({ field }) => (
                       <ParameterField
                         parameterSchema={parameterSchema}

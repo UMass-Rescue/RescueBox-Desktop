@@ -42,6 +42,10 @@ declare namespace Components {
       output_type: 'batchtext';
       texts: TextResponse[];
     }
+    export interface BoolParameterDescriptor {
+      parameterType: ParameterType;
+      default: boolean;
+    }
     export interface DirectoryInput {
       path: string;
     }
@@ -118,7 +122,7 @@ declare namespace Components {
       output_type: 'markdown';
       value: string;
       title?: string | null;
-      subtitle?: string;
+      subtitle?: string | null;
     }
     export interface NewFileInputType {
       /**
@@ -161,7 +165,8 @@ declare namespace Components {
         | EnumParameterDescriptor
         | TextParameterDescriptor
         | RangedIntParameterDescriptor
-        | IntParameterDescriptor;
+        | IntParameterDescriptor
+        | BoolParameterDescriptor;
     }
     export type ParameterType =
       | 'ranged_float'
@@ -169,7 +174,8 @@ declare namespace Components {
       | 'enum'
       | 'text'
       | 'ranged_int'
-      | 'int';
+      | 'int'
+      | 'boolean';
     export interface RangedFloatParameterDescriptor {
       parameterType: ParameterType;
       range: FloatRangeDescriptor;
@@ -243,7 +249,7 @@ declare namespace Components {
       output_type: 'text';
       value: string;
       title?: string | null;
-      subtitle?: string;
+      subtitle?: string | null;
     }
   }
 }
@@ -256,6 +262,8 @@ export type BatchFileInput = Components.Schemas.BatchFileInput;
 export type BatchFileResponse = Components.Schemas.BatchFileResponse;
 export type BatchTextInput = Components.Schemas.BatchTextInput;
 export type BatchTextResponse = Components.Schemas.BatchTextResponse;
+export type BoolParameterDescriptor =
+  Components.Schemas.BoolParameterDescriptor;
 export type DirectoryInput = Components.Schemas.DirectoryInput;
 export type DirectoryResponse = Components.Schemas.DirectoryResponse;
 export type EnumParameterDescriptor =

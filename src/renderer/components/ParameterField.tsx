@@ -8,6 +8,7 @@ import FloatField from './parameter_fields/FloatField';
 import EnumField from './parameter_fields/EnumField';
 import RangedIntField from './parameter_fields/RangedIntField';
 import RangedFloatField from './parameter_fields/RangedFloatField';
+import BooleanField from './parameter_fields/BooleanField';
 
 function LabelAndSubtitle({
   children,
@@ -123,6 +124,16 @@ function getFieldByParameterSchema(
               disabled={disabled}
             />
           </LabelAndSubtitle>
+        );
+      })
+      .with({ parameterType: 'boolean' }, () => {
+        return (
+          <BooleanField
+            parameterSchema={parameterSchema}
+            value={value}
+            onChange={onChange}
+            disabled={disabled}
+          />
         );
       })
       .exhaustive();
